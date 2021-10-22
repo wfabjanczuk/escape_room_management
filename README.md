@@ -13,6 +13,12 @@
 * nowa rezerwacja (CREATE)
 * płatność (UPDATE)
 * szczegóły rezerwacji (READ, UPDATE, DELETE*)
-* lista rezerwacji wybranego gościa (READ)
+* lista rezerwacji (READ)
 
-\* anulowane rezerwacje nie będą usuwane z bazy danych
+(anulowane rezerwacje nie będą usuwane z bazy danych)
+
+### Widoki dla tabeli: `room`
+
+* nowy pokój (CREATE)
+* szczegóły pokoju (READ, UPDATE, DELETE)
+* lista pokoi (READ)
