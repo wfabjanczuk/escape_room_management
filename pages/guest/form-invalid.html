@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ERM Escape Room Management</title>
+</head>
+<body>
+<header>
+    <h1>ERM Escape Room Management</h1>
+    <img src="../../images/logo.png" alt="ERM Escape Room Management Logo">
+</header>
+<nav>
+    <ul>
+        <li><a href="">Home</a></li>
+        <li><a href="">Guests</a></li>
+        <li><a href="">Rooms</a></li>
+        <li><a href="">Reservations</a></li>
+    </ul>
+</nav>
+<main>
+    <h2>New guest</h2>
+    <form>
+        <div>
+            <label for="firstName">First name: *</label>
+            <input type="text" name="firstName" id="firstName" required/>
+            <span id="errorFirstName">This field is required.</span>
+        </div>
+
+        <div>
+            <label for="lastName">Last name: *</label>
+            <input type="text" name="lastName" id="lastName" required/>
+            <span id="errorLastName">This field is required.</span>
+        </div>
+
+        <div>
+            <label for="email">Email: *</label>
+            <input type="text" name="email" id="email" required/>
+            <span id="errorEmail">Invalid email.</span>
+        </div>
+
+        <div>
+            <label for="phoneNumber">Phone number: *</label>
+            <input type="text" name="phoneNumber" id="phoneNumber" required/>
+            <span id="errorPhoneNumber">Invalid phone number.</span>
+        </div>
+
+        <div>
+            <label for="dateBirth">Date of birth: *</label>
+            <input type="date" name="dateBirth" id="dateBirth" required/>
+            <span id="errorDateBirth">This field is required.</span>
+        </div>
+
+        <div>
+            <input type="submit" value="Create"/>
+            <a href="">Cancel</a>
+        </div>
+    </form>
+</main>
+<footer>
+    Wojciech Fabjańczuk, s21471
+</footer>
+</body>
+</html>
