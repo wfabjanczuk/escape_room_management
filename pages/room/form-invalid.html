@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ERM Escape Room Management</title>
+</head>
+<body>
+<header>
+    <h1>ERM Escape Room Management</h1>
+    <img src="../../images/logo.png" alt="ERM Escape Room Management Logo">
+</header>
+<nav>
+    <ul>
+        <li><a href="">Home</a></li>
+        <li><a href="">Guests</a></li>
+        <li><a href="">Rooms</a></li>
+        <li><a href="">Reservations</a></li>
+    </ul>
+</nav>
+<main>
+    <h2>New room</h2>
+    <form>
+        <div>
+            <label for="roomName">Room name: *</label>
+            <input type="text" name="roomName" id="roomName" required/>
+            <span id="errorRoomName">This field is required.</span>
+        </div>
+
+        <div>
+            <label for="baseTicketPrice">Base ticket price: *</label>
+            <input type="number" name="baseTicketPrice" id="baseTicketPrice" min="0" step="0.01" required/>
+            <span id="errorBaseTicketPrice">This field is required.</span>
+        </div>
+
+        <div>
+            <label for="minimumAge">Minimum age: </label>
+            <input type="number" name="minimumAge" id="minimumAge" min="0" step="1"/>
+            <span id="errorMinimumAge">Only positive integers are allowed.</span>
+        </div>
+
+        <div>
+            <label for="minimumParticipants">Minimum participants: *</label>
+            <input type="number" name="minimumParticipants" id="minimumParticipants" min="1" step="1" required/>
+            <span id="errorMinimumParticipants">This field is required.</span>
+        </div>
+
+        <div>
+            <label for="maximumParticipants">Maximum participants: *</label>
+            <input type="number" name="maximumParticipants" id="maximumParticipants" min="1" step="1" required/>
+            <span id="errorMaximumParticipants">Maximum participants have to be greater or equal to minimum participants.</span>
+        </div>
+
+        <div>
+            <input type="submit" value="Create"/>
+            <a href="">Cancel</a>
+        </div>
+    </form>
+</main>
+<footer>
+    Wojciech Fabjańczuk, s21471
+</footer>
+</body>
+</html>
