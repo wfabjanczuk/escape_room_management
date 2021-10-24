@@ -41,6 +41,10 @@
         <input type="date" name="dateBirth" id="dateBirth" class="error-input" required/>
         <span id="errorDateBirth" class="error-text">This field is required.</span>
 
+        <label for="discountPercent">Discount percent: </label>
+        <input type="number" name="discountPercent" id="discountPercent" class="error-input" min="0" max="20"/>
+        <span id="errorDiscountPercent" class="error-text">Value must be between 0 and 20.</span>
+
         <div class="form-buttons">
             <span class="error-text">Please correct the highlighted errors.</span>
             <input class="form-button-submit" type="submit" value="Create"/>
