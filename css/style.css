@@ -192,7 +192,9 @@ textarea {
 
 .form {
     margin-left: 2rem;
-    width: 300px;
+    display: grid;
+    grid-template-columns: 150px 300px 1fr;
+    gap: 1rem;
 }
 
 .form select,
@@ -217,6 +219,10 @@ textarea {
 .error-text,
 .symbol-required {
     color: #c0392b;
+}
+
+.form-buttons {
+    grid-column: 1 / span 2;
 }
 
 .list-buttons,

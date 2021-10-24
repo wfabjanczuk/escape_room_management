@@ -21,52 +21,42 @@
 <main>
     <h2>Reservation details</h2>
     <form class="form">
-        <div>
-            <label for="room">Room: <span class="symbol-required">*</span></label>
-            <select name="room" id="room" disabled>
-                <option>-- select room --</option>
-                <option value="1" selected>Pharaoh's Tomb</option>
-                <option value="2">Enigma Code</option>
-                <option value="3">Pirate Ship</option>
-                <option value="4">Nuclear Silo</option>
-            </select>
-            <span id="errorRoom"></span>
-        </div>
+        <label for="room">Room: <span class="symbol-required">*</span></label>
+        <select name="room" id="room" disabled>
+            <option>-- select room --</option>
+            <option value="1" selected>Pharaoh's Tomb</option>
+            <option value="2">Enigma Code</option>
+            <option value="3">Pirate Ship</option>
+            <option value="4">Nuclear Silo</option>
+        </select>
+        <span id="errorRoom"></span>
 
-        <div>
-            <label for="dateFrom">Date from: <span class="symbol-required">*</span></label>
-            <input type="datetime-local" name="dateFrom" id="dateFrom" value="2021-10-23T17:00" disabled/>
-            <span id="errorDateFrom"></span>
-        </div>
+        <label for="dateFrom">Date from: <span class="symbol-required">*</span></label>
+        <input type="datetime-local" name="dateFrom" id="dateFrom" value="2021-10-23T17:00" disabled/>
+        <span id="errorDateFrom"></span>
 
-        <div>
-            <label for="dateTo">Date to: <span class="symbol-required">*</span></label>
-            <input type="datetime-local" name="dateTo" id="dateTo" value="2021-10-23T19:00" disabled/>
-            <span id="errorDateTo"></span>
-        </div>
+        <label for="dateTo">Date to: <span class="symbol-required">*</span></label>
+        <input type="datetime-local" name="dateTo" id="dateTo" value="2021-10-23T19:00" disabled/>
+        <span id="errorDateTo"></span>
 
-        <div>
-            <label for="reservationOwner">Reservation owner: <span class="symbol-required">*</span></label>
-            <select name="reservationOwner" id="reservationOwner" disabled>
-                <option>-- select guest --</option>
-                <option value="1" selected>Linda Yehudit</option>
-                <option value="2">Gillian Domantas</option>
-                <option value="3">Meagan Ikra</option>
-                <option value="4">Sunil Katenka</option>
-            </select>
-            <span id="errorReservationOwner"></span>
-        </div>
+        <label for="reservationOwner">Reservation owner: <span class="symbol-required">*</span></label>
+        <select name="reservationOwner" id="reservationOwner" disabled>
+            <option>-- select guest --</option>
+            <option value="1" selected>Linda Yehudit</option>
+            <option value="2">Gillian Domantas</option>
+            <option value="3">Meagan Ikra</option>
+            <option value="4">Sunil Katenka</option>
+        </select>
+        <span id="errorReservationOwner"></span>
 
-        <div>
-            <label for="groupMembers">Group members: <span class="symbol-required">*</span></label>
-            <select name="groupMembers[]" id="groupMembers" multiple disabled>
-                <option value="1" selected>Linda Yehudit</option>
-                <option value="2" selected>Gillian Domantas</option>
-                <option value="3" selected>Meagan Ikra</option>
-                <option value="4" selected>Sunil Katenka</option>
-            </select>
-            <span id="errorGroupMembers"></span>
-        </div>
+        <label for="groupMembers">Group members: <span class="symbol-required">*</span></label>
+        <select name="groupMembers[]" id="groupMembers" multiple disabled>
+            <option value="1" selected>Linda Yehudit</option>
+            <option value="2" selected>Gillian Domantas</option>
+            <option value="3" selected>Meagan Ikra</option>
+            <option value="4" selected>Sunil Katenka</option>
+        </select>
+        <span id="errorGroupMembers"></span>
     </form>
 
     <div class="form-buttons">
@@ -75,35 +65,28 @@
 
     <h2>Reservation room</h2>
     <form class="form">
-        <div>
-            <label for="roomName">Room name: <span class="symbol-required">*</span></label>
-            <input type="text" name="roomName" id="roomName" value="Pharaoh's Tomb" disabled/>
-            <span id="errorRoomName"></span>
-        </div>
+        <label for="roomName">Room name: <span class="symbol-required">*</span></label>
+        <input type="text" name="roomName" id="roomName" value="Pharaoh's Tomb" disabled/>
+        <span id="errorRoomName"></span>
 
-        <div>
-            <label for="baseTicketPrice">Base ticket price: <span class="symbol-required">*</span></label>
-            <input type="number" name="baseTicketPrice" id="baseTicketPrice" min="0" step="0.01" value="10.00" disabled/>
-            <span id="errorBaseTicketPrice"></span>
-        </div>
+        <label for="baseTicketPrice">Base ticket price: <span class="symbol-required">*</span></label>
+        <input type="number" name="baseTicketPrice" id="baseTicketPrice" min="0" step="0.01" value="10.00"
+               disabled/>
+        <span id="errorBaseTicketPrice"></span>
 
-        <div>
-            <label for="minimumAge">Minimum age: </label>
-            <input type="number" name="minimumAge" id="minimumAge" min="0" step="1" value="12" disabled/>
-            <span id="errorMinimumAge"></span>
-        </div>
+        <label for="minimumAge">Minimum age: </label>
+        <input type="number" name="minimumAge" id="minimumAge" min="0" step="1" value="12" disabled/>
+        <span id="errorMinimumAge"></span>
 
-        <div>
-            <label for="minimumParticipants">Minimum participants: <span class="symbol-required">*</span></label>
-            <input type="number" name="minimumParticipants" id="minimumParticipants" min="1" step="1" value="5" disabled/>
-            <span id="errorMinimumParticipants"></span>
-        </div>
+        <label for="minimumParticipants">Minimum participants: <span class="symbol-required">*</span></label>
+        <input type="number" name="minimumParticipants" id="minimumParticipants" min="1" step="1" value="5"
+               disabled/>
+        <span id="errorMinimumParticipants"></span>
 
-        <div>
-            <label for="maximumParticipants">Maximum participants: <span class="symbol-required">*</span></label>
-            <input type="number" name="maximumParticipants" id="maximumParticipants" min="1" step="1" value="7" disabled/>
-            <span id="errorMaximumParticipants"></span>
-        </div>
+        <label for="maximumParticipants">Maximum participants: <span class="symbol-required">*</span></label>
+        <input type="number" name="maximumParticipants" id="maximumParticipants" min="1" step="1" value="7"
+               disabled/>
+        <span id="errorMaximumParticipants"></span>
     </form>
 
     <div class="form-buttons">

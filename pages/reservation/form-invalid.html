@@ -21,52 +21,42 @@
 <main>
     <h2>New reservation</h2>
     <form class="form" action="../reservation/details.html">
-        <div>
-            <label for="room">Room: <span class="symbol-required">*</span></label>
-            <select name="room" id="room" class="error-input" required>
-                <option value="" selected>-- select room --</option>
-                <option value="1">Pharaoh's Tomb</option>
-                <option value="2">Enigma Code</option>
-                <option value="3">Pirate Ship</option>
-                <option value="4">Nuclear Silo</option>
-            </select>
-            <span id="errorRoom" class="error-text">This field is required.</span>
-        </div>
+        <label for="room">Room: <span class="symbol-required">*</span></label>
+        <select name="room" id="room" class="error-input" required>
+            <option value="" selected>-- select room --</option>
+            <option value="1">Pharaoh's Tomb</option>
+            <option value="2">Enigma Code</option>
+            <option value="3">Pirate Ship</option>
+            <option value="4">Nuclear Silo</option>
+        </select>
+        <span id="errorRoom" class="error-text">This field is required.</span>
 
-        <div>
-            <label for="dateFrom">Date from: <span class="symbol-required">*</span></label>
-            <input type="datetime-local" name="dateFrom" id="dateFrom" class="error-input" required/>
-            <span id="errorDateFrom" class="error-text">This field is required.</span>
-        </div>
+        <label for="dateFrom">Date from: <span class="symbol-required">*</span></label>
+        <input type="datetime-local" name="dateFrom" id="dateFrom" class="error-input" required/>
+        <span id="errorDateFrom" class="error-text">This field is required.</span>
 
-        <div>
-            <label for="dateTo">Date to: <span class="symbol-required">*</span></label>
-            <input type="datetime-local" name="dateTo" id="dateTo" class="error-input" required/>
-            <span id="errorDateTo" class="error-text">Date to has to be greater than date from.</span>
-        </div>
+        <label for="dateTo">Date to: <span class="symbol-required">*</span></label>
+        <input type="datetime-local" name="dateTo" id="dateTo" class="error-input" required/>
+        <span id="errorDateTo" class="error-text">Date to has to be greater than date from.</span>
 
-        <div>
-            <label for="reservationOwner">Reservation owner: <span class="symbol-required">*</span></label>
-            <select name="reservationOwner" id="reservationOwner" class="error-input" required>
-                <option value="" selected>-- select guest --</option>
-                <option value="1">Linda Yehudit</option>
-                <option value="2">Gillian Domantas</option>
-                <option value="3">Meagan Ikra</option>
-                <option value="4">Sunil Katenka</option>
-            </select>
-            <span id="errorReservationOwner" class="error-text">This field is required.</span>
-        </div>
+        <label for="reservationOwner">Reservation owner: <span class="symbol-required">*</span></label>
+        <select name="reservationOwner" id="reservationOwner" class="error-input" required>
+            <option value="" selected>-- select guest --</option>
+            <option value="1">Linda Yehudit</option>
+            <option value="2">Gillian Domantas</option>
+            <option value="3">Meagan Ikra</option>
+            <option value="4">Sunil Katenka</option>
+        </select>
+        <span id="errorReservationOwner" class="error-text">This field is required.</span>
 
-        <div>
-            <label for="groupMembers">Group members: <span class="symbol-required">*</span></label>
-            <select name="groupMembers[]" id="groupMembers" class="error-input" multiple>
-                <option value="1">Linda Yehudit</option>
-                <option value="2">Gillian Domantas</option>
-                <option value="3">Meagan Ikra</option>
-                <option value="4">Sunil Katenka</option>
-            </select>
-            <span id="errorGroupMembers" class="error-text">Selected room requires from 5 to 7 participants.</span>
-        </div>
+        <label for="groupMembers">Group members: <span class="symbol-required">*</span></label>
+        <select name="groupMembers[]" id="groupMembers" class="error-input" multiple>
+            <option value="1">Linda Yehudit</option>
+            <option value="2">Gillian Domantas</option>
+            <option value="3">Meagan Ikra</option>
+            <option value="4">Sunil Katenka</option>
+        </select>
+        <span id="errorGroupMembers" class="error-text">Selected room requires from 5 to 7 participants.</span>
 
         <div class="form-buttons">
             <span class="error-text">Please correct the highlighted errors.</span>

@@ -21,35 +21,25 @@
 <main>
     <h2>New room</h2>
     <form class="form" action="../room/details.html">
-        <div>
-            <label for="roomName">Room name: <span class="symbol-required">*</span></label>
-            <input type="text" name="roomName" id="roomName" required/>
-            <span id="errorRoomName"></span>
-        </div>
+        <label for="roomName">Room name: <span class="symbol-required">*</span></label>
+        <input type="text" name="roomName" id="roomName" required/>
+        <span id="errorRoomName"></span>
 
-        <div>
-            <label for="baseTicketPrice">Base ticket price: <span class="symbol-required">*</span></label>
-            <input type="number" name="baseTicketPrice" id="baseTicketPrice" min="0" step="0.01" required/>
-            <span id="errorBaseTicketPrice"></span>
-        </div>
+        <label for="baseTicketPrice">Base ticket price: <span class="symbol-required">*</span></label>
+        <input type="number" name="baseTicketPrice" id="baseTicketPrice" min="0" step="0.01" required/>
+        <span id="errorBaseTicketPrice"></span>
 
-        <div>
-            <label for="minimumAge">Minimum age: </label>
-            <input type="number" name="minimumAge" id="minimumAge" min="0" step="1"/>
-            <span id="errorMinimumAge"></span>
-        </div>
+        <label for="minimumAge">Minimum age: </label>
+        <input type="number" name="minimumAge" id="minimumAge" min="0" step="1"/>
+        <span id="errorMinimumAge"></span>
 
-        <div>
-            <label for="minimumParticipants">Minimum participants: <span class="symbol-required">*</span></label>
-            <input type="number" name="minimumParticipants" id="minimumParticipants" min="1" step="1" required/>
-            <span id="errorMinimumParticipants"></span>
-        </div>
+        <label for="minimumParticipants">Minimum participants: <span class="symbol-required">*</span></label>
+        <input type="number" name="minimumParticipants" id="minimumParticipants" min="1" step="1" required/>
+        <span id="errorMinimumParticipants"></span>
 
-        <div>
-            <label for="maximumParticipants">Maximum participants: <span class="symbol-required">*</span></label>
-            <input type="number" name="maximumParticipants" id="maximumParticipants" min="1" step="1" required/>
-            <span id="errorMaximumParticipants"></span>
-        </div>
+        <label for="maximumParticipants">Maximum participants: <span class="symbol-required">*</span></label>
+        <input type="number" name="maximumParticipants" id="maximumParticipants" min="1" step="1" required/>
+        <span id="errorMaximumParticipants"></span>
 
         <div class="form-buttons">
             <input class="form-button-submit" type="submit" value="Create"/>
