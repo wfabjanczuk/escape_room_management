@@ -23,35 +23,36 @@
     <form class="form" action="../room/details.html">
         <div>
             <label for="roomName">Room name: <span class="symbol-required">*</span></label>
-            <input type="text" name="roomName" id="roomName" required/>
-            <span id="errorRoomName">This field is required.</span>
+            <input type="text" name="roomName" id="roomName" class="error-input" required/>
+            <span id="errorRoomName" class="error-text">This field is required.</span>
         </div>
 
         <div>
             <label for="baseTicketPrice">Base ticket price: <span class="symbol-required">*</span></label>
-            <input type="number" name="baseTicketPrice" id="baseTicketPrice" min="0" step="0.01" required/>
-            <span id="errorBaseTicketPrice">This field is required.</span>
+            <input type="number" name="baseTicketPrice" id="baseTicketPrice" min="0" step="0.01" class="error-input" required/>
+            <span id="errorBaseTicketPrice" class="error-text">This field is required.</span>
         </div>
 
         <div>
             <label for="minimumAge">Minimum age: </label>
-            <input type="number" name="minimumAge" id="minimumAge" min="0" step="1"/>
-            <span id="errorMinimumAge">Only positive integers are allowed.</span>
+            <input type="number" name="minimumAge" id="minimumAge" min="0" step="1" class="error-input"/>
+            <span id="errorMinimumAge" class="error-text">Only positive integers are allowed.</span>
         </div>
 
         <div>
             <label for="minimumParticipants">Minimum participants: <span class="symbol-required">*</span></label>
-            <input type="number" name="minimumParticipants" id="minimumParticipants" min="1" step="1" required/>
-            <span id="errorMinimumParticipants">This field is required.</span>
+            <input type="number" name="minimumParticipants" id="minimumParticipants" min="1" step="1" class="error-input" required/>
+            <span id="errorMinimumParticipants" class="error-text">This field is required.</span>
         </div>
 
         <div>
             <label for="maximumParticipants">Maximum participants: <span class="symbol-required">*</span></label>
-            <input type="number" name="maximumParticipants" id="maximumParticipants" min="1" step="1" required/>
-            <span id="errorMaximumParticipants">Maximum participants have to be greater or equal to minimum participants.</span>
+            <input type="number" name="maximumParticipants" id="maximumParticipants" min="1" step="1" class="error-input" required/>
+            <span id="errorMaximumParticipants" class="error-text">Maximum participants have to be greater or equal to minimum participants.</span>
         </div>
 
         <div class="form-buttons">
+            <span class="error-text">Please correct the highlighted errors.</span>
             <input class="form-button-submit" type="submit" value="Create"/>
             <a class="form-button-cancel" href="../room/list.html">Cancel</a>
         </div>

@@ -23,35 +23,36 @@
     <form class="form" action="../guest/details.html">
         <div>
             <label for="firstName">First name: <span class="symbol-required">*</span></label>
-            <input type="text" name="firstName" id="firstName" required/>
-            <span id="errorFirstName">This field is required.</span>
+            <input type="text" name="firstName" id="firstName" class="error-input" required/>
+            <span id="errorFirstName" class="error-text">This field is required.</span>
         </div>
 
         <div>
             <label for="lastName">Last name: <span class="symbol-required">*</span></label>
-            <input type="text" name="lastName" id="lastName" required/>
-            <span id="errorLastName">This field is required.</span>
+            <input type="text" name="lastName" id="lastName" class="error-input" required/>
+            <span id="errorLastName" class="error-text">This field is required.</span>
         </div>
 
         <div>
             <label for="email">Email: <span class="symbol-required">*</span></label>
-            <input type="text" name="email" id="email" required/>
-            <span id="errorEmail">Invalid email.</span>
+            <input type="text" name="email" id="email" class="error-input" required/>
+            <span id="errorEmail" class="error-text">Invalid email.</span>
         </div>
 
         <div>
             <label for="phoneNumber">Phone number: <span class="symbol-required">*</span></label>
-            <input type="text" name="phoneNumber" id="phoneNumber" required/>
-            <span id="errorPhoneNumber">Invalid phone number.</span>
+            <input type="text" name="phoneNumber" id="phoneNumber" class="error-input" required/>
+            <span id="errorPhoneNumber" class="error-text">Invalid phone number.</span>
         </div>
 
         <div>
             <label for="dateBirth">Date of birth: <span class="symbol-required">*</span></label>
-            <input type="date" name="dateBirth" id="dateBirth" required/>
-            <span id="errorDateBirth">This field is required.</span>
+            <input type="date" name="dateBirth" id="dateBirth" class="error-input" required/>
+            <span id="errorDateBirth" class="error-text">This field is required.</span>
         </div>
 
         <div class="form-buttons">
+            <span class="error-text">Please correct the highlighted errors.</span>
             <input class="form-button-submit" type="submit" value="Create"/>
             <a class="form-button-cancel" href="../guest/list.html">Cancel</a>
         </div>
