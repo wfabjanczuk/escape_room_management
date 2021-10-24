@@ -28,15 +28,8 @@ footer {
 }
 
 header {
-    overflow: auto;
-}
-
-header h1 {
-    float: left;
-}
-
-header img {
-    float: right;
+    display: flex;
+    justify-content: space-between;
 }
 
 nav {
@@ -44,13 +37,9 @@ nav {
 }
 
 nav ul {
+    display: flex;
     padding: 0;
-    overflow: hidden;
     list-style-type: none;
-}
-
-nav ul li {
-    float: left;
 }
 
 nav ul li a {
