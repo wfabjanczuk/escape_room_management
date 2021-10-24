@@ -20,15 +20,15 @@
 </nav>
 <main>
     <h2>Room details</h2>
-    <form>
+    <form class="form">
         <div>
-            <label for="roomName">Room name: *</label>
+            <label for="roomName">Room name: <span class="symbol-required">*</span></label>
             <input type="text" name="roomName" id="roomName" value="Pharaoh's Tomb" disabled/>
             <span id="errorRoomName"></span>
         </div>
 
         <div>
-            <label for="baseTicketPrice">Base ticket price: *</label>
+            <label for="baseTicketPrice">Base ticket price: <span class="symbol-required">*</span></label>
             <input type="number" name="baseTicketPrice" id="baseTicketPrice" min="0" step="0.01" value="10.00" disabled/>
             <span id="errorBaseTicketPrice"></span>
         </div>
@@ -40,21 +40,21 @@
         </div>
 
         <div>
-            <label for="minimumParticipants">Minimum participants: *</label>
+            <label for="minimumParticipants">Minimum participants: <span class="symbol-required">*</span></label>
             <input type="number" name="minimumParticipants" id="minimumParticipants" min="1" step="1" value="5" disabled/>
             <span id="errorMinimumParticipants"></span>
         </div>
 
         <div>
-            <label for="maximumParticipants">Maximum participants: *</label>
+            <label for="maximumParticipants">Maximum participants: <span class="symbol-required">*</span></label>
             <input type="number" name="maximumParticipants" id="maximumParticipants" min="1" step="1" value="7" disabled/>
             <span id="errorMaximumParticipants"></span>
         </div>
-
-        <div>
-            <a href="../room/form-edit.html">Edit</a>
-        </div>
     </form>
+
+    <div class="form-buttons">
+        <a class="form-button-edit" href="../room/form-edit.html">Edit</a>
+    </div>
 
     <h2>Room reservations</h2>
     <table class="table-list">
@@ -94,7 +94,9 @@
         </tbody>
     </table>
 
-    <p><a href="../room/list.html">Return to room list</a></p>
+    <div class="list-buttons">
+        <a class="button-return" href="../room/list.html">Return to room list</a>
+    </div>
 </main>
 <footer>
     Wojciech Fabjańczuk, s21471

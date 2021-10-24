@@ -20,9 +20,9 @@
 </nav>
 <main>
     <h2>New reservation</h2>
-    <form action="../reservation/details.html">
+    <form class="form" action="../reservation/details.html">
         <div>
-            <label for="room">Room: *</label>
+            <label for="room">Room: <span class="symbol-required">*</span></label>
             <select name="room" id="room" required>
                 <option value="" selected>-- select room --</option>
                 <option value="1">Pharaoh's Tomb</option>
@@ -34,19 +34,19 @@
         </div>
 
         <div>
-            <label for="dateFrom">Date from: *</label>
+            <label for="dateFrom">Date from: <span class="symbol-required">*</span></label>
             <input type="datetime-local" name="dateFrom" id="dateFrom" required/>
             <span id="errorDateFrom">This field is required.</span>
         </div>
 
         <div>
-            <label for="dateTo">Date to: *</label>
+            <label for="dateTo">Date to: <span class="symbol-required">*</span></label>
             <input type="datetime-local" name="dateTo" id="dateTo" required/>
             <span id="errorDateTo">Date to has to be greater than date from.</span>
         </div>
 
         <div>
-            <label for="reservationOwner">Reservation owner: *</label>
+            <label for="reservationOwner">Reservation owner: <span class="symbol-required">*</span></label>
             <select name="reservationOwner" id="reservationOwner" required>
                 <option value="" selected>-- select guest --</option>
                 <option value="1">Linda Yehudit</option>
@@ -58,7 +58,7 @@
         </div>
 
         <div>
-            <label for="groupMembers">Group members: *</label>
+            <label for="groupMembers">Group members: <span class="symbol-required">*</span></label>
             <select name="groupMembers[]" id="groupMembers" multiple>
                 <option value="1">Linda Yehudit</option>
                 <option value="2">Gillian Domantas</option>
@@ -68,9 +68,9 @@
             <span id="errorGroupMembers">Selected room requires from 5 to 7 participants.</span>
         </div>
 
-        <div>
-            <input type="submit" value="Create"/>
-            <a href="../reservation/list.html">Cancel</a>
+        <div class="form-buttons">
+            <input class="form-button-submit" type="submit" value="Create"/>
+            <a class="form-button-cancel" href="../reservation/list.html">Cancel</a>
         </div>
     </form>
 </main>

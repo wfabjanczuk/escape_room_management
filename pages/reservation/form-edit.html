@@ -20,9 +20,9 @@
 </nav>
 <main>
     <h2>Edit reservation</h2>
-    <form action="../reservation/details.html">
+    <form class="form" action="../reservation/details.html">
         <div>
-            <label for="room">Room: *</label>
+            <label for="room">Room: <span class="symbol-required">*</span></label>
             <select name="room" id="room" required>
                 <option value="">-- select room --</option>
                 <option value="1" selected>Pharaoh's Tomb</option>
@@ -34,19 +34,19 @@
         </div>
 
         <div>
-            <label for="dateFrom">Date from: *</label>
+            <label for="dateFrom">Date from: <span class="symbol-required">*</span></label>
             <input type="datetime-local" name="dateFrom" id="dateFrom" value="2021-10-23T17:00" required/>
             <span id="errorDateFrom"></span>
         </div>
 
         <div>
-            <label for="dateTo">Date to: *</label>
+            <label for="dateTo">Date to: <span class="symbol-required">*</span></label>
             <input type="datetime-local" name="dateTo" id="dateTo" value="2021-10-23T19:00" required/>
             <span id="errorDateTo"></span>
         </div>
 
         <div>
-            <label for="reservationOwner">Reservation owner: *</label>
+            <label for="reservationOwner">Reservation owner: <span class="symbol-required">*</span></label>
             <select name="reservationOwner" id="reservationOwner" required>
                 <option value="">-- select guest --</option>
                 <option value="1" selected>Linda Yehudit</option>
@@ -58,7 +58,7 @@
         </div>
 
         <div>
-            <label for="groupMembers">Group members: *</label>
+            <label for="groupMembers">Group members: <span class="symbol-required">*</span></label>
             <select name="groupMembers[]" id="groupMembers" multiple required>
                 <option value="1" selected>Linda Yehudit</option>
                 <option value="2" selected>Gillian Domantas</option>
@@ -67,9 +67,10 @@
             </select>
             <span id="errorGroupMembers"></span>
         </div>
-        <div>
-            <input type="submit" value="Save"/>
-            <a href="../reservation/details.html">Cancel</a>
+
+        <div class="form-buttons">
+            <input class="form-button-submit" type="submit" value="Save"/>
+            <a class="form-button-cancel" href="../reservation/details.html">Cancel</a>
         </div>
     </form>
 </main>

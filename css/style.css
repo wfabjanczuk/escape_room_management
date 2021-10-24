@@ -120,7 +120,11 @@ main h2 {
 .list-actions-button-details,
 .list-actions-button-edit,
 .list-actions-button-delete,
-.button-add {
+.button-add,
+.button-return,
+.form-button-submit,
+.form-button-edit,
+.form-button-cancel {
     border: none;
     border-radius: 5px;
     color: white;
@@ -134,38 +138,114 @@ main h2 {
     margin-right: 1rem;
 }
 
+.button-return,
 .list-actions-button-details {
     background-color: #2980b9;
 }
 
+.button-return:hover,
 .list-actions-button-details:hover {
     background-color: #3498db;
 }
 
+.form-button-edit,
 .list-actions-button-edit {
     background-color: #f39c12;
 }
 
+.form-button-edit:hover,
 .list-actions-button-edit:hover {
     background-color: #f1c40f;
 }
 
+.form-button-cancel,
 .list-actions-button-delete {
     background-color: #c0392b;
 }
 
+.form-button-cancel:hover,
 .list-actions-button-delete:hover {
     background-color: #e74c3c;
 }
 
-.button-add {
+.button-add,
+.button-return,
+.form-button-submit,
+.form-button-edit,
+.form-button-cancel {
     padding: 0.5rem 1rem;
 }
 
-.button-add {
+.button-add,
+.form-button-submit {
     background-color: #27ae60;
 }
 
-.button-add:hover {
+.button-add:hover,
+.form-button-submit:hover {
     background-color: #2ecc71;
+}
+
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
+    font-size: 100%;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+textarea {
+    overflow: auto;
+}
+
+.form {
+    margin-left: 2rem;
+    width: 300px;
+}
+
+.form select,
+.form input[type="text"],
+.form input[type="number"],
+.form input[type="date"],
+.form input[type="datetime-local"],
+.form input[type="email"] {
+    border: 1px solid #7f8c8d;
+    color: #2c3e50;
+    border-radius: 5px;
+    padding: 0.5rem;
+    width: 100%;
+}
+
+.form label {
+    display: block;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.symbol-required {
+    color: #c0392b;
+}
+
+.list-buttons,
+.form-buttons {
+    margin-top: 2rem;
+}
+
+.form-button-submit,
+.form-button-edit,
+.form-button-cancel {
+    width: 100%;
+}
+
+.form-button-submit,
+.form-button-edit {
+    margin-bottom: 0.5rem;
+}
+
+.form-button-cancel {
+    box-sizing: border-box;
+    display: block;
 }

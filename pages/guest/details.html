@@ -20,41 +20,41 @@
 </nav>
 <main>
     <h2>Guest details</h2>
-    <form>
+    <form class="form">
         <div>
-            <label for="firstName">First name: *</label>
+            <label for="firstName">First name: <span class="symbol-required">*</span></label>
             <input type="text" name="firstName" id="firstName" value="Linda" disabled/>
             <span id="errorFirstName"></span>
         </div>
 
         <div>
-            <label for="lastName">Last name: *</label>
+            <label for="lastName">Last name: <span class="symbol-required">*</span></label>
             <input type="text" name="lastName" id="lastName" value="Yehudit" disabled/>
             <span id="errorLastName"></span>
         </div>
 
         <div>
-            <label for="email">Email: *</label>
+            <label for="email">Email: <span class="symbol-required">*</span></label>
             <input type="text" name="email" id="email" value="linda.yehudit@gmail.com" disabled/>
             <span id="errorEmail"></span>
         </div>
 
         <div>
-            <label for="phoneNumber">Phone number: *</label>
+            <label for="phoneNumber">Phone number: <span class="symbol-required">*</span></label>
             <input type="text" name="phoneNumber" id="phoneNumber" value="+48 900 900 900" disabled/>
             <span id="errorPhoneNumber"></span>
         </div>
 
         <div>
-            <label for="dateBirth">Date of birth: *</label>
+            <label for="dateBirth">Date of birth: <span class="symbol-required">*</span></label>
             <input type="date" name="dateBirth" id="dateBirth" value="2000-10-10" disabled/>
             <span id="errorDateBirth"></span>
         </div>
-
-        <div>
-            <a href="../guest/form-edit.html">Edit</a>
-        </div>
     </form>
+
+    <div class="form-buttons">
+        <a class="form-button-edit" href="../guest/form-edit.html">Edit</a>
+    </div>
 
     <h2>Guest reservations</h2>
     <table class="table-list">
@@ -94,7 +94,9 @@
         </tbody>
     </table>
 
-    <p><a href="../guest/list.html">Return to guest list</a></p>
+    <div class="list-buttons">
+        <a class="button-return" href="../guest/list.html">Return to guest list</a>
+    </div>
 </main>
 <footer>
     Wojciech Fabjańczuk, s21471
