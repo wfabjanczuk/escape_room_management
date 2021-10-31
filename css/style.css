@@ -232,7 +232,8 @@ textarea {
     margin-bottom: 0.5rem;
 }
 
-.form label {
+.form label,
+.form .form-cell {
     display: block;
     margin-top: 1rem;
     margin-bottom: 0.5rem;
