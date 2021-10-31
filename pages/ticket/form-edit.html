@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Escape Room Management</title>
+    <link rel="stylesheet" href="../../css/style.css"/>
+</head>
+<body>
+<header>
+    <h1>Escape Room Management</h1>
+    <img class="header-logo" src="../../images/logo.png" alt="Escape Room Management Logo">
+</header>
+<nav>
+    <ul>
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../guest/list.html">Guests</a></li>
+        <li><a class="active" href="../ticket/list.html">Tickets</a></li>
+        <li><a href="../room/list.html">Rooms</a></li>
+        <li><a href="../reservation/list.html">Reservations</a></li>
+    </ul>
+</nav>
+<main>
+    <h2>Edit ticket</h2>
+    <form class="form" action="../ticket/details.html">
+        <label for="reservation">Reservation: <span class="symbol-required">*</span></label>
+        <select name="reservation" id="reservation" required>
+            <option value="">-- select reservation --</option>
+            <option value="1" selected>#1 (Pharaoh's Tomb)</option>
+            <option value="2">#2 (Enigma Code)</option>
+            <option value="3">#3 (Pirate Ship)</option>
+            <option value="4">#4 (Nuclear Silo)</option>
+        </select>
+        <span id="errorReservation"></span>
+
+        <label for="guest">Guest: <span class="symbol-required">*</span></label>
+        <select name="guest" id="guest" required>
+            <option value="">-- select guest --</option>
+            <option value="1" selected>Linda Yehudit</option>
+            <option value="2">Gillian Domantas</option>
+            <option value="3">Meagan Ikra</option>
+            <option value="4">Sunil Katenka</option>
+        </select>
+        <span id="errorGuest"></span>
+
+        <label for="price">Price: <span class="symbol-required">*</span></label>
+        <input type="number" name="price" id="price" min="0" step="0.01" value="10.00" required/>
+        <span id="errorPrice"></span>
+
+        <label for="guestAllowedToCancel">Is guest allowed to cancel reservation:</label>
+        <input type="checkbox" name="guest" id="guestAllowedToCancel" checked/>
+        <span id="errorGuestAllowedToCancel"></span>
+
+        <div class="form-buttons">
+            <input class="form-button-submit" type="submit" value="Save"/>
+            <a class="form-button-cancel" href="../ticket/details.html">Cancel</a>
+        </div>
+    </form>
+</main>
+<footer>
+    Wojciech Fabjańczuk, s21471
+</footer>
+</body>
+</html>

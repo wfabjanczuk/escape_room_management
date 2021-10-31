@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Escape Room Management</title>
+    <link rel="stylesheet" href="../../css/style.css"/>
+</head>
+<body>
+<header>
+    <h1>Escape Room Management</h1>
+    <img class="header-logo" src="../../images/logo.png" alt="Escape Room Management Logo">
+</header>
+<nav>
+    <ul>
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../guest/list.html">Guests</a></li>
+        <li><a class="active" href="../ticket/list.html">Tickets</a></li>
+        <li><a href="../room/list.html">Rooms</a></li>
+        <li><a href="../reservation/list.html">Reservations</a></li>
+    </ul>
+</nav>
+<main>
+    <h2>Ticket details</h2>
+    <form class="form">
+        <label for="reservation">Reservation: <span class="symbol-required">*</span></label>
+        <select name="reservation" id="reservation" disabled>
+            <option value="">-- select reservation --</option>
+            <option value="1" selected>#1 (Pharaoh's Tomb)</option>
+            <option value="2">#2 (Enigma Code)</option>
+            <option value="3">#3 (Pirate Ship)</option>
+            <option value="4">#4 (Nuclear Silo)</option>
+        </select>
+        <span id="errorReservation"></span>
+
+        <label for="guest">Guest: <span class="symbol-required">*</span></label>
+        <select name="guest" id="guest" disabled>
+            <option value="">-- select guest --</option>
+            <option value="1" selected>Linda Yehudit</option>
+            <option value="2">Gillian Domantas</option>
+            <option value="3">Meagan Ikra</option>
+            <option value="4">Sunil Katenka</option>
+        </select>
+        <span id="errorGuest"></span>
+
+        <label for="price">Price: <span class="symbol-required">*</span></label>
+        <input type="number" name="price" id="price" min="0" step="0.01" value="10.00" disabled/>
+        <span id="errorPrice"></span>
+
+        <label for="guestAllowedToCancel">Is guest allowed to cancel reservation:</label>
+        <input type="checkbox" name="guest" id="guestAllowedToCancel" checked disabled/>
+        <span id="errorGuestAllowedToCancel"></span>
+    </form>
+
+    <div class="form-buttons">
+        <a class="form-button-edit" href="../ticket/form-edit.html">Edit</a>
+    </div>
+
+    <h2>Ticket owner</h2>
+    <form class="form">
+        <label for="firstName">First name: <span class="symbol-required">*</span></label>
+        <input type="text" name="firstName" id="firstName" value="Linda" disabled/>
+        <span id="errorFirstName"></span>
+
+        <label for="lastName">Last name: <span class="symbol-required">*</span></label>
+        <input type="text" name="lastName" id="lastName" value="Yehudit" disabled/>
+        <span id="errorLastName"></span>
+
+        <label for="email">Email: <span class="symbol-required">*</span></label>
+        <input type="text" name="email" id="email" value="linda.yehudit@gmail.com" disabled/>
+        <span id="errorEmail"></span>
+
+        <label for="phoneNumber">Phone number: <span class="symbol-required">*</span></label>
+        <input type="text" name="phoneNumber" id="phoneNumber" value="+48 900 900 900" disabled/>
+        <span id="errorPhoneNumber"></span>
+
+        <label for="dateBirth">Date of birth: <span class="symbol-required">*</span></label>
+        <input type="date" name="dateBirth" id="dateBirth" value="2000-10-10" disabled/>
+        <span id="errorDateBirth"></span>
+
+        <label for="discountPercent">Discount percent: </label>
+        <input type="number" name="discountPercent" id="discountPercent" value="0" min="0" max="20" disabled/>
+        <span id="errorDiscountPercent"></span>
+    </form>
+
+    <div class="form-buttons">
+        <a class="form-button-edit" href="../guest/form-edit.html">Edit</a>
+    </div>
+
+    <h2>Reservation details</h2>
+    <form class="form">
+        <label for="room">Room: <span class="symbol-required">*</span></label>
+        <select name="room" id="room" disabled>
+            <option>-- select room --</option>
+            <option value="1" selected>Pharaoh's Tomb</option>
+            <option value="2">Enigma Code</option>
+            <option value="3">Pirate Ship</option>
+            <option value="4">Nuclear Silo</option>
+        </select>
+        <span id="errorRoom"></span>
+
+        <label for="dateFrom">Date from: <span class="symbol-required">*</span></label>
+        <input type="datetime-local" name="dateFrom" id="dateFrom" value="2021-10-23T17:00" disabled/>
+        <span id="errorDateFrom"></span>
+
+        <label for="dateTo">Date to: <span class="symbol-required">*</span></label>
+        <input type="datetime-local" name="dateTo" id="dateTo" value="2021-10-23T19:00" disabled/>
+        <span id="errorDateTo"></span>
+
+        <label for="reservationOwner">Reservation owner: <span class="symbol-required">*</span></label>
+        <select name="reservationOwner" id="reservationOwner" disabled>
+            <option>-- select guest --</option>
+            <option value="1" selected>Linda Yehudit</option>
+            <option value="2">Gillian Domantas</option>
+            <option value="3">Meagan Ikra</option>
+            <option value="4">Sunil Katenka</option>
+        </select>
+        <span id="errorReservationOwner"></span>
+
+        <label for="groupMembers">Group members: <span class="symbol-required">*</span></label>
+        <select name="groupMembers[]" id="groupMembers" multiple disabled>
+            <option value="1" selected>Linda Yehudit</option>
+            <option value="2" selected>Gillian Domantas</option>
+            <option value="3" selected>Meagan Ikra</option>
+            <option value="4" selected>Sunil Katenka</option>
+        </select>
+        <span id="errorGroupMembers"></span>
+    </form>
+
+    <div class="form-buttons">
+        <a class="form-button-edit" href="../reservation/form-edit.html">Edit</a>
+    </div>
+</main>
+<footer>
+    Wojciech Fabjańczuk, s21471
+</footer>
+</body>
+</html>
