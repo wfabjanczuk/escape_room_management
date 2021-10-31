@@ -76,25 +76,26 @@ main h2 {
     margin-bottom: 2rem;
 }
 
-.table-list {
+.list-table {
+    grid-column: 1 / span 3;
     border-collapse: collapse;
     color: #2c3e50;
     width: 100%;
 }
 
-.table-list,
-.table-list th,
-.table-list td {
+.list-table,
+.list-table th,
+.list-table td {
     border: 1px solid #bdc3c7;
 }
 
-.table-list th,
-.table-list td {
+.list-table th,
+.list-table td {
     padding: 0.5rem;
 }
 
-.table-list th,
-.table-list tbody tr:nth-child(even) {
+.list-table th,
+.list-table tbody tr:nth-child(even) {
     background-color: #ecf0f1;
 }
 
@@ -117,7 +118,8 @@ main h2 {
 .button-return,
 .form-button-submit,
 .form-button-edit,
-.form-button-cancel {
+.form-button-cancel,
+.form-button-cancel-reservation {
     border: none;
     border-radius: 5px;
     color: white;
@@ -151,12 +153,20 @@ main h2 {
     background-color: #f1c40f;
 }
 
-.form-button-cancel,
+.form-button-cancel {
+    background-color: #999999;
+}
+
+.form-button-cancel:hover {
+    background-color: #c0c0c0;
+}
+
+.form-button-cancel-reservation,
 .list-actions-button-delete {
     background-color: #c0392b;
 }
 
-.form-button-cancel:hover,
+.form-button-cancel-reservation:hover,
 .list-actions-button-delete:hover {
     background-color: #e74c3c;
 }
@@ -165,7 +175,8 @@ main h2 {
 .button-return,
 .form-button-submit,
 .form-button-edit,
-.form-button-cancel {
+.form-button-cancel,
+.form-button-cancel-reservation {
     padding: 0.5rem 1rem;
 }
 
@@ -194,10 +205,11 @@ textarea {
     overflow: auto;
 }
 
-.form {
+.form,
+.list {
     display: grid;
-    grid-template-columns: 150px 300px 1fr;
     gap: 1rem;
+    grid-template-columns: 150px 300px 1fr;
 }
 
 .form select,
@@ -231,29 +243,29 @@ textarea {
     color: #c0392b;
 }
 
-.form-buttons {
+.form-buttons,
+.list-buttons {
     grid-column: 1 / span 2;
 }
 
-.list-buttons,
 .form-buttons {
     margin-top: 2rem;
 }
 
+.list-buttons {
+    margin-top: 1rem;
+}
+
 .form-button-submit,
 .form-button-edit,
-.form-button-cancel {
-    width: 100%;
-}
-
-.form-button-submit,
-.form-button-edit {
-    margin-bottom: 0.5rem;
-}
-
-.form-button-cancel {
+.form-button-cancel,
+.form-button-cancel-reservation,
+.button-add,
+.button-return {
     box-sizing: border-box;
-    display: block;
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 0.5rem;
 }
 
 .form input.error-input,

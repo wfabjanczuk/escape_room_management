@@ -39,11 +39,12 @@
         <label for="dateTo">Date to: <span class="symbol-required">*</span></label>
         <input type="datetime-local" name="dateTo" id="dateTo" value="2021-10-23T19:00" disabled/>
         <span id="errorDateTo"></span>
-    </form>
 
-    <div class="form-buttons">
-        <a class="form-button-edit" href="../reservation/form-edit.html">Edit</a>
-    </div>
+        <div class="form-buttons">
+            <a class="form-button-edit" href="../reservation/form-edit.html">Edit</a>
+            <a class="form-button-cancel-reservation" href="../room/form-edit.html">Cancel reservation</a>
+        </div>
+    </form>
 
     <h2>Reservation room</h2>
     <form class="form">
@@ -52,93 +53,92 @@
         <span id="errorRoomName"></span>
 
         <label for="baseTicketPrice">Base ticket price: <span class="symbol-required">*</span></label>
-        <input type="number" name="baseTicketPrice" id="baseTicketPrice" min="0" step="0.01" value="10.00"
-               disabled/>
+        <input type="number" name="baseTicketPrice" id="baseTicketPrice" min="0" step="0.01" value="10.00" disabled/>
         <span id="errorBaseTicketPrice"></span>
+
+        <label for="minimumParticipants">Minimum participants: <span class="symbol-required">*</span></label>
+        <input type="number" name="minimumParticipants" id="minimumParticipants" min="1" step="1" value="5" disabled/>
+        <span id="errorMinimumParticipants"></span>
+
+        <label for="maximumParticipants">Maximum participants: <span class="symbol-required">*</span></label>
+        <input type="number" name="maximumParticipants" id="maximumParticipants" min="1" step="1" value="7" disabled/>
+        <span id="errorMaximumParticipants"></span>
 
         <label for="minimumAge">Minimum age: </label>
         <input type="number" name="minimumAge" id="minimumAge" min="0" step="1" value="12" disabled/>
         <span id="errorMinimumAge"></span>
 
-        <label for="minimumParticipants">Minimum participants: <span class="symbol-required">*</span></label>
-        <input type="number" name="minimumParticipants" id="minimumParticipants" min="1" step="1" value="5"
-               disabled/>
-        <span id="errorMinimumParticipants"></span>
-
-        <label for="maximumParticipants">Maximum participants: <span class="symbol-required">*</span></label>
-        <input type="number" name="maximumParticipants" id="maximumParticipants" min="1" step="1" value="7"
-               disabled/>
-        <span id="errorMaximumParticipants"></span>
+        <div class="form-buttons">
+            <a class="form-button-edit" href="../room/form-edit.html">Edit</a>
+        </div>
     </form>
 
-    <div class="form-buttons">
-        <a class="form-button-edit" href="../room/form-edit.html">Edit</a>
-    </div>
-
     <h2>Reservation tickets</h2>
-    <table class="table-list">
-        <thead>
-        <tr>
-            <th>Guest</th>
-            <th>Allowed to cancel</th>
-            <th>Price</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>Linda Yehudit</td>
-            <td>Yes</td>
-            <td>10.00</td>
-            <td>
-                <ul class="list-actions">
-                    <li><a class="list-actions-button-details" href="../ticket/details.html">Details</a></li>
-                    <li><a class="list-actions-button-edit" href="../ticket/form-edit.html">Edit</a></li>
-                    <li><a class="list-actions-button-delete" href="">Delete</a></li>
-                </ul>
-            </td>
-        </tr>
-        <tr>
-            <td>Gillian Domantas</td>
-            <td>No</td>
-            <td>10.00</td>
-            <td>
-                <ul class="list-actions">
-                    <li><a class="list-actions-button-details" href="../ticket/details.html">Details</a></li>
-                    <li><a class="list-actions-button-edit" href="../ticket/form-edit.html">Edit</a></li>
-                    <li><a class="list-actions-button-delete" href="">Delete</a></li>
-                </ul>
-            </td>
-        </tr>
-        <tr>
-            <td>Meagan Ikra</td>
-            <td>No</td>
-            <td>10.00</td>
-            <td>
-                <ul class="list-actions">
-                    <li><a class="list-actions-button-details" href="../ticket/details.html">Details</a></li>
-                    <li><a class="list-actions-button-edit" href="../ticket/form-edit.html">Edit</a></li>
-                    <li><a class="list-actions-button-delete" href="">Delete</a></li>
-                </ul>
-            </td>
-        </tr>
-        <tr>
-            <td>Sunil Katenka</td>
-            <td>No</td>
-            <td>10.00</td>
-            <td>
-                <ul class="list-actions">
-                    <li><a class="list-actions-button-details" href="../ticket/details.html">Details</a></li>
-                    <li><a class="list-actions-button-edit" href="../ticket/form-edit.html">Edit</a></li>
-                    <li><a class="list-actions-button-delete" href="">Delete</a></li>
-                </ul>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <div class="list">
+        <table class="list-table">
+            <thead>
+            <tr>
+                <th>Guest</th>
+                <th>Allowed to cancel</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Linda Yehudit</td>
+                <td>Yes</td>
+                <td>10.00</td>
+                <td>
+                    <ul class="list-actions">
+                        <li><a class="list-actions-button-details" href="../ticket/details.html">Details</a></li>
+                        <li><a class="list-actions-button-edit" href="../ticket/form-edit.html">Edit</a></li>
+                        <li><a class="list-actions-button-delete" href="">Delete</a></li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>Gillian Domantas</td>
+                <td>No</td>
+                <td>10.00</td>
+                <td>
+                    <ul class="list-actions">
+                        <li><a class="list-actions-button-details" href="../ticket/details.html">Details</a></li>
+                        <li><a class="list-actions-button-edit" href="../ticket/form-edit.html">Edit</a></li>
+                        <li><a class="list-actions-button-delete" href="">Delete</a></li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>Meagan Ikra</td>
+                <td>No</td>
+                <td>10.00</td>
+                <td>
+                    <ul class="list-actions">
+                        <li><a class="list-actions-button-details" href="../ticket/details.html">Details</a></li>
+                        <li><a class="list-actions-button-edit" href="../ticket/form-edit.html">Edit</a></li>
+                        <li><a class="list-actions-button-delete" href="">Delete</a></li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>Sunil Katenka</td>
+                <td>No</td>
+                <td>10.00</td>
+                <td>
+                    <ul class="list-actions">
+                        <li><a class="list-actions-button-details" href="../ticket/details.html">Details</a></li>
+                        <li><a class="list-actions-button-edit" href="../ticket/form-edit.html">Edit</a></li>
+                        <li><a class="list-actions-button-delete" href="">Delete</a></li>
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+        </table>
 
-    <div class="list-buttons">
-        <a class="button-return" href="../reservation/list.html">Return to reservation list</a>
+        <div class="list-buttons">
+            <a class="button-return" href="../reservation/list.html">Return to reservation list</a>
+        </div>
     </div>
 </main>
 <footer>

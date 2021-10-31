@@ -41,76 +41,78 @@
         <label for="minimumAge">Minimum age: </label>
         <input type="number" name="minimumAge" id="minimumAge" min="0" step="1" value="12" disabled/>
         <span id="errorMinimumAge"></span>
+
+        <div class="form-buttons">
+            <a class="form-button-edit" href="../room/form-edit.html">Edit</a>
+        </div>
     </form>
 
-    <div class="form-buttons">
-        <a class="form-button-edit" href="../room/form-edit.html">Edit</a>
-    </div>
-
     <h2>Room reservations</h2>
-    <table class="table-list">
-        <thead>
-        <tr>
-            <th>Date from</th>
-            <th>Date to</th>
-            <th>Total price</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>2021-10-23 17:00</td>
-            <td>2021-10-23 19:00</td>
-            <td>60.00</td>
-            <td>
-                <ul class="list-actions">
-                    <li><a class="list-actions-button-details" href="../reservation/details.html">Details</a></li>
-                    <li><a class="list-actions-button-edit" href="../reservation/form-edit.html">Edit</a></li>
-                    <li><a class="list-actions-button-delete" href="">Delete</a></li>
-                </ul>
-            </td>
-        </tr>
-        <tr>
-            <td>2021-10-20 20:00</td>
-            <td>2021-10-20 22:00</td>
-            <td>90.00</td>
-            <td>
-                <ul class="list-actions">
-                    <li><a class="list-actions-button-details" href="../reservation/details.html">Details</a></li>
-                    <li><a class="list-actions-button-edit" href="../reservation/form-edit.html">Edit</a></li>
-                    <li><a class="list-actions-button-delete" href="">Delete</a></li>
-                </ul>
-            </td>
-        </tr>
-        <tr>
-            <td>2021-10-25 16:00</td>
-            <td>2021-10-25 18:00</td>
-            <td>80.00</td>
-            <td>
-                <ul class="list-actions">
-                    <li><a class="list-actions-button-details" href="../reservation/details.html">Details</a></li>
-                    <li><a class="list-actions-button-edit" href="../reservation/form-edit.html">Edit</a></li>
-                    <li><a class="list-actions-button-delete" href="">Delete</a></li>
-                </ul>
-            </td>
-        </tr>
-        <tr>
-            <td>2021-10-30 22:00</td>
-            <td>2021-10-31 01:00</td>
-            <td>120.00</td>
-            <td>
-                <ul class="list-actions">
-                    <li><a class="list-actions-button-details" href="../reservation/details.html">Details</a></li>
-                    <li><a class="list-actions-button-edit" href="../reservation/form-edit.html">Edit</a></li>
-                    <li><a class="list-actions-button-delete" href="">Delete</a></li>
-                </ul>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <div class="list">
+        <table class="list-table">
+            <thead>
+            <tr>
+                <th>Date from</th>
+                <th>Date to</th>
+                <th>Total price</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>2021-10-23 17:00</td>
+                <td>2021-10-23 19:00</td>
+                <td>60.00</td>
+                <td>
+                    <ul class="list-actions">
+                        <li><a class="list-actions-button-details" href="../reservation/details.html">Details</a></li>
+                        <li><a class="list-actions-button-edit" href="../reservation/form-edit.html">Edit</a></li>
+                        <li><a class="list-actions-button-delete" href="">Delete</a></li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>2021-10-20 20:00</td>
+                <td>2021-10-20 22:00</td>
+                <td>90.00</td>
+                <td>
+                    <ul class="list-actions">
+                        <li><a class="list-actions-button-details" href="../reservation/details.html">Details</a></li>
+                        <li><a class="list-actions-button-edit" href="../reservation/form-edit.html">Edit</a></li>
+                        <li><a class="list-actions-button-delete" href="">Delete</a></li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>2021-10-25 16:00</td>
+                <td>2021-10-25 18:00</td>
+                <td>80.00</td>
+                <td>
+                    <ul class="list-actions">
+                        <li><a class="list-actions-button-details" href="../reservation/details.html">Details</a></li>
+                        <li><a class="list-actions-button-edit" href="../reservation/form-edit.html">Edit</a></li>
+                        <li><a class="list-actions-button-delete" href="">Delete</a></li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>2021-10-30 22:00</td>
+                <td>2021-10-31 01:00</td>
+                <td>120.00</td>
+                <td>
+                    <ul class="list-actions">
+                        <li><a class="list-actions-button-details" href="../reservation/details.html">Details</a></li>
+                        <li><a class="list-actions-button-edit" href="../reservation/form-edit.html">Edit</a></li>
+                        <li><a class="list-actions-button-delete" href="">Delete</a></li>
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+        </table>
 
-    <div class="list-buttons">
-        <a class="button-return" href="../room/list.html">Return to room list</a>
+        <div class="list-buttons">
+            <a class="button-return" href="../room/list.html">Return to room list</a>
+        </div>
     </div>
 </main>
 <footer>
