@@ -195,7 +195,6 @@ textarea {
 }
 
 .form {
-    margin-left: 2rem;
     display: grid;
     grid-template-columns: 150px 300px 1fr;
     gap: 1rem;

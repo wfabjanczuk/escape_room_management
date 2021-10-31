@@ -15,8 +15,8 @@
         <li><a href="../../index.html">Home</a></li>
         <li><a href="../guest/list.html">Guests</a></li>
         <li><a href="../ticket/list.html">Tickets</a></li>
-        <li><a href="../room/list.html">Rooms</a></li>
         <li><a class="active" href="../reservation/list.html">Reservations</a></li>
+        <li><a href="../room/list.html">Rooms</a></li>
     </ul>
 </nav>
 <main>
@@ -39,25 +39,6 @@
         <label for="dateTo">Date to: <span class="symbol-required">*</span></label>
         <input type="datetime-local" name="dateTo" id="dateTo" value="2021-10-23T19:00" disabled/>
         <span id="errorDateTo"></span>
-
-        <label for="reservationOwner">Reservation owner: <span class="symbol-required">*</span></label>
-        <select name="reservationOwner" id="reservationOwner" disabled>
-            <option>-- select guest --</option>
-            <option value="1" selected>Linda Yehudit</option>
-            <option value="2">Gillian Domantas</option>
-            <option value="3">Meagan Ikra</option>
-            <option value="4">Sunil Katenka</option>
-        </select>
-        <span id="errorReservationOwner"></span>
-
-        <label for="groupMembers">Group members: <span class="symbol-required">*</span></label>
-        <select name="groupMembers[]" id="groupMembers" multiple disabled>
-            <option value="1" selected>Linda Yehudit</option>
-            <option value="2" selected>Gillian Domantas</option>
-            <option value="3" selected>Meagan Ikra</option>
-            <option value="4" selected>Sunil Katenka</option>
-        </select>
-        <span id="errorGroupMembers"></span>
     </form>
 
     <div class="form-buttons">
@@ -94,61 +75,61 @@
         <a class="form-button-edit" href="../room/form-edit.html">Edit</a>
     </div>
 
-    <h2>Reservation guests</h2>
+    <h2>Reservation tickets</h2>
     <table class="table-list">
         <thead>
         <tr>
-            <th>First name</th>
-            <th>Last name</th>
-            <th>Email</th>
+            <th>Guest</th>
+            <th>Allowed to cancel</th>
+            <th>Price</th>
             <th>Actions</th>
         </tr>
         </thead>
         <tbody>
         <tr>
-            <td>Linda</td>
-            <td>Yehudit</td>
-            <td>linda.yehudit@gmail.com</td>
+            <td>Linda Yehudit</td>
+            <td>Yes</td>
+            <td>10.00</td>
             <td>
                 <ul class="list-actions">
-                    <li><a class="list-actions-button-details" href="../guest/details.html">Details</a></li>
-                    <li><a class="list-actions-button-edit" href="../guest/form-edit.html">Edit</a></li>
+                    <li><a class="list-actions-button-details" href="../ticket/details.html">Details</a></li>
+                    <li><a class="list-actions-button-edit" href="../ticket/form-edit.html">Edit</a></li>
                     <li><a class="list-actions-button-delete" href="">Delete</a></li>
                 </ul>
             </td>
         </tr>
         <tr>
-            <td>Gillian</td>
-            <td>Domantas</td>
-            <td>gillian.domantas@gmail.com</td>
+            <td>Gillian Domantas</td>
+            <td>No</td>
+            <td>10.00</td>
             <td>
                 <ul class="list-actions">
-                    <li><a class="list-actions-button-details" href="../guest/details.html">Details</a></li>
-                    <li><a class="list-actions-button-edit" href="../guest/form-edit.html">Edit</a></li>
+                    <li><a class="list-actions-button-details" href="../ticket/details.html">Details</a></li>
+                    <li><a class="list-actions-button-edit" href="../ticket/form-edit.html">Edit</a></li>
                     <li><a class="list-actions-button-delete" href="">Delete</a></li>
                 </ul>
             </td>
         </tr>
         <tr>
-            <td>Meagan</td>
-            <td>Ikra</td>
-            <td>meagan.ikra@gmail.com</td>
+            <td>Meagan Ikra</td>
+            <td>No</td>
+            <td>10.00</td>
             <td>
                 <ul class="list-actions">
-                    <li><a class="list-actions-button-details" href="../guest/details.html">Details</a></li>
-                    <li><a class="list-actions-button-edit" href="../guest/form-edit.html">Edit</a></li>
+                    <li><a class="list-actions-button-details" href="../ticket/details.html">Details</a></li>
+                    <li><a class="list-actions-button-edit" href="../ticket/form-edit.html">Edit</a></li>
                     <li><a class="list-actions-button-delete" href="">Delete</a></li>
                 </ul>
             </td>
         </tr>
         <tr>
-            <td>Sunil</td>
-            <td>Katenka</td>
-            <td>sunil.katenka@gmail.com</td>
+            <td>Sunil Katenka</td>
+            <td>No</td>
+            <td>10.00</td>
             <td>
                 <ul class="list-actions">
-                    <li><a class="list-actions-button-details" href="../guest/details.html">Details</a></li>
-                    <li><a class="list-actions-button-edit" href="../guest/form-edit.html">Edit</a></li>
+                    <li><a class="list-actions-button-details" href="../ticket/details.html">Details</a></li>
+                    <li><a class="list-actions-button-edit" href="../ticket/form-edit.html">Edit</a></li>
                     <li><a class="list-actions-button-delete" href="">Delete</a></li>
                 </ul>
             </td>
