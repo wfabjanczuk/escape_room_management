@@ -49,11 +49,13 @@
         <span id="errorPrice"></span>
 
         <label for="guestAllowedToCancel">Is guest allowed to cancel reservation:</label>
-        <input type="checkbox" name="guest" id="guestAllowedToCancel" checked disabled/>
+        <div class="form__field form__field--checkbox">
+            <input type="checkbox" name="guest" id="guestAllowedToCancel" checked disabled/>
+        </div>
         <span id="errorGuestAllowedToCancel"></span>
 
-        <div class="form-buttons">
-            <a class="form-button-edit" href="../ticket/form-edit.html">Edit</a>
+        <div class="form__footer">
+            <a class="button button--warning hoverable" href="../ticket/form-edit.html">Edit</a>
         </div>
     </form>
 
@@ -83,8 +85,8 @@
         <input type="number" name="discountPercent" id="discountPercent" value="0" min="0" max="20" disabled/>
         <span id="errorDiscountPercent"></span>
 
-        <div class="form-buttons">
-            <a class="form-button-edit" href="../guest/form-edit.html">Edit</a>
+        <div class="form__footer">
+            <a class="button button--warning hoverable" href="../guest/form-edit.html">Edit</a>
         </div>
     </form>
 
@@ -116,8 +118,8 @@
         <span class="form-cell">-</span>
         <span class="form-cell"></span>
 
-        <div class="form-buttons">
-            <a class="form-button-edit" href="../reservation/form-edit.html">Edit</a>
+        <div class="form__footer">
+            <a class="button button--warning hoverable" href="../reservation/form-edit.html">Edit</a>
         </div>
     </form>
 </main>

@@ -49,12 +49,14 @@
         <span id="errorPrice"></span>
 
         <label for="guestAllowedToCancel">Is guest allowed to cancel reservation:</label>
-        <input type="checkbox" name="guest" id="guestAllowedToCancel" checked/>
+        <div class="form__field form__field--checkbox">
+            <input type="checkbox" name="guest" id="guestAllowedToCancel" checked/>
+        </div>
         <span id="errorGuestAllowedToCancel"></span>
 
-        <div class="form-buttons">
-            <input class="form-button-submit" type="submit" value="Save"/>
-            <a class="form-button-cancel" href="../ticket/details.html">Cancel</a>
+        <div class="form__footer">
+            <input class="button button--success hoverable" type="submit" value="Save"/>
+            <a class="button button--secondary hoverable" href="../ticket/details.html">Cancel</a>
         </div>
     </form>
 </main>
