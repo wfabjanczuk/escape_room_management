@@ -1,7 +1,11 @@
 html {
     background-color: #eaeaed;
-    font-family: Calibri,Candara,Segoe,Segoe UI,Optima,Arial,sans-serif;
     color: #041c44;
+    font-family: Calibri,Candara,Segoe,Segoe UI,Optima,Arial,sans-serif;
+}
+
+.hoverable:hover {
+    font-family: Candara,Calibri,Segoe,Segoe UI,Optima,Arial,sans-serif;
 }
 
 body {
@@ -53,8 +57,9 @@ nav ul {
 
 nav ul li a {
     display: inline-block;
-    color: #041c44;
     padding: 1rem 2rem;
+    border-radius: 10px;
+    color: #041c44;
     text-decoration: none;
 }
 
@@ -65,7 +70,6 @@ nav ul li a.active {
 
 nav ul li a:hover {
     background-color: #D6FF79;
-    font-family: Candara,Calibri,Segoe,Segoe UI,Optima,Arial,sans-serif;
     color: #041c44;
 }
 
@@ -121,6 +125,63 @@ main h2 {
     width: 75px;
 }
 
+.button {
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    font-size: 0.8rem;
+    padding: 0.4rem 0.8rem;
+    margin: 0.25rem;
+    border-radius: 5px;
+}
+
+.button--primary {
+    background-color: #2685e3;
+    border: 1px solid #2170c0;
+}
+
+.button--primary:hover {
+    background-color: #2170c0;
+}
+
+.button--secondary {
+    background-color: #999999;
+    border: 1px solid #737373;
+}
+
+.button--secondary:hover {
+    background-color: #737373;
+}
+
+.button--success {
+    background-color: #3fb618;
+    border: 1px solid #369b14;
+}
+
+.button--success:hover {
+    background-color: #369b14;
+}
+
+.button--warning {
+    background-color: #ffac05;
+    border: 1px solid #db9406;
+}
+
+.button--warning:hover {
+    background-color: #db9406;
+}
+
+.button--danger {
+    background-color: #ff2a00;
+    border: 1px solid #db1200;
+}
+
+.button--danger:hover {
+    background-color: #db1200;
+}
+
+
+
 .list-actions-button-details,
 .list-actions-button-edit,
 .list-actions-button-delete,
@@ -130,14 +191,13 @@ main h2 {
 .form-button-edit,
 .form-button-cancel,
 .form-button-cancel-reservation {
-    border: none;
-    border-radius: 5px;
     color: white;
     text-decoration: none;
     text-align: center;
     font-size: 0.8rem;
     padding: 0.4rem 0.8rem;
     margin: 0.25rem;
+    border-radius: 5px;
 }
 
 .button-return,
