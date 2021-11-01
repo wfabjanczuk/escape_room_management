@@ -213,6 +213,11 @@ main h2 {
     width: 160px;
 }
 
+.listing .listing__footer .button.button--wide {
+    display: inline-block;
+    width: 240px;
+}
+
 button,
 input,
 select,
@@ -242,6 +247,10 @@ textarea {
 .form .form__footer .button {
     display: inline-block;
     width: 120px;
+}
+
+.form .form__footer .button.button--wide {
+    width: 180px;
 }
 
 .form .form__footer .button + .button {
