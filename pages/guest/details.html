@@ -7,8 +7,10 @@
 </head>
 <body>
 <header>
-    <h1>Escape Room Management</h1>
-    <img class="header-logo" src="../../images/logo.png" alt="Escape Room Management Logo">
+    <h1><a class="hoverable" href="../../index.html">Escape Room Management</a></h1>
+    <a class="logo-link hoverable" href="../../index.html">
+        <img class="header-logo" src="../../images/logo.png" alt="Escape Room Management Logo"/>
+    </a>
 </header>
 <nav>
     <ul>
@@ -22,23 +24,23 @@
 <main>
     <h2>Guest details</h2>
     <form class="form">
-        <label for="firstName">First name: <span class="symbol-required">*</span></label>
+        <label for="firstName">First name: <span class="form__symbol-required">*</span></label>
         <input type="text" name="firstName" id="firstName" value="Linda" disabled/>
         <span id="errorFirstName"></span>
 
-        <label for="lastName">Last name: <span class="symbol-required">*</span></label>
+        <label for="lastName">Last name: <span class="form__symbol-required">*</span></label>
         <input type="text" name="lastName" id="lastName" value="Yehudit" disabled/>
         <span id="errorLastName"></span>
 
-        <label for="email">Email: <span class="symbol-required">*</span></label>
+        <label for="email">Email: <span class="form__symbol-required">*</span></label>
         <input type="text" name="email" id="email" value="linda.yehudit@gmail.com" disabled/>
         <span id="errorEmail"></span>
 
-        <label for="phoneNumber">Phone number: <span class="symbol-required">*</span></label>
+        <label for="phoneNumber">Phone number: <span class="form__symbol-required">*</span></label>
         <input type="text" name="phoneNumber" id="phoneNumber" value="+48 900 900 900" disabled/>
         <span id="errorPhoneNumber"></span>
 
-        <label for="dateBirth">Date of birth: <span class="symbol-required">*</span></label>
+        <label for="dateBirth">Date of birth: <span class="form__symbol-required">*</span></label>
         <input type="date" name="dateBirth" id="dateBirth" value="2000-10-10" disabled/>
         <span id="errorDateBirth"></span>
 
@@ -46,14 +48,14 @@
         <input type="number" name="discountPercent" id="discountPercent" value="0" min="0" max="20" disabled/>
         <span id="errorDiscountPercent"></span>
 
-        <div class="form-buttons">
-            <a class="form-button-edit" href="../guest/form-edit.html">Edit</a>
+        <div class="form__footer">
+            <a class="button button--warning hoverable" href="../guest/form-edit.html">Edit</a>
         </div>
     </form>
 
     <h2>Guest tickets</h2>
-    <div class="list">
-        <table class="list-table">
+    <div class="listing">
+        <table class="listing__table listing__table--hoverable">
             <thead>
             <tr>
                 <th>Room name</th>
@@ -68,10 +70,10 @@
                 <td>2021-10-23 17:00</td>
                 <td>10.00</td>
                 <td>
-                    <ul class="list-actions">
-                        <li><a class="list-actions-button-details" href="../ticket/details.html">Details</a></li>
-                        <li><a class="list-actions-button-edit" href="../ticket/form-edit.html">Edit</a></li>
-                        <li><a class="list-actions-button-delete" href="">Delete</a></li>
+                    <ul class="listing__actions">
+                        <li class="action"><a class="button button--primary hoverable" href="../ticket/details.html">Details</a></li>
+                        <li class="action"><a class="button button--warning hoverable" href="../ticket/form-edit.html">Edit</a></li>
+                        <li class="action"><a class="button button--danger hoverable" href="">Delete</a></li>
                     </ul>
                 </td>
             </tr>
@@ -80,10 +82,10 @@
                 <td>2021-10-20 20:00</td>
                 <td>15.00</td>
                 <td>
-                    <ul class="list-actions">
-                        <li><a class="list-actions-button-details" href="../ticket/details.html">Details</a></li>
-                        <li><a class="list-actions-button-edit" href="../ticket/form-edit.html">Edit</a></li>
-                        <li><a class="list-actions-button-delete" href="">Delete</a></li>
+                    <ul class="listing__actions">
+                        <li class="action"><a class="button button--primary hoverable" href="../ticket/details.html">Details</a></li>
+                        <li class="action"><a class="button button--warning hoverable" href="../ticket/form-edit.html">Edit</a></li>
+                        <li class="action"><a class="button button--danger hoverable" href="">Delete</a></li>
                     </ul>
                 </td>
             </tr>
@@ -92,10 +94,10 @@
                 <td>2021-10-25 16:00</td>
                 <td>20.00</td>
                 <td>
-                    <ul class="list-actions">
-                        <li><a class="list-actions-button-details" href="../ticket/details.html">Details</a></li>
-                        <li><a class="list-actions-button-edit" href="../ticket/form-edit.html">Edit</a></li>
-                        <li><a class="list-actions-button-delete" href="">Delete</a></li>
+                    <ul class="listing__actions">
+                        <li class="action"><a class="button button--primary hoverable" href="../ticket/details.html">Details</a></li>
+                        <li class="action"><a class="button button--warning hoverable" href="../ticket/form-edit.html">Edit</a></li>
+                        <li class="action"><a class="button button--danger hoverable" href="">Delete</a></li>
                     </ul>
                 </td>
             </tr>
@@ -104,23 +106,23 @@
                 <td>2021-10-30 22:00</td>
                 <td>30.00</td>
                 <td>
-                    <ul class="list-actions">
-                        <li><a class="list-actions-button-details" href="../ticket/details.html">Details</a></li>
-                        <li><a class="list-actions-button-edit" href="../ticket/form-edit.html">Edit</a></li>
-                        <li><a class="list-actions-button-delete" href="">Delete</a></li>
+                    <ul class="listing__actions">
+                        <li class="action"><a class="button button--primary hoverable" href="../ticket/details.html">Details</a></li>
+                        <li class="action"><a class="button button--warning hoverable" href="../ticket/form-edit.html">Edit</a></li>
+                        <li class="action"><a class="button button--danger hoverable" href="">Delete</a></li>
                     </ul>
                 </td>
             </tr>
             </tbody>
         </table>
 
-        <div class="list-buttons">
-            <a class="button-return list-button-return" href="../guest/list.html">Return to guest list</a>
+        <div class="listing__footer">
+            <a class="button button--primary hoverable" href="../guest/list.html">Return to guest list</a>
         </div>
     </div>
 </main>
 <footer>
-    Wojciech Fabjańczuk, s21471
+    <a class="hoverable" href="https://github.com/wfabjanczuk">Wojciech Fabjańczuk, s<span class="default-font">21471</span></a>
 </footer>
 </body>
 </html>

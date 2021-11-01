@@ -7,8 +7,10 @@
 </head>
 <body>
 <header>
-    <h1>Escape Room Management</h1>
-    <img class="header-logo" src="../../images/logo.png" alt="Escape Room Management Logo">
+    <h1><a class="hoverable" href="../../index.html">Escape Room Management</a></h1>
+    <a class="logo-link hoverable" href="../../index.html">
+        <img class="header-logo" src="../../images/logo.png" alt="Escape Room Management Logo"/>
+    </a>
 </header>
 <nav>
     <ul>
@@ -22,29 +24,29 @@
 <main>
     <h2>New ticket</h2>
     <form class="form" action="../ticket/details.html">
-        <label for="reservation">Reservation: <span class="symbol-required">*</span></label>
-        <select name="reservation" id="reservation" class="error-input" required>
+        <label for="reservation">Reservation: <span class="form__symbol-required">*</span></label>
+        <select name="reservation" id="reservation" class="form__field form__field--error" required>
             <option value="" selected>-- select reservation --</option>
             <option value="1">#1 (Pharaoh's Tomb)</option>
             <option value="2">#2 (Enigma Code)</option>
             <option value="3">#3 (Pirate Ship)</option>
             <option value="4">#4 (Nuclear Silo)</option>
         </select>
-        <span id="errorReservation" class="error-text">This field is required.</span>
+        <span id="errorReservation" class="form__error">This field is required.</span>
 
-        <label for="guest">Guest: <span class="symbol-required">*</span></label>
-        <select name="guest" id="guest" class="error-input" required>
+        <label for="guest">Guest: <span class="form__symbol-required">*</span></label>
+        <select name="guest" id="guest" class="form__field form__field--error" required>
             <option value="" selected>-- select guest --</option>
             <option value="1">Linda Yehudit</option>
             <option value="2">Gillian Domantas</option>
             <option value="3">Meagan Ikra</option>
             <option value="4">Sunil Katenka</option>
         </select>
-        <span id="errorGuest" class="error-text">This field is required.</span>
+        <span id="errorGuest" class="form__error">This field is required.</span>
 
-        <label for="price">Price: <span class="symbol-required">*</span></label>
-        <input type="number" name="price" id="price" min="0" step="0.01" class="error-input" required/>
-        <span id="errorPrice" class="error-text">This field is required.</span>
+        <label for="price">Price: <span class="form__symbol-required">*</span></label>
+        <input type="number" name="price" id="price" min="0" step="0.01" class="form__field form__field--error" required/>
+        <span id="errorPrice" class="form__error">This field is required.</span>
 
         <label for="guestAllowedToCancel">Is guest allowed to cancel reservation:</label>
         <input type="checkbox" name="guest" id="guestAllowedToCancel"/>
@@ -57,7 +59,7 @@
     </form>
 </main>
 <footer>
-    Wojciech Fabjańczuk, s21471
+    <a class="hoverable" href="https://github.com/wfabjanczuk">Wojciech Fabjańczuk, s<span class="default-font">21471</span></a>
 </footer>
 </body>
 </html>

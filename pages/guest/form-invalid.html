@@ -7,8 +7,10 @@
 </head>
 <body>
 <header>
-    <h1>Escape Room Management</h1>
-    <img class="header-logo" src="../../images/logo.png" alt="Escape Room Management Logo">
+    <h1><a class="hoverable" href="../../index.html">Escape Room Management</a></h1>
+    <a class="logo-link hoverable" href="../../index.html">
+        <img class="header-logo" src="../../images/logo.png" alt="Escape Room Management Logo"/>
+    </a>
 </header>
 <nav>
     <ul>
@@ -22,39 +24,39 @@
 <main>
     <h2>New guest</h2>
     <form class="form" action="../guest/details.html">
-        <label for="firstName">First name: <span class="symbol-required">*</span></label>
-        <input type="text" name="firstName" id="firstName" class="error-input" required/>
-        <span id="errorFirstName" class="error-text">This field is required.</span>
+        <label for="firstName">First name: <span class="form__symbol-required">*</span></label>
+        <input type="text" name="firstName" id="firstName" class="form__field form__field--error" required/>
+        <span id="errorFirstName" class="form__error">This field is required.</span>
 
-        <label for="lastName">Last name: <span class="symbol-required">*</span></label>
-        <input type="text" name="lastName" id="lastName" class="error-input" required/>
-        <span id="errorLastName" class="error-text">This field is required.</span>
+        <label for="lastName">Last name: <span class="form__symbol-required">*</span></label>
+        <input type="text" name="lastName" id="lastName" class="form__field form__field--error" required/>
+        <span id="errorLastName" class="form__error">This field is required.</span>
 
-        <label for="email">Email: <span class="symbol-required">*</span></label>
-        <input type="text" name="email" id="email" class="error-input" required/>
-        <span id="errorEmail" class="error-text">Invalid email.</span>
+        <label for="email">Email: <span class="form__symbol-required">*</span></label>
+        <input type="text" name="email" id="email" class="form__field form__field--error" required/>
+        <span id="errorEmail" class="form__error">Invalid email.</span>
 
-        <label for="phoneNumber">Phone number: <span class="symbol-required">*</span></label>
-        <input type="text" name="phoneNumber" id="phoneNumber" class="error-input" required/>
-        <span id="errorPhoneNumber" class="error-text">Invalid phone number.</span>
+        <label for="phoneNumber">Phone number: <span class="form__symbol-required">*</span></label>
+        <input type="text" name="phoneNumber" id="phoneNumber" class="form__field form__field--error" required/>
+        <span id="errorPhoneNumber" class="form__error">Invalid phone number.</span>
 
-        <label for="dateBirth">Date of birth: <span class="symbol-required">*</span></label>
-        <input type="date" name="dateBirth" id="dateBirth" class="error-input" required/>
-        <span id="errorDateBirth" class="error-text">This field is required.</span>
+        <label for="dateBirth">Date of birth: <span class="form__symbol-required">*</span></label>
+        <input type="date" name="dateBirth" id="dateBirth" class="form__field form__field--error" required/>
+        <span id="errorDateBirth" class="form__error">This field is required.</span>
 
         <label for="discountPercent">Discount percent: </label>
-        <input type="number" name="discountPercent" id="discountPercent" class="error-input" min="0" max="20"/>
-        <span id="errorDiscountPercent" class="error-text">Value must be between 0 and 20.</span>
+        <input type="number" name="discountPercent" id="discountPercent" class="form__field form__field--error" min="0" max="20"/>
+        <span id="errorDiscountPercent" class="form__error">Value must be between 0 and 20.</span>
 
-        <div class="form-buttons">
-            <span class="error-text">Please correct the highlighted errors.</span>
-            <input class="form-button-submit" type="submit" value="Create"/>
-            <a class="form-button-cancel" href="../guest/list.html">Cancel</a>
+        <div class="form__footer">
+            <span class="form__error">Please correct the highlighted errors.</span>
+            <input class="button button--success hoverable" type="submit" value="Create"/>
+            <a class="button button--secondary hoverable" href="../guest/list.html">Cancel</a>
         </div>
     </form>
 </main>
 <footer>
-    Wojciech Fabjańczuk, s21471
+    <a class="hoverable" href="https://github.com/wfabjanczuk">Wojciech Fabjańczuk, s<span class="default-font">21471</span></a>
 </footer>
 </body>
 </html>

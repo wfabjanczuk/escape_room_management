@@ -7,8 +7,10 @@
 </head>
 <body>
 <header>
-    <h1>Escape Room Management</h1>
-    <img class="header-logo" src="../../images/logo.png" alt="Escape Room Management Logo">
+    <h1><a class="hoverable" href="../../index.html">Escape Room Management</a></h1>
+    <a class="logo-link hoverable" href="../../index.html">
+        <img class="header-logo" src="../../images/logo.png" alt="Escape Room Management Logo"/>
+    </a>
 </header>
 <nav>
     <ul>
@@ -22,23 +24,23 @@
 <main>
     <h2>New guest</h2>
     <form class="form" action="../guest/details.html">
-        <label for="firstName">First name: <span class="symbol-required">*</span></label>
+        <label for="firstName">First name: <span class="form__symbol-required">*</span></label>
         <input type="text" name="firstName" id="firstName" required/>
         <span id="errorFirstName"></span>
 
-        <label for="lastName">Last name: <span class="symbol-required">*</span></label>
+        <label for="lastName">Last name: <span class="form__symbol-required">*</span></label>
         <input type="text" name="lastName" id="lastName" required/>
         <span id="errorLastName"></span>
 
-        <label for="email">Email: <span class="symbol-required">*</span></label>
+        <label for="email">Email: <span class="form__symbol-required">*</span></label>
         <input type="email" name="email" id="email" required/>
         <span id="errorEmail"></span>
 
-        <label for="phoneNumber">Phone number: <span class="symbol-required">*</span></label>
+        <label for="phoneNumber">Phone number: <span class="form__symbol-required">*</span></label>
         <input type="text" name="phoneNumber" id="phoneNumber" required/>
         <span id="errorPhoneNumber"></span>
 
-        <label for="dateBirth">Date of birth: <span class="symbol-required">*</span></label>
+        <label for="dateBirth">Date of birth: <span class="form__symbol-required">*</span></label>
         <input type="date" name="dateBirth" id="dateBirth" required/>
         <span id="errorDateBirth"></span>
 
@@ -46,14 +48,14 @@
         <input type="number" name="discountPercent" id="discountPercent" min="0" max="20"/>
         <span id="errorDiscountPercent"></span>
 
-        <div class="form-buttons">
-            <input class="form-button-submit" type="submit" value="Create"/>
-            <a class="form-button-cancel" href="../guest/list.html">Cancel</a>
+        <div class="form__footer">
+            <input class="button button--success hoverable" type="submit" value="Create"/>
+            <a class="button button--secondary hoverable" href="../guest/list.html">Cancel</a>
         </div>
     </form>
 </main>
 <footer>
-    Wojciech Fabjańczuk, s21471
+    <a class="hoverable" href="https://github.com/wfabjanczuk">Wojciech Fabjańczuk, s<span class="default-font">21471</span></a>
 </footer>
 </body>
 </html>

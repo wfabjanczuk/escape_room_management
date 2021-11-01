@@ -7,8 +7,10 @@
 </head>
 <body>
 <header>
-    <h1>Escape Room Management</h1>
-    <img class="header-logo" src="../../images/logo.png" alt="Escape Room Management Logo">
+    <h1><a class="hoverable" href="../../index.html">Escape Room Management</a></h1>
+    <a class="logo-link hoverable" href="../../index.html">
+        <img class="header-logo" src="../../images/logo.png" alt="Escape Room Management Logo"/>
+    </a>
 </header>
 <nav>
     <ul>
@@ -22,7 +24,7 @@
 <main>
     <h2>New reservation</h2>
     <form class="form" action="../reservation/details.html">
-        <label for="room">Room: <span class="symbol-required">*</span></label>
+        <label for="room">Room: <span class="form__symbol-required">*</span></label>
         <select name="room" id="room" required>
             <option value="" selected>-- select room --</option>
             <option value="1">Pharaoh's Tomb</option>
@@ -32,11 +34,11 @@
         </select>
         <span id="errorRoom"></span>
 
-        <label for="dateFrom">Date from: <span class="symbol-required">*</span></label>
+        <label for="dateFrom">Date from: <span class="form__symbol-required">*</span></label>
         <input type="datetime-local" name="dateFrom" id="dateFrom" required/>
         <span id="errorDateFrom"></span>
 
-        <label for="dateTo">Date to: <span class="symbol-required">*</span></label>
+        <label for="dateTo">Date to: <span class="form__symbol-required">*</span></label>
         <input type="datetime-local" name="dateTo" id="dateTo" required/>
         <span id="errorDateTo"></span>
 
@@ -47,7 +49,7 @@
     </form>
 </main>
 <footer>
-    Wojciech Fabjańczuk, s21471
+    <a class="hoverable" href="https://github.com/wfabjanczuk">Wojciech Fabjańczuk, s<span class="default-font">21471</span></a>
 </footer>
 </body>
 </html>

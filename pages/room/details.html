@@ -7,8 +7,10 @@
 </head>
 <body>
 <header>
-    <h1>Escape Room Management</h1>
-    <img class="header-logo" src="../../images/logo.png" alt="Escape Room Management Logo">
+    <h1><a class="hoverable" href="../../index.html">Escape Room Management</a></h1>
+    <a class="logo-link hoverable" href="../../index.html">
+        <img class="header-logo" src="../../images/logo.png" alt="Escape Room Management Logo"/>
+    </a>
 </header>
 <nav>
     <ul>
@@ -22,19 +24,19 @@
 <main>
     <h2>Room details</h2>
     <form class="form">
-        <label for="roomName">Room name: <span class="symbol-required">*</span></label>
+        <label for="roomName">Room name: <span class="form__symbol-required">*</span></label>
         <input type="text" name="roomName" id="roomName" value="Pharaoh's Tomb" disabled/>
         <span id="errorRoomName"></span>
 
-        <label for="baseTicketPrice">Base ticket price: <span class="symbol-required">*</span></label>
+        <label for="baseTicketPrice">Base ticket price: <span class="form__symbol-required">*</span></label>
         <input type="number" name="baseTicketPrice" id="baseTicketPrice" min="0" step="0.01" value="10.00" disabled/>
         <span id="errorBaseTicketPrice"></span>
 
-        <label for="minimumParticipants">Min. participants: <span class="symbol-required">*</span></label>
+        <label for="minimumParticipants">Min. participants: <span class="form__symbol-required">*</span></label>
         <input type="number" name="minimumParticipants" id="minimumParticipants" min="1" step="1" value="5" disabled/>
         <span id="errorMinimumParticipants"></span>
 
-        <label for="maximumParticipants">Max. participants: <span class="symbol-required">*</span></label>
+        <label for="maximumParticipants">Max. participants: <span class="form__symbol-required">*</span></label>
         <input type="number" name="maximumParticipants" id="maximumParticipants" min="1" step="1" value="7" disabled/>
         <span id="errorMaximumParticipants"></span>
 
@@ -116,7 +118,7 @@
     </div>
 </main>
 <footer>
-    Wojciech Fabjańczuk, s21471
+    <a class="hoverable" href="https://github.com/wfabjanczuk">Wojciech Fabjańczuk, s<span class="default-font">21471</span></a>
 </footer>
 </body>
 </html>

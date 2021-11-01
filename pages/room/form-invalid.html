@@ -7,8 +7,10 @@
 </head>
 <body>
 <header>
-    <h1>Escape Room Management</h1>
-    <img class="header-logo" src="../../images/logo.png" alt="Escape Room Management Logo">
+    <h1><a class="hoverable" href="../../index.html">Escape Room Management</a></h1>
+    <a class="logo-link hoverable" href="../../index.html">
+        <img class="header-logo" src="../../images/logo.png" alt="Escape Room Management Logo"/>
+    </a>
 </header>
 <nav>
     <ul>
@@ -22,35 +24,35 @@
 <main>
     <h2>New room</h2>
     <form class="form" action="../room/details.html">
-        <label for="roomName">Room name: <span class="symbol-required">*</span></label>
-        <input type="text" name="roomName" id="roomName" class="error-input" required/>
-        <span id="errorRoomName" class="error-text">This field is required.</span>
+        <label for="roomName">Room name: <span class="form__symbol-required">*</span></label>
+        <input type="text" name="roomName" id="roomName" class="form__field form__field--error" required/>
+        <span id="errorRoomName" class="form__error">This field is required.</span>
 
-        <label for="baseTicketPrice">Base ticket price: <span class="symbol-required">*</span></label>
-        <input type="number" name="baseTicketPrice" id="baseTicketPrice" min="0" step="0.01" class="error-input" required/>
-        <span id="errorBaseTicketPrice" class="error-text">This field is required.</span>
+        <label for="baseTicketPrice">Base ticket price: <span class="form__symbol-required">*</span></label>
+        <input type="number" name="baseTicketPrice" id="baseTicketPrice" min="0" step="0.01" class="form__field form__field--error" required/>
+        <span id="errorBaseTicketPrice" class="form__error">This field is required.</span>
 
-        <label for="minimumParticipants">Min. participants: <span class="symbol-required">*</span></label>
-        <input type="number" name="minimumParticipants" id="minimumParticipants" min="1" step="1" class="error-input" required/>
-        <span id="errorMinimumParticipants" class="error-text">This field is required.</span>
+        <label for="minimumParticipants">Min. participants: <span class="form__symbol-required">*</span></label>
+        <input type="number" name="minimumParticipants" id="minimumParticipants" min="1" step="1" class="form__field form__field--error" required/>
+        <span id="errorMinimumParticipants" class="form__error">This field is required.</span>
 
-        <label for="maximumParticipants">Max. participants: <span class="symbol-required">*</span></label>
-        <input type="number" name="maximumParticipants" id="maximumParticipants" min="1" step="1" class="error-input" required/>
-        <span id="errorMaximumParticipants" class="error-text">Max. participants have to be greater or equal to min. participants.</span>
+        <label for="maximumParticipants">Max. participants: <span class="form__symbol-required">*</span></label>
+        <input type="number" name="maximumParticipants" id="maximumParticipants" min="1" step="1" class="form__field form__field--error" required/>
+        <span id="errorMaximumParticipants" class="form__error">Max. participants have to be greater or equal to min. participants.</span>
 
         <label for="minimumAge">Min. age: </label>
-        <input type="number" name="minimumAge" id="minimumAge" min="0" step="1" class="error-input"/>
-        <span id="errorMinimumAge" class="error-text">Only positive integers are allowed.</span>
+        <input type="number" name="minimumAge" id="minimumAge" min="0" step="1" class="form__field form__field--error"/>
+        <span id="errorMinimumAge" class="form__error">Only positive integers are allowed.</span>
 
         <div class="form-buttons">
-            <span class="error-text">Please correct the highlighted errors.</span>
+            <span class="form__error">Please correct the highlighted errors.</span>
             <input class="form-button-submit" type="submit" value="Create"/>
             <a class="form-button-cancel" href="../room/list.html">Cancel</a>
         </div>
     </form>
 </main>
 <footer>
-    Wojciech Fabjańczuk, s21471
+    <a class="hoverable" href="https://github.com/wfabjanczuk">Wojciech Fabjańczuk, s<span class="default-font">21471</span></a>
 </footer>
 </body>
 </html>
