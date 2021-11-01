@@ -1,5 +1,5 @@
 html {
-    background-color: #ecf0f1;
+    background-color: #eaeaed;
     font-family: sans-serif;
 }
 
@@ -17,12 +17,14 @@ header,
 main,
 footer,
 nav {
+    box-shadow: 2px 3px 4px -1px #c7c5d8;
+    -webkit-box-shadow: 2px 3px 4px -1px #c7c5d8;
     margin: 1rem;
 }
 
 header,
 footer {
-    background-color: #34494e;
+    background-color: #345995;
     color: white;
     padding: 1rem;
 }
@@ -37,7 +39,7 @@ header img.header-logo {
 }
 
 nav {
-    background-color: #bdc3c7;
+    background-color: #B9CBE7;
 }
 
 nav ul {
@@ -54,13 +56,13 @@ nav ul li a {
 }
 
 nav ul li a.active {
-    background-color: #95a5a6;
-    color: #ecf0f1;
+    background-color: #658CCA;
+    color: #F1F7ED;
 }
 
 nav ul li a:hover {
-    background-color: #d35400;
-    color: #ecf0f1;
+    background-color: #D6FF79;
+    color: black;
 }
 
 main {
@@ -72,7 +74,7 @@ footer {
 }
 
 main h2 {
-    border-bottom: 1px solid #7f8c8d;
+    border-bottom: 1px solid #656f7f;
     margin-bottom: 2rem;
 }
 
@@ -86,7 +88,7 @@ main h2 {
 .list-table,
 .list-table th,
 .list-table td {
-    border: 1px solid #bdc3c7;
+    border: 1px solid #B9CBE7;
 }
 
 .list-table th,
@@ -96,7 +98,7 @@ main h2 {
 
 .list-table th,
 .list-table tbody tr:nth-child(even) {
-    background-color: #ecf0f1;
+    background-color: #EAEFF7;
 }
 
 .list-actions li {
