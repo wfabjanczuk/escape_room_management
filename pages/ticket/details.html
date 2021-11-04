@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <title>Escape Room Management</title>
     <link rel="stylesheet" href="../../css/style.css"/>
 </head>
@@ -32,7 +33,7 @@
             <option value="3">#3 (Pirate Ship)</option>
             <option value="4">#4 (Nuclear Silo)</option>
         </select>
-        <span id="errorReservation"></span>
+        <span class="form__error" id="errorReservation"></span>
 
         <label for="guest">Guest: <span class="form__symbol-required">*</span></label>
         <select name="guest" id="guest" disabled>
@@ -42,17 +43,17 @@
             <option value="3">Meagan Ikra</option>
             <option value="4">Sunil Katenka</option>
         </select>
-        <span id="errorGuest"></span>
+        <span class="form__error" id="errorGuest"></span>
 
         <label for="price">Price: <span class="form__symbol-required">*</span></label>
         <input type="number" name="price" id="price" min="0" step="0.01" value="10.00" disabled/>
-        <span id="errorPrice"></span>
+        <span class="form__error" id="errorPrice"></span>
 
         <label for="guestAllowedToCancel">Is guest allowed to cancel reservation:</label>
         <div class="form__field form__field--checkbox">
             <input type="checkbox" name="guest" id="guestAllowedToCancel" checked disabled/>
         </div>
-        <span id="errorGuestAllowedToCancel"></span>
+        <span class="form__error" id="errorGuestAllowedToCancel"></span>
 
         <div class="form__footer">
             <a class="button button--warning hoverable" href="../ticket/form-edit.html">Edit</a>
@@ -63,27 +64,27 @@
     <form class="form">
         <label for="firstName">First name: <span class="form__symbol-required">*</span></label>
         <input type="text" name="firstName" id="firstName" value="Linda" disabled/>
-        <span id="errorFirstName"></span>
+        <span class="form__error" id="errorFirstName"></span>
 
         <label for="lastName">Last name: <span class="form__symbol-required">*</span></label>
         <input type="text" name="lastName" id="lastName" value="Yehudit" disabled/>
-        <span id="errorLastName"></span>
+        <span class="form__error" id="errorLastName"></span>
 
         <label for="email">Email: <span class="form__symbol-required">*</span></label>
         <input type="text" name="email" id="email" value="linda.yehudit@gmail.com" disabled/>
-        <span id="errorEmail"></span>
+        <span class="form__error" id="errorEmail"></span>
 
         <label for="phoneNumber">Phone number: <span class="form__symbol-required">*</span></label>
         <input type="text" name="phoneNumber" id="phoneNumber" value="+48 900 900 900" disabled/>
-        <span id="errorPhoneNumber"></span>
+        <span class="form__error" id="errorPhoneNumber"></span>
 
         <label for="dateBirth">Date of birth: <span class="form__symbol-required">*</span></label>
         <input type="date" name="dateBirth" id="dateBirth" value="2000-10-10" disabled/>
-        <span id="errorDateBirth"></span>
+        <span class="form__error" id="errorDateBirth"></span>
 
         <label for="discountPercent">Discount percent: </label>
         <input type="number" name="discountPercent" id="discountPercent" value="0" min="0" max="20" disabled/>
-        <span id="errorDiscountPercent"></span>
+        <span class="form__error" id="errorDiscountPercent"></span>
 
         <div class="form__footer">
             <a class="button button--warning hoverable" href="../guest/form-edit.html">Edit</a>
@@ -100,15 +101,15 @@
             <option value="3">Pirate Ship</option>
             <option value="4">Nuclear Silo</option>
         </select>
-        <span id="errorRoom"></span>
+        <span class="form__error" id="errorRoom"></span>
 
         <label for="dateFrom">Date from: <span class="form__symbol-required">*</span></label>
         <input type="datetime-local" name="dateFrom" id="dateFrom" value="2021-10-23T17:00" disabled/>
-        <span id="errorDateFrom"></span>
+        <span class="form__error" id="errorDateFrom"></span>
 
         <label for="dateTo">Date to: <span class="form__symbol-required">*</span></label>
         <input type="datetime-local" name="dateTo" id="dateTo" value="2021-10-23T19:00" disabled/>
-        <span id="errorDateTo"></span>
+        <span class="form__error" id="errorDateTo"></span>
 
         <span class="form-cell">Total price:</span>
         <span class="form-cell">60.00</span>

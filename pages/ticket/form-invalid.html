@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <title>Escape Room Management</title>
     <link rel="stylesheet" href="../../css/style.css"/>
 </head>
@@ -32,7 +33,7 @@
             <option value="3">#3 (Pirate Ship)</option>
             <option value="4">#4 (Nuclear Silo)</option>
         </select>
-        <span id="errorReservation" class="form__error">This field is required.</span>
+        <span class="form__error" id="errorReservation">This field is required.</span>
 
         <label for="guest">Guest: <span class="form__symbol-required">*</span></label>
         <select name="guest" id="guest" class="form__field form__field--error" required>
@@ -42,19 +43,20 @@
             <option value="3">Meagan Ikra</option>
             <option value="4">Sunil Katenka</option>
         </select>
-        <span id="errorGuest" class="form__error">This field is required.</span>
+        <span class="form__error" id="errorGuest">This field is required.</span>
 
         <label for="price">Price: <span class="form__symbol-required">*</span></label>
         <input type="number" name="price" id="price" min="0" step="0.01" class="form__field form__field--error" required/>
-        <span id="errorPrice" class="form__error">This field is required.</span>
+        <span class="form__error" id="errorPrice">This field is required.</span>
 
         <label for="guestAllowedToCancel">Is guest allowed to cancel reservation:</label>
         <div class="form__field form__field--checkbox">
             <input type="checkbox" name="guest" id="guestAllowedToCancel" class="form__field form__field--error"/>
         </div>
-        <span id="errorGuestAllowedToCancel"></span>
+        <span class="form__error" id="errorGuestAllowedToCancel"></span>
 
         <div class="form__footer">
+            <span class="form__error form__error--summary">Please correct the highlighted errors.</span>
             <input class="button button--success hoverable" type="submit" value="Create"/>
             <a class="button button--secondary hoverable" href="../ticket/list.html">Cancel</a>
         </div>

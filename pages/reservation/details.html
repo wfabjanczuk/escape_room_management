@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <title>Escape Room Management</title>
     <link rel="stylesheet" href="../../css/style.css"/>
 </head>
@@ -32,15 +33,15 @@
             <option value="3">Pirate Ship</option>
             <option value="4">Nuclear Silo</option>
         </select>
-        <span id="errorRoom"></span>
+        <span class="form__error" id="errorRoom"></span>
 
         <label for="dateFrom">Date from: <span class="form__symbol-required">*</span></label>
         <input type="datetime-local" name="dateFrom" id="dateFrom" value="2021-10-23T17:00" disabled/>
-        <span id="errorDateFrom"></span>
+        <span class="form__error" id="errorDateFrom"></span>
 
         <label for="dateTo">Date to: <span class="form__symbol-required">*</span></label>
         <input type="datetime-local" name="dateTo" id="dateTo" value="2021-10-23T19:00" disabled/>
-        <span id="errorDateTo"></span>
+        <span class="form__error" id="errorDateTo"></span>
 
         <span class="form-cell">Total price:</span>
         <span class="form-cell">60.00</span>
@@ -60,23 +61,23 @@
     <form class="form">
         <label for="roomName">Room name: <span class="form__symbol-required">*</span></label>
         <input type="text" name="roomName" id="roomName" value="Pharaoh's Tomb" disabled/>
-        <span id="errorRoomName"></span>
+        <span class="form__error" id="errorRoomName"></span>
 
         <label for="baseTicketPrice">Base ticket price: <span class="form__symbol-required">*</span></label>
         <input type="number" name="baseTicketPrice" id="baseTicketPrice" min="0" step="0.01" value="10.00" disabled/>
-        <span id="errorBaseTicketPrice"></span>
+        <span class="form__error" id="errorBaseTicketPrice"></span>
 
         <label for="minimumParticipants">Min. participants: <span class="form__symbol-required">*</span></label>
         <input type="number" name="minimumParticipants" id="minimumParticipants" min="1" step="1" value="5" disabled/>
-        <span id="errorMinimumParticipants"></span>
+        <span class="form__error" id="errorMinimumParticipants"></span>
 
         <label for="maximumParticipants">Max. participants: <span class="form__symbol-required">*</span></label>
         <input type="number" name="maximumParticipants" id="maximumParticipants" min="1" step="1" value="7" disabled/>
-        <span id="errorMaximumParticipants"></span>
+        <span class="form__error" id="errorMaximumParticipants"></span>
 
         <label for="minimumAge">Min. age: </label>
         <input type="number" name="minimumAge" id="minimumAge" min="0" step="1" value="12" disabled/>
-        <span id="errorMinimumAge"></span>
+        <span class="form__error" id="errorMinimumAge"></span>
 
         <div class="form__footer">
             <a class="button button--warning hoverable" href="../room/form-edit.html">Edit</a>
