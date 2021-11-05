@@ -329,7 +329,7 @@ textarea {
     }
 }
 
-@media all and (max-width: 720px) {
+@media all and (max-width: 760px) {
     header {
         flex-direction: column;
         padding: 1.5rem 2rem;
@@ -434,7 +434,7 @@ textarea {
     }
 }
 
-@media all and (max-width: 400px) {
+@media all and (max-width: 440px) {
     body {
         min-height: 100vh;
         display: flex;
