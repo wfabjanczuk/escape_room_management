@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <title>Escape Room Management</title>
     <link rel="stylesheet" href="../../css/style.css"/>
@@ -50,13 +51,14 @@
     </form>
 
     <h2>Room reservations</h2>
-    <div class="listing">
+
+    <div class="listing listing--wide">
         <table class="listing__table listing__table--hoverable">
             <thead>
             <tr>
                 <th>Date from</th>
                 <th>Date to</th>
-                <th>Total price</th>
+                <th class="extra-column">Total price</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -64,7 +66,7 @@
             <tr>
                 <td>2021-10-23 17:00</td>
                 <td>2021-10-23 19:00</td>
-                <td>60.00</td>
+                <td class="extra-column">60.00</td>
                 <td>
                     <ul class="listing__actions">
                         <li class="action"><a class="button button--primary hoverable" href="../reservation/details.html">Details</a></li>
@@ -76,7 +78,7 @@
             <tr>
                 <td>2021-10-20 20:00</td>
                 <td>2021-10-20 22:00</td>
-                <td>90.00</td>
+                <td class="extra-column">90.00</td>
                 <td>
                     <ul class="listing__actions">
                         <li class="action"><a class="button button--primary hoverable" href="../reservation/details.html">Details</a></li>
@@ -88,7 +90,7 @@
             <tr>
                 <td>2021-10-25 16:00</td>
                 <td>2021-10-25 18:00</td>
-                <td>80.00</td>
+                <td class="extra-column">80.00</td>
                 <td>
                     <ul class="listing__actions">
                         <li class="action"><a class="button button--primary hoverable" href="../reservation/details.html">Details</a></li>
@@ -100,12 +102,113 @@
             <tr>
                 <td>2021-10-30 22:00</td>
                 <td>2021-10-31 01:00</td>
-                <td>120.00</td>
+                <td class="extra-column">120.00</td>
                 <td>
                     <ul class="listing__actions">
                         <li class="action"><a class="button button--primary hoverable" href="../reservation/details.html">Details</a></li>
                         <li class="action"><a class="button button--warning hoverable" href="../reservation/form-edit.html">Edit</a></li>
                         <li class="action"><a class="button button--danger hoverable" href="">Delete</a></li>
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="listing__footer">
+            <a class="button button--primary hoverable" href="../room/list.html">Return to room list</a>
+        </div>
+    </div>
+
+    <div class="listing listing--compact">
+        <table class="listing__table listing__table--hoverable">
+            <tbody>
+            <tr>
+                <th>Date from</th>
+                <td>2021-10-23 17:00</td>
+            </tr>
+            <tr>
+                <th>Date to</th>
+                <td>2021-10-23 19:00</td>
+            </tr>
+            <tr>
+                <th>Total price</th>
+                <td>60.00</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <ul class="listing__actions">
+                        <li class="action"><a class="button button--primary hoverable" href="../reservation/details.html">Details</a></li>
+                        <li class="action"><a class="button button--warning hoverable" href="../reservation/form-edit.html">Edit</a></li>
+                        <li class="action"><a class="button button--danger hoverable" href="">Cancel</a></li>
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+            <tbody>
+            <tr>
+                <th>Date from</th>
+                <td>2021-10-20 20:00</td>
+            </tr>
+            <tr>
+                <th>Date to</th>
+                <td>2021-10-20 22:00</td>
+            </tr>
+            <tr>
+                <th>Total price</th>
+                <td>90.00</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <ul class="listing__actions">
+                        <li class="action"><a class="button button--primary hoverable" href="../reservation/details.html">Details</a></li>
+                        <li class="action"><a class="button button--warning hoverable" href="../reservation/form-edit.html">Edit</a></li>
+                        <li class="action"><a class="button button--danger hoverable" href="">Cancel</a></li>
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+            <tbody>
+            <tr>
+                <th>Date from</th>
+                <td>2021-10-25 16:00</td>
+            </tr>
+            <tr>
+                <th>Date to</th>
+                <td>2021-10-25 18:00</td>
+            </tr>
+            <tr>
+                <th>Total price</th>
+                <td>80.00</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <ul class="listing__actions">
+                        <li class="action"><a class="button button--primary hoverable" href="../reservation/details.html">Details</a></li>
+                        <li class="action"><a class="button button--warning hoverable" href="../reservation/form-edit.html">Edit</a></li>
+                        <li class="action"><a class="button button--danger hoverable" href="">Cancel</a></li>
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+            <tbody>
+            <tr>
+                <th>Date from</th>
+                <td>2021-10-30 22:00</td>
+            </tr>
+            <tr>
+                <th>Date to</th>
+                <td>2021-10-31 01:00</td>
+            </tr>
+            <tr>
+                <th>Total price</th>
+                <td>120.00</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <ul class="listing__actions">
+                        <li class="action"><a class="button button--primary hoverable" href="../reservation/details.html">Details</a></li>
+                        <li class="action"><a class="button button--warning hoverable" href="../reservation/form-edit.html">Edit</a></li>
+                        <li class="action"><a class="button button--danger hoverable" href="">Cancel</a></li>
                     </ul>
                 </td>
             </tr>

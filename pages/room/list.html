@@ -24,13 +24,14 @@
 </nav>
 <main>
     <h2>Room list</h2>
-    <div class="listing">
+
+    <div class="listing listing--wide">
         <table class="listing__table listing__table--hoverable">
             <thead>
             <tr>
                 <th>Room name</th>
                 <th>Base ticket price</th>
-                <th>Min. participants</th>
+                <th class="extra-column">Min. participants</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -38,7 +39,7 @@
             <tr>
                 <td>Pharaoh's Tomb</td>
                 <td>10.00</td>
-                <td>5</td>
+                <td class="extra-column">5</td>
                 <td>
                     <ul class="listing__actions">
                         <li class="action"><a class="button button--primary hoverable" href="../room/details.html">Details</a></li>
@@ -50,7 +51,7 @@
             <tr>
                 <td>Enigma Code</td>
                 <td>15.00</td>
-                <td>6</td>
+                <td class="extra-column">6</td>
                 <td>
                     <ul class="listing__actions">
                         <li class="action"><a class="button button--primary hoverable" href="../room/details.html">Details</a></li>
@@ -62,7 +63,7 @@
             <tr>
                 <td>Pirate Ship</td>
                 <td>20.00</td>
-                <td>4</td>
+                <td class="extra-column">4</td>
                 <td>
                     <ul class="listing__actions">
                         <li class="action"><a class="button button--primary hoverable" href="../room/details.html">Details</a></li>
@@ -74,8 +75,109 @@
             <tr>
                 <td>Nuclear Silo</td>
                 <td>30.00</td>
-                <td>5</td>
+                <td class="extra-column">5</td>
                 <td>
+                    <ul class="listing__actions">
+                        <li class="action"><a class="button button--primary hoverable" href="../room/details.html">Details</a></li>
+                        <li class="action"><a class="button button--warning hoverable" href="../room/form-edit.html">Edit</a></li>
+                        <li class="action"><a class="button button--danger hoverable" href="">Delete</a></li>
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="listing__footer">
+            <a class="button button--success hoverable" href="../room/form.html">Create new room</a>
+        </div>
+    </div>
+
+    <div class="listing listing--compact">
+        <table class="listing__table listing__table--hoverable">
+            <tbody>
+            <tr>
+                <th>Room name</th>
+                <td>Pharaoh's Tomb</td>
+            </tr>
+            <tr>
+                <th>Base ticket price</th>
+                <td>10.00</td>
+            </tr>
+            <tr>
+                <th>Min. participants</th>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <ul class="listing__actions">
+                        <li class="action"><a class="button button--primary hoverable" href="../room/details.html">Details</a></li>
+                        <li class="action"><a class="button button--warning hoverable" href="../room/form-edit.html">Edit</a></li>
+                        <li class="action"><a class="button button--danger hoverable" href="">Delete</a></li>
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+            <tbody>
+            <tr>
+                <th>Room name</th>
+                <td>Enigma Code</td>
+            </tr>
+            <tr>
+                <th>Base ticket price</th>
+                <td>15.00</td>
+            </tr>
+            <tr>
+                <th>Min. participants</th>
+                <td>6</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <ul class="listing__actions">
+                        <li class="action"><a class="button button--primary hoverable" href="../room/details.html">Details</a></li>
+                        <li class="action"><a class="button button--warning hoverable" href="../room/form-edit.html">Edit</a></li>
+                        <li class="action"><a class="button button--danger hoverable" href="">Delete</a></li>
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+            <tbody>
+            <tr>
+                <th>Room name</th>
+                <td>Pirate Ship</td>
+            </tr>
+            <tr>
+                <th>Base ticket price</th>
+                <td>20.00</td>
+            </tr>
+            <tr>
+                <th>Min. participants</th>
+                <td>4</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <ul class="listing__actions">
+                        <li class="action"><a class="button button--primary hoverable" href="../room/details.html">Details</a></li>
+                        <li class="action"><a class="button button--warning hoverable" href="../room/form-edit.html">Edit</a></li>
+                        <li class="action"><a class="button button--danger hoverable" href="">Delete</a></li>
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+            <tbody>
+            <tr>
+                <th>Room name</th>
+                <td>Nuclear Silo</td>
+            </tr>
+            <tr>
+                <th>Base ticket price</th>
+                <td>30.00</td>
+            </tr>
+            <tr>
+                <th>Min. participants</th>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td colspan="2">
                     <ul class="listing__actions">
                         <li class="action"><a class="button button--primary hoverable" href="../room/details.html">Details</a></li>
                         <li class="action"><a class="button button--warning hoverable" href="../room/form-edit.html">Edit</a></li>

@@ -24,13 +24,14 @@
 </nav>
 <main>
     <h2>Guest list</h2>
-    <div class="listing">
+
+    <div class="listing listing--wide">
         <table class="listing__table listing__table--hoverable">
             <thead>
             <tr>
                 <th>First name</th>
                 <th>Last name</th>
-                <th>Email</th>
+                <th class="extra-column">Email</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -38,7 +39,7 @@
             <tr>
                 <td>Linda</td>
                 <td>Yehudit</td>
-                <td>linda.yehudit@gmail.com</td>
+                <td class="extra-column">linda.yehudit@gmail.com</td>
                 <td>
                     <ul class="listing__actions">
                         <li class="action"><a class="button button--primary hoverable" href="../guest/details.html">Details</a></li>
@@ -50,7 +51,7 @@
             <tr>
                 <td>Gillian</td>
                 <td>Domantas</td>
-                <td>gillian.domantas@gmail.com</td>
+                <td class="extra-column">gillian.domantas@gmail.com</td>
                 <td>
                     <ul class="listing__actions">
                         <li class="action"><a class="button button--primary hoverable" href="../guest/details.html">Details</a></li>
@@ -62,7 +63,7 @@
             <tr>
                 <td>Meagan</td>
                 <td>Ikra</td>
-                <td>meagan.ikra@gmail.com</td>
+                <td class="extra-column">meagan.ikra@gmail.com</td>
                 <td>
                     <ul class="listing__actions">
                         <li class="action"><a class="button button--primary hoverable" href="../guest/details.html">Details</a></li>
@@ -74,8 +75,109 @@
             <tr>
                 <td>Sunil</td>
                 <td>Katenka</td>
-                <td>sunil.katenka@gmail.com</td>
+                <td class="extra-column">sunil.katenka@gmail.com</td>
                 <td>
+                    <ul class="listing__actions">
+                        <li class="action"><a class="button button--primary hoverable" href="../guest/details.html">Details</a></li>
+                        <li class="action"><a class="button button--warning hoverable" href="../guest/form-edit.html">Edit</a></li>
+                        <li class="action"><a class="button button--danger hoverable" href="">Delete</a></li>
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="listing__footer">
+            <a class="button button--success hoverable" href="../guest/form.html">Register new guest</a>
+        </div>
+    </div>
+
+    <div class="listing listing--compact">
+        <table class="listing__table listing__table--hoverable">
+            <tbody>
+            <tr>
+                <th>First name</th>
+                <td>Linda</td>
+            </tr>
+            <tr>
+                <th>Last name</th>
+                <td>Yehudit</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>linda.yehudit@gmail.com</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <ul class="listing__actions">
+                        <li class="action"><a class="button button--primary hoverable" href="../guest/details.html">Details</a></li>
+                        <li class="action"><a class="button button--warning hoverable" href="../guest/form-edit.html">Edit</a></li>
+                        <li class="action"><a class="button button--danger hoverable" href="">Delete</a></li>
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+            <tbody>
+            <tr>
+                <th>First name</th>
+                <td>Gillian</td>
+            </tr>
+            <tr>
+                <th>Last name</th>
+                <td>Domantas</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>gillian.domantas@gmail.com</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <ul class="listing__actions">
+                        <li class="action"><a class="button button--primary hoverable" href="../guest/details.html">Details</a></li>
+                        <li class="action"><a class="button button--warning hoverable" href="../guest/form-edit.html">Edit</a></li>
+                        <li class="action"><a class="button button--danger hoverable" href="">Delete</a></li>
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+            <tbody>
+            <tr>
+                <th>First name</th>
+                <td>Meagan</td>
+            </tr>
+            <tr>
+                <th>Last name</th>
+                <td>Ikra</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>meagan.ikra@gmail.com</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <ul class="listing__actions">
+                        <li class="action"><a class="button button--primary hoverable" href="../guest/details.html">Details</a></li>
+                        <li class="action"><a class="button button--warning hoverable" href="../guest/form-edit.html">Edit</a></li>
+                        <li class="action"><a class="button button--danger hoverable" href="">Delete</a></li>
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+            <tbody>
+            <tr>
+                <th>First name</th>
+                <td>Sunil</td>
+            </tr>
+            <tr>
+                <th>Last name</th>
+                <td>Katenka</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>sunil.katenka@gmail.com</td>
+            </tr>
+            <tr>
+                <td colspan="2">
                     <ul class="listing__actions">
                         <li class="action"><a class="button button--primary hoverable" href="../guest/details.html">Details</a></li>
                         <li class="action"><a class="button button--warning hoverable" href="../guest/form-edit.html">Edit</a></li>
