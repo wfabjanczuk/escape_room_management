@@ -1,16 +1,16 @@
 html {
     background-color: #eaeaed;
     color: #041c44;
-    font-family: Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;
+    font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
 }
 
 .default-font,
 .default-font:hover {
-    font-family: Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;
+    font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
 }
 
 .hoverable:hover {
-    font-family: Candara, Calibri, Segoe, Segoe UI, Optima, Arial, sans-serif;
+    font-family: Candara, Calibri, Segoe, "Segoe UI", Optima, Arial, sans-serif;
 }
 
 body {
@@ -33,7 +33,7 @@ main,
 footer,
 nav {
     box-shadow: 2px 3px 4px -1px #C6CEDA;
-    -webkit-box-shadow: 2px 3px 4px -1px #C6CEDA;
+    /*-webkit-box-shadow: 2px 3px 4px -1px #C6CEDA;*/
     margin: 1rem;
     border-radius: 10px;
 }
@@ -193,7 +193,7 @@ main h2 {
 }
 
 .listing .listing__table tbody td {
-    word-break: break-word;
+    overflow-wrap: anywhere;
 }
 
 .listing .listing__table thead tr,
@@ -439,12 +439,6 @@ textarea {
         min-height: 100vh;
         display: flex;
         flex-direction: column;
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-    }
-
-    body::-webkit-scrollbar {
-        display: none;
     }
 
     main {
