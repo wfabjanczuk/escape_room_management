@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  erm_database:
+    image: postgres:14
+    hostname: erm_database
+    container_name: erm_database
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      POSTGRES_DB: erm
+      POSTGRES_USER: $POSTGRES_USER
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+    ports:
+      - "54321:5432"
+    volumes:
+      - ./db/data/:/var/lib/postgresql/data/
