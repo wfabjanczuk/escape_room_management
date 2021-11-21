@@ -15,3 +15,21 @@ services:
       - "54321:5432"
     volumes:
       - ./db/data/:/var/lib/postgresql/data/
+
+  erm_backend:
+    image: node:16
+    hostname: erm_backend
+    container_name: erm_backend
+    working_dir: /usr/src/app
+    entrypoint: [ "bash", "-c" ]
+    command:
+      - |
+        npm install
+        npm i -g nodemon
+        npm run dev
+    volumes:
+      - ./webroot/erm_backend:/usr/src/app:rw
+    ports:
+      - "3000:3000"
+    depends_on:
+      - erm_database
