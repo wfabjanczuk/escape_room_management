@@ -75,3 +75,27 @@ create table ticket
 
 alter table ticket
     owner to developer;
+
+insert into room (id, name, base_ticket_price, min_participants, max_participants, min_age)
+values (1, 'Pharaoh''s Tomb', 10.00, 5, 7, 12),
+       (2, 'Enigma Code', 15.00, 6, 9, 15),
+       (3, 'Pirate Ship', 20.00, 4, 6, null),
+       (4, 'Nuclear Silo', 30.00, 5, 8, 15);
+
+insert into reservation (id, room_id, total_price, date_from, date_to, date_cancelled)
+values (1, 1, 10.00, '2021-10-23 17:00:00.000000', '2021-10-23 19:00:00.000000', null),
+       (2, 2, 15.00, '2021-10-20 20:00:00.000000', '2021-10-20 22:00:00.000000', null),
+       (3, 3, 20.00, '2021-10-25 16:00:00.000000', '2021-10-25 18:00:00.000000', null),
+       (4, 4, 30.00, '2021-10-30 22:00:00.000000', '2021-10-31 01:00:00.000000', null);
+
+insert into guest (id, email, first_name, last_name, phone_number, date_birth, discount_percent)
+values (1, 'linda.yehudit@gmail.com', 'Linda', 'Yehudit', '48100100100', '1990-01-01', null),
+       (2, 'gillian.domantas@gmail.com', 'Gillian', 'Domantas', '48200200200', '1985-02-02', null),
+       (3, 'meagan.ikra@gmail.com', 'Meagan', 'Ikra', '48300300300', '1986-03-03', null),
+       (4, 'sunil.katenka@gmail.com', 'Sunil', 'Katenka', '48400400400', '1989-04-04', null);
+
+insert into ticket (id, price, reservation_id, guest_id, guest_allowed_to_cancel)
+values (1, 10.00, 1, 1, true),
+       (2, 15.00, 2, 2, true),
+       (3, 20.00, 3, 3, true),
+       (4, 30.00, 4, 4, true);
