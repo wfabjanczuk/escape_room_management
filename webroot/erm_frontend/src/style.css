@@ -1,0 +1,469 @@
+html {
+    background-color: #eaeaed;
+    color: #041c44;
+    font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
+}
+
+.default-font,
+.default-font:hover {
+    font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
+}
+
+.hoverable:hover {
+    font-family: Candara, Calibri, Segoe, "Segoe UI", Optima, Arial, sans-serif;
+}
+
+body {
+    min-width: 360px;
+}
+
+p {
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+header,
+main,
+footer {
+    background-color: white;
+}
+
+header,
+main,
+footer,
+nav {
+    box-shadow: 2px 3px 4px -1px #C6CEDA;
+    /*-webkit-box-shadow: 2px 3px 4px -1px #C6CEDA;*/
+    margin: 1rem;
+    border-radius: 10px;
+}
+
+header,
+footer {
+    background-color: #345995;
+    color: white;
+}
+
+header a,
+footer a {
+    color: white;
+    text-decoration: none;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 1.5rem 1.5rem 2rem;
+}
+
+header img.header-logo {
+    display: block;
+    border-radius: 10px;
+}
+
+header img.header-logo:hover {
+    transform: scale(1.05);
+}
+
+footer {
+    padding: 1rem;
+}
+
+nav {
+    background-color: #B9CBE7;
+}
+
+nav ul {
+    list-style-type: none;
+    display: flex;
+    padding: 0;
+}
+
+nav ul li a {
+    display: inline-block;
+    padding: 1rem 2rem;
+    border-radius: 10px;
+    color: #041c44;
+    text-decoration: none;
+}
+
+nav ul li a.active {
+    background-color: #658CCA;
+    color: white;
+}
+
+nav ul li a:hover {
+    background-color: #D6FF79;
+    color: #041c44;
+}
+
+main {
+    padding: 0.5rem 2rem;
+}
+
+footer {
+    text-align: center;
+}
+
+main h2 {
+    border-bottom: 1px solid #656f7f;
+    margin-bottom: 1rem;
+}
+
+.button {
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    font-size: 0.9rem;
+    padding: 0.2rem 0.4rem;
+    border-radius: 5px;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.button.button--primary {
+    background-color: #2685e3;
+    border: 1px solid #2170c0;
+}
+
+.button.button--primary:hover {
+    background-color: #2170c0;
+}
+
+.button.button--secondary {
+    background-color: #999999;
+    border: 1px solid #818181;
+}
+
+.button.button--secondary:hover {
+    background-color: #818181;
+}
+
+.button.button--success {
+    background-color: #3fb618;
+    border: 1px solid #369b14;
+}
+
+.button.button--success:hover {
+    background-color: #369b14;
+}
+
+.button.button--warning {
+    background-color: #ffac05;
+    border: 1px solid #db9406;
+}
+
+.button.button--warning:hover {
+    background-color: #db9406;
+}
+
+.button.button--danger {
+    background-color: #ff2a00;
+    border: 1px solid #db1200;
+}
+
+.button.button--danger:hover {
+    background-color: #db1200;
+}
+
+.listing.listing--wide {
+    display: block;
+}
+
+.listing.listing--compact {
+    display: none;
+}
+
+.listing .listing__table {
+    border-collapse: collapse;
+    margin: 1rem 0;
+    width: 100%;
+}
+
+.listing .listing__table,
+.listing .listing__table th,
+.listing .listing__table td {
+    border: 1px solid #B9CBE7;
+}
+
+.listing .listing__table th,
+.listing .listing__table td {
+    padding: 0.4rem;
+}
+
+.listing .listing__table tbody td {
+    overflow-wrap: anywhere;
+}
+
+.listing .listing__table thead tr,
+.listing .listing__table tbody tr:nth-child(even) {
+    background-color: #EAEFF7;
+}
+
+.listing .listing__table.listing__table--hoverable tbody tr:hover {
+    background-color: #f4f7fb;
+}
+
+.listing .listing__table ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.listing .listing__actions {
+    min-width: 280px;
+}
+
+.listing .listing__actions .action {
+    margin: 0.1rem 0.2rem;
+    display: inline-block;
+}
+
+.listing .listing__actions .button {
+    display: inline-block;
+    width: 80px;
+}
+
+.listing .listing__footer {
+    margin: 1rem 0;
+}
+
+.listing .listing__footer .button,
+.form .form__footer .button {
+    display: inline-block;
+    width: 160px;
+}
+
+.listing .listing__footer .button.button--wide,
+.form .form__footer .button.button--wide {
+    width: 240px;
+}
+
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
+    font-size: 100%;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+textarea {
+    overflow: auto;
+}
+
+.form {
+    display: grid;
+    gap: 0.5rem;
+    grid-template-columns: 160px 320px 1fr;
+}
+
+.form .form__footer {
+    grid-column: 1 / span 3;
+    margin: 1rem 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.form .form__footer .button + .button {
+    margin-left: 0.5rem;
+}
+
+.form select,
+.form input[type="text"],
+.form input[type="number"],
+.form input[type="date"],
+.form input[type="datetime-local"],
+.form input[type="email"] {
+    border: 1px solid #80858e;
+    color: #041c44;
+    border-radius: 5px;
+    padding: 0.5rem;
+    width: 100%;
+}
+
+.form input[type="checkbox"] {
+    height: 1.5rem;
+    width: 1.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.form .form__field.form__field--checkbox {
+    display: flex;
+    align-items: center;
+}
+
+.form label,
+.form .form-cell {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.form .form__error,
+.form .form__symbol-required {
+    color: #db1200;
+}
+
+.form .form__error {
+    display: block;
+    font-size: 0.85rem;
+    line-height: 1.25rem;
+    margin: 0.5rem 0;
+}
+
+.form .form__error.form__error--summary {
+    width: 100%;
+}
+
+.form .form__field.form__field--error {
+    border: 1px solid #db1200;
+}
+
+@media all and (max-width: 900px) {
+    .listing .extra-column {
+        display: none;
+    }
+}
+
+@media all and (max-width: 760px) {
+    header {
+        flex-direction: column;
+        padding: 1.5rem 2rem;
+    }
+
+    header h1 {
+        margin: 0 0 1rem 0;
+        text-align: center;
+    }
+
+    header .logo-link {
+        margin: 0.5rem 0;
+        align-self: center;
+    }
+
+    nav ul {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    nav ul li {
+        flex-basis: 50%;
+        text-align: center;
+    }
+
+    nav ul li:first-child {
+        flex-basis: 100%;
+    }
+
+    nav ul li a {
+        display: block;
+    }
+
+    .form {
+        grid-template-columns: 1fr;
+        row-gap: unset;
+    }
+
+    .form .form__error {
+        margin-bottom: 0.6rem;
+    }
+
+    .form .form__error.form__error--summary {
+        margin-bottom: 0.3rem;
+    }
+
+    .form .form__footer {
+        grid-column: 1 / 1;
+        flex-direction: column;
+    }
+
+    .button {
+        font-size: 1rem;
+        padding: 0.4rem 0.8rem;
+    }
+
+    .form .form__footer .button + .button {
+        margin-left: 0;
+    }
+
+    .listing .listing__footer .button,
+    .listing .listing__footer .button.button--wide,
+    .form .form__footer .button,
+    .form .form__footer .button.button--wide {
+        display: inline-block;
+        width: 100%;
+        margin: 0.4rem 0;
+    }
+
+    .listing.listing--compact {
+        display: block;
+    }
+
+    .listing.listing--wide {
+        display: none;
+    }
+
+    .listing .listing__table ul {
+        text-align: center;
+    }
+
+    .listing .listing__table tbody + tbody {
+        border-top: 2px solid #656f7f;
+    }
+
+    .listing .listing__table thead tr,
+    .listing .listing__table tbody tr:nth-child(even) {
+        background-color: white;
+    }
+
+    .listing .listing__table tbody th {
+        text-align: left;
+    }
+
+    .listing .listing__table tbody th,
+    .listing .listing__table tbody td:first-child {
+        background-color: #EAEFF7;
+    }
+
+    .listing .listing__table.listing__table--hoverable tbody tr:hover {
+        background-color: #f4f7fb;
+    }
+}
+
+@media all and (max-width: 440px) {
+    body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    main {
+        flex-grow: 1;
+        padding-bottom: 1rem;
+    }
+
+    body,
+    nav,
+    nav ul,
+    header,
+    main,
+    footer {
+        margin: 0;
+    }
+
+    header,
+    main,
+    footer,
+    nav,
+    nav ul li a {
+        border-radius: 0;
+    }
+
+    nav ul li {
+        flex-basis: 100%;
+    }
+}
