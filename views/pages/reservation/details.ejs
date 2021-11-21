@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>Escape Room Management</title>
+    <link rel="stylesheet" href="../../css/style.css"/>
+</head>
+<body>
+<header>
+    <h1><a class="hoverable" href="../../index.ejs">Escape Room Management</a></h1>
+    <a class="logo-link hoverable" href="../../index.ejs">
+        <img class="header-logo" src="../../images/logo.png" alt="Escape Room Management Logo"/>
+    </a>
+</header>
+<nav>
+    <ul>
+        <li><a class="hoverable" href="../../index.ejs">Home</a></li>
+        <li><a class="hoverable" href="../guest/list.ejs">Guests</a></li>
+        <li><a class="hoverable" href="../ticket/list.ejs">Tickets</a></li>
+        <li><a class="hoverable active" href="list.ejs">Reservations</a></li>
+        <li><a class="hoverable" href="../room/list.ejs">Rooms</a></li>
+    </ul>
+</nav>
+<main>
+    <h2>Reservation details</h2>
+    <form class="form">
+        <label for="room">Room: <span class="form__symbol-required">*</span></label>
+        <select name="room" id="room" disabled>
+            <option>-- select room --</option>
+            <option value="1" selected>Pharaoh's Tomb</option>
+            <option value="2">Enigma Code</option>
+            <option value="3">Pirate Ship</option>
+            <option value="4">Nuclear Silo</option>
+        </select>
+        <span class="form__error" id="errorRoom"></span>
+
+        <label for="dateFrom">Date from: <span class="form__symbol-required">*</span></label>
+        <input type="datetime-local" name="dateFrom" id="dateFrom" value="2021-10-23T17:00" disabled/>
+        <span class="form__error" id="errorDateFrom"></span>
+
+        <label for="dateTo">Date to: <span class="form__symbol-required">*</span></label>
+        <input type="datetime-local" name="dateTo" id="dateTo" value="2021-10-23T19:00" disabled/>
+        <span class="form__error" id="errorDateTo"></span>
+
+        <span class="form-cell">Total price:</span>
+        <span class="form-cell">60.00</span>
+        <span class="form-cell"></span>
+
+        <span class="form-cell">Date cancelled:</span>
+        <span class="form-cell">-</span>
+        <span class="form-cell"></span>
+
+        <div class="form__footer">
+            <a class="button button--warning hoverable" href="form-edit.ejs">Edit</a>
+            <a class="button button--danger button--wide hoverable" href="">Cancel reservation</a>
+        </div>
+    </form>
+
+    <h2>Reservation room</h2>
+    <form class="form">
+        <label for="roomName">Room name: <span class="form__symbol-required">*</span></label>
+        <input type="text" name="roomName" id="roomName" value="Pharaoh's Tomb" disabled/>
+        <span class="form__error" id="errorRoomName"></span>
+
+        <label for="baseTicketPrice">Base ticket price: <span class="form__symbol-required">*</span></label>
+        <input type="number" name="baseTicketPrice" id="baseTicketPrice" min="0" step="0.01" value="10.00" disabled/>
+        <span class="form__error" id="errorBaseTicketPrice"></span>
+
+        <label for="minimumParticipants">Min. participants: <span class="form__symbol-required">*</span></label>
+        <input type="number" name="minimumParticipants" id="minimumParticipants" min="1" step="1" value="5" disabled/>
+        <span class="form__error" id="errorMinimumParticipants"></span>
+
+        <label for="maximumParticipants">Max. participants: <span class="form__symbol-required">*</span></label>
+        <input type="number" name="maximumParticipants" id="maximumParticipants" min="1" step="1" value="7" disabled/>
+        <span class="form__error" id="errorMaximumParticipants"></span>
+
+        <label for="minimumAge">Min. age: </label>
+        <input type="number" name="minimumAge" id="minimumAge" min="0" step="1" value="12" disabled/>
+        <span class="form__error" id="errorMinimumAge"></span>
+
+        <div class="form__footer">
+            <a class="button button--warning hoverable" href="../room/form-edit.ejs">Edit</a>
+        </div>
+    </form>
+
+    <h2>Reservation tickets</h2>
+    <div class="listing listing--wide">
+        <table class="listing__table listing__table--hoverable">
+            <thead>
+            <tr>
+                <th>Guest</th>
+                <th>Allowed to cancel</th>
+                <th class="extra-column">Price</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Linda Yehudit</td>
+                <td>Yes</td>
+                <td class="extra-column">10.00</td>
+                <td>
+                    <ul class="listing__actions">
+                        <li class="action"><a class="button button--primary hoverable" href="../ticket/details.ejs">Details</a></li>
+                        <li class="action"><a class="button button--warning hoverable" href="../ticket/form-edit.ejs">Edit</a></li>
+                        <li class="action"><a class="button button--danger hoverable" href="">Delete</a></li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>Gillian Domantas</td>
+                <td>No</td>
+                <td class="extra-column">10.00</td>
+                <td>
+                    <ul class="listing__actions">
+                        <li class="action"><a class="button button--primary hoverable" href="../ticket/details.ejs">Details</a></li>
+                        <li class="action"><a class="button button--warning hoverable" href="../ticket/form-edit.ejs">Edit</a></li>
+                        <li class="action"><a class="button button--danger hoverable" href="">Delete</a></li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>Meagan Ikra</td>
+                <td>No</td>
+                <td class="extra-column">10.00</td>
+                <td>
+                    <ul class="listing__actions">
+                        <li class="action"><a class="button button--primary hoverable" href="../ticket/details.ejs">Details</a></li>
+                        <li class="action"><a class="button button--warning hoverable" href="../ticket/form-edit.ejs">Edit</a></li>
+                        <li class="action"><a class="button button--danger hoverable" href="">Delete</a></li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>Sunil Katenka</td>
+                <td>No</td>
+                <td class="extra-column">10.00</td>
+                <td>
+                    <ul class="listing__actions">
+                        <li class="action"><a class="button button--primary hoverable" href="../ticket/details.ejs">Details</a></li>
+                        <li class="action"><a class="button button--warning hoverable" href="../ticket/form-edit.ejs">Edit</a></li>
+                        <li class="action"><a class="button button--danger hoverable" href="">Delete</a></li>
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="listing__footer">
+            <a class="button button--primary button--wide hoverable" href="list.ejs">Return to reservation list</a>
+        </div>
+    </div>
+
+    <div class="listing listing--compact">
+        <table class="listing__table listing__table--hoverable">
+            <tbody>
+            <tr>
+                <th>Room</th>
+                <td>Pharaoh's Tomb</td>
+            </tr>
+            <tr>
+                <th>Allowed to cancel</th>
+                <td>Yes</td>
+            </tr>
+            <tr>
+                <th>Price</th>
+                <td>10.00</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <ul class="listing__actions">
+                        <li class="action"><a class="button button--primary hoverable" href="../ticket/details.ejs">Details</a></li>
+                        <li class="action"><a class="button button--warning hoverable" href="../ticket/form-edit.ejs">Edit</a></li>
+                        <li class="action"><a class="button button--danger hoverable" href="">Delete</a></li>
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+            <tbody>
+            <tr>
+                <th>Room</th>
+                <td>Enigma Code</td>
+            </tr>
+            <tr>
+                <th>Allowed to cancel</th>
+                <td>No</td>
+            </tr>
+            <tr>
+                <th>Price</th>
+                <td>10.00</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <ul class="listing__actions">
+                        <li class="action"><a class="button button--primary hoverable" href="../ticket/details.ejs">Details</a></li>
+                        <li class="action"><a class="button button--warning hoverable" href="../ticket/form-edit.ejs">Edit</a></li>
+                        <li class="action"><a class="button button--danger hoverable" href="">Delete</a></li>
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+            <tbody>
+            <tr>
+                <th>Room</th>
+                <td>Pirate Ship</td>
+            </tr>
+            <tr>
+                <th>Allowed to cancel</th>
+                <td>No</td>
+            </tr>
+            <tr>
+                <th>Price</th>
+                <td>10.00</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <ul class="listing__actions">
+                        <li class="action"><a class="button button--primary hoverable" href="../ticket/details.ejs">Details</a></li>
+                        <li class="action"><a class="button button--warning hoverable" href="../ticket/form-edit.ejs">Edit</a></li>
+                        <li class="action"><a class="button button--danger hoverable" href="">Delete</a></li>
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+            <tbody>
+            <tr>
+                <th>Room</th>
+                <td>Nuclear Silo</td>
+            </tr>
+            <tr>
+                <th>Allowed to cancel</th>
+                <td>No</td>
+            </tr>
+            <tr>
+                <th>Price</th>
+                <td>10.00</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <ul class="listing__actions">
+                        <li class="action"><a class="button button--primary hoverable" href="../ticket/details.ejs">Details</a></li>
+                        <li class="action"><a class="button button--warning hoverable" href="../ticket/form-edit.ejs">Edit</a></li>
+                        <li class="action"><a class="button button--danger hoverable" href="">Delete</a></li>
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="listing__footer">
+            <a class="button button--primary button--wide hoverable" href="list.ejs">Return to reservation list</a>
+        </div>
+    </div>
+</main>
+<footer>
+    <a class="hoverable" href="https://github.com/wfabjanczuk">Wojciech Fabjańczuk, s<span class="default-font">21471</span></a>
+</footer>
+</body>
+</html>

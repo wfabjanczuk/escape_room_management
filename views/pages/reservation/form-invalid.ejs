@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>Escape Room Management</title>
+    <link rel="stylesheet" href="../../css/style.css"/>
+</head>
+<body>
+<header>
+    <h1><a class="hoverable" href="../../index.ejs">Escape Room Management</a></h1>
+    <a class="logo-link hoverable" href="../../index.ejs">
+        <img class="header-logo" src="../../images/logo.png" alt="Escape Room Management Logo"/>
+    </a>
+</header>
+<nav>
+    <ul>
+        <li><a class="hoverable" href="../../index.ejs">Home</a></li>
+        <li><a class="hoverable" href="../guest/list.ejs">Guests</a></li>
+        <li><a class="hoverable" href="../ticket/list.ejs">Tickets</a></li>
+        <li><a class="hoverable active" href="list.ejs">Reservations</a></li>
+        <li><a class="hoverable" href="../room/list.ejs">Rooms</a></li>
+    </ul>
+</nav>
+<main>
+    <h2>New reservation</h2>
+    <form class="form" action="details.ejs">
+        <label for="room">Room: <span class="form__symbol-required">*</span></label>
+        <select name="room" id="room" class="form__field form__field--error" required>
+            <option value="" selected>-- select room --</option>
+            <option value="1">Pharaoh's Tomb</option>
+            <option value="2">Enigma Code</option>
+            <option value="3">Pirate Ship</option>
+            <option value="4">Nuclear Silo</option>
+        </select>
+        <span class="form__error" id="errorRoom">This field is required.</span>
+
+        <label for="dateFrom">Date from: <span class="form__symbol-required">*</span></label>
+        <input type="datetime-local" name="dateFrom" id="dateFrom" class="form__field form__field--error" required/>
+        <span class="form__error" id="errorDateFrom">This field is required.</span>
+
+        <label for="dateTo">Date to: <span class="form__symbol-required">*</span></label>
+        <input type="datetime-local" name="dateTo" id="dateTo" class="form__field form__field--error" required/>
+        <span class="form__error" id="errorDateTo">Date to has to be greater than date from.</span>
+
+        <div class="form__footer">
+            <span class="form__error form__error--summary">Please correct the highlighted errors.</span>
+            <input class="button button--success hoverable" type="submit" value="Create"/>
+            <a class="button button--secondary hoverable" href="list.ejs">Cancel</a>
+        </div>
+    </form>
+</main>
+<footer>
+    <a class="hoverable" href="https://github.com/wfabjanczuk">Wojciech Fabjańczuk, s<span class="default-font">21471</span></a>
+</footer>
+</body>
+</html>

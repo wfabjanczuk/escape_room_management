@@ -1,0 +1,175 @@
+<%- include('../../fragments/header.ejs') %>
+
+<main>
+    <h2>Guest list</h2>
+
+    <div class="listing listing--wide">
+        <table class="listing__table listing__table--hoverable">
+            <thead>
+            <tr>
+                <th>First name</th>
+                <th>Last name</th>
+                <th class="extra-column">Email</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Linda</td>
+                <td>Yehudit</td>
+                <td class="extra-column">linda.yehudit@gmail.com</td>
+                <td>
+                    <ul class="listing__actions">
+                        <li class="action"><a class="button button--primary hoverable" href="/guests/details/1">Details</a></li>
+                        <li class="action"><a class="button button--warning hoverable" href="/guests/edit/1">Edit</a></li>
+                        <li class="action"><a class="button button--danger hoverable" href="/guests">Delete</a></li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>Gillian</td>
+                <td>Domantas</td>
+                <td class="extra-column">gillian.domantas@gmail.com</td>
+                <td>
+                    <ul class="listing__actions">
+                        <li class="action"><a class="button button--primary hoverable" href="/guests/details/1">Details</a></li>
+                        <li class="action"><a class="button button--warning hoverable" href="/guests/edit/1">Edit</a></li>
+                        <li class="action"><a class="button button--danger hoverable" href="/guests">Delete</a></li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>Meagan</td>
+                <td>Ikra</td>
+                <td class="extra-column">meagan.ikra@gmail.com</td>
+                <td>
+                    <ul class="listing__actions">
+                        <li class="action"><a class="button button--primary hoverable" href="/guests/details/1">Details</a></li>
+                        <li class="action"><a class="button button--warning hoverable" href="/guests/edit/1">Edit</a></li>
+                        <li class="action"><a class="button button--danger hoverable" href="/guests">Delete</a></li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>Sunil</td>
+                <td>Katenka</td>
+                <td class="extra-column">sunil.katenka@gmail.com</td>
+                <td>
+                    <ul class="listing__actions">
+                        <li class="action"><a class="button button--primary hoverable" href="/guests/details/1">Details</a></li>
+                        <li class="action"><a class="button button--warning hoverable" href="/guests/edit/1">Edit</a></li>
+                        <li class="action"><a class="button button--danger hoverable" href="/guests">Delete</a></li>
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="listing__footer">
+            <a class="button button--success button--wide hoverable" href="/guests/add">Register new guest</a>
+        </div>
+    </div>
+
+    <div class="listing listing--compact">
+        <table class="listing__table listing__table--hoverable">
+            <tbody>
+            <tr>
+                <th>First name</th>
+                <td>Linda</td>
+            </tr>
+            <tr>
+                <th>Last name</th>
+                <td>Yehudit</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>linda.yehudit@gmail.com</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <ul class="listing__actions">
+                        <li class="action"><a class="button button--primary hoverable" href="/guests/details/1">Details</a></li>
+                        <li class="action"><a class="button button--warning hoverable" href="/guests/edit/1">Edit</a></li>
+                        <li class="action"><a class="button button--danger hoverable" href="/guests">Delete</a></li>
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+            <tbody>
+            <tr>
+                <th>First name</th>
+                <td>Gillian</td>
+            </tr>
+            <tr>
+                <th>Last name</th>
+                <td>Domantas</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>gillian.domantas@gmail.com</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <ul class="listing__actions">
+                        <li class="action"><a class="button button--primary hoverable" href="/guests/details/1">Details</a></li>
+                        <li class="action"><a class="button button--warning hoverable" href="/guests/edit/1">Edit</a></li>
+                        <li class="action"><a class="button button--danger hoverable" href="/guests">Delete</a></li>
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+            <tbody>
+            <tr>
+                <th>First name</th>
+                <td>Meagan</td>
+            </tr>
+            <tr>
+                <th>Last name</th>
+                <td>Ikra</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>meagan.ikra@gmail.com</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <ul class="listing__actions">
+                        <li class="action"><a class="button button--primary hoverable" href="/guests/details/1">Details</a></li>
+                        <li class="action"><a class="button button--warning hoverable" href="/guests/edit/1">Edit</a></li>
+                        <li class="action"><a class="button button--danger hoverable" href="/guests">Delete</a></li>
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+            <tbody>
+            <tr>
+                <th>First name</th>
+                <td>Sunil</td>
+            </tr>
+            <tr>
+                <th>Last name</th>
+                <td>Katenka</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>sunil.katenka@gmail.com</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <ul class="listing__actions">
+                        <li class="action"><a class="button button--primary hoverable" href="/guests/details/1">Details</a></li>
+                        <li class="action"><a class="button button--warning hoverable" href="/guests/edit/1">Edit</a></li>
+                        <li class="action"><a class="button button--danger hoverable" href="/guests">Delete</a></li>
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="listing__footer">
+            <a class="button button--success button--wide hoverable" href="/guests/add">Register new guest</a>
+        </div>
+    </div>
+</main>
+
+<%- include('../../fragments/footer.ejs') %>

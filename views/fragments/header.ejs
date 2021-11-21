@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>Escape Room Management</title>
+    <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+<header>
+    <h1><a class="hoverable" href="/">Escape Room Management</a></h1>
+    <a class="logo-link hoverable" href="/">
+        <img class="header-logo" src="/images/logo.png" alt="Escape Room Management Logo"/>
+    </a>
+</header>
+<nav>
+    <ul>
+        <li><a href="/" class="hoverable <%=navLocation == 'index' ? 'active' : ''%>">Home</a></li>
+        <li><a href="/guests" class="hoverable <%=navLocation == 'guests' ? 'active' : ''%>">Guests</a></li>
+        <li><a href="/tickets" class="hoverable <%=navLocation == 'tickets' ? 'active' : ''%>">Tickets</a></li>
+        <li><a href="/reservations" class="hoverable <%=navLocation == 'reservations' ? 'active' : ''%>">Reservations</a></li>
+        <li><a href="/rooms" class="hoverable <%=navLocation == 'rooms' ? 'active' : ''%>">Rooms</a></li>
+    </ul>
+</nav>

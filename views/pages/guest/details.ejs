@@ -1,0 +1,206 @@
+<%- include('../../fragments/header.ejs') %>
+
+<main>
+    <h2>Guest details</h2>
+    <form class="form">
+        <label for="firstName">First name: <span class="form__symbol-required">*</span></label>
+        <input type="text" name="firstName" id="firstName" value="Linda" disabled/>
+        <span class="form__error" id="errorFirstName"></span>
+
+        <label for="lastName">Last name: <span class="form__symbol-required">*</span></label>
+        <input type="text" name="lastName" id="lastName" value="Yehudit" disabled/>
+        <span class="form__error" id="errorLastName"></span>
+
+        <label for="email">Email: <span class="form__symbol-required">*</span></label>
+        <input type="text" name="email" id="email" value="linda.yehudit@gmail.com" disabled/>
+        <span class="form__error" id="errorEmail"></span>
+
+        <label for="phoneNumber">Phone number: <span class="form__symbol-required">*</span></label>
+        <input type="text" name="phoneNumber" id="phoneNumber" value="+48 900 900 900" disabled/>
+        <span class="form__error" id="errorPhoneNumber"></span>
+
+        <label for="dateBirth">Date of birth: <span class="form__symbol-required">*</span></label>
+        <input type="date" name="dateBirth" id="dateBirth" value="2000-10-10" disabled/>
+        <span class="form__error" id="errorDateBirth"></span>
+
+        <label for="discountPercent">Discount percent: </label>
+        <input type="number" name="discountPercent" id="discountPercent" value="0" min="0" max="20" disabled/>
+        <span class="form__error" id="errorDiscountPercent"></span>
+
+        <div class="form__footer">
+            <a class="button button--warning hoverable" href="/guests/edit/1">Edit</a>
+        </div>
+    </form>
+
+    <h2>Guest tickets</h2>
+
+    <div class="listing listing--wide">
+        <table class="listing__table listing__table--hoverable">
+            <thead>
+            <tr>
+                <th>Room name</th>
+                <th>Date from</th>
+                <th class="extra-column">Price</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Pharaoh's Tomb</td>
+                <td>2021-10-23 17:00</td>
+                <td class="extra-column">10.00</td>
+                <td>
+                    <ul class="listing__actions">
+                        <li class="action"><a class="button button--primary hoverable" href="/tickets/details/1">Details</a></li>
+                        <li class="action"><a class="button button--warning hoverable" href="/tickets/edit/1">Edit</a></li>
+                        <li class="action"><a class="button button--danger hoverable" href="/tickets">Delete</a></li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>Enigma Code</td>
+                <td>2021-10-20 20:00</td>
+                <td class="extra-column">15.00</td>
+                <td>
+                    <ul class="listing__actions">
+                        <li class="action"><a class="button button--primary hoverable" href="/tickets/details/1">Details</a></li>
+                        <li class="action"><a class="button button--warning hoverable" href="/tickets/edit/1">Edit</a></li>
+                        <li class="action"><a class="button button--danger hoverable" href="/tickets">Delete</a></li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>Pirate Ship</td>
+                <td>2021-10-25 16:00</td>
+                <td class="extra-column">20.00</td>
+                <td>
+                    <ul class="listing__actions">
+                        <li class="action"><a class="button button--primary hoverable" href="/tickets/details/1">Details</a></li>
+                        <li class="action"><a class="button button--warning hoverable" href="/tickets/edit/1">Edit</a></li>
+                        <li class="action"><a class="button button--danger hoverable" href="/tickets">Delete</a></li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>Nuclear Silo</td>
+                <td>2021-10-30 22:00</td>
+                <td class="extra-column">30.00</td>
+                <td>
+                    <ul class="listing__actions">
+                        <li class="action"><a class="button button--primary hoverable" href="/tickets/details/1">Details</a></li>
+                        <li class="action"><a class="button button--warning hoverable" href="/tickets/edit/1">Edit</a></li>
+                        <li class="action"><a class="button button--danger hoverable" href="/tickets">Delete</a></li>
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="listing__footer">
+            <a class="button button--primary button--wide hoverable" href="/guests">Return to guest list</a>
+        </div>
+    </div>
+
+    <div class="listing listing--compact">
+        <table class="listing__table listing__table--hoverable">
+            <tbody>
+            <tr>
+                <th>Room</th>
+                <td>Pharaoh's Tomb</td>
+            </tr>
+            <tr>
+                <th>Date from</th>
+                <td>2021-10-23 17:00</td>
+            </tr>
+            <tr>
+                <th>Price</th>
+                <td>10.00</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <ul class="listing__actions">
+                        <li class="action"><a class="button button--primary hoverable" href="/tickets/details/1">Details</a></li>
+                        <li class="action"><a class="button button--warning hoverable" href="/tickets/edit/1">Edit</a></li>
+                        <li class="action"><a class="button button--danger hoverable" href="/tickets">Delete</a></li>
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+            <tbody>
+            <tr>
+                <th>Room</th>
+                <td>Enigma Code</td>
+            </tr>
+            <tr>
+                <th>Date from</th>
+                <td>2021-10-20 20:00</td>
+            </tr>
+            <tr>
+                <th>Price</th>
+                <td>15.00</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <ul class="listing__actions">
+                        <li class="action"><a class="button button--primary hoverable" href="/tickets/details/1">Details</a></li>
+                        <li class="action"><a class="button button--warning hoverable" href="/tickets/edit/1">Edit</a></li>
+                        <li class="action"><a class="button button--danger hoverable" href="/tickets">Delete</a></li>
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+            <tbody>
+            <tr>
+                <th>Room</th>
+                <td>Pirate Ship</td>
+            </tr>
+            <tr>
+                <th>Date from</th>
+                <td>2021-10-25 16:00</td>
+            </tr>
+            <tr>
+                <th>Price</th>
+                <td>20.00</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <ul class="listing__actions">
+                        <li class="action"><a class="button button--primary hoverable" href="/tickets/details/1">Details</a></li>
+                        <li class="action"><a class="button button--warning hoverable" href="/tickets/edit/1">Edit</a></li>
+                        <li class="action"><a class="button button--danger hoverable" href="/tickets">Delete</a></li>
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+            <tbody>
+            <tr>
+                <th>Room</th>
+                <td>Nuclear Silo</td>
+            </tr>
+            <tr>
+                <th>Date from</th>
+                <td>2021-10-30 22:00</td>
+            </tr>
+            <tr>
+                <th>Price</th>
+                <td>30.00</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <ul class="listing__actions">
+                        <li class="action"><a class="button button--primary hoverable" href="/tickets/details/1">Details</a></li>
+                        <li class="action"><a class="button button--warning hoverable" href="/tickets/edit/1">Edit</a></li>
+                        <li class="action"><a class="button button--danger hoverable" href="/tickets">Delete</a></li>
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="listing__footer">
+            <a class="button button--primary button--wide hoverable" href="/guests">Return to guest list</a>
+        </div>
+    </div>
+</main>
+
+<%- include('../../fragments/footer.ejs') %>
