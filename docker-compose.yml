@@ -9,7 +9,7 @@ services:
     env_file: .env
     environment:
       POSTGRES_DB: erm
-      POSTGRES_USER: $POSTGRES_USER
+      POSTGRES_USER: developer
       POSTGRES_PASSWORD: $POSTGRES_PASSWORD
     ports:
       - "54321:5432"
@@ -30,6 +30,6 @@ services:
     volumes:
       - ./webroot/erm_backend:/usr/src/app:rw
     ports:
-      - "3000:3000"
+      - "3001:3000"
     depends_on:
       - erm_database
