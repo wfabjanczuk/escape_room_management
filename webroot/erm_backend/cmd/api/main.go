@@ -1,8 +1,12 @@
 package main
 
 import (
+	"database/sql"
 	"flag"
 	"fmt"
+	"github.com/joho/godotenv"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 	"log"
 	"net/http"
 	"os"
@@ -25,6 +29,21 @@ type AppStatus struct {
 type application struct {
 	config config
 	logger *log.Logger
+	dsn    string
+}
+
+type Guest struct {
+	Id              uint `gorm:"primarykey"`
+	Email           string
+	FirstName       string
+	LastName        string
+	PhoneNumber     string
+	DateBirth       time.Time
+	DiscountPercent sql.NullInt32
+}
+
+func (Guest) TableName() string {
+	return "guest"
 }
 
 func main() {
@@ -36,10 +55,31 @@ func main() {
 
 	logger := log.New(os.Stdout, "", log.Ldate|log.Ltime)
 
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
+	dsn := os.Getenv("DSN")
+	if dsn == "" {
+		log.Fatal("Error loading DSN from .env file")
+	}
+
 	app := &application{
 		config: cfg,
 		logger: logger,
+		dsn:    dsn,
 	}
+
+	db, err := gorm.Open(postgres.Open(app.dsn), &gorm.Config{})
+	if err != nil {
+		log.Fatal("Error connecting to database")
+	}
+
+	var guest Guest
+	db.First(&guest, 1)
+	app.logger.Println(guest.Email)
+	app.logger.Println(guest.DiscountPercent)
 
 	srv := &http.Server{
 		Addr:         fmt.Sprintf(":%d", app.config.port),
@@ -51,8 +91,7 @@ func main() {
 
 	app.logger.Printf("Starting %s server on port %d", cfg.env, cfg.port)
 
-	err := srv.ListenAndServe()
-
+	err = srv.ListenAndServe()
 	if err != nil {
 		app.logger.Println(err)
 	}

@@ -25,7 +25,7 @@ services:
     command:
       - |
         go install github.com/githubnemo/CompileDaemon@latest
-        CompileDaemon -log-prefix=false -build='go build -o app' -command='./app'
+        CompileDaemon -log-prefix=false -build='go build -o app ./cmd/api/' -command='./app'
     volumes:
       - ./webroot/erm_backend:/usr/local/go/src/app:rw
     ports:
