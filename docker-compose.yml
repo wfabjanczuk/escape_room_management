@@ -17,19 +17,18 @@ services:
       - ./db/data/:/var/lib/postgresql/data/
 
   erm_backend:
-    image: node:16
+    image: golang:1.17
     hostname: erm_backend
     container_name: erm_backend
-    working_dir: /usr/src/app
-    entrypoint: [ "bash", "-c" ]
+    working_dir: /usr/local/go/src/app
+    entrypoint: ["bash", "-c"]
     command:
       - |
-        npm install
-        npm i -g nodemon
-        npm run dev
+        go install github.com/githubnemo/CompileDaemon@latest
+        CompileDaemon -log-prefix=false -build='go build -o app' -command='./app'
     volumes:
-      - ./webroot/erm_backend:/usr/src/app:rw
+      - ./webroot/erm_backend:/usr/local/go/src/app:rw
     ports:
-      - "3001:3000"
+      - "9000:9000"
     depends_on:
       - erm_database
