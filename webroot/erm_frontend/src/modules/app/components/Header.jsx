@@ -1,12 +1,13 @@
 import React from "react";
+import {Link} from "react-router-dom";
 
 export default class Header extends React.Component {
     render() {
         return <header>
-            <h1><a className="hoverable" href="">Escape Room Management</a></h1>
-            <a className="logo-link hoverable" href="">
+            <h1><Link className="hoverable" to="/">Escape Room Management</Link></h1>
+            <Link className="logo-link hoverable" to="/">
                 <img className="header-logo" src={'logo.png'} alt="Escape Room Management Logo"/>
-            </a>
+            </Link>
         </header>;
     }
 }

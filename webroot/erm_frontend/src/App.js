@@ -1,23 +1,27 @@
 import React from "react";
-import Footer from "./modules/app/component/Footer";
-import Header from "./modules/app/component/Header";
-import Navigation from "./modules/app/component/Navigation";
+import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
+import Footer from "./modules/app/components/Footer";
+import Header from "./modules/app/components/Header";
+import Navigation from "./modules/app/components/Navigation";
+import Reservations from "./modules/reservations/views/Reservations";
+import Guests from "./modules/guests/views/Guests";
+import Tickets from "./modules/tickets/views/Tickets";
+import Rooms from "./modules/rooms/views/Rooms";
+import Home from "./modules/app/views/Home";
 
-class App extends React.Component {
-    render() {
-        return <React.Fragment>
-            <Header/>
-            <Navigation/>
-            <main>
-                <h2>Home</h2>
-                <p>
-                    ERM is designed for management of escape room reservations.
-                    The system allows to browse and edit guests, their tickets, reservations and available rooms.
-                </p>
-            </main>
-            <Footer/>
-        </React.Fragment>;
-    }
+export default function App() {
+    return <Router>
+        <Header/>
+        <Navigation/>
+        <main>
+            <Routes>
+                <Route path="/" element={<Home/>}/>
+                <Route path="/guests" element={<Guests/>}/>
+                <Route path="/tickets" element={<Tickets/>}/>
+                <Route path="/reservations" element={<Reservations/>}/>
+                <Route path="/rooms" element={<Rooms/>}/>
+            </Routes>
+        </main>
+        <Footer/>
+    </Router>;
 }
-
-export default App;
