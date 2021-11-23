@@ -1,12 +1,9 @@
 package main
 
 import (
-	"database/sql"
 	"flag"
 	"fmt"
 	"github.com/joho/godotenv"
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
 	"log"
 	"net/http"
 	"os"
@@ -30,20 +27,6 @@ type application struct {
 	config config
 	logger *log.Logger
 	dsn    string
-}
-
-type Guest struct {
-	Id              uint `gorm:"primarykey"`
-	Email           string
-	FirstName       string
-	LastName        string
-	PhoneNumber     string
-	DateBirth       time.Time
-	DiscountPercent sql.NullInt32
-}
-
-func (Guest) TableName() string {
-	return "guest"
 }
 
 func main() {
@@ -70,16 +53,6 @@ func main() {
 		logger: logger,
 		dsn:    dsn,
 	}
-
-	db, err := gorm.Open(postgres.Open(app.dsn), &gorm.Config{})
-	if err != nil {
-		log.Fatal("Error connecting to database")
-	}
-
-	var guest Guest
-	db.First(&guest, 1)
-	app.logger.Println(guest.Email)
-	app.logger.Println(guest.DiscountPercent)
 
 	srv := &http.Server{
 		Addr:         fmt.Sprintf(":%d", app.config.port),
