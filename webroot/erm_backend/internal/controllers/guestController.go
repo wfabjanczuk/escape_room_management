@@ -8,7 +8,6 @@ import (
 	"log"
 	"net/http"
 	"strconv"
-	"time"
 )
 
 type guestController struct {
@@ -27,32 +26,35 @@ func (c *guestController) GetGuest(w http.ResponseWriter, r *http.Request) {
 	params := httprouter.ParamsFromContext(r.Context())
 
 	id, err := strconv.Atoi(params.ByName("id"))
-
 	if err != nil {
 		c.logger.Println(errors.New("Invalid id parameter"))
 		c.writeWrappedErrorJson(w, err)
 		return
 	}
 
-	c.logger.Println("id is", id)
-
-	dateBirth, err := time.Parse("2006-01-02", "1990-01-01")
-	if err != nil {
-		c.logger.Println(errors.New("Could not parse date"))
-	}
-
-	guest := models.Guest{
-		Id:          uint(id),
-		Email:       "linda.yehudit@gmail.com",
-		FirstName:   "Linda",
-		LastName:    "Yehudit",
-		PhoneNumber: "48100100100",
-		DateBirth:   dateBirth,
+	var guest models.Guest
+	result := c.db.First(&guest, id)
+	if result.Error != nil {
+		c.writeWrappedErrorJson(w, result.Error)
+		return
 	}
 
 	err = c.writeWrappedJson(w, http.StatusOK, guest, "guest")
+	if err != nil {
+		c.logger.Println(err)
+	}
 }
 
 func (c *guestController) GetGuestCollection(w http.ResponseWriter, r *http.Request) {
+	var guests []models.Guest
+	result := c.db.Find(&guests)
+	if result.Error != nil {
+		c.writeWrappedErrorJson(w, result.Error)
+		return
+	}
 
+	err := c.writeWrappedJson(w, http.StatusOK, guests, "guests")
+	if err != nil {
+		c.logger.Println(err)
+	}
 }
