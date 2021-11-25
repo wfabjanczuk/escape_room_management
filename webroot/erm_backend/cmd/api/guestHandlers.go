@@ -15,14 +15,16 @@ func (app *application) getGuest(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(params.ByName("id"))
 
 	if err != nil {
-		app.logger.Print(errors.New("Invalid id parameter"))
+		app.logger.Println(errors.New("Invalid id parameter"))
+		app.writeErrorJson(w, err)
+		return
 	}
 
 	app.logger.Println("id is", id)
 
 	dateBirth, err := time.Parse("2006-01-02", "1990-01-01")
 	if err != nil {
-		app.logger.Print(errors.New("Could not parse date"))
+		app.logger.Println(errors.New("Could not parse date"))
 	}
 
 	guest := models.Guest{
@@ -39,4 +41,19 @@ func (app *application) getGuest(w http.ResponseWriter, r *http.Request) {
 
 func (app *application) getGuestCollection(w http.ResponseWriter, r *http.Request) {
 
+}
+
+type jsonError struct {
+	Message string `json:"message"`
+}
+
+func (app *application) writeErrorJson(w http.ResponseWriter, error error) {
+	errorData := jsonError{
+		Message: error.Error(),
+	}
+
+	err := app.writeJson(w, http.StatusBadRequest, errorData, "error")
+	if err != nil {
+		app.logger.Println(err)
+	}
 }
