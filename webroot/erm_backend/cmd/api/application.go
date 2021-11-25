@@ -27,13 +27,11 @@ type application struct {
 func newApplication() *application {
 	cfg := getConfigFromEnv()
 
-	app := &application{
+	return &application{
 		config: cfg,
 		logger: log.New(os.Stdout, "", log.Ldate|log.Ltime),
 		db:     openDbConnection(cfg.dsn),
 	}
-
-	return app
 }
 
 func (app *application) start() {
