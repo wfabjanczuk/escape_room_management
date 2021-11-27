@@ -17,20 +17,12 @@ type Guest struct {
 	DiscountPercent types.NullInt64 `json:"discount_percent"`
 }
 
-func (Guest) TableName() string {
-	return "guest"
-}
-
 type Ticket struct {
 	Id                   uint            `gorm:"primarykey" json:"id"`
 	Price                decimal.Decimal `json:"price"`
 	Reservation          Reservation     `json:"reservation"`
 	Guest                Guest           `json:"guest"`
 	GuestAllowedToCancel bool            `json:"guest_allowed_to_cancel"`
-}
-
-func (Ticket) TableName() string {
-	return "ticket"
 }
 
 type Reservation struct {
@@ -42,10 +34,6 @@ type Reservation struct {
 	DateCancelled sql.NullTime    `json:"date_cancelled"`
 }
 
-func (Reservation) TableName() string {
-	return "reservation"
-}
-
 type Room struct {
 	Id              uint            `gorm:"primarykey" json:"id"`
 	Name            string          `json:"name"`
@@ -53,8 +41,4 @@ type Room struct {
 	MinParticipants uint            `json:"min_participants"`
 	MaxParticipants uint            `json:"max_participants"`
 	MinAge          types.NullInt64 `json:"min_age"`
-}
-
-func (Room) TableName() string {
-	return "room"
 }
