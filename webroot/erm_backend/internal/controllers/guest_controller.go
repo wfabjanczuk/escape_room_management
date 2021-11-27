@@ -58,3 +58,15 @@ func (c *guestController) GetGuestCollection(w http.ResponseWriter, r *http.Requ
 		c.logger.Println(err)
 	}
 }
+
+func (c *guestController) CreateGuest(w http.ResponseWriter, r *http.Request) {
+
+}
+
+func (c *guestController) UpdateGuest(w http.ResponseWriter, r *http.Request) {
+
+}
+
+func (c *guestController) DeleteGuest(w http.ResponseWriter, r *http.Request) {
+
+}

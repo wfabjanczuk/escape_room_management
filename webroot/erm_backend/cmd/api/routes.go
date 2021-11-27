@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-func (app *application) getRoutes() *httprouter.Router {
+func (app *application) getRoutes() http.Handler {
 	router := httprouter.New()
 
 	statusController := controllers.NewStatusController(app.logger, apiName, apiVersion)
@@ -16,5 +16,5 @@ func (app *application) getRoutes() *httprouter.Router {
 	router.HandlerFunc(http.MethodGet, "/v1/guests/", guestController.GetGuestCollection)
 	router.HandlerFunc(http.MethodGet, "/v1/guests/:id", guestController.GetGuest)
 
-	return router
+	return app.enableCors(router)
 }
