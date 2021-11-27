@@ -21,7 +21,7 @@ services:
     hostname: erm_backend
     container_name: erm_backend
     working_dir: /usr/local/go/src/app
-    entrypoint: ["bash", "-c"]
+    entrypoint: [ "bash", "-c" ]
     command:
       - |
         go install github.com/githubnemo/CompileDaemon@latest
@@ -32,3 +32,18 @@ services:
       - "9000:9000"
     depends_on:
       - erm_database
+
+  erm_frontend:
+    image: node:16
+    hostname: erm_frontend
+    container_name: erm_frontend
+    working_dir: /usr/src/app
+    entrypoint: [ "bash", "-c" ]
+    command:
+      - |
+        npm install
+        npm start
+    volumes:
+      - ./webroot/erm_frontend:/usr/src/app:rw
+    ports:
+      - "3000:3000"
