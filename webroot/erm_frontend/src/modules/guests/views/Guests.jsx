@@ -11,23 +11,37 @@ export default class Guests extends React.Component {
     state = {
         guests: [],
         isLoading: true,
+        error: null,
     };
 
     componentDidMount() {
         fetch('http://localhost:9000/v1/guests/')
-            .then((response) => response.json())
-            .then((json) => this.setState({
-                guests: json.guests,
-                isLoading: false,
-            }));
+            .then((response) => {
+                if (response.status !== 200) {
+                    throw Error('Guests could not be fetched.');
+                }
+
+                return response.json();
+            })
+            .then(
+                (json) => this.setState({
+                    guests: json.guests,
+                    isLoading: false,
+                }),
+                (error) => this.setState({
+                    error: error,
+                    isLoading: false,
+                })
+            );
     }
 
     render() {
-        const {guests, isLoading} = this.state;
+        const {guests, isLoading, error} = this.state;
 
         return <Listing
-            title={'Guest list'}
+            error={error}
             isLoading={isLoading}
+            title={'Guest list'}
             rows={guests}
             columns={guestColumns}
         />;

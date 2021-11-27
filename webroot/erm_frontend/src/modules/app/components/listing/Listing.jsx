@@ -3,7 +3,14 @@ import ListingWide from "./ListingWide";
 import ListingCompact from "./ListingCompact";
 import * as PropTypes from "prop-types";
 
-const Listing = ({title, isLoading, rows, columns}) => {
+const Listing = ({error, isLoading, title, rows, columns}) => {
+    if (error) {
+        return <React.Fragment>
+            <h2>{title}</h2>
+            <p>{error.message}</p>
+        </React.Fragment>;
+    }
+
     if (isLoading) {
         return <React.Fragment>
             <h2>{title}</h2>
@@ -19,8 +26,9 @@ const Listing = ({title, isLoading, rows, columns}) => {
 };
 
 Listing.propTypes = {
-    title: PropTypes.string,
+    error: PropTypes.object,
     isLoading: PropTypes.bool,
+    title: PropTypes.string,
     rows: PropTypes.array,
     columns: PropTypes.array,
 }
