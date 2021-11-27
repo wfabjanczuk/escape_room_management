@@ -1,5 +1,7 @@
-import React from 'react';
-import Listing from "../../app/components/listing/Listing";
+import React, {useEffect, useState} from 'react';
+import Listing from '../../app/components/listing/Listing';
+import ROUTES from '../../app/constants/routes';
+import axios from "axios";
 
 const guestColumns = [
     {key: 'first_name', name: 'First name', isExtra: false},
@@ -7,43 +9,37 @@ const guestColumns = [
     {key: 'email', name: 'Email', isExtra: true},
 ];
 
-export default class Guests extends React.Component {
-    state = {
+export default function Guests() {
+    const [state, setState] = useState({
         guests: [],
         isLoading: true,
         error: null,
-    };
+    });
 
-    componentDidMount() {
-        fetch('http://localhost:9000/v1/guests/')
-            .then((response) => {
-                if (response.status !== 200) {
-                    throw Error('Guests could not be fetched.');
-                }
+    useEffect(() => {
+            axios(ROUTES.api.guests)
+                .then(
+                    (response) => setState({
+                        guests: response.data.guests,
+                        isLoading: false,
+                        error: null,
+                    }),
+                    (error) => setState({
+                        guests: [],
+                        isLoading: false,
+                        error: error,
+                    })
+                )
+        },
+        []
+    );
 
-                return response.json();
-            })
-            .then(
-                (json) => this.setState({
-                    guests: json.guests,
-                    isLoading: false,
-                }),
-                (error) => this.setState({
-                    error: error,
-                    isLoading: false,
-                })
-            );
-    }
-
-    render() {
-        const {guests, isLoading, error} = this.state;
-
-        return <Listing
-            error={error}
-            isLoading={isLoading}
-            title={'Guest list'}
-            rows={guests}
-            columns={guestColumns}
-        />;
-    }
+    return <Listing
+        error={state.error}
+        isLoading={state.isLoading}
+        title={'Guest list'}
+        rows={state.guests}
+        columns={guestColumns}
+        actionsRoute={ROUTES.site.guests}
+    />;
 };

@@ -1,12 +1,12 @@
-import React from "react";
-import {Link} from "react-router-dom";
-import ListingActions from "./ListingActions";
-import * as PropTypes from "prop-types";
+import React from 'react';
+import {Link} from 'react-router-dom';
+import ListingActions from './ListingActions';
+import * as PropTypes from 'prop-types';
 
-const ListingWide = ({rows, columns}) => (
+const ListingWide = ({rows, columns, actionsRoute}) => (
     <React.Fragment>
-        <div className="listing listing--wide">
-            <table className="listing__table listing__table--hoverable">
+        <div className='listing listing--wide'>
+            <table className='listing__table listing__table--hoverable'>
                 <thead>
                 <tr>
                     {columns.map((c, cIndex) => (
@@ -26,15 +26,15 @@ const ListingWide = ({rows, columns}) => (
                             </td>
                         ))}
                         <td>
-                            <ListingActions/>
+                            <ListingActions id={r.id} route={actionsRoute}/>
                         </td>
                     </tr>
                 ))}
                 </tbody>
             </table>
 
-            <div className="listing__footer">
-                <Link className="button button--success button--wide hoverable" to="/guests">
+            <div className='listing__footer'>
+                <Link className='button button--success button--wide hoverable' to='/guests'>
                     Register new guest
                 </Link>
             </div>
@@ -45,6 +45,7 @@ const ListingWide = ({rows, columns}) => (
 ListingWide.propTypes = {
     rows: PropTypes.array,
     columns: PropTypes.array,
-}
+    actionsRoute: PropTypes.string,
+};
 
 export default ListingWide;

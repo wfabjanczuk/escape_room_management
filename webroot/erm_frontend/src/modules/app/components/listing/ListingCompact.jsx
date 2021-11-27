@@ -1,12 +1,12 @@
-import React from "react";
-import {Link} from "react-router-dom";
-import ListingActions from "./ListingActions";
-import * as PropTypes from "prop-types";
+import React from 'react';
+import {Link} from 'react-router-dom';
+import ListingActions from './ListingActions';
+import * as PropTypes from 'prop-types';
 
-const ListingCompact = ({rows, columns}) => (
+const ListingCompact = ({rows, columns, actionsRoute}) => (
     <React.Fragment>
-        <div className="listing listing--compact">
-            <table className="listing__table listing__table--hoverable">
+        <div className='listing listing--compact'>
+            <table className='listing__table listing__table--hoverable'>
                 {rows.map((r, rIndex) => (
                     <tbody key={rIndex}>
                     {columns.map((c, cIndex) => (
@@ -16,16 +16,16 @@ const ListingCompact = ({rows, columns}) => (
                         </tr>
                     ))}
                     <tr>
-                        <td colSpan="2">
-                            <ListingActions/>
+                        <td colSpan='2'>
+                            <ListingActions id={r.id} route={actionsRoute}/>
                         </td>
                     </tr>
                     </tbody>
                 ))}
             </table>
 
-            <div className="listing__footer">
-                <Link className="button button--success button--wide hoverable" to="/guests">
+            <div className='listing__footer'>
+                <Link className='button button--success button--wide hoverable' to='/guests'>
                     Register new guest
                 </Link>
             </div>
@@ -36,6 +36,7 @@ const ListingCompact = ({rows, columns}) => (
 ListingCompact.propTypes = {
     rows: PropTypes.array,
     columns: PropTypes.array,
-}
+    actionsRoute: PropTypes.string,
+};
 
 export default ListingCompact;
