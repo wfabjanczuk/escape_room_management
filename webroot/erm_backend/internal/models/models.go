@@ -2,18 +2,19 @@ package models
 
 import (
 	"database/sql"
+	"erm_backend/internal/types"
 	"github.com/shopspring/decimal"
 	"time"
 )
 
 type Guest struct {
-	Id              uint          `gorm:"primarykey" json:"id"`
-	Email           string        `json:"email"`
-	FirstName       string        `json:"first_name"`
-	LastName        string        `json:"last_name"`
-	PhoneNumber     string        `json:"phone_number"`
-	DateBirth       time.Time     `json:"date_birth"`
-	DiscountPercent sql.NullInt32 `json:"discount_percent"`
+	Id              uint            `gorm:"primarykey" json:"id"`
+	Email           string          `json:"email"`
+	FirstName       string          `json:"first_name"`
+	LastName        string          `json:"last_name"`
+	PhoneNumber     string          `json:"phone_number"`
+	DateBirth       types.Date      `json:"date_birth"`
+	DiscountPercent types.NullInt64 `json:"discount_percent"`
 }
 
 func (Guest) TableName() string {
@@ -51,7 +52,7 @@ type Room struct {
 	BaseTicketPrice decimal.Decimal `json:"base_ticket_price"`
 	MinParticipants uint            `json:"min_participants"`
 	MaxParticipants uint            `json:"max_participants"`
-	MinAge          sql.NullInt32   `json:"min_age"`
+	MinAge          types.NullInt64 `json:"min_age"`
 }
 
 func (Room) TableName() string {
