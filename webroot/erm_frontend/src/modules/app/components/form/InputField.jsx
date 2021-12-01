@@ -1,0 +1,20 @@
+import React from 'react';
+import Label from './Label';
+import Error from './Error';
+
+const InputField = ({name, displayName, isRequired, type, errorMessage, value, onChange}) => {
+    return <React.Fragment>
+        <Label name={name} displayName={displayName} isRequired={isRequired}/>
+        <input
+            type={type}
+            name={name}
+            id={name}
+            value={value}
+            onChange={onChange}
+            formNoValidate={true}
+        />
+        <Error name={name} errorMessage={errorMessage}/>
+    </React.Fragment>;
+};
+
+export default InputField;

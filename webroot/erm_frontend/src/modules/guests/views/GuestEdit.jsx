@@ -4,14 +4,14 @@ import {useParams} from 'react-router-dom';
 import axios from 'axios';
 import GuestForm from '../components/GuestForm';
 
-export default function GuestDetails() {
+export default function GuestEdit() {
     const [state, setState] = useState({
             guest: {},
             isLoading: true,
             error: null,
         }),
         params = useParams(),
-        title = 'Guest details';
+        title = 'Edit guest';
 
     useEffect(() => {
             axios(`${ROUTES.api.guests}/${params.guestId}`)
@@ -47,6 +47,6 @@ export default function GuestDetails() {
 
     return <React.Fragment>
         <h2>{title}</h2>
-        <GuestForm guest={null}/>
+        <GuestForm guest={state.guest}/>
     </React.Fragment>;
 };
