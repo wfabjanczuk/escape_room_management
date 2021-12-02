@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
-import {Link} from 'react-router-dom';
 import * as PropTypes from 'prop-types';
-import InputField from '../../app/components/form/InputField';
 import {maxLength, minMaxInt, required} from '../../app/utils/formValidators';
+import Footer from '../../app/components/form/Footer';
+import GuestFormFields from './GuestFormFields';
+import ROUTES, {getRouteWithParams} from '../../app/constants/routes';
 
 const getInitialFormData = (guest) => {
     if (guest) {
@@ -22,6 +23,19 @@ const getInitialFormData = (guest) => {
     };
 };
 
+const getUrls = (guest, entityExists, isDisabled) => {
+    const cancelUrl = entityExists
+            ? getRouteWithParams(ROUTES.guests.details, {id: guest.id})
+            : ROUTES.guests.index,
+        redirectUrl = isDisabled
+            ? getRouteWithParams(ROUTES.guests.edit, {id: guest.id})
+            : cancelUrl;
+
+    return {
+        redirect: redirectUrl,
+    }
+};
+
 const validateFormData = (formData, setErrors) => {
     const errors = {};
 
@@ -33,17 +47,14 @@ const validateFormData = (formData, setErrors) => {
 
     minMaxInt(0, 20, ['discountPercent'], formData, errors);
 
-    if (0 < Object.keys(formData).length) {
-        setErrors(errors);
+    setErrors(errors);
 
-        return false;
-    }
-
-    return true;
+    return 0 === Object.keys(errors).length;
 };
 
-const GuestForm = ({guest}) => {
-    const cancelUrl = guest ? `/guests/${guest.id}/details` : '/guests',
+const GuestForm = ({guest, isDisabled}) => {
+    const entityExists = !!guest,
+        urls = getUrls(guest, entityExists, isDisabled),
         [formData, setFormData] = useState(getInitialFormData(guest)),
         [errors, setErrors] = useState({}),
         onValueChange = (event) => {
@@ -53,84 +64,21 @@ const GuestForm = ({guest}) => {
             }))
         },
         handleSubmit = (event) => {
-            console.log(event);
-            validateFormData(formData, setErrors);
             event.preventDefault();
+
+            validateFormData(formData, setErrors);
         };
 
     return <form className='form' method='POST' onSubmit={handleSubmit}>
-        <InputField
-            type='text'
-            name='firstName'
-            displayName='First name'
-            isRequired={true}
-            errorMessage={errors.firstName}
-            value={formData.firstName}
-            onChange={onValueChange}
-        />
-        <InputField
-            type='text'
-            name='lastName'
-            displayName='Last name'
-            isRequired={true}
-            errorMessage={errors.lastName}
-            value={formData.lastName}
-            onChange={onValueChange}
-        />
-        <InputField
-            type='text'
-            name='email'
-            displayName='Email'
-            isRequired={true}
-            errorMessage={errors.email}
-            value={formData.email}
-            onChange={onValueChange}
-        />
-        <InputField
-            type='text'
-            name='phoneNumber'
-            displayName='Phone number'
-            isRequired={true}
-            errorMessage={errors.phoneNumber}
-            value={formData.phoneNumber}
-            onChange={onValueChange}
-        />
-        <InputField
-            type='date'
-            name='dateBirth'
-            displayName='Date of birth'
-            isRequired={true}
-            errorMessage={errors.dateBirth}
-            value={formData.dateBirth}
-            onChange={onValueChange}
-        />
-        <InputField
-            type='number'
-            name='discountPercent'
-            displayName='Discount percent'
-            isRequired={false}
-            errorMessage={errors.discountPercent}
-            value={formData.discountPercent}
-            onChange={onValueChange}
-        />
-
-        <div className='form__footer'>
-            <input className='button button--success hoverable' type='submit' value='Save'/>
-            <Link className='button button--secondary hoverable' to={cancelUrl}>
-                Cancel
-            </Link>
-        </div>
-
-        <div>
-            <pre>
-                {JSON.stringify(formData, null, 2)}
-            </pre>
-        </div>
+        <GuestFormFields entityExists={entityExists} isDisabled={isDisabled} onValueChange={onValueChange}
+                         formData={formData} errors={errors}/>
+        <Footer entityExists={entityExists} isDisabled={isDisabled} redirectUrl={urls.redirect}/>
     </form>;
 }
 
 GuestForm.propTypes = {
     guest: PropTypes.object,
+    isDisabled: PropTypes.bool,
 };
 
 export default GuestForm;

@@ -175,6 +175,10 @@ main h2 {
     display: none;
 }
 
+.listing.listing--wide .id-column {
+    text-align: center;
+}
+
 .listing .listing__table {
     border-collapse: collapse;
     margin: 1rem 0;

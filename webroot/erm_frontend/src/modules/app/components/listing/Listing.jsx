@@ -2,23 +2,29 @@ import React from 'react';
 import ListingWide from './ListingWide';
 import ListingCompact from './ListingCompact';
 import * as PropTypes from 'prop-types';
+import Footer from './Footer';
 
-const Listing = ({error, isLoading, rows, columns, actionsRoute}) => {
+const Listing = ({error, isLoading, rows, noRowsText, columns, actionsRoute, buttonText, buttonUrl}) => {
     if (error) {
-        return <React.Fragment>
-            <p>{error.message}</p>
-        </React.Fragment>;
+        return <p>{error.message}</p>;
     }
 
     if (isLoading) {
-        return <React.Fragment>
-            <p>Loading...</p>
-        </React.Fragment>;
+        return <p>Loading...</p>;
+    }
+
+    if (0 === rows.length) {
+        return <div className='listing'>
+            <p>{noRowsText}</p>
+            <Footer buttonText={buttonText} buttonUrl={buttonUrl}/>
+        </div>;
     }
 
     return <React.Fragment>
-        <ListingWide rows={rows} columns={columns} actionsRoute={actionsRoute}/>
-        <ListingCompact rows={rows} columns={columns} actionsRoute={actionsRoute}/>
+        <ListingWide rows={rows} columns={columns} actionsRoute={actionsRoute} buttonText={buttonText}
+                     buttonUrl={buttonUrl}/>
+        <ListingCompact rows={rows} columns={columns} actionsRoute={actionsRoute} buttonText={buttonText}
+                        buttonUrl={buttonUrl}/>
     </React.Fragment>;
 };
 
@@ -26,8 +32,11 @@ Listing.propTypes = {
     error: PropTypes.object,
     isLoading: PropTypes.bool,
     rows: PropTypes.array,
+    noRowsText: PropTypes.string,
     columns: PropTypes.array,
     actionsRoute: PropTypes.string,
+    buttonText: PropTypes.string,
+    buttonUrl: PropTypes.string,
 };
 
 export default Listing;

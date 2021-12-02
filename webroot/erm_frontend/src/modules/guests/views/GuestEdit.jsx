@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import ROUTES from '../../app/constants/routes';
+import ROUTES, {getRouteWithParams} from '../../app/constants/routes';
 import {useParams} from 'react-router-dom';
 import axios from 'axios';
 import GuestForm from '../components/GuestForm';
@@ -14,7 +14,7 @@ export default function GuestEdit() {
         title = 'Edit guest';
 
     useEffect(() => {
-            axios(`${ROUTES.api.guests}/${params.guestId}`)
+            axios(getRouteWithParams(ROUTES.api.guests.read, {id: params.id}))
                 .then(
                     (response) => setState({
                         guest: response.data.guest,
@@ -47,6 +47,6 @@ export default function GuestEdit() {
 
     return <React.Fragment>
         <h2>{title}</h2>
-        <GuestForm guest={state.guest}/>
+        <GuestForm guest={state.guest} isDisabled={false}/>
     </React.Fragment>;
 };

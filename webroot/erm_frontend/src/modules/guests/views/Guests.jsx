@@ -4,6 +4,7 @@ import ROUTES from '../../app/constants/routes';
 import axios from 'axios';
 
 const guestColumns = [
+    {key: 'id', name: 'Id', isExtra: false, centering: true},
     {key: 'firstName', name: 'First name', isExtra: false},
     {key: 'lastName', name: 'Last name', isExtra: false},
     {key: 'email', name: 'Email', isExtra: true},
@@ -17,7 +18,7 @@ export default function Guests() {
     });
 
     useEffect(() => {
-            axios(ROUTES.api.guests)
+            axios(ROUTES.api.guests.all)
                 .then(
                     (response) => setState({
                         guests: response.data.guests,
@@ -40,8 +41,11 @@ export default function Guests() {
             error={state.error}
             isLoading={state.isLoading}
             rows={state.guests}
+            noRowsText='No guests found.'
             columns={guestColumns}
-            actionsRoute={ROUTES.site.guests}
+            actionsRoute={ROUTES.guests}
+            buttonText='Register new guest'
+            buttonUrl={ROUTES.guests.add}
         />
     </React.Fragment>;
 };
