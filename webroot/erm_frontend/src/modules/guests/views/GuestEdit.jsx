@@ -14,7 +14,7 @@ export default function GuestEdit() {
         title = 'Edit guest';
 
     useEffect(() => {
-            axios(getRouteWithParams(ROUTES.api.guests.read, {id: params.id}))
+            axios.get(getRouteWithParams(ROUTES.api.guest, {id: params.id}))
                 .then(
                     (response) => setState({
                         guest: response.data.guest,

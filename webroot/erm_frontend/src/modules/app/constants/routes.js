@@ -12,13 +12,8 @@ export const getRouteWithParams = (route, params) => {
 
 const ROUTES = {
     api: {
-        guests: {
-            all: API + '/guests',
-            create: API + '/guests/add',
-            read: API + '/guests/:id',
-            update: API + '/guests/:id/edit',
-            delete: API + '/guests/:id/delete',
-        },
+        guests: API + '/guests',
+        guest: API + '/guests/:id',
     },
     home: '/',
     guests: {

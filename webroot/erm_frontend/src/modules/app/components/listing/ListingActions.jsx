@@ -23,7 +23,7 @@ const ListingActions = ({route, id}) => (<ul className='listing__actions'>
 
 ListingActions.propTypes = {
     id: PropTypes.number,
-    route: PropTypes.string,
+    route: PropTypes.object,
 };
 
 export default ListingActions;

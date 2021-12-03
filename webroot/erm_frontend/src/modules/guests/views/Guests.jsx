@@ -18,7 +18,7 @@ export default function Guests() {
     });
 
     useEffect(() => {
-            axios(ROUTES.api.guests.all)
+            axios.get(ROUTES.api.guests)
                 .then(
                     (response) => setState({
                         guests: response.data.guests,

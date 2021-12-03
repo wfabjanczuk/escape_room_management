@@ -4,6 +4,7 @@ import {maxLength, minMaxInt, required} from '../../app/utils/formValidators';
 import Footer from '../../app/components/form/Footer';
 import GuestFormFields from './GuestFormFields';
 import ROUTES, {getRouteWithParams} from '../../app/constants/routes';
+import axios from 'axios';
 
 const getInitialFormData = (guest) => {
     if (guest) {
@@ -24,7 +25,10 @@ const getInitialFormData = (guest) => {
 };
 
 const getUrls = (guest, entityExists, isDisabled) => {
-    const cancelUrl = entityExists
+    const apiUrl = entityExists
+            ? getRouteWithParams(ROUTES.api.guest, {id: guest.id})
+            : ROUTES.api.guests,
+        cancelUrl = entityExists
             ? getRouteWithParams(ROUTES.guests.details, {id: guest.id})
             : ROUTES.guests.index,
         redirectUrl = isDisabled
@@ -32,6 +36,7 @@ const getUrls = (guest, entityExists, isDisabled) => {
             : cancelUrl;
 
     return {
+        api: apiUrl,
         redirect: redirectUrl,
     }
 };
@@ -52,6 +57,20 @@ const validateFormData = (formData, setErrors) => {
     return 0 === Object.keys(errors).length;
 };
 
+const sendData = (formData, url, entityExists) => {
+    axios(url, {
+        method: entityExists ? 'PUT' : 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        data: formData
+    })
+        .then(
+            (response) => console.log(response),
+            (error) => console.log(error),
+        );
+}
+
 const GuestForm = ({guest, isDisabled}) => {
     const entityExists = !!guest,
         urls = getUrls(guest, entityExists, isDisabled),
@@ -65,8 +84,11 @@ const GuestForm = ({guest, isDisabled}) => {
         },
         handleSubmit = (event) => {
             event.preventDefault();
+            const submittedFormData = Object.fromEntries(new FormData(event.target));
 
-            validateFormData(formData, setErrors);
+            if (validateFormData(submittedFormData, setErrors)) {
+                sendData(submittedFormData, urls.api, entityExists);
+            }
         };
 
     return <form className='form' method='POST' onSubmit={handleSubmit}>

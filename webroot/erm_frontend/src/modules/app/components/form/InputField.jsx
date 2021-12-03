@@ -6,6 +6,7 @@ const InputField = ({name, displayName, isRequired, isDisabled, type, errorMessa
     return <React.Fragment>
         <Label name={name} displayName={displayName} isRequired={isRequired}/>
         <input
+            className={`form__field ${errorMessage ? 'form__field--error' : ''}`}
             type={type}
             name={name}
             id={name}

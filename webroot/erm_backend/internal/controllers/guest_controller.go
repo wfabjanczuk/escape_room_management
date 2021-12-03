@@ -1,7 +1,9 @@
 package controllers
 
 import (
+	"encoding/json"
 	"erm_backend/internal/models"
+	"erm_backend/internal/types"
 	"errors"
 	"github.com/julienschmidt/httprouter"
 	"gorm.io/gorm"
@@ -60,13 +62,64 @@ func (c *guestController) GetGuestCollection(w http.ResponseWriter, r *http.Requ
 }
 
 func (c *guestController) CreateGuest(w http.ResponseWriter, r *http.Request) {
+	type jsonResp struct {
+		OK bool `json:"create"`
+	}
 
+	ok := jsonResp{
+		OK: true,
+	}
+
+	err := c.writeWrappedJson(w, http.StatusOK, ok, "guest")
+	if err != nil {
+		c.logger.Println(err)
+	}
 }
 
 func (c *guestController) UpdateGuest(w http.ResponseWriter, r *http.Request) {
+	var guestPayload types.GuestPayload
 
+	err := json.NewDecoder(r.Body).Decode(&guestPayload)
+	if err != nil {
+		c.logger.Println(err)
+	}
+
+	guest, err := models.ParseGuest(guestPayload, true)
+	if err != nil {
+		c.logger.Println(err)
+	}
+
+	bytes, err := json.Marshal(guest)
+	if err != nil {
+		c.logger.Println(err)
+	}
+	c.logger.Println(string(bytes))
+
+	type jsonResp struct {
+		OK bool `json:"update"`
+	}
+
+	ok := jsonResp{
+		OK: true,
+	}
+
+	err = c.writeWrappedJson(w, http.StatusOK, ok, "guest")
+	if err != nil {
+		c.logger.Println(err)
+	}
 }
 
 func (c *guestController) DeleteGuest(w http.ResponseWriter, r *http.Request) {
+	type jsonResp struct {
+		OK bool `json:"delete"`
+	}
 
+	ok := jsonResp{
+		OK: true,
+	}
+
+	err := c.writeWrappedJson(w, http.StatusOK, ok, "guest")
+	if err != nil {
+		c.logger.Println(err)
+	}
 }

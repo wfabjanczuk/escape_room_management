@@ -30,7 +30,7 @@ const ListingCompact = ({rows, columns, actionsRoute, buttonText, buttonUrl}) =>
 ListingCompact.propTypes = {
     rows: PropTypes.array,
     columns: PropTypes.array,
-    actionsRoute: PropTypes.string,
+    actionsRoute: PropTypes.object,
     buttonText: PropTypes.string,
     buttonUrl: PropTypes.string,
 };

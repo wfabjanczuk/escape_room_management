@@ -34,7 +34,7 @@ Listing.propTypes = {
     rows: PropTypes.array,
     noRowsText: PropTypes.string,
     columns: PropTypes.array,
-    actionsRoute: PropTypes.string,
+    actionsRoute: PropTypes.object,
     buttonText: PropTypes.string,
     buttonUrl: PropTypes.string,
 };
