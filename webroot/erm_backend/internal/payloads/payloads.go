@@ -1,4 +1,4 @@
-package types
+package payloads
 
 type GuestPayload struct {
 	Id              string `json:"id"`

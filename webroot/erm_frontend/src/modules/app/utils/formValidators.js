@@ -24,7 +24,7 @@ export function maxLength(maxLength, keys, formData, errors) {
     }
 }
 
-export function minMaxInt(min, max, keys, formData, errors) {
+export function intMinMax(min, max, keys, formData, errors) {
     const errorMessage = `Value of this number must be from ${min} to ${max}.`;
 
     for (const key of keys) {

@@ -28,14 +28,15 @@ func (c *ticketController) GetTicket(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(params.ByName("id"))
 	if err != nil {
 		c.logger.Println(errors.New("invalid id parameter"))
-		c.writeWrappedErrorJson(w, err)
+		c.writeWrappedErrorJson(w, err, http.StatusBadRequest)
 		return
 	}
 
 	var ticket models.Ticket
-	result := c.db.Preload("Guest").Preload("Reservation").Preload("Reservation.Room").First(&ticket, id)
+	result := c.db.Preload("Guest").
+		Preload("Reservation").Preload("Reservation.Room").First(&ticket, id)
 	if result.Error != nil {
-		c.writeWrappedErrorJson(w, result.Error)
+		c.writeWrappedErrorJson(w, result.Error, http.StatusNotFound)
 		return
 	}
 
@@ -47,9 +48,10 @@ func (c *ticketController) GetTicket(w http.ResponseWriter, r *http.Request) {
 
 func (c *ticketController) GetTickets(w http.ResponseWriter, r *http.Request) {
 	var tickets []models.Ticket
-	result := c.db.Preload("Guest").Preload("Reservation").Preload("Reservation.Room").Find(&tickets)
+	result := c.db.Order("id asc").
+		Preload("Guest").Preload("Reservation").Preload("Reservation.Room").Find(&tickets)
 	if result.Error != nil {
-		c.writeWrappedErrorJson(w, result.Error)
+		c.writeWrappedErrorJson(w, result.Error, http.StatusInternalServerError)
 		return
 	}
 

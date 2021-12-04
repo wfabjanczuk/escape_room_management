@@ -40,12 +40,12 @@ func (c *controller) writeWrappedJson(w http.ResponseWriter, statusCode int, dat
 	return c.writeJson(w, statusCode, wrapper)
 }
 
-func (c *controller) writeWrappedErrorJson(w http.ResponseWriter, error error) {
+func (c *controller) writeWrappedErrorJson(w http.ResponseWriter, error error, status int) {
 	errorData := encapsulatedMessage{
 		Message: error.Error(),
 	}
 
-	err := c.writeWrappedJson(w, http.StatusBadRequest, errorData, "error")
+	err := c.writeWrappedJson(w, status, errorData, "error")
 	if err != nil {
 		c.logger.Println(err)
 	}

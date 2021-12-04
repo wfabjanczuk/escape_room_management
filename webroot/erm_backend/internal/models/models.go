@@ -6,13 +6,13 @@ import (
 )
 
 type Guest struct {
-	ID              uint            `gorm:"primarykey" json:"id"`
-	Email           string          `json:"email"`
-	FirstName       string          `json:"firstName"`
-	LastName        string          `json:"lastName"`
-	PhoneNumber     string          `json:"phoneNumber"`
-	DateBirth       types.Date      `json:"dateBirth"`
-	DiscountPercent types.NullInt64 `json:"discountPercent"`
+	ID              uint            `gorm:"primarykey" json:"id" valid:"-"`
+	Email           string          `json:"email" valid:"required,email,maxstringlength(100)"`
+	FirstName       string          `json:"firstName" valid:"required,alpha,maxstringlength(50)"`
+	LastName        string          `json:"lastName" valid:"required,alpha,maxstringlength(50)"`
+	PhoneNumber     string          `json:"phoneNumber" valid:"required,utfdigit,maxstringlength(12)"`
+	DateBirth       types.Date      `json:"dateBirth" valid:"-"`
+	DiscountPercent types.NullInt64 `json:"discountPercent" valid:"-"`
 }
 
 type Ticket struct {

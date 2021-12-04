@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import * as PropTypes from 'prop-types';
-import {maxLength, minMaxInt, required} from '../../app/utils/formValidators';
+import {intMinMax, maxLength, required} from '../../app/utils/formValidators';
 import Footer from '../../app/components/form/Footer';
 import GuestFormFields from './GuestFormFields';
 import ROUTES, {getRouteWithParams} from '../../app/constants/routes';
@@ -50,14 +50,14 @@ const validateFormData = (formData, setErrors) => {
     maxLength(100, ['email'], formData, errors);
     maxLength(12, ['phoneNumber'], formData, errors);
 
-    minMaxInt(0, 20, ['discountPercent'], formData, errors);
+    intMinMax(0, 20, ['discountPercent'], formData, errors);
 
     setErrors(errors);
 
     return 0 === Object.keys(errors).length;
 };
 
-const sendData = (formData, url, entityExists) => {
+const sendData = (formData, url, entityExists, setErrors) => {
     axios(url, {
         method: entityExists ? 'PUT' : 'POST',
         headers: {
@@ -67,7 +67,19 @@ const sendData = (formData, url, entityExists) => {
     })
         .then(
             (response) => console.log(response),
-            (error) => console.log(error),
+            (error) => {
+                const errorResponse = JSON.parse(error.request.response),
+                    errors = errorResponse.error,
+                    errorsToDisplay = {};
+
+                for (const key in errors) {
+                    if (0 < errors[key].length) {
+                        errorsToDisplay[key] = errors[key][0];
+                    }
+                }
+
+                setErrors(errorsToDisplay);
+            },
         );
 }
 
@@ -87,14 +99,14 @@ const GuestForm = ({guest, isDisabled}) => {
             const submittedFormData = Object.fromEntries(new FormData(event.target));
 
             if (validateFormData(submittedFormData, setErrors)) {
-                sendData(submittedFormData, urls.api, entityExists);
+                sendData(submittedFormData, urls.api, entityExists, setErrors);
             }
         };
 
     return <form className='form' method='POST' onSubmit={handleSubmit}>
         <GuestFormFields entityExists={entityExists} isDisabled={isDisabled} onValueChange={onValueChange}
                          formData={formData} errors={errors}/>
-        <Footer entityExists={entityExists} isDisabled={isDisabled} redirectUrl={urls.redirect}/>
+        <Footer entityExists={entityExists} isDisabled={isDisabled} redirectUrl={urls.redirect} error={errors.general}/>
     </form>;
 }
 
