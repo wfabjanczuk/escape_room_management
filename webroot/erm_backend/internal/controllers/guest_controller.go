@@ -62,51 +62,11 @@ func (c *guestController) GetGuests(w http.ResponseWriter, r *http.Request) {
 }
 
 func (c *guestController) CreateGuest(w http.ResponseWriter, r *http.Request) {
-	type jsonResp struct {
-		OK bool `json:"create"`
-	}
-
-	ok := jsonResp{
-		OK: true,
-	}
-
-	err := c.writeWrappedJson(w, http.StatusOK, ok, "guest")
-	if err != nil {
-		c.logger.Println(err)
-	}
+	c.handleSaveGuest(w, r, false)
 }
 
 func (c *guestController) UpdateGuest(w http.ResponseWriter, r *http.Request) {
-	var guestPayload types.GuestPayload
-
-	err := json.NewDecoder(r.Body).Decode(&guestPayload)
-	if err != nil {
-		c.logger.Println(err)
-	}
-
-	guest, err := models.ParseGuest(guestPayload, true)
-	if err != nil {
-		c.logger.Println(err)
-	}
-
-	bytes, err := json.Marshal(guest)
-	if err != nil {
-		c.logger.Println(err)
-	}
-	c.logger.Println(string(bytes))
-
-	type jsonResp struct {
-		OK bool `json:"update"`
-	}
-
-	ok := jsonResp{
-		OK: true,
-	}
-
-	err = c.writeWrappedJson(w, http.StatusOK, ok, "guest")
-	if err != nil {
-		c.logger.Println(err)
-	}
+	c.handleSaveGuest(w, r, true)
 }
 
 func (c *guestController) DeleteGuest(w http.ResponseWriter, r *http.Request) {
@@ -122,4 +82,39 @@ func (c *guestController) DeleteGuest(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		c.logger.Println(err)
 	}
+}
+
+func (c *guestController) handleSaveGuest(w http.ResponseWriter, r *http.Request, parseId bool) {
+	guest, err := c.saveGuestFromRequest(r, parseId)
+	if err != nil {
+		c.writeWrappedErrorJson(w, err)
+		return
+	}
+
+	err = c.writeWrappedJson(w, http.StatusOK, guest, "guest")
+	if err != nil {
+		c.logger.Println(err)
+	}
+}
+
+func (c *guestController) saveGuestFromRequest(r *http.Request, parseId bool) (models.Guest, error) {
+	var guestPayload types.GuestPayload
+	var guest models.Guest
+
+	err := json.NewDecoder(r.Body).Decode(&guestPayload)
+	if err != nil {
+		return guest, err
+	}
+
+	guest, err = models.ParseGuest(guestPayload, parseId)
+	if err != nil {
+		return guest, err
+	}
+
+	result := c.db.Save(&guest)
+	if result.Error != nil {
+		return guest, result.Error
+	}
+
+	return guest, nil
 }
