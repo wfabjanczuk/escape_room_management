@@ -11,17 +11,17 @@ type NullInt64 struct {
 }
 
 func (ni NullInt64) MarshalJSON() ([]byte, error) {
-	if !ni.Valid {
+	if !ni.NullInt64.Valid {
 		return []byte("null"), nil
 	}
 
-	return json.Marshal(&ni.Int64)
+	return json.Marshal(&ni.NullInt64.Int64)
 }
 
 func (ni *NullInt64) UnmarshalJSON(data []byte) error {
 	if "null" == string(data) {
 		*ni = NullInt64{
-			sql.NullInt64{
+			NullInt64: sql.NullInt64{
 				Valid: false,
 				Int64: 0,
 			},
@@ -36,7 +36,7 @@ func (ni *NullInt64) UnmarshalJSON(data []byte) error {
 	}
 
 	*ni = NullInt64{
-		sql.NullInt64{
+		NullInt64: sql.NullInt64{
 			Valid: true,
 			Int64: int64(number),
 		},

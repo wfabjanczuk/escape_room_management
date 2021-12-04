@@ -23,7 +23,7 @@ const ListingWide = ({rows, columns, actionsRoute, buttonText, buttonUrl}) => (
                         <td key={`${rIndex}_${cIndex}`}
                             className={(c.isExtra ? 'extra-column ' : '') + ('id' === c.key ? 'id-column ' : '')}
                         >
-                            {r[c.key]}
+                            {c.render ? c.render(r) : r[c.key]}
                         </td>
                     ))}
                     <td>

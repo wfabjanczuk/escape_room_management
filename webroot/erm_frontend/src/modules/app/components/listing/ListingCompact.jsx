@@ -11,7 +11,7 @@ const ListingCompact = ({rows, columns, actionsRoute, buttonText, buttonUrl}) =>
                 {columns.map((c, cIndex) => (
                     <tr key={`${rIndex}_${cIndex}`}>
                         <th>{c.name}</th>
-                        <td>{r[c.key]}</td>
+                        <td>{c.render ? c.render(r) : r[c.key]}</td>
                     </tr>
                 ))}
                 <tr>

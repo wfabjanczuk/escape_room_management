@@ -17,7 +17,7 @@ func ParseGuest(payload types.GuestPayload, parseId bool) (Guest, error) {
 			return guest, err
 		}
 
-		guest.Id = uint(id)
+		guest.ID = uint(id)
 	}
 
 	guest.Email = payload.Email
@@ -30,7 +30,7 @@ func ParseGuest(payload types.GuestPayload, parseId bool) (Guest, error) {
 		return guest, err
 	}
 	guest.DateBirth = types.Date{
-		dateBirth,
+		Time: dateBirth,
 	}
 
 	if len(payload.DiscountPercent) > 0 {
@@ -40,14 +40,14 @@ func ParseGuest(payload types.GuestPayload, parseId bool) (Guest, error) {
 		}
 
 		guest.DiscountPercent = types.NullInt64{
-			sql.NullInt64{
+			NullInt64: sql.NullInt64{
 				Int64: int64(discountPercent),
 				Valid: true,
 			},
 		}
 	} else {
 		guest.DiscountPercent = types.NullInt64{
-			sql.NullInt64{
+			NullInt64: sql.NullInt64{
 				Int64: 0,
 				Valid: false,
 			},
