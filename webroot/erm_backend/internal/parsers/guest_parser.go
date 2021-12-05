@@ -88,7 +88,7 @@ func validateGuest(guest models.Guest, parseId bool, guestErrors *GuestErrors) *
 		parseStructError(err, guestErrors)
 	}
 
-	if parseId {
+	if parseId && guest.ID < 1 {
 		guestErrors.ErrorsCount++
 		guestErrors.StatusCode = http.StatusBadRequest
 		guestErrors.General = append(guestErrors.General, "Invalid form data")
@@ -101,11 +101,10 @@ func parseStructError(err error, guestErrors *GuestErrors) {
 	errorSlice := strings.Split(err.Error(), ";")
 
 	for _, fieldError := range errorSlice {
-		parts := strings.Split(fieldError, ":")
-		message := strings.TrimSpace(parts[1])
-		message = strings.ToUpper(message[:1]) + message[1:]
+		errorParts := strings.Split(fieldError, ":")
+		message := transformErrorMessage(strings.TrimSpace(errorParts[1]))
 
-		putStructError(parts[0], message, guestErrors)
+		putStructError(errorParts[0], message, guestErrors)
 	}
 }
 

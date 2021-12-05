@@ -66,7 +66,9 @@ const sendData = (formData, url, entityExists, setErrors) => {
         data: formData
     })
         .then(
-            (response) => console.log(response),
+            (response) => {
+                setErrors({});
+            },
             (error) => {
                 const errorResponse = JSON.parse(error.request.response),
                     errors = errorResponse.error,
