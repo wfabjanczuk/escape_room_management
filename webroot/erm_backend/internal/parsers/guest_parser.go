@@ -2,9 +2,11 @@ package parsers
 
 import (
 	"database/sql"
+	"encoding/json"
 	"erm_backend/internal/constants"
 	"erm_backend/internal/models"
 	"erm_backend/internal/payloads"
+	"erm_backend/internal/responses"
 	"erm_backend/internal/types"
 	"github.com/asaskevich/govalidator"
 	"net/http"
@@ -13,21 +15,26 @@ import (
 	"time"
 )
 
-func ParseGuest(payload payloads.GuestPayload, parseId bool, guestErrors *GuestErrors) (models.Guest, *GuestErrors) {
-	guest, guestErrors := extractGuest(payload, parseId, guestErrors)
-	if guestErrors.ErrorsCount > 0 {
-		return guest, guestErrors
+func ParseGuestFromRequest(r *http.Request, parseId bool, guestErrors *responses.GuestErrors) models.Guest {
+	var guestPayload payloads.GuestPayload
+	var guest models.Guest
+
+	err := json.NewDecoder(r.Body).Decode(&guestPayload)
+	if err != nil {
+		guestErrors.ErrorsCount++
+		guestErrors.StatusCode = http.StatusBadRequest
+		guestErrors.General = append(guestErrors.General, "Invalid form data")
+
+		return guest
 	}
 
-	guestErrors = validateGuest(guest, parseId, guestErrors)
-	if guestErrors.ErrorsCount > 0 {
-		return guest, guestErrors
-	}
+	guest = extractGuest(guestPayload, parseId, guestErrors)
+	validateGuest(guest, parseId, guestErrors)
 
-	return guest, guestErrors
+	return guest
 }
 
-func extractGuest(payload payloads.GuestPayload, parseId bool, guestErrors *GuestErrors) (models.Guest, *GuestErrors) {
+func extractGuest(payload payloads.GuestPayload, parseId bool, guestErrors *responses.GuestErrors) models.Guest {
 	var guest models.Guest
 
 	if parseId {
@@ -50,7 +57,7 @@ func extractGuest(payload payloads.GuestPayload, parseId bool, guestErrors *Gues
 	if err != nil {
 		guestErrors.ErrorsCount++
 		guestErrors.StatusCode = http.StatusBadRequest
-		guestErrors.DateBirth = append(guestErrors.General, "Invalid date of birth")
+		guestErrors.DateBirth = append(guestErrors.DateBirth, "Invalid date of birth")
 	}
 	guest.DateBirth = types.Date{
 		Time: dateBirth,
@@ -58,10 +65,10 @@ func extractGuest(payload payloads.GuestPayload, parseId bool, guestErrors *Gues
 
 	if len(payload.DiscountPercent) > 0 {
 		discountPercent, err := strconv.Atoi(payload.DiscountPercent)
-		if err != nil {
+		if err != nil || discountPercent < 0 || discountPercent > 20 {
 			guestErrors.ErrorsCount++
 			guestErrors.StatusCode = http.StatusBadRequest
-			guestErrors.General = append(guestErrors.General, "Invalid discount percent")
+			guestErrors.DiscountPercent = append(guestErrors.DiscountPercent, "Invalid discount percent")
 		}
 
 		guest.DiscountPercent = types.NullInt64{
@@ -79,10 +86,10 @@ func extractGuest(payload payloads.GuestPayload, parseId bool, guestErrors *Gues
 		}
 	}
 
-	return guest, guestErrors
+	return guest
 }
 
-func validateGuest(guest models.Guest, parseId bool, guestErrors *GuestErrors) *GuestErrors {
+func validateGuest(guest models.Guest, parseId bool, guestErrors *responses.GuestErrors) {
 	result, err := govalidator.ValidateStruct(guest)
 	if !result {
 		parseStructError(err, guestErrors)
@@ -93,11 +100,9 @@ func validateGuest(guest models.Guest, parseId bool, guestErrors *GuestErrors) *
 		guestErrors.StatusCode = http.StatusBadRequest
 		guestErrors.General = append(guestErrors.General, "Invalid form data")
 	}
-
-	return guestErrors
 }
 
-func parseStructError(err error, guestErrors *GuestErrors) {
+func parseStructError(err error, guestErrors *responses.GuestErrors) {
 	errorSlice := strings.Split(err.Error(), ";")
 
 	for _, fieldError := range errorSlice {
@@ -108,7 +113,7 @@ func parseStructError(err error, guestErrors *GuestErrors) {
 	}
 }
 
-func putStructError(key, message string, guestErrors *GuestErrors) {
+func putStructError(key, message string, guestErrors *responses.GuestErrors) {
 	guestErrors.StatusCode = http.StatusBadRequest
 
 	switch key {

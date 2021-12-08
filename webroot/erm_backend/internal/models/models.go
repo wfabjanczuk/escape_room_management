@@ -8,8 +8,8 @@ import (
 type Guest struct {
 	ID              uint            `gorm:"primarykey" json:"id" valid:"-"`
 	Email           string          `json:"email" valid:"required,email,maxstringlength(100)"`
-	FirstName       string          `json:"firstName" valid:"required,alpha,maxstringlength(50)"`
-	LastName        string          `json:"lastName" valid:"required,alpha,maxstringlength(50)"`
+	FirstName       string          `json:"firstName" valid:"required,utfletter,maxstringlength(50)"`
+	LastName        string          `json:"lastName" valid:"required,utfletter,maxstringlength(50)"`
 	PhoneNumber     string          `json:"phoneNumber" valid:"required,utfdigit,maxstringlength(12)"`
 	DateBirth       types.Date      `json:"dateBirth" valid:"-"`
 	DiscountPercent types.NullInt64 `json:"discountPercent" valid:"-"`

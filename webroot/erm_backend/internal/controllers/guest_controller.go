@@ -1,13 +1,11 @@
 package controllers
 
 import (
-	"encoding/json"
-	"erm_backend/internal/models"
 	"erm_backend/internal/parsers"
-	"erm_backend/internal/payloads"
+	"erm_backend/internal/repositories"
+	"erm_backend/internal/responses"
 	"errors"
 	"github.com/julienschmidt/httprouter"
-	"gorm.io/gorm"
 	"log"
 	"net/http"
 	"strconv"
@@ -15,13 +13,13 @@ import (
 
 type guestController struct {
 	controller
-	db *gorm.DB
+	guestRepository *repositories.GuestRepository
 }
 
-func NewGuestController(logger *log.Logger, db *gorm.DB) *guestController {
+func NewGuestController(logger *log.Logger, guestRepository *repositories.GuestRepository) *guestController {
 	return &guestController{
-		controller: newController(logger),
-		db:         db,
+		controller:      newController(logger),
+		guestRepository: guestRepository,
 	}
 }
 
@@ -35,10 +33,9 @@ func (c *guestController) GetGuest(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var guest models.Guest
-	result := c.db.First(&guest, id)
-	if result.Error != nil {
-		c.writeWrappedErrorJson(w, result.Error, http.StatusNotFound)
+	guest, err := c.guestRepository.GetGuest(id)
+	if err != nil {
+		c.writeWrappedErrorJson(w, err, http.StatusNotFound)
 		return
 	}
 
@@ -49,14 +46,13 @@ func (c *guestController) GetGuest(w http.ResponseWriter, r *http.Request) {
 }
 
 func (c *guestController) GetGuests(w http.ResponseWriter, r *http.Request) {
-	var guests []models.Guest
-	result := c.db.Order("id asc").Find(&guests)
-	if result.Error != nil {
-		c.writeWrappedErrorJson(w, result.Error, http.StatusInternalServerError)
+	guests, err := c.guestRepository.GetGuests()
+	if err != nil {
+		c.writeWrappedErrorJson(w, err, http.StatusInternalServerError)
 		return
 	}
 
-	err := c.writeWrappedJson(w, http.StatusOK, guests, "guests")
+	err = c.writeWrappedJson(w, http.StatusOK, guests, "guests")
 	if err != nil {
 		c.logger.Println(err)
 	}
@@ -86,7 +82,13 @@ func (c *guestController) DeleteGuest(w http.ResponseWriter, r *http.Request) {
 }
 
 func (c *guestController) handleSaveGuest(w http.ResponseWriter, r *http.Request, parseId bool) {
-	guest, guestErrors := c.saveGuestFromRequest(r, parseId)
+	guestErrors := &responses.GuestErrors{}
+	guest := parsers.ParseGuestFromRequest(r, parseId, guestErrors)
+
+	if guestErrors.ErrorsCount == 0 {
+		c.guestRepository.SaveGuest(guest, guestErrors)
+	}
+
 	if guestErrors.ErrorsCount > 0 {
 		err := c.writeWrappedJson(w, guestErrors.StatusCode, guestErrors, "error")
 		if err != nil {
@@ -100,35 +102,4 @@ func (c *guestController) handleSaveGuest(w http.ResponseWriter, r *http.Request
 	if err != nil {
 		c.logger.Println(err)
 	}
-}
-
-func (c *guestController) saveGuestFromRequest(r *http.Request, parseId bool) (models.Guest, *parsers.GuestErrors) {
-	var guestPayload payloads.GuestPayload
-	var guest models.Guest
-	guestErrors := &parsers.GuestErrors{}
-
-	err := json.NewDecoder(r.Body).Decode(&guestPayload)
-	if err != nil {
-		guestErrors.ErrorsCount++
-		guestErrors.StatusCode = http.StatusBadRequest
-		guestErrors.General = append(guestErrors.General, "Invalid form data")
-
-		return guest, guestErrors
-	}
-
-	guest, guestErrors = parsers.ParseGuest(guestPayload, parseId, guestErrors)
-	if guestErrors.ErrorsCount > 0 {
-		return guest, guestErrors
-	}
-
-	result := c.db.Save(&guest)
-	if result.Error != nil {
-		guestErrors.ErrorsCount++
-		guestErrors.StatusCode = http.StatusInternalServerError
-		guestErrors.General = append(guestErrors.General, "Saving guest data failed")
-
-		return guest, guestErrors
-	}
-
-	return guest, guestErrors
 }

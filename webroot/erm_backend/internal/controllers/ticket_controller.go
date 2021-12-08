@@ -1,10 +1,9 @@
 package controllers
 
 import (
-	"erm_backend/internal/models"
+	"erm_backend/internal/repositories"
 	"errors"
 	"github.com/julienschmidt/httprouter"
-	"gorm.io/gorm"
 	"log"
 	"net/http"
 	"strconv"
@@ -12,13 +11,13 @@ import (
 
 type ticketController struct {
 	controller
-	db *gorm.DB
+	ticketRepository *repositories.TicketRepository
 }
 
-func NewTicketController(logger *log.Logger, db *gorm.DB) *ticketController {
+func NewTicketController(logger *log.Logger, ticketRepository *repositories.TicketRepository) *ticketController {
 	return &ticketController{
-		controller: newController(logger),
-		db:         db,
+		controller:       newController(logger),
+		ticketRepository: ticketRepository,
 	}
 }
 
@@ -32,11 +31,9 @@ func (c *ticketController) GetTicket(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var ticket models.Ticket
-	result := c.db.Preload("Guest").
-		Preload("Reservation").Preload("Reservation.Room").First(&ticket, id)
-	if result.Error != nil {
-		c.writeWrappedErrorJson(w, result.Error, http.StatusNotFound)
+	ticket, err := c.ticketRepository.GetTicket(id)
+	if err != nil {
+		c.writeWrappedErrorJson(w, err, http.StatusNotFound)
 		return
 	}
 
@@ -47,15 +44,13 @@ func (c *ticketController) GetTicket(w http.ResponseWriter, r *http.Request) {
 }
 
 func (c *ticketController) GetTickets(w http.ResponseWriter, r *http.Request) {
-	var tickets []models.Ticket
-	result := c.db.Order("id asc").
-		Preload("Guest").Preload("Reservation").Preload("Reservation.Room").Find(&tickets)
-	if result.Error != nil {
-		c.writeWrappedErrorJson(w, result.Error, http.StatusInternalServerError)
+	tickets, err := c.ticketRepository.GetTickets()
+	if err != nil {
+		c.writeWrappedErrorJson(w, err, http.StatusInternalServerError)
 		return
 	}
 
-	err := c.writeWrappedJson(w, http.StatusOK, tickets, "tickets")
+	err = c.writeWrappedJson(w, http.StatusOK, tickets, "tickets")
 	if err != nil {
 		c.logger.Println(err)
 	}

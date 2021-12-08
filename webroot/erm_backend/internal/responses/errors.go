@@ -1,4 +1,4 @@
-package parsers
+package responses
 
 type GuestErrors struct {
 	ErrorsCount     int      `json:"-"`

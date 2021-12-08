@@ -23,7 +23,7 @@ func transformErrorMessage(message string) string {
 	switch validatorType {
 	case "email":
 		return "This field must be a valid email address."
-	case "alpha":
+	case "utfletter":
 		return "Only letters allowed."
 	case "utfdigit":
 		return "Only digits allowed."
