@@ -21,10 +21,7 @@ func ParseGuestFromRequest(r *http.Request, parseId bool, guestErrors *responses
 
 	err := json.NewDecoder(r.Body).Decode(&guestPayload)
 	if err != nil {
-		guestErrors.ErrorsCount++
-		guestErrors.StatusCode = http.StatusBadRequest
-		guestErrors.General = append(guestErrors.General, "Invalid form data")
-
+		guestErrors.AddError("", "Invalid form data", http.StatusBadRequest)
 		return guest
 	}
 
@@ -40,9 +37,7 @@ func extractGuest(payload payloads.GuestPayload, parseId bool, guestErrors *resp
 	if parseId {
 		id, err := strconv.Atoi(payload.Id)
 		if err != nil {
-			guestErrors.ErrorsCount++
-			guestErrors.StatusCode = http.StatusBadRequest
-			guestErrors.General = append(guestErrors.General, "Invalid form data")
+			guestErrors.AddError("", "Invalid form data", http.StatusBadRequest)
 		}
 
 		guest.ID = uint(id)
@@ -55,9 +50,7 @@ func extractGuest(payload payloads.GuestPayload, parseId bool, guestErrors *resp
 
 	dateBirth, err := time.Parse(constants.DefaultDateFormat, payload.DateBirth)
 	if err != nil {
-		guestErrors.ErrorsCount++
-		guestErrors.StatusCode = http.StatusBadRequest
-		guestErrors.DateBirth = append(guestErrors.DateBirth, "Invalid date of birth")
+		guestErrors.AddError("dateBirth", "Invalid date of birth", http.StatusBadRequest)
 	}
 	guest.DateBirth = types.Date{
 		Time: dateBirth,
@@ -66,9 +59,7 @@ func extractGuest(payload payloads.GuestPayload, parseId bool, guestErrors *resp
 	if len(payload.DiscountPercent) > 0 {
 		discountPercent, err := strconv.Atoi(payload.DiscountPercent)
 		if err != nil || discountPercent < 0 || discountPercent > 20 {
-			guestErrors.ErrorsCount++
-			guestErrors.StatusCode = http.StatusBadRequest
-			guestErrors.DiscountPercent = append(guestErrors.DiscountPercent, "Invalid discount percent")
+			guestErrors.AddError("discountPercent", "Invalid discount percent", http.StatusBadRequest)
 		}
 
 		guest.DiscountPercent = types.NullInt64{
@@ -96,9 +87,7 @@ func validateGuest(guest models.Guest, parseId bool, guestErrors *responses.Gues
 	}
 
 	if parseId && guest.ID < 1 {
-		guestErrors.ErrorsCount++
-		guestErrors.StatusCode = http.StatusBadRequest
-		guestErrors.General = append(guestErrors.General, "Invalid form data")
+		guestErrors.AddError("", "Invalid form data", http.StatusBadRequest)
 	}
 }
 
@@ -109,34 +98,6 @@ func parseStructError(err error, guestErrors *responses.GuestErrors) {
 		errorParts := strings.Split(fieldError, ":")
 		message := transformErrorMessage(strings.TrimSpace(errorParts[1]))
 
-		putStructError(errorParts[0], message, guestErrors)
-	}
-}
-
-func putStructError(key, message string, guestErrors *responses.GuestErrors) {
-	guestErrors.StatusCode = http.StatusBadRequest
-
-	switch key {
-	case "email":
-		guestErrors.ErrorsCount++
-		guestErrors.Email = append(guestErrors.Email, message)
-	case "firstName":
-		guestErrors.ErrorsCount++
-		guestErrors.FirstName = append(guestErrors.FirstName, message)
-	case "lastName":
-		guestErrors.ErrorsCount++
-		guestErrors.LastName = append(guestErrors.LastName, message)
-	case "phoneNumber":
-		guestErrors.ErrorsCount++
-		guestErrors.PhoneNumber = append(guestErrors.PhoneNumber, message)
-	case "dateBirth":
-		guestErrors.ErrorsCount++
-		guestErrors.DateBirth = append(guestErrors.DateBirth, message)
-	case "discountPercent":
-		guestErrors.ErrorsCount++
-		guestErrors.DiscountPercent = append(guestErrors.DiscountPercent, message)
-	default:
-		guestErrors.ErrorsCount++
-		guestErrors.General = append(guestErrors.General, message)
+		guestErrors.AddError(errorParts[0], message, http.StatusBadRequest)
 	}
 }
