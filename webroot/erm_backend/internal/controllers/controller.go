@@ -20,6 +20,11 @@ type encapsulatedMessage struct {
 	Message string `json:"message"`
 }
 
+func (c *controller) writeEmptyResponse(w http.ResponseWriter, statusCode int) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(statusCode)
+}
+
 func (c *controller) writeJson(w http.ResponseWriter, statusCode int, data interface{}) error {
 	output, err := json.Marshal(data)
 	if err != nil {
@@ -28,7 +33,14 @@ func (c *controller) writeJson(w http.ResponseWriter, statusCode int, data inter
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(statusCode)
-	w.Write(output)
+
+	_, err = w.Write(output)
+	if err != nil {
+		c.logger.Println(err)
+		return nil
+	}
+
+	c.logger.Println(data)
 
 	return nil
 }

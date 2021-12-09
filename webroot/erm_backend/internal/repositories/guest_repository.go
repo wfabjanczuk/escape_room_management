@@ -65,3 +65,12 @@ func (r *GuestRepository) IsGuestEmailValid(email string, id sql.NullInt64) bool
 	result := query.Count(&count)
 	return result.Error == nil && count == 0
 }
+
+func (r *GuestRepository) DeleteGuest(id int) error {
+	guest, err := r.GetGuest(id)
+	if err != nil {
+		return err
+	}
+
+	return r.db.Delete(&guest).Error
+}

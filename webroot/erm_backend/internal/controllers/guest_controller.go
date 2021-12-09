@@ -6,6 +6,7 @@ import (
 	"erm_backend/internal/responses"
 	"errors"
 	"github.com/julienschmidt/httprouter"
+	"gorm.io/gorm"
 	"log"
 	"net/http"
 	"strconv"
@@ -28,7 +29,6 @@ func (c *guestController) GetGuest(w http.ResponseWriter, r *http.Request) {
 
 	id, err := strconv.Atoi(params.ByName("id"))
 	if err != nil {
-		c.logger.Println(errors.New("invalid id parameter"))
 		c.writeWrappedErrorJson(w, err, http.StatusBadRequest)
 		return
 	}
@@ -67,18 +67,25 @@ func (c *guestController) UpdateGuest(w http.ResponseWriter, r *http.Request) {
 }
 
 func (c *guestController) DeleteGuest(w http.ResponseWriter, r *http.Request) {
-	type jsonResp struct {
-		OK bool `json:"delete"`
-	}
+	params := httprouter.ParamsFromContext(r.Context())
 
-	ok := jsonResp{
-		OK: true,
-	}
-
-	err := c.writeWrappedJson(w, http.StatusOK, ok, "guest")
+	id, err := strconv.Atoi(params.ByName("id"))
 	if err != nil {
-		c.logger.Println(err)
+		c.writeWrappedErrorJson(w, err, http.StatusBadRequest)
+		return
 	}
+
+	err = c.guestRepository.DeleteGuest(id)
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			c.writeWrappedErrorJson(w, err, http.StatusNotFound)
+		} else {
+			c.writeWrappedErrorJson(w, errors.New("deleting guest failed"), http.StatusInternalServerError)
+		}
+		return
+	}
+
+	c.writeEmptyResponse(w, http.StatusOK)
 }
 
 func (c *guestController) handleSaveGuest(w http.ResponseWriter, r *http.Request, parseId bool) {

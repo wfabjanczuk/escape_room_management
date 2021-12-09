@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"erm_backend/internal/repositories"
-	"errors"
 	"github.com/julienschmidt/httprouter"
 	"log"
 	"net/http"
@@ -26,7 +25,6 @@ func (c *ticketController) GetTicket(w http.ResponseWriter, r *http.Request) {
 
 	id, err := strconv.Atoi(params.ByName("id"))
 	if err != nil {
-		c.logger.Println(errors.New("invalid id parameter"))
 		c.writeWrappedErrorJson(w, err, http.StatusBadRequest)
 		return
 	}
