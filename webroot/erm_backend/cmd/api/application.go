@@ -30,7 +30,7 @@ func newApplication() *application {
 	return &application{
 		config: cfg,
 		logger: log.New(os.Stdout, "", log.Ldate|log.Ltime),
-		db:     openDbConnection(cfg.dsn),
+		db:     openDevDbConnection(cfg.dsn),
 	}
 }
 
@@ -83,5 +83,27 @@ func openDbConnection(dsn string) *gorm.DB {
 		log.Fatal("Could not establish DB connection")
 	}
 
+	return db
+}
+
+func openDevDbConnection(dsn string) *gorm.DB {
+	var db *gorm.DB
+	var err error
+	maxRetries := 10
+
+	log.Println(fmt.Sprintf("Trying to open DB connection. Max retries: %d", maxRetries))
+
+	for i := 1; i <= maxRetries; i++ {
+		log.Println(fmt.Sprintf("Opening DB connection attempt %d", i))
+		db, err = gorm.Open(postgres.Open(dsn))
+		if err == nil {
+			log.Println("DB connection successfully opened.")
+			return db
+		}
+		time.Sleep(10 * time.Second)
+	}
+
+	log.Println(err)
+	log.Fatal("Could not open DB connection.")
 	return db
 }

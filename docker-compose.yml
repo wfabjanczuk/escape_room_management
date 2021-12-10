@@ -48,5 +48,3 @@ services:
       - ./webroot/erm_frontend:/usr/src/app:rw
     ports:
       - "3000:3000"
-    depends_on:
-      - erm_backend
