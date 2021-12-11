@@ -12,12 +12,14 @@ import Tickets from './modules/tickets/views/Tickets';
 import Rooms from './modules/rooms/views/Rooms';
 import Home from './modules/app/views/Home';
 import ROUTES from './modules/app/constants/routes';
+import FlashMessenger from "./modules/app/components/flash/FlashMessenger";
 
 export default function App() {
     return <BrowserRouter>
         <Header/>
         <Navigation/>
         <main>
+            <FlashMessenger/>
             <Routes>
                 <Route path={ROUTES.home} element={<Home/>}/>
                 <Route path={ROUTES.guests.index} element={<Guests/>}/>

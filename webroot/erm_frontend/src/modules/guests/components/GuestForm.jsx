@@ -5,6 +5,9 @@ import Footer from '../../app/components/form/Footer';
 import GuestFormFields from './GuestFormFields';
 import ROUTES, {getRouteWithParams} from '../../app/constants/routes';
 import axios from 'axios';
+import {addSuccessMessage} from "../../redux/flash/flashActions";
+import {connect} from "react-redux";
+import {useNavigate} from "react-router-dom";
 
 const getInitialFormData = (guest) => {
     if (guest) {
@@ -57,7 +60,9 @@ const validateFormData = (formData, setErrors) => {
     return 0 === Object.keys(errors).length;
 };
 
-const sendData = (formData, url, entityExists, setErrors) => {
+const sendData = (formData, url, entityExists, setErrors, addSuccessMessage, navigate) => {
+    const successMessage = `Guest ${entityExists ? 'saved' : 'created'} successfully.`;
+
     axios(url, {
         method: entityExists ? 'PUT' : 'POST',
         headers: {
@@ -68,6 +73,8 @@ const sendData = (formData, url, entityExists, setErrors) => {
         .then(
             (response) => {
                 setErrors({});
+                addSuccessMessage(successMessage);
+                navigate(ROUTES.guests.index)
             },
             (error) => {
                 const errorResponse = JSON.parse(error.request.response),
@@ -85,11 +92,12 @@ const sendData = (formData, url, entityExists, setErrors) => {
         );
 }
 
-const GuestForm = ({guest, isDisabled}) => {
+const GuestForm = ({guest, isDisabled, addSuccessMessage}) => {
     const entityExists = !!guest,
         urls = getUrls(guest, entityExists, isDisabled),
         [formData, setFormData] = useState(getInitialFormData(guest)),
         [errors, setErrors] = useState({}),
+        navigate = useNavigate(),
         onValueChange = (event) => {
             setFormData(formData => ({
                 ...formData,
@@ -101,7 +109,7 @@ const GuestForm = ({guest, isDisabled}) => {
             const submittedFormData = Object.fromEntries(new FormData(event.target));
 
             if (validateFormData(submittedFormData, setErrors)) {
-                sendData(submittedFormData, urls.api, entityExists, setErrors);
+                sendData(submittedFormData, urls.api, entityExists, setErrors, addSuccessMessage, navigate);
             }
         };
 
@@ -115,6 +123,11 @@ const GuestForm = ({guest, isDisabled}) => {
 GuestForm.propTypes = {
     guest: PropTypes.object,
     isDisabled: PropTypes.bool,
+    addSuccessMessage: PropTypes.func,
 };
 
-export default GuestForm;
+const mapDispatchToProps = (dispatch) => ({
+    addSuccessMessage: (content) => dispatch(addSuccessMessage(content)),
+});
+
+export default connect(null, mapDispatchToProps)(GuestForm);

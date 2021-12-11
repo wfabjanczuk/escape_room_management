@@ -167,6 +167,46 @@ main h2 {
     background-color: #db1200;
 }
 
+.alert {
+    text-decoration: none;
+    text-align: left;
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    overflow-wrap: anywhere;
+}
+
+.alert + .alert {
+    margin-top: 0.5rem;
+}
+
+.alert .alert__close {
+    margin-left: 1.5rem;
+    height: 1rem;
+    cursor: pointer;
+}
+
+.alert.alert--success {
+    background-color: #95ed78;
+    border: 1px solid #369b14;
+    color: #1b4d0a;
+}
+
+.alert.alert--warning {
+    background-color: #ffd582;
+    border: 1px solid #db9406;
+    color: #6d4a02;
+}
+
+.alert.alert--error {
+    background-color: #ff947f;
+    border: 1px solid #db1200;
+    color: #6d0800;
+}
+
 .listing.listing--wide {
     display: block;
 }
