@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import * as PropTypes from 'prop-types';
-import {intMinMax, maxLength, required} from '../../app/utils/formValidators';
+import {intMinMax, isAlpha, isDigits, isEmail, maxLength, required} from '../../app/utils/formValidators';
 import Footer from '../../app/components/form/Footer';
 import GuestFormFields from './GuestFormFields';
 import ROUTES, {getRouteWithParams} from '../../app/constants/routes';
@@ -50,11 +50,14 @@ const validateFormData = (formData, setErrors) => {
 
     required(['firstName', 'lastName', 'email', 'phoneNumber', 'dateBirth'], formData, errors);
 
+    isAlpha(['firstName', 'lastName'], formData, errors);
+    isEmail(['email'], formData, errors);
+    isDigits(['phoneNumber'], formData, errors);
+    intMinMax(0, 20, ['discountPercent'], formData, errors);
+
     maxLength(50, ['firstName', 'lastName'], formData, errors);
     maxLength(100, ['email'], formData, errors);
     maxLength(12, ['phoneNumber'], formData, errors);
-
-    intMinMax(0, 20, ['discountPercent'], formData, errors);
 
     setErrors(errors);
 

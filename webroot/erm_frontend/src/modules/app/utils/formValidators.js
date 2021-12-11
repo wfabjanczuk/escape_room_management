@@ -1,7 +1,8 @@
+import validatorIsEmail from 'validator/lib/isEmail';
+import XRegExp from "xregexp";
+
 const putError = (key, errors, errorMessage) => {
-    errors[key] = errors[key]
-        ? `${errors[key]} ${errorMessage}`
-        : errorMessage;
+    errors[key] = errors[key] ? errors[key] : errorMessage;
 };
 
 export function required(keys, formData, errors) {
@@ -40,3 +41,33 @@ export function intMinMax(min, max, keys, formData, errors) {
     }
 }
 
+export function isAlpha(keys, formData, errors) {
+    const errorMessage = 'Only letters allowed.';
+
+    for (const key of keys) {
+        if (!XRegExp('^[\\p{Letter}]+$').test(formData[key])) {
+            putError(key, errors, errorMessage);
+        }
+    }
+}
+
+export function isDigits(keys, formData, errors) {
+    const errorMessage = 'Only digits allowed.',
+        pattern = /^[0-9]+$/;
+
+    for (const key of keys) {
+        if (!pattern.test(formData[key])) {
+            putError(key, errors, errorMessage);
+        }
+    }
+}
+
+export function isEmail(keys, formData, errors) {
+    const errorMessage = 'This field must be a valid email address.';
+
+    for (const key of keys) {
+        if (!validatorIsEmail(formData[key])) {
+            putError(key, errors, errorMessage);
+        }
+    }
+}
