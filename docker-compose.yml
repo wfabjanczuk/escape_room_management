@@ -6,7 +6,6 @@ services:
     hostname: erm_database
     container_name: erm_database
     restart: unless-stopped
-    env_file: .env
     environment:
       POSTGRES_DB: erm
       POSTGRES_USER: developer

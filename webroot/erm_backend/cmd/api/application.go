@@ -30,7 +30,7 @@ func newApplication() *application {
 	return &application{
 		config: cfg,
 		logger: log.New(os.Stdout, "", log.Ldate|log.Ltime),
-		db:     openDevDbConnection(cfg.dsn),
+		db:     openLocalDbConnection(cfg.dsn),
 	}
 }
 
@@ -86,24 +86,24 @@ func openDbConnection(dsn string) *gorm.DB {
 	return db
 }
 
-func openDevDbConnection(dsn string) *gorm.DB {
+func openLocalDbConnection(dsn string) *gorm.DB {
 	var db *gorm.DB
 	var err error
 	maxRetries := 10
 
-	log.Println(fmt.Sprintf("Trying to open DB connection. Max retries: %d", maxRetries))
+	log.Println(fmt.Sprintf("Trying to open local DB connection. Max retries: %d", maxRetries))
 
 	for i := 1; i <= maxRetries; i++ {
-		log.Println(fmt.Sprintf("Opening DB connection attempt %d", i))
+		log.Println(fmt.Sprintf("Opening local DB connection attempt %d", i))
 		db, err = gorm.Open(postgres.Open(dsn))
 		if err == nil {
-			log.Println("DB connection successfully opened.")
+			log.Println("Local DB connection successfully opened.")
 			return db
 		}
 		time.Sleep(10 * time.Second)
 	}
 
 	log.Println(err)
-	log.Fatal("Could not open DB connection.")
+	log.Fatal("Could not open local DB connection.")
 	return db
 }
