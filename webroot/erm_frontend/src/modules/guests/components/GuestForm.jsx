@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import * as PropTypes from 'prop-types';
-import {intMinMax, isAlpha, isDigits, isEmail, maxLength, required} from '../../app/utils/formValidators';
+import NewFormValidator from '../../app/utils/FormValidator';
 import Footer from '../../app/components/form/Footer';
 import GuestFormFields from './GuestFormFields';
 import ROUTES, {getRouteWithParams} from '../../app/constants/routes';
@@ -46,22 +46,25 @@ const getUrls = (guest, entityExists, isDisabled) => {
 };
 
 const validateFormData = (formData, setErrors) => {
-    const errors = {};
+    const formValidator = NewFormValidator(formData);
 
-    required(['firstName', 'lastName', 'email', 'phoneNumber', 'dateBirth'], formData, errors);
+    formValidator.required(['firstName', 'lastName', 'email', 'phoneNumber', 'dateBirth']);
 
-    isAlpha(['firstName', 'lastName'], formData, errors);
-    isEmail(['email'], formData, errors);
-    isDigits(['phoneNumber'], formData, errors);
-    intMinMax(0, 20, ['discountPercent'], formData, errors);
+    formValidator.isAlpha(['firstName', 'lastName']);
+    formValidator.isEmail(['email']);
+    formValidator.isDigits(['phoneNumber']);
+    formValidator.intMinMax(0, 20, ['discountPercent']);
 
-    maxLength(50, ['firstName', 'lastName'], formData, errors);
-    maxLength(100, ['email'], formData, errors);
-    maxLength(12, ['phoneNumber'], formData, errors);
+    formValidator.maxLength(50, ['firstName', 'lastName']);
+    formValidator.maxLength(100, ['email']);
+    formValidator.maxLength(12, ['phoneNumber']);
 
-    setErrors(errors);
+    if (!formValidator.isValid()) {
+        setErrors(formValidator.errors);
+        return false;
+    }
 
-    return 0 === Object.keys(errors).length;
+    return true;
 };
 
 const sendData = (formData, url, entityExists, setErrors, addSuccessMessage, navigate) => {
@@ -82,7 +85,7 @@ const sendData = (formData, url, entityExists, setErrors, addSuccessMessage, nav
             },
             (error) => {
                 const errorResponse = JSON.parse(error.request.response),
-                    errors = _get(errorResponse, 'error', {general: ['Unknown error. Please try again later.']}),
+                    errors = _get(errorResponse, 'error', {general: ['API error. Please try again later.']}),
                     errorsToDisplay = {};
 
                 for (const key in errors) {
