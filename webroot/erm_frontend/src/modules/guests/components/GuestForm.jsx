@@ -5,9 +5,10 @@ import Footer from '../../app/components/form/Footer';
 import GuestFormFields from './GuestFormFields';
 import ROUTES, {getRouteWithParams} from '../../app/constants/routes';
 import axios from 'axios';
-import {addSuccessMessage} from "../../redux/flash/flashActions";
-import {connect} from "react-redux";
-import {useNavigate} from "react-router-dom";
+import {addSuccessMessage} from '../../redux/flash/flashActions';
+import {connect} from 'react-redux';
+import {useNavigate} from 'react-router-dom';
+import {get as _get} from 'lodash';
 
 const getInitialFormData = (guest) => {
     if (guest) {
@@ -78,7 +79,7 @@ const sendData = (formData, url, entityExists, setErrors, addSuccessMessage, nav
             },
             (error) => {
                 const errorResponse = JSON.parse(error.request.response),
-                    errors = errorResponse.error,
+                    errors = _get(errorResponse, 'error', {general: ['Unknown error. Please try again later.']}),
                     errorsToDisplay = {};
 
                 for (const key in errors) {

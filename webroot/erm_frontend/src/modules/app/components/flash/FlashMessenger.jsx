@@ -1,6 +1,6 @@
 import React from 'react';
-import {connect} from "react-redux";
-import Message from "./Message";
+import {connect} from 'react-redux';
+import Message from './Message';
 
 const FlashMessenger = ({messages}) => {
     if (0 === messages.length) {

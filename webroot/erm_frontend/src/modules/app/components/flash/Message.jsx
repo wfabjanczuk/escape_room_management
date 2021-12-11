@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import * as PropTypes from 'prop-types';
-import {connect} from "react-redux";
-import {removeMessage} from "../../../redux/flash/flashActions";
+import {connect} from 'react-redux';
+import {removeMessage} from '../../../redux/flash/flashActions';
 
 const waitTime = 5000;
 

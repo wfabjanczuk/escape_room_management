@@ -2,9 +2,9 @@ import React from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import * as PropTypes from 'prop-types';
 import ROUTES, {getRouteWithParams} from '../../constants/routes';
-import axios from "axios";
-import {connect} from "react-redux";
-import {addErrorMessage, addSuccessMessage} from "../../../redux/flash/flashActions";
+import axios from 'axios';
+import {connect} from 'react-redux';
+import {addErrorMessage, addSuccessMessage} from '../../../redux/flash/flashActions';
 import {get as _get} from 'lodash';
 
 
