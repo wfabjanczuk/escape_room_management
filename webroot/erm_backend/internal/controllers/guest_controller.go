@@ -4,9 +4,7 @@ import (
 	"erm_backend/internal/parsers"
 	"erm_backend/internal/repositories"
 	"erm_backend/internal/responses"
-	"errors"
 	"github.com/julienschmidt/httprouter"
-	"gorm.io/gorm"
 	"log"
 	"net/http"
 	"strconv"
@@ -67,6 +65,7 @@ func (c *guestController) UpdateGuest(w http.ResponseWriter, r *http.Request) {
 }
 
 func (c *guestController) DeleteGuest(w http.ResponseWriter, r *http.Request) {
+	guestDeleteError := &responses.GuestDeleteError{}
 	params := httprouter.ParamsFromContext(r.Context())
 
 	id, err := strconv.Atoi(params.ByName("id"))
@@ -75,13 +74,13 @@ func (c *guestController) DeleteGuest(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = c.guestRepository.DeleteGuest(id)
-	if err != nil {
-		if err == gorm.ErrRecordNotFound {
-			c.writeWrappedErrorJson(w, err, http.StatusNotFound)
-		} else {
-			c.writeWrappedErrorJson(w, errors.New("deleting guest failed"), http.StatusInternalServerError)
+	c.guestRepository.DeleteGuest(id, guestDeleteError)
+	if guestDeleteError.ErrorsCount > 0 {
+		err = c.writeWrappedJson(w, guestDeleteError.StatusCode, guestDeleteError, "error")
+		if err != nil {
+			c.logger.Println(err)
 		}
+
 		return
 	}
 

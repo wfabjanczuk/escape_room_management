@@ -23,14 +23,12 @@ const ROUTES = {
         add: '/guests/add',
         details: '/guests/:id/details',
         edit: '/guests/:id/edit',
-        delete: '/guests/:id/delete',
     },
     tickets: {
         index: '/tickets',
         add: '/tickets/add',
         details: '/tickets/:id/details',
         edit: '/tickets/:id/edit',
-        delete: '/tickets/:id/delete',
     },
     reservations: {
         index: '/reservations',

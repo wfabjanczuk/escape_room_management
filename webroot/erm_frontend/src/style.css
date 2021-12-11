@@ -190,19 +190,19 @@ main h2 {
 }
 
 .alert.alert--success {
-    background-color: #95ed78;
+    background-color: #d2f6c5;
     border: 1px solid #369b14;
     color: #1b4d0a;
 }
 
 .alert.alert--warning {
-    background-color: #ffd582;
+    background-color: #ffe7b8;
     border: 1px solid #db9406;
     color: #6d4a02;
 }
 
 .alert.alert--error {
-    background-color: #ff947f;
+    background-color: #fed1c9;
     border: 1px solid #db1200;
     color: #6d0800;
 }

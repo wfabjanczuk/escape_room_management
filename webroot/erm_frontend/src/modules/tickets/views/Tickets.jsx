@@ -44,6 +44,7 @@ export default function Tickets() {
             noRowsText='No tickets found.'
             columns={ticketColumns}
             actionsRoute={ROUTES.tickets}
+            actionsApiEndpoint={ROUTES.api.ticket}
             buttonText='Create new ticket'
             buttonUrl={ROUTES.tickets.add}
         />

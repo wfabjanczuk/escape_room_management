@@ -53,7 +53,7 @@ func (r *GuestRepository) SaveGuest(guest models.Guest, guestErrors *responses.G
 }
 
 func (r *GuestRepository) IsGuestEmailValid(email string, id sql.NullInt64) bool {
-	var count int64
+	var guestCount int64
 	query := r.db.Model(&models.Guest{})
 
 	if id.Valid {
@@ -62,15 +62,38 @@ func (r *GuestRepository) IsGuestEmailValid(email string, id sql.NullInt64) bool
 		query = query.Where("email = ?", email)
 	}
 
-	result := query.Count(&count)
-	return result.Error == nil && count == 0
+	result := query.Count(&guestCount)
+	return result.Error == nil && guestCount == 0
 }
 
-func (r *GuestRepository) DeleteGuest(id int) error {
-	guest, err := r.GetGuest(id)
-	if err != nil {
-		return err
+func (r *GuestRepository) DeleteGuest(id int, guestDeleteError *responses.GuestDeleteError) {
+	var ticketCount int64
+	query := r.db.Model(&models.Ticket{}).Where("guest_id = ?", id)
+	generalError := "Database error. Please try again later."
+
+	result := query.Count(&ticketCount)
+	if result.Error != nil {
+		guestDeleteError.AddError(generalError, http.StatusInternalServerError)
+		return
 	}
 
-	return r.db.Delete(&guest).Error
+	if ticketCount > 0 {
+		guestDeleteError.AddError("Delete guest tickets first.", http.StatusBadRequest)
+		return
+	}
+
+	guest, err := r.GetGuest(id)
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			guestDeleteError.AddError("Record not found.", http.StatusNotFound)
+		} else {
+			guestDeleteError.AddError(generalError, http.StatusInternalServerError)
+		}
+		return
+	}
+
+	result = r.db.Delete(&guest)
+	if err != nil {
+		guestDeleteError.AddError(generalError, http.StatusInternalServerError)
+	}
 }

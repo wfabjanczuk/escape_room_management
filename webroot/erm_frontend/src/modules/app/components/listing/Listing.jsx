@@ -4,7 +4,19 @@ import ListingCompact from './ListingCompact';
 import * as PropTypes from 'prop-types';
 import Footer from './Footer';
 
-const Listing = ({error, isLoading, rows, noRowsText, columns, actionsRoute, buttonText, buttonUrl}) => {
+const Listing = (
+    {
+        error,
+        isLoading,
+        rows,
+        noRowsText,
+        columns,
+        actionsRoute,
+        actionsApiEndpoint,
+        buttonText,
+        buttonUrl
+    }
+) => {
     if (error) {
         return <p>{error.message}</p>;
     }
@@ -21,10 +33,12 @@ const Listing = ({error, isLoading, rows, noRowsText, columns, actionsRoute, but
     }
 
     return <React.Fragment>
-        <ListingWide rows={rows} columns={columns} actionsRoute={actionsRoute} buttonText={buttonText}
-                     buttonUrl={buttonUrl}/>
-        <ListingCompact rows={rows} columns={columns} actionsRoute={actionsRoute} buttonText={buttonText}
-                        buttonUrl={buttonUrl}/>
+        <ListingWide rows={rows} columns={columns}
+                     actionsRoute={actionsRoute} actionsApiEndpoint={actionsApiEndpoint}
+                     buttonText={buttonText} buttonUrl={buttonUrl}/>
+        <ListingCompact rows={rows} columns={columns}
+                        actionsRoute={actionsRoute} actionsApiEndpoint={actionsApiEndpoint}
+                        buttonText={buttonText} buttonUrl={buttonUrl}/>
     </React.Fragment>;
 };
 
@@ -35,6 +49,7 @@ Listing.propTypes = {
     noRowsText: PropTypes.string,
     columns: PropTypes.array,
     actionsRoute: PropTypes.object,
+    actionsApiEndpoint: PropTypes.string,
     buttonText: PropTypes.string,
     buttonUrl: PropTypes.string,
 };

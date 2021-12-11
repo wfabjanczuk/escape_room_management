@@ -44,6 +44,7 @@ export default function Guests() {
             noRowsText='No guests found.'
             columns={guestColumns}
             actionsRoute={ROUTES.guests}
+            actionsApiEndpoint={ROUTES.api.guest}
             buttonText='Register new guest'
             buttonUrl={ROUTES.guests.add}
         />

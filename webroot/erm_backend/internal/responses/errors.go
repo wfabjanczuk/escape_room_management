@@ -37,3 +37,15 @@ func (e *GuestErrors) AddError(key, message string, status int) {
 	e.ErrorsCount++
 	e.StatusCode = status
 }
+
+type GuestDeleteError struct {
+	ErrorsCount int    `json:"-"`
+	StatusCode  int    `json:"-"`
+	Message     string `json:"message"`
+}
+
+func (e *GuestDeleteError) AddError(message string, status int) {
+	e.ErrorsCount++
+	e.Message = message
+	e.StatusCode = status
+}
