@@ -3,6 +3,7 @@ import ROUTES, {getRouteWithParams} from '../../app/constants/routes';
 import {useParams} from 'react-router-dom';
 import axios from 'axios';
 import GuestForm from '../components/GuestForm';
+import GuestTickets from "../components/GuestTickets";
 
 export default function GuestDetails() {
     const [state, setState] = useState({
@@ -48,5 +49,6 @@ export default function GuestDetails() {
     return <React.Fragment>
         <h2>{title}</h2>
         <GuestForm guest={state.guest} isDisabled={true}/>
+        <GuestTickets id={params.id}/>
     </React.Fragment>;
 };

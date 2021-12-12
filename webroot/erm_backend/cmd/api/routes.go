@@ -23,6 +23,7 @@ func (app *application) getRoutes() http.Handler {
 	router.HandlerFunc(http.MethodGet, v+"/guests/:id", guestController.GetGuest)
 	router.HandlerFunc(http.MethodPut, v+"/guests/:id", guestController.UpdateGuest)
 	router.HandlerFunc(http.MethodDelete, v+"/guests/:id", guestController.DeleteGuest)
+	router.HandlerFunc(http.MethodGet, v+"/guests/:id/tickets", guestController.GetGuestTickets)
 
 	ticketController := controllers.NewTicketController(app.logger,
 		repositories.NewTicketRepository(app.logger, app.db),

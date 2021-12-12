@@ -97,3 +97,18 @@ func (r *GuestRepository) DeleteGuest(id int, guestDeleteError *responses.GuestD
 		guestDeleteError.AddError(generalError, http.StatusInternalServerError)
 	}
 }
+
+func (r *GuestRepository) GetGuestTickets(id int) ([]models.Ticket, error) {
+	var tickets []models.Ticket
+
+	_, err := r.GetGuest(id)
+	if err != nil {
+		return tickets, err
+	}
+
+	result := r.db.
+		Preload("Guest").Preload("Reservation").Preload("Reservation.Room").
+		Where("guest_id = ?", id).Find(&tickets)
+
+	return tickets, result.Error
+}
