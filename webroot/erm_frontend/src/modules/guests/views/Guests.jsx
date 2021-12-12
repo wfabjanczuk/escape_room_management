@@ -3,6 +3,8 @@ import Listing from '../../app/components/listing/Listing';
 import ROUTES from '../../app/constants/routes';
 import axios from 'axios';
 import getDeleteGuestPromise from '../utils/getDeleteGuestPromise';
+import {connect} from "react-redux";
+import * as PropTypes from "prop-types";
 
 const guestColumns = [
     {key: 'id', name: 'Id', isExtra: false, centering: true},
@@ -11,7 +13,7 @@ const guestColumns = [
     {key: 'email', name: 'Email', isExtra: true},
 ];
 
-export default function Guests() {
+const Guests = ({changeCounter}) => {
     const [state, setState] = useState({
         guests: [],
         isLoading: true,
@@ -33,7 +35,7 @@ export default function Guests() {
                     })
                 );
         },
-        []
+        [changeCounter]
     );
 
     return <React.Fragment>
@@ -51,3 +53,13 @@ export default function Guests() {
         />
     </React.Fragment>;
 };
+
+Guests.propTypes = {
+    changeCounter: PropTypes.number,
+};
+
+const mapStateToProps = (state) => ({
+    changeCounter: state.change.counter,
+});
+
+export default connect(mapStateToProps)(Guests);

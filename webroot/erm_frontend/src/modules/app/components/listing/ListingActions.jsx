@@ -4,9 +4,11 @@ import * as PropTypes from 'prop-types';
 import {getRouteWithParams} from '../../constants/routes';
 import {connect} from 'react-redux';
 import {addErrorMessage, addSuccessMessage} from '../../../redux/flash/flashActions';
+import {increaseChangeCounter} from "../../../redux/change/changeActions";
 
-const ListingActions = ({id, route, getDeletePromise, addSuccessMessage, addErrorMessage}) => {
-    const onDelete = () => getDeletePromise(id, addSuccessMessage, addErrorMessage);
+const ListingActions = ({id, route, getDeletePromise, addSuccessMessage, addErrorMessage, increaseChangeCounter}) => {
+    const onDelete = () => getDeletePromise(id, addSuccessMessage, addErrorMessage)
+        .then(r => increaseChangeCounter(), e => null);
 
     return <ul className='listing__actions'>
         <li className='action'>
@@ -38,6 +40,7 @@ ListingActions.propTypes = {
 const mapDispatchToProps = (dispatch) => ({
     addSuccessMessage: (content) => dispatch(addSuccessMessage(content)),
     addErrorMessage: (content) => dispatch(addErrorMessage(content)),
+    increaseChangeCounter: () => dispatch(increaseChangeCounter()),
 });
 
 export default connect(null, mapDispatchToProps)(ListingActions);

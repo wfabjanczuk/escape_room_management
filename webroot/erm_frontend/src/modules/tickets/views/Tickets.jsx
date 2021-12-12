@@ -3,6 +3,8 @@ import Listing from '../../app/components/listing/Listing';
 import ROUTES from '../../app/constants/routes';
 import axios from 'axios';
 import getDeleteTicketPromise from '../utils/getDeleteTicketPromise';
+import * as PropTypes from "prop-types";
+import {connect} from "react-redux";
 
 const ticketColumns = [
     {key: 'id', name: 'Id', centering: true},
@@ -11,7 +13,7 @@ const ticketColumns = [
     {key: 'dateFrom', name: 'Date from', isExtra: true, render: (r) => r.reservation.dateFrom},
 ];
 
-export default function Tickets() {
+const Tickets = ({changeCounter}) => {
     const [state, setState] = useState({
         tickets: [],
         isLoading: true,
@@ -33,7 +35,7 @@ export default function Tickets() {
                     })
                 );
         },
-        []
+        [changeCounter]
     );
 
     return <React.Fragment>
@@ -51,3 +53,13 @@ export default function Tickets() {
         />
     </React.Fragment>;
 };
+
+Tickets.propTypes = {
+    changeCounter: PropTypes.number,
+};
+
+const mapStateToProps = (state) => ({
+    changeCounter: state.change.counter,
+});
+
+export default connect(mapStateToProps)(Tickets);

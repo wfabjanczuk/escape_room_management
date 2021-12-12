@@ -1,15 +1,15 @@
 const INITIAL_STATE = {
-    counter: 0,
+    nextId: 0,
     messages: [],
 };
 
 const addMessageToState = (state, type, content) => ({
     ...state,
-    counter: state.counter + 1,
+    nextId: state.nextId + 1,
     messages: [
         ...state.messages,
         {
-            id: state.counter + 1,
+            id: state.nextId,
             type: type,
             content: content,
         }

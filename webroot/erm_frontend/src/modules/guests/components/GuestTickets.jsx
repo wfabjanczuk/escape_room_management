@@ -4,6 +4,7 @@ import axios from 'axios';
 import Listing from '../../app/components/listing/Listing';
 import * as PropTypes from 'prop-types';
 import getDeleteTicketPromise from '../../tickets/utils/getDeleteTicketPromise';
+import {connect} from "react-redux";
 
 const guestTicketColumns = [
     {key: 'id', name: 'Id', centering: true},
@@ -12,7 +13,7 @@ const guestTicketColumns = [
     {key: 'dateTo', name: 'Date to', isExtra: true, render: (r) => r.reservation.dateTo},
 ];
 
-const GuestTickets = ({id}) => {
+const GuestTickets = ({id, changeCounter}) => {
     const [state, setState] = useState({
         tickets: [],
         isLoading: true,
@@ -34,7 +35,7 @@ const GuestTickets = ({id}) => {
                     })
                 );
         },
-        [id]
+        [id, changeCounter]
     );
 
     return <React.Fragment>
@@ -55,6 +56,11 @@ const GuestTickets = ({id}) => {
 
 GuestTickets.propTypes = {
     id: PropTypes.number,
+    changeCounter: PropTypes.number,
 };
 
-export default GuestTickets;
+const mapStateToProps = (state) => ({
+    changeCounter: state.change.counter,
+});
+
+export default connect(mapStateToProps)(GuestTickets);
