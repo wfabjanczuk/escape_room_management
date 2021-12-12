@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import Listing from '../../app/components/listing/Listing';
 import ROUTES from '../../app/constants/routes';
 import axios from 'axios';
+import getDeleteTicketPromise from '../utils/getDeleteTicketPromise';
 
 const ticketColumns = [
     {key: 'id', name: 'Id', centering: true},
@@ -30,7 +31,7 @@ export default function Tickets() {
                         isLoading: false,
                         error: error,
                     })
-                )
+                );
         },
         []
     );
@@ -44,7 +45,7 @@ export default function Tickets() {
             noRowsText='No tickets found.'
             columns={ticketColumns}
             actionsRoute={ROUTES.tickets}
-            actionsApiEndpoint={ROUTES.api.ticket}
+            getDeletePromise={getDeleteTicketPromise}
             buttonText='Create new ticket'
             buttonUrl={ROUTES.tickets.add}
         />

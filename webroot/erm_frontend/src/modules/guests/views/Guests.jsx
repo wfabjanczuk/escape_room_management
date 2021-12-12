@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import Listing from '../../app/components/listing/Listing';
 import ROUTES from '../../app/constants/routes';
 import axios from 'axios';
+import getDeleteGuestPromise from '../utils/getDeleteGuestPromise';
 
 const guestColumns = [
     {key: 'id', name: 'Id', isExtra: false, centering: true},
@@ -30,7 +31,7 @@ export default function Guests() {
                         isLoading: false,
                         error: error,
                     })
-                )
+                );
         },
         []
     );
@@ -44,7 +45,7 @@ export default function Guests() {
             noRowsText='No guests found.'
             columns={guestColumns}
             actionsRoute={ROUTES.guests}
-            actionsApiEndpoint={ROUTES.api.guest}
+            getDeletePromise={getDeleteGuestPromise}
             buttonText='Register new guest'
             buttonUrl={ROUTES.guests.add}
         />

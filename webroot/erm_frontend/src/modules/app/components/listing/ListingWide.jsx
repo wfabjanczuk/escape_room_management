@@ -3,7 +3,7 @@ import ListingActions from './ListingActions';
 import * as PropTypes from 'prop-types';
 import Footer from './Footer';
 
-const ListingWide = ({rows, columns, actionsRoute, actionsApiEndpoint, buttonText, buttonUrl}) => (
+const ListingWide = ({rows, columns, actionsRoute, getDeletePromise, buttonText, buttonUrl}) => (
     <div className='listing listing--wide'>
         <table className='listing__table listing__table--hoverable'>
             <thead>
@@ -27,7 +27,7 @@ const ListingWide = ({rows, columns, actionsRoute, actionsApiEndpoint, buttonTex
                         </td>
                     ))}
                     <td>
-                        <ListingActions id={r.id} route={actionsRoute} apiEndpoint={actionsApiEndpoint}/>
+                        <ListingActions id={r.id} route={actionsRoute} getDeletePromise={getDeletePromise}/>
                     </td>
                 </tr>
             ))}
@@ -42,7 +42,7 @@ ListingWide.propTypes = {
     rows: PropTypes.array,
     columns: PropTypes.array,
     actionsRoute: PropTypes.object,
-    actionsApiEndpoint: PropTypes.string,
+    getDeletePromise: PropTypes.func,
     buttonText: PropTypes.string,
     buttonUrl: PropTypes.string,
 };

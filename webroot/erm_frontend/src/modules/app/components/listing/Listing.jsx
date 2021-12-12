@@ -12,7 +12,7 @@ const Listing = (
         noRowsText,
         columns,
         actionsRoute,
-        actionsApiEndpoint,
+        getDeletePromise,
         buttonText,
         buttonUrl
     }
@@ -34,10 +34,10 @@ const Listing = (
 
     return <React.Fragment>
         <ListingWide rows={rows} columns={columns}
-                     actionsRoute={actionsRoute} actionsApiEndpoint={actionsApiEndpoint}
+                     actionsRoute={actionsRoute} getDeletePromise={getDeletePromise}
                      buttonText={buttonText} buttonUrl={buttonUrl}/>
         <ListingCompact rows={rows} columns={columns}
-                        actionsRoute={actionsRoute} actionsApiEndpoint={actionsApiEndpoint}
+                        actionsRoute={actionsRoute} getDeletePromise={getDeletePromise}
                         buttonText={buttonText} buttonUrl={buttonUrl}/>
     </React.Fragment>;
 };
@@ -49,7 +49,7 @@ Listing.propTypes = {
     noRowsText: PropTypes.string,
     columns: PropTypes.array,
     actionsRoute: PropTypes.object,
-    actionsApiEndpoint: PropTypes.string,
+    getDeletePromise: PropTypes.func,
     buttonText: PropTypes.string,
     buttonUrl: PropTypes.string,
 };

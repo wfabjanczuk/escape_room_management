@@ -1,5 +1,5 @@
 import validatorIsEmail from 'validator/lib/isEmail';
-import XRegExp from "xregexp";
+import XRegExp from 'xregexp';
 
 const NewFormValidator = (formData) => ({
     formData: formData,

@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import ROUTES, {getRouteWithParams} from '../../app/constants/routes';
 import axios from 'axios';
-import Listing from "../../app/components/listing/Listing";
-import * as PropTypes from "prop-types";
+import Listing from '../../app/components/listing/Listing';
+import * as PropTypes from 'prop-types';
+import getDeleteTicketPromise from '../../tickets/utils/getDeleteTicketPromise';
 
 const guestTicketColumns = [
     {key: 'id', name: 'Id', centering: true},
@@ -31,7 +32,7 @@ const GuestTickets = ({id}) => {
                         isLoading: false,
                         error: error,
                     })
-                )
+                );
         },
         [id]
     );
@@ -45,7 +46,7 @@ const GuestTickets = ({id}) => {
             noRowsText='No tickets found.'
             columns={guestTicketColumns}
             actionsRoute={ROUTES.tickets}
-            actionsApiEndpoint={ROUTES.api.ticket}
+            getDeletePromise={getDeleteTicketPromise}
             buttonText='Create new ticket'
             buttonUrl={ROUTES.tickets.add}
         />

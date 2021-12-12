@@ -1,35 +1,12 @@
 import React from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import * as PropTypes from 'prop-types';
-import ROUTES, {getRouteWithParams} from '../../constants/routes';
-import axios from 'axios';
+import {getRouteWithParams} from '../../constants/routes';
 import {connect} from 'react-redux';
 import {addErrorMessage, addSuccessMessage} from '../../../redux/flash/flashActions';
-import {get as _get} from 'lodash';
 
-
-const ListingActions = ({id, route, apiEndpoint, addSuccessMessage, addErrorMessage}) => {
-    const navigate = useNavigate();
-
-    const handleDelete = (apiEndpoint, id) => {
-        const url = getRouteWithParams(apiEndpoint, {id: id}),
-            successMessage = 'Guest deleted successfully.',
-            defaultErrorMessage = 'Guest could not be deleted.';
-
-        axios.delete(url)
-            .then(
-                (response) => {
-                    addSuccessMessage(successMessage);
-                    navigate(ROUTES.guests.index);
-                },
-                (error) => {
-                    const errorResponse = JSON.parse(error.request.response),
-                        errorMessage = _get(errorResponse, 'error.message', '');
-
-                    addErrorMessage(`${defaultErrorMessage} ${errorMessage}`);
-                },
-            );
-    };
+const ListingActions = ({id, route, getDeletePromise, addSuccessMessage, addErrorMessage}) => {
+    const onDelete = () => getDeletePromise(id, addSuccessMessage, addErrorMessage);
 
     return <ul className='listing__actions'>
         <li className='action'>
@@ -43,8 +20,7 @@ const ListingActions = ({id, route, apiEndpoint, addSuccessMessage, addErrorMess
             </Link>
         </li>
         <li className='action'>
-            <div className='button button--danger hoverable'
-                 onClick={() => handleDelete(apiEndpoint, id, addSuccessMessage)}>
+            <div className='button button--danger hoverable' onClick={onDelete}>
                 Delete
             </div>
         </li>
@@ -54,7 +30,7 @@ const ListingActions = ({id, route, apiEndpoint, addSuccessMessage, addErrorMess
 ListingActions.propTypes = {
     id: PropTypes.number,
     route: PropTypes.object,
-    apiEndpoint: PropTypes.string,
+    getDeletePromise: PropTypes.func,
     addSuccessMessage: PropTypes.func,
     addErrorMessage: PropTypes.func,
 };

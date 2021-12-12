@@ -3,7 +3,7 @@ import ROUTES, {getRouteWithParams} from '../../app/constants/routes';
 import {useParams} from 'react-router-dom';
 import axios from 'axios';
 import GuestForm from '../components/GuestForm';
-import GuestTickets from "../components/GuestTickets";
+import GuestTickets from '../components/GuestTickets';
 
 export default function GuestDetails() {
     const [state, setState] = useState({
