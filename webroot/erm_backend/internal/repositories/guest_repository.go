@@ -41,7 +41,7 @@ func (r *GuestRepository) SaveGuest(guest models.Guest, guestErrors *responses.G
 		Int64: int64(guest.ID),
 		Valid: guest.ID > 0,
 	}) {
-		guestErrors.AddError("", "This email is already used.", http.StatusBadRequest)
+		guestErrors.AddError("email", "This email is already used.", http.StatusBadRequest)
 		return
 	}
 

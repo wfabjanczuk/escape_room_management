@@ -17,7 +17,7 @@ const Message = ({id, type, content, removeMessage}) => {
         return () => clearTimeout(timeout);
     }, [id, isHover]);
 
-    return <div key={id} className={`alert alert--${type}`}
+    return <div className={`alert alert--${type}`}
                 onMouseEnter={() => setIsHover(true)}
                 onMouseLeave={() => setIsHover(false)}
     >

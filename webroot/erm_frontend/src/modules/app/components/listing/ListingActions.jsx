@@ -4,9 +4,18 @@ import * as PropTypes from 'prop-types';
 import {getRouteWithParams} from '../../constants/routes';
 import {connect} from 'react-redux';
 import {addErrorMessage, addSuccessMessage} from '../../../redux/flash/flashActions';
-import {increaseChangeCounter} from "../../../redux/change/changeActions";
+import {increaseChangeCounter} from '../../../redux/change/changeActions';
 
-const ListingActions = ({id, route, getDeletePromise, addSuccessMessage, addErrorMessage, increaseChangeCounter}) => {
+const ListingActions = (
+    {
+        id,
+        route,
+        getDeletePromise,
+        addSuccessMessage,
+        addErrorMessage,
+        increaseChangeCounter
+    }
+) => {
     const onDelete = () => getDeletePromise(id, addSuccessMessage, addErrorMessage)
         .then(r => increaseChangeCounter(), e => null);
 
@@ -35,6 +44,7 @@ ListingActions.propTypes = {
     getDeletePromise: PropTypes.func,
     addSuccessMessage: PropTypes.func,
     addErrorMessage: PropTypes.func,
+    increaseChangeCounter: PropTypes.func,
 };
 
 const mapDispatchToProps = (dispatch) => ({

@@ -1,13 +1,43 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import * as PropTypes from 'prop-types';
+import {addErrorMessage, addSuccessMessage} from '../../../redux/flash/flashActions';
+import {increaseChangeCounter} from '../../../redux/change/changeActions';
+import {connect} from 'react-redux';
 
-const Footer = ({entityExists, redirectUrl, isDisabled, error}) => {
+const Footer = (
+    {
+        id,
+        entityExists,
+        editUrl,
+        redirectUrl,
+        isDisabled,
+        getDeletePromise,
+        error,
+        addSuccessMessage,
+        addErrorMessage,
+        increaseChangeCounter
+    }
+) => {
+    const navigate = useNavigate();
+
     if (isDisabled) {
+        const onDelete = () => getDeletePromise(id, addSuccessMessage, addErrorMessage)
+            .then(
+                (r) => {
+                    increaseChangeCounter();
+                    navigate(redirectUrl);
+                },
+                (e) => null
+            );
+
         return <div className='form__footer'>
-            <Link className='button button--warning hoverable' to={redirectUrl}>
+            <Link className='button button--warning hoverable' to={editUrl}>
                 Edit
             </Link>
+            <div className='button button--danger hoverable' onClick={onDelete}>
+                Delete
+            </div>
         </div>;
     }
 
@@ -21,10 +51,22 @@ const Footer = ({entityExists, redirectUrl, isDisabled, error}) => {
 };
 
 Footer.propTypes = {
+    id: PropTypes.number,
     entityExists: PropTypes.bool,
+    editUrl: PropTypes.string,
     redirectUrl: PropTypes.string,
     isDisabled: PropTypes.bool,
+    getDeletePromise: PropTypes.func,
     error: PropTypes.string,
+    addSuccessMessage: PropTypes.func,
+    addErrorMessage: PropTypes.func,
+    increaseChangeCounter: PropTypes.func,
 };
 
-export default Footer;
+const mapDispatchToProps = (dispatch) => ({
+    addSuccessMessage: (content) => dispatch(addSuccessMessage(content)),
+    addErrorMessage: (content) => dispatch(addErrorMessage(content)),
+    increaseChangeCounter: () => dispatch(increaseChangeCounter()),
+});
+
+export default connect(null, mapDispatchToProps)(Footer);

@@ -4,7 +4,7 @@ import axios from 'axios';
 import Listing from '../../app/components/listing/Listing';
 import * as PropTypes from 'prop-types';
 import getDeleteTicketPromise from '../../tickets/utils/getDeleteTicketPromise';
-import {connect} from "react-redux";
+import {connect} from 'react-redux';
 
 const guestTicketColumns = [
     {key: 'id', name: 'Id', centering: true},
@@ -21,19 +21,37 @@ const GuestTickets = ({id, changeCounter}) => {
     });
 
     useEffect(() => {
+            let cancel = false;
+
             axios.get(getRouteWithParams(ROUTES.api.guestTickets, {id: id}))
                 .then(
-                    (response) => setState({
-                        tickets: response.data.tickets,
-                        isLoading: false,
-                        error: null,
-                    }),
-                    (error) => setState({
-                        tickets: [],
-                        isLoading: false,
-                        error: error,
-                    })
+                    (response) => {
+                        if (cancel) {
+                            return;
+                        }
+
+                        setState({
+                            tickets: response.data.tickets,
+                            isLoading: false,
+                            error: null,
+                        });
+                    },
+                    (error) => {
+                        if (cancel) {
+                            return;
+                        }
+
+                        setState({
+                            tickets: [],
+                            isLoading: false,
+                            error: error,
+                        });
+                    }
                 );
+
+            return () => {
+                cancel = true;
+            };
         },
         [id, changeCounter]
     );

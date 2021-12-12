@@ -9,6 +9,7 @@ import {addSuccessMessage} from '../../redux/flash/flashActions';
 import {connect} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
 import {get as _get} from 'lodash';
+import getDeleteGuestPromise from '../utils/getDeleteGuestPromise';
 
 const getInitialFormData = (guest) => {
     if (guest) {
@@ -35,12 +36,16 @@ const getUrls = (guest, entityExists, isDisabled) => {
         cancelUrl = entityExists
             ? getRouteWithParams(ROUTES.guests.details, {id: guest.id})
             : ROUTES.guests.index,
-        redirectUrl = isDisabled
+        editUrl = entityExists
             ? getRouteWithParams(ROUTES.guests.edit, {id: guest.id})
+            : '',
+        redirectUrl = isDisabled
+            ? ROUTES.guests.index
             : cancelUrl;
 
     return {
         api: apiUrl,
+        edit: editUrl,
         redirect: redirectUrl,
     }
 };
@@ -67,7 +72,7 @@ const validateFormData = (formData, setErrors) => {
     return true;
 };
 
-const sendData = (formData, url, entityExists, setErrors, addSuccessMessage, navigate) => {
+const sendData = (formData, url, redirectUrl, entityExists, setErrors, addSuccessMessage, navigate) => {
     const successMessage = `Guest ${entityExists ? 'saved' : 'created'} successfully.`;
 
     axios(url, {
@@ -81,7 +86,7 @@ const sendData = (formData, url, entityExists, setErrors, addSuccessMessage, nav
             (response) => {
                 setErrors({});
                 addSuccessMessage(successMessage);
-                navigate(ROUTES.guests.index)
+                navigate(redirectUrl);
             },
             (error) => {
                 const errorResponse = JSON.parse(error.request.response),
@@ -100,7 +105,8 @@ const sendData = (formData, url, entityExists, setErrors, addSuccessMessage, nav
 }
 
 const GuestForm = ({guest, isDisabled, addSuccessMessage}) => {
-    const entityExists = !!guest,
+    const id = parseInt(_get(guest, 'id', null), 10),
+        entityExists = !!guest,
         urls = getUrls(guest, entityExists, isDisabled),
         [formData, setFormData] = useState(getInitialFormData(guest)),
         [errors, setErrors] = useState({}),
@@ -116,14 +122,16 @@ const GuestForm = ({guest, isDisabled, addSuccessMessage}) => {
             const submittedFormData = Object.fromEntries(new FormData(event.target));
 
             if (validateFormData(submittedFormData, setErrors)) {
-                sendData(submittedFormData, urls.api, entityExists, setErrors, addSuccessMessage, navigate);
+                sendData(submittedFormData, urls.api, urls.redirect, entityExists, setErrors, addSuccessMessage, navigate);
             }
         };
 
     return <form className='form' method='POST' onSubmit={handleSubmit}>
         <GuestFormFields entityExists={entityExists} isDisabled={isDisabled} onValueChange={onValueChange}
                          formData={formData} errors={errors}/>
-        <Footer entityExists={entityExists} isDisabled={isDisabled} redirectUrl={urls.redirect} error={errors.general}/>
+        <Footer id={id} entityExists={entityExists}
+                isDisabled={isDisabled} getDeletePromise={getDeleteGuestPromise}
+                editUrl={urls.edit} redirectUrl={urls.redirect} error={errors.general}/>
     </form>;
 }
 

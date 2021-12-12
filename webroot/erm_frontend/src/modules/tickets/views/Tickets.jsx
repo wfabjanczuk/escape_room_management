@@ -3,8 +3,8 @@ import Listing from '../../app/components/listing/Listing';
 import ROUTES from '../../app/constants/routes';
 import axios from 'axios';
 import getDeleteTicketPromise from '../utils/getDeleteTicketPromise';
-import * as PropTypes from "prop-types";
-import {connect} from "react-redux";
+import * as PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 
 const ticketColumns = [
     {key: 'id', name: 'Id', centering: true},

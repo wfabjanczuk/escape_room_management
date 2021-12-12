@@ -49,6 +49,6 @@ export default function GuestDetails() {
     return <React.Fragment>
         <h2>{title}</h2>
         <GuestForm guest={state.guest} isDisabled={true}/>
-        <GuestTickets id={params.id}/>
+        <GuestTickets id={parseInt(params.id, 10)}/>
     </React.Fragment>;
 };

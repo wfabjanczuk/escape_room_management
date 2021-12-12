@@ -3,8 +3,8 @@ import Listing from '../../app/components/listing/Listing';
 import ROUTES from '../../app/constants/routes';
 import axios from 'axios';
 import getDeleteGuestPromise from '../utils/getDeleteGuestPromise';
-import {connect} from "react-redux";
-import * as PropTypes from "prop-types";
+import {connect} from 'react-redux';
+import * as PropTypes from 'prop-types';
 
 const guestColumns = [
     {key: 'id', name: 'Id', isExtra: false, centering: true},
