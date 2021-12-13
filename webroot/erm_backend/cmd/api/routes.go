@@ -44,6 +44,7 @@ func (app *application) getRoutes() http.Handler {
 	)
 	router.HandlerFunc(http.MethodGet, v+"/rooms", roomController.GetRooms)
 	router.HandlerFunc(http.MethodGet, v+"/rooms/:id", roomController.GetRoom)
+	router.HandlerFunc(http.MethodDelete, v+"/rooms/:id", roomController.DeleteRoom)
 
 	return app.enableCors(router)
 }

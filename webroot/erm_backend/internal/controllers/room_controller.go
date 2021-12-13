@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"erm_backend/internal/repositories"
+	"erm_backend/internal/responses"
 	"github.com/julienschmidt/httprouter"
 	"log"
 	"net/http"
@@ -52,4 +53,27 @@ func (c *roomController) GetRooms(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		c.logger.Println(err)
 	}
+}
+
+func (c *roomController) DeleteRoom(w http.ResponseWriter, r *http.Request) {
+	deleteError := &responses.DeleteError{}
+	params := httprouter.ParamsFromContext(r.Context())
+
+	id, err := strconv.Atoi(params.ByName("id"))
+	if err != nil {
+		c.writeWrappedErrorJson(w, err, http.StatusBadRequest)
+		return
+	}
+
+	c.roomRepository.DeleteRoom(id, deleteError)
+	if deleteError.ErrorsCount > 0 {
+		err = c.writeWrappedJson(w, deleteError.StatusCode, deleteError, "error")
+		if err != nil {
+			c.logger.Println(err)
+		}
+
+		return
+	}
+
+	c.writeEmptyResponse(w, http.StatusOK)
 }
