@@ -17,6 +17,8 @@ const ROUTES = {
         guestTickets: API + '/guests/:id/tickets',
         tickets: API + '/tickets',
         ticket: API + '/tickets/:id',
+        reservations: API + '/reservations',
+        reservation: API + '/reservations/:id',
     },
     home: '/',
     guests: {
@@ -33,6 +35,9 @@ const ROUTES = {
     },
     reservations: {
         index: '/reservations',
+        add: '/reservations/add',
+        details: '/reservations/:id/details',
+        edit: '/reservations/:id/edit',
     },
     rooms: {
         index: '/rooms',

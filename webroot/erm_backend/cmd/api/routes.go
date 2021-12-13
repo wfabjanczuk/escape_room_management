@@ -31,5 +31,11 @@ func (app *application) getRoutes() http.Handler {
 	router.HandlerFunc(http.MethodGet, v+"/tickets", ticketController.GetTickets)
 	router.HandlerFunc(http.MethodGet, v+"/tickets/:id", ticketController.GetTicket)
 
+	reservationController := controllers.NewReservationController(app.logger,
+		repositories.NewReservationRepository(app.logger, app.db),
+	)
+	router.HandlerFunc(http.MethodGet, v+"/reservations", reservationController.GetReservations)
+	router.HandlerFunc(http.MethodGet, v+"/reservations/:id", reservationController.GetReservation)
+
 	return app.enableCors(router)
 }
