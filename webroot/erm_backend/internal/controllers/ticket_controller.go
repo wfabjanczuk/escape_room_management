@@ -56,7 +56,7 @@ func (c *ticketController) GetTickets(w http.ResponseWriter, r *http.Request) {
 }
 
 func (c *ticketController) DeleteTicket(w http.ResponseWriter, r *http.Request) {
-	ticketDeleteError := &responses.TicketDeleteError{}
+	deleteError := &responses.DeleteError{}
 	params := httprouter.ParamsFromContext(r.Context())
 
 	id, err := strconv.Atoi(params.ByName("id"))
@@ -65,9 +65,9 @@ func (c *ticketController) DeleteTicket(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-	c.ticketRepository.DeleteTicket(id, ticketDeleteError)
-	if ticketDeleteError.ErrorsCount > 0 {
-		err = c.writeWrappedJson(w, ticketDeleteError.StatusCode, ticketDeleteError, "error")
+	c.ticketRepository.DeleteTicket(id, deleteError)
+	if deleteError.ErrorsCount > 0 {
+		err = c.writeWrappedJson(w, deleteError.StatusCode, deleteError, "error")
 		if err != nil {
 			c.logger.Println(err)
 		}

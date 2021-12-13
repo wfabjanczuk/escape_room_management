@@ -66,35 +66,34 @@ func (r *GuestRepository) IsGuestEmailValid(email string, id sql.NullInt64) bool
 	return result.Error == nil && guestCount == 0
 }
 
-func (r *GuestRepository) DeleteGuest(id int, guestDeleteError *responses.GuestDeleteError) {
+func (r *GuestRepository) DeleteGuest(id int, deleteError *responses.DeleteError) {
 	var ticketCount int64
-	query := r.db.Model(&models.Ticket{}).Where("guest_id = ?", id)
 	generalError := "Database error. Please try again later."
-
-	result := query.Count(&ticketCount)
-	if result.Error != nil {
-		guestDeleteError.AddError(generalError, http.StatusInternalServerError)
-		return
-	}
-
-	if ticketCount > 0 {
-		guestDeleteError.AddError("Delete guest's tickets first.", http.StatusBadRequest)
-		return
-	}
 
 	guest, err := r.GetGuest(id)
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
-			guestDeleteError.AddError("Record not found.", http.StatusNotFound)
+			deleteError.AddError("Record not found.", http.StatusNotFound)
 		} else {
-			guestDeleteError.AddError(generalError, http.StatusInternalServerError)
+			deleteError.AddError(generalError, http.StatusInternalServerError)
 		}
+		return
+	}
+
+	result := r.db.Model(&models.Ticket{}).Where("guest_id = ?", id).Count(&ticketCount)
+	if result.Error != nil {
+		deleteError.AddError(generalError, http.StatusInternalServerError)
+		return
+	}
+
+	if ticketCount > 0 {
+		deleteError.AddError("Delete guest's tickets first.", http.StatusBadRequest)
 		return
 	}
 
 	result = r.db.Delete(&guest)
 	if result.Error != nil {
-		guestDeleteError.AddError(generalError, http.StatusInternalServerError)
+		deleteError.AddError(generalError, http.StatusInternalServerError)
 	}
 }
 

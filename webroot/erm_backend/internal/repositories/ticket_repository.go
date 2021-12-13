@@ -37,21 +37,21 @@ func (r *TicketRepository) GetTickets() ([]models.Ticket, error) {
 	return tickets, result.Error
 }
 
-func (r *TicketRepository) DeleteTicket(id int, ticketDeleteError *responses.TicketDeleteError) {
+func (r *TicketRepository) DeleteTicket(id int, deleteError *responses.DeleteError) {
 	generalError := "Database error. Please try again later."
 
 	ticket, err := r.GetTicket(id)
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
-			ticketDeleteError.AddError("Record not found.", http.StatusNotFound)
+			deleteError.AddError("Record not found.", http.StatusNotFound)
 		} else {
-			ticketDeleteError.AddError(generalError, http.StatusInternalServerError)
+			deleteError.AddError(generalError, http.StatusInternalServerError)
 		}
 		return
 	}
 
 	result := r.db.Delete(&ticket)
 	if result.Error != nil {
-		ticketDeleteError.AddError(generalError, http.StatusInternalServerError)
+		deleteError.AddError(generalError, http.StatusInternalServerError)
 	}
 }

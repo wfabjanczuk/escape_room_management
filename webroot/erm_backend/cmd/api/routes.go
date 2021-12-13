@@ -37,6 +37,7 @@ func (app *application) getRoutes() http.Handler {
 	)
 	router.HandlerFunc(http.MethodGet, v+"/reservations", reservationController.GetReservations)
 	router.HandlerFunc(http.MethodGet, v+"/reservations/:id", reservationController.GetReservation)
+	router.HandlerFunc(http.MethodDelete, v+"/reservations/:id", reservationController.DeleteReservation)
 
 	roomController := controllers.NewRoomController(app.logger,
 		repositories.NewRoomRepository(app.logger, app.db),

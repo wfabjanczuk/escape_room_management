@@ -86,7 +86,7 @@ func (c *guestController) UpdateGuest(w http.ResponseWriter, r *http.Request) {
 }
 
 func (c *guestController) DeleteGuest(w http.ResponseWriter, r *http.Request) {
-	guestDeleteError := &responses.GuestDeleteError{}
+	deleteError := &responses.DeleteError{}
 	params := httprouter.ParamsFromContext(r.Context())
 
 	id, err := strconv.Atoi(params.ByName("id"))
@@ -95,9 +95,9 @@ func (c *guestController) DeleteGuest(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	c.guestRepository.DeleteGuest(id, guestDeleteError)
-	if guestDeleteError.ErrorsCount > 0 {
-		err = c.writeWrappedJson(w, guestDeleteError.StatusCode, guestDeleteError, "error")
+	c.guestRepository.DeleteGuest(id, deleteError)
+	if deleteError.ErrorsCount > 0 {
+		err = c.writeWrappedJson(w, deleteError.StatusCode, deleteError, "error")
 		if err != nil {
 			c.logger.Println(err)
 		}
