@@ -4,7 +4,7 @@ import ROUTES from '../../app/constants/routes';
 import axios from 'axios';
 import * as PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import getDeleteReservationPromise from "../utils/getDeleteReservationPromise";
+import getDeleteReservationPromise from '../utils/getDeleteReservationPromise';
 
 const reservationColumns = [
     {key: 'id', name: 'Id', centering: true},
