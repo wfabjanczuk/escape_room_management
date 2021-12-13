@@ -2,8 +2,10 @@ package repositories
 
 import (
 	"erm_backend/internal/models"
+	"erm_backend/internal/responses"
 	"gorm.io/gorm"
 	"log"
+	"net/http"
 )
 
 type TicketRepository struct {
@@ -33,4 +35,23 @@ func (r *TicketRepository) GetTickets() ([]models.Ticket, error) {
 		Preload("Guest").Preload("Reservation").Preload("Reservation.Room").Find(&tickets)
 
 	return tickets, result.Error
+}
+
+func (r *TicketRepository) DeleteTicket(id int, ticketDeleteError *responses.TicketDeleteError) {
+	generalError := "Database error. Please try again later."
+
+	ticket, err := r.GetTicket(id)
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			ticketDeleteError.AddError("Record not found.", http.StatusNotFound)
+		} else {
+			ticketDeleteError.AddError(generalError, http.StatusInternalServerError)
+		}
+		return
+	}
+
+	result := r.db.Delete(&ticket)
+	if result.Error != nil {
+		ticketDeleteError.AddError(generalError, http.StatusInternalServerError)
+	}
 }

@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"erm_backend/internal/repositories"
+	"erm_backend/internal/responses"
 	"github.com/julienschmidt/httprouter"
 	"log"
 	"net/http"
@@ -52,4 +53,27 @@ func (c *ticketController) GetTickets(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		c.logger.Println(err)
 	}
+}
+
+func (c *ticketController) DeleteTicket(w http.ResponseWriter, r *http.Request) {
+	ticketDeleteError := &responses.TicketDeleteError{}
+	params := httprouter.ParamsFromContext(r.Context())
+
+	id, err := strconv.Atoi(params.ByName("id"))
+	if err != nil {
+		c.writeWrappedErrorJson(w, err, http.StatusBadRequest)
+		return
+	}
+
+	c.ticketRepository.DeleteTicket(id, ticketDeleteError)
+	if ticketDeleteError.ErrorsCount > 0 {
+		err = c.writeWrappedJson(w, ticketDeleteError.StatusCode, ticketDeleteError, "error")
+		if err != nil {
+			c.logger.Println(err)
+		}
+
+		return
+	}
+
+	c.writeEmptyResponse(w, http.StatusOK)
 }

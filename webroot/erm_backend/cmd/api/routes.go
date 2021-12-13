@@ -30,6 +30,7 @@ func (app *application) getRoutes() http.Handler {
 	)
 	router.HandlerFunc(http.MethodGet, v+"/tickets", ticketController.GetTickets)
 	router.HandlerFunc(http.MethodGet, v+"/tickets/:id", ticketController.GetTicket)
+	router.HandlerFunc(http.MethodDelete, v+"/tickets/:id", ticketController.DeleteTicket)
 
 	reservationController := controllers.NewReservationController(app.logger,
 		repositories.NewReservationRepository(app.logger, app.db),

@@ -78,7 +78,7 @@ func (r *GuestRepository) DeleteGuest(id int, guestDeleteError *responses.GuestD
 	}
 
 	if ticketCount > 0 {
-		guestDeleteError.AddError("Delete guest tickets first.", http.StatusBadRequest)
+		guestDeleteError.AddError("Delete guest's tickets first.", http.StatusBadRequest)
 		return
 	}
 
@@ -93,7 +93,7 @@ func (r *GuestRepository) DeleteGuest(id int, guestDeleteError *responses.GuestD
 	}
 
 	result = r.db.Delete(&guest)
-	if err != nil {
+	if result.Error != nil {
 		guestDeleteError.AddError(generalError, http.StatusInternalServerError)
 	}
 }
