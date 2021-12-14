@@ -4,12 +4,12 @@ import NewFormValidator from '../../app/utils/FormValidator';
 import Footer from '../../app/components/form/Footer';
 import GuestFormFields from './GuestFormFields';
 import ROUTES, {getRouteWithParams} from '../../app/constants/routes';
-import axios from 'axios';
 import {addSuccessMessage} from '../../redux/flash/flashActions';
 import {connect} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
 import {get as _get} from 'lodash';
 import getDeleteGuestPromise from '../utils/getDeleteGuestPromise';
+import {sendData} from '../../app/utils/form';
 
 const getInitialFormData = (guest) => {
     if (guest) {
@@ -72,38 +72,6 @@ const validateFormData = (formData, setErrors) => {
     return true;
 };
 
-const sendData = (formData, url, redirectUrl, entityExists, setErrors, addSuccessMessage, navigate) => {
-    const successMessage = `Guest ${entityExists ? 'saved' : 'created'} successfully.`;
-
-    axios(url, {
-        method: entityExists ? 'PUT' : 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        data: formData
-    })
-        .then(
-            (response) => {
-                setErrors({});
-                addSuccessMessage(successMessage);
-                navigate(redirectUrl);
-            },
-            (error) => {
-                const errorResponse = JSON.parse(error.request.response),
-                    errors = _get(errorResponse, 'error', {general: ['API error. Please try again later.']}),
-                    errorsToDisplay = {};
-
-                for (const key in errors) {
-                    if (0 < errors[key].length) {
-                        errorsToDisplay[key] = errors[key][0];
-                    }
-                }
-
-                setErrors(errorsToDisplay);
-            },
-        );
-}
-
 const GuestForm = ({guest, isDisabled, addSuccessMessage}) => {
     const id = parseInt(_get(guest, 'id', null), 10),
         entityExists = !!guest,
@@ -122,7 +90,7 @@ const GuestForm = ({guest, isDisabled, addSuccessMessage}) => {
             const submittedFormData = Object.fromEntries(new FormData(event.target));
 
             if (validateFormData(submittedFormData, setErrors)) {
-                sendData(submittedFormData, urls.api, urls.redirect, entityExists, setErrors, addSuccessMessage, navigate);
+                sendData(submittedFormData, urls.api, urls.redirect, entityExists, setErrors, addSuccessMessage, navigate, 'Guest');
             }
         };
 

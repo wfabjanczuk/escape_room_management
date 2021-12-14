@@ -1,5 +1,5 @@
 import React from 'react';
-import InputField from '../../app/components/form/InputField';
+import InputField from '../../app/components/form/field/InputField';
 import * as PropTypes from 'prop-types';
 
 const GuestFormFields = ({entityExists, isDisabled, onValueChange, formData, errors}) => (<React.Fragment>
