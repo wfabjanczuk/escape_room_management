@@ -37,7 +37,7 @@ func newApplication() *application {
 func (app *application) start() {
 	srv := &http.Server{
 		Addr:         fmt.Sprintf(":%d", app.config.port),
-		Handler:      app.getRoutes(),
+		Handler:      app.getRouter(),
 		IdleTimeout:  time.Minute,
 		ReadTimeout:  10 * time.Second,
 		WriteTimeout: 30 * time.Second,
