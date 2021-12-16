@@ -77,6 +77,9 @@ create table tickets
 alter table tickets
     owner to developer;
 
+create unique index tickets_reservation_id_guest_id_uindex
+    on tickets (reservation_id, guest_id);
+
 insert into rooms (name, base_ticket_price, min_participants, max_participants, min_age)
 values ('Pharaoh''s Tomb', 10.00, 5, 7, 12),
        ('Enigma Code', 15.00, 6, 9, 15),
