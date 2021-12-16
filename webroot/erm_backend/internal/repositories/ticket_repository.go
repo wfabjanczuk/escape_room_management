@@ -1,6 +1,7 @@
 package repositories
 
 import (
+	"database/sql"
 	"erm_backend/internal/models"
 	"erm_backend/internal/responses"
 	"gorm.io/gorm"
@@ -38,11 +39,33 @@ func (r *TicketRepository) GetTickets() ([]models.Ticket, error) {
 }
 
 func (r *TicketRepository) SaveTicket(ticket models.Ticket, ticketErrors *responses.TicketErrors) {
+	if !r.DoesTicketExist(ticket.ReservationID, ticket.GuestID, sql.NullInt64{
+		Int64: int64(ticket.ID),
+		Valid: ticket.ID > 0,
+	}) {
+		ticketErrors.AddError("", "Ticket for chosen reservation and guest already exists.", http.StatusBadRequest)
+		return
+	}
+
 	result := r.db.Save(&ticket)
 
 	if result.Error != nil {
 		ticketErrors.AddError("", "Saving ticket failed. Please try again later.", http.StatusInternalServerError)
 	}
+}
+
+func (r *TicketRepository) DoesTicketExist(reservationId, guestId uint, id sql.NullInt64) bool {
+	var ticketCount int64
+	query := r.db.Model(&models.Ticket{})
+
+	if id.Valid {
+		query = query.Where("reservation_id = ? and guest_id = ? and id <> ?", reservationId, guestId, id)
+	} else {
+		query = query.Where("reservation_id = ? and guest_id = ?", reservationId, guestId)
+	}
+
+	result := query.Count(&ticketCount)
+	return result.Error == nil && ticketCount == 0
 }
 
 func (r *TicketRepository) DeleteTicket(id int, deleteError *responses.DeleteError) {
