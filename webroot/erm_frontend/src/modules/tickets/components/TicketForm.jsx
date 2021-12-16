@@ -99,7 +99,11 @@ const TicketForm = ({ticket, isDisabled, addSuccessMessage}) => {
             const mapReservationToOption = (r) => ({id: r.id, label: r.room.name});
 
             if (isDisabled) {
-                reservationOptions.reservations = [mapReservationToOption(ticket.reservation)];
+                setReservationOptions({
+                    reservations: [mapReservationToOption(ticket.reservation)],
+                    isLoading: false,
+                    errors: [],
+                });
                 return;
             }
 
@@ -124,7 +128,11 @@ const TicketForm = ({ticket, isDisabled, addSuccessMessage}) => {
             const mapGuestToOption = (g) => ({id: g.id, label: `${g.firstName} ${g.lastName}`});
 
             if (isDisabled) {
-                guestOptions.guests = [mapGuestToOption(ticket.guest)];
+                setGuestOptions({
+                    guests: [mapGuestToOption(ticket.guest)],
+                    isLoading: false,
+                    errors: [],
+                });
                 return;
             }
 
@@ -156,6 +164,9 @@ const TicketForm = ({ticket, isDisabled, addSuccessMessage}) => {
             )}
         </React.Fragment>;
     }
+
+    console.log(reservationOptions.reservations);
+    console.log(guestOptions.guests);
 
     return <form className='form' method='POST' onSubmit={handleSubmit}>
         <TicketFormFields entityExists={entityExists}
