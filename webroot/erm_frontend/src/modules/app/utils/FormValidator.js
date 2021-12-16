@@ -70,7 +70,23 @@ const NewFormValidator = (formData) => ({
                 this.putError(key, errorMessage);
             }
         }
-    }
+    },
+    isMoney: function (keys, nullable = true) {
+        const isMoneyErrorMessage = 'Only positive numbers with 2 decimal points allowed.',
+            isNonZeroErrorMessage = 'Value of this number must be greater than zero.',
+            validPattern = /^[0-9]+\.[0-9]{2}$/,
+            zeroPattern = /^[0]+\.[0]+$/;
+
+        for (const key of keys) {
+            if (!validPattern.test(formData[key])) {
+                this.putError(key, isMoneyErrorMessage);
+            }
+
+            if (!nullable && zeroPattern.test(formData[key])) {
+                this.putError(key, isNonZeroErrorMessage);
+            }
+        }
+    },
 });
 
 export default NewFormValidator;

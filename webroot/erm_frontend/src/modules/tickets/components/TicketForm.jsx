@@ -1,5 +1,5 @@
 import {get as _get} from 'lodash';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import Footer from '../../app/components/form/Footer';
 import ROUTES, {getRouteWithParams} from '../../app/constants/routes';
@@ -10,13 +10,14 @@ import * as PropTypes from 'prop-types';
 import {addSuccessMessage} from '../../redux/flash/flashActions';
 import {connect} from 'react-redux';
 import TicketFormFields from './TicketFormFields';
+import axios from 'axios';
 
 const getInitialFormData = (ticket) => {
-    return ticket ? ticket : {
-        price: '',
-        reservationId: '',
-        guestId: '',
-        guestIsAllowedToCancel: '',
+    return {
+        id: ticket.id ? ticket.id : '',
+        reservationId: ticket.reservationId ? ticket.reservationId.toString() : '',
+        guestId: ticket.guestId ? ticket.guestId.toString() : '',
+        price: ticket.price ? parseFloat(ticket.price).toFixed(2) : '0.00',
     };
 };
 
@@ -44,6 +45,10 @@ const getUrls = (ticket, entityExists, isDisabled) => {
 const validateFormData = (formData, setErrors) => {
     const formValidator = NewFormValidator(formData);
 
+    formValidator.required(['reservationId', 'guestId', 'price']);
+    formValidator.isDigits(['reservationId', 'guestId']);
+    formValidator.isMoney(['price'], false);
+
     if (!formValidator.isValid()) {
         setErrors(formValidator.errors);
         return false;
@@ -58,11 +63,27 @@ const TicketForm = ({ticket, isDisabled, addSuccessMessage}) => {
         urls = getUrls(ticket, entityExists, isDisabled),
         [formData, setFormData] = useState(getInitialFormData(ticket)),
         [errors, setErrors] = useState({}),
+        [reservationOptions, setReservationOptions] = useState({
+            reservations: [],
+            isLoading: true,
+            errors: [],
+        }),
+        [guestOptions, setGuestOptions] = useState({
+            guests: [],
+            isLoading: true,
+            errors: [],
+        }),
         navigate = useNavigate(),
         onValueChange = (event) => {
             setFormData(formData => ({
                 ...formData,
                 [event.target.name]: event.target.value,
+            }))
+        },
+        forceValueChange = (field, value) => {
+            setFormData(formData => ({
+                ...formData,
+                [field]: value,
             }))
         },
         handleSubmit = (event) => {
@@ -74,8 +95,72 @@ const TicketForm = ({ticket, isDisabled, addSuccessMessage}) => {
             }
         };
 
+    useEffect(() => {
+            const mapReservationToOption = (r) => ({id: r.id, label: r.room.name});
+
+            if (isDisabled) {
+                reservationOptions.reservations = [mapReservationToOption(ticket.reservation)];
+                return;
+            }
+
+            axios.get(ROUTES.api.reservations)
+                .then(
+                    (response) => setReservationOptions({
+                        ...reservationOptions,
+                        reservations: response.data.reservations.map(mapReservationToOption),
+                        isLoading: false,
+                    }),
+                    (error) => setReservationOptions({
+                        ...reservationOptions,
+                        isLoading: false,
+                        errors: [...errors, error],
+                    })
+                );
+        },
+        []
+    );
+
+    useEffect(() => {
+            const mapGuestToOption = (g) => ({id: g.id, label: `${g.firstName} ${g.lastName}`});
+
+            if (isDisabled) {
+                guestOptions.guests = [mapGuestToOption(ticket.guest)];
+                return;
+            }
+
+            axios.get(ROUTES.api.guests)
+                .then(
+                    (response) => setGuestOptions({
+                        ...guestOptions,
+                        guests: response.data.guests.map(mapGuestToOption),
+                        isLoading: false,
+                    }),
+                    (error) => setGuestOptions({
+                        ...guestOptions,
+                        isLoading: false,
+                        errors: [...errors, error],
+                    })
+                );
+        },
+        []
+    );
+
+    if (!isDisabled && (reservationOptions.isLoading || guestOptions.isLoading)) {
+        return <p>Loading...</p>;
+    }
+
+    if (reservationOptions.errors.length || guestOptions.errors.length) {
+        return <React.Fragment>
+            {[...reservationOptions.errors, ...guestOptions.errors].map(
+                (e, eIndex) => <p key={eIndex}>{e.message}</p>
+            )}
+        </React.Fragment>;
+    }
+
     return <form className='form' method='POST' onSubmit={handleSubmit}>
-        <TicketFormFields entityExists={entityExists} isDisabled={isDisabled} onValueChange={onValueChange}
+        <TicketFormFields entityExists={entityExists}
+                          reservationOptions={reservationOptions.reservations} guestOptions={guestOptions.guests}
+                          isDisabled={isDisabled} onValueChange={onValueChange} forceValueChange={forceValueChange}
                           formData={formData} errors={errors}/>
         <Footer id={id} entityExists={entityExists}
                 isDisabled={isDisabled} getDeletePromise={getDeleteTicketPromise}
