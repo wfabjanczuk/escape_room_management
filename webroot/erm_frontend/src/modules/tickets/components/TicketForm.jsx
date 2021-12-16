@@ -11,6 +11,7 @@ import {addSuccessMessage} from '../../redux/flash/flashActions';
 import {connect} from 'react-redux';
 import TicketFormFields from './TicketFormFields';
 import axios from 'axios';
+import {increaseChangeCounter} from "../../redux/change/changeActions";
 
 const getInitialFormData = (ticket) => {
     return {
@@ -58,7 +59,7 @@ const validateFormData = (formData, setErrors) => {
     return true;
 };
 
-const TicketForm = ({ticket, isDisabled, addSuccessMessage}) => {
+const TicketForm = ({ticket, isDisabled, addSuccessMessage, changeCounter, increaseChangeCounter}) => {
     const id = parseInt(_get(ticket, 'id', null), 10),
         entityExists = !!ticket,
         urls = getUrls(ticket, entityExists, isDisabled),
@@ -94,6 +95,8 @@ const TicketForm = ({ticket, isDisabled, addSuccessMessage}) => {
             if (validateFormData(submittedFormData, setErrors)) {
                 sendData(submittedFormData, urls.api, urls.redirect, entityExists, setErrors, addSuccessMessage, navigate, 'Ticket');
             }
+
+            increaseChangeCounter();
         };
 
     useEffect(() => {
@@ -122,7 +125,7 @@ const TicketForm = ({ticket, isDisabled, addSuccessMessage}) => {
                     })
                 );
         },
-        []
+        [changeCounter]
     );
 
     useEffect(() => {
@@ -151,7 +154,7 @@ const TicketForm = ({ticket, isDisabled, addSuccessMessage}) => {
                     })
                 );
         },
-        []
+        [changeCounter]
     );
 
     if (!isDisabled && (reservationOptions.isLoading || guestOptions.isLoading)) {
@@ -181,10 +184,17 @@ TicketForm.propTypes = {
     guest: PropTypes.object,
     isDisabled: PropTypes.bool,
     addSuccessMessage: PropTypes.func,
+    changeCounter: PropTypes.number,
+    increaseChangeCounter: PropTypes.func,
 };
+
+const mapStateToProps = (state) => ({
+    changeCounter: state.change.counter,
+});
 
 const mapDispatchToProps = (dispatch) => ({
     addSuccessMessage: (content) => dispatch(addSuccessMessage(content)),
+    increaseChangeCounter: () => dispatch(increaseChangeCounter()),
 });
 
-export default connect(null, mapDispatchToProps)(TicketForm);
+export default connect(mapStateToProps, mapDispatchToProps)(TicketForm);
