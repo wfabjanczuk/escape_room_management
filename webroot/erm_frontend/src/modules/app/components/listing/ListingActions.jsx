@@ -17,7 +17,7 @@ const ListingActions = (
     }
 ) => {
     const onDelete = () => getDeletePromise(id, addSuccessMessage, addErrorMessage)
-        .then(r => increaseChangeCounter(), e => null);
+        .finally(() => increaseChangeCounter());
 
     return <ul className='listing__actions'>
         <li className='action'>

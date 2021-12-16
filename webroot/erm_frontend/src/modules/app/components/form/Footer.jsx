@@ -23,13 +23,8 @@ const Footer = (
 
     if (isDisabled) {
         const onDelete = () => getDeletePromise(id, addSuccessMessage, addErrorMessage)
-            .then(
-                (r) => {
-                    increaseChangeCounter();
-                    navigate(redirectUrl);
-                },
-                (e) => null
-            );
+            .then(() => navigate(redirectUrl))
+            .finally(() => increaseChangeCounter());
 
         return <div className='form__footer'>
             <Link className='button button--warning hoverable' to={editUrl}>
