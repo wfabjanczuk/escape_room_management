@@ -56,6 +56,7 @@ const TicketFormFields = (
         isRequired={false}
         isDisabled={isDisabled}
         errorMessage={errors.guestAllowedToCancel}
+        defaultChecked={!!formData.guestAllowedToCancel}
         onChange={onValueChange}
     />
 </React.Fragment>);

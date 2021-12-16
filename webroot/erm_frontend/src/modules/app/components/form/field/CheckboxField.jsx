@@ -3,7 +3,7 @@ import Label from '../Label';
 import Error from '../Error';
 import * as PropTypes from 'prop-types';
 
-const CheckboxField = ({name, displayName, isRequired, isDisabled, errorMessage, onChange}) => {
+const CheckboxField = ({name, displayName, isRequired, isDisabled, errorMessage, defaultChecked, onChange}) => {
     return <React.Fragment>
         <Label name={name} displayName={displayName} isRequired={isRequired}/>
         <div className='form__field form__field--checkbox'>
@@ -15,6 +15,7 @@ const CheckboxField = ({name, displayName, isRequired, isDisabled, errorMessage,
                 id={name}
                 disabled={isDisabled}
                 onChange={onChange}
+                defaultChecked={defaultChecked}
             />
         </div>
         <Error name={name} errorMessage={errorMessage}/>
@@ -27,6 +28,7 @@ CheckboxField.propTypes = {
     isRequired: PropTypes.bool,
     isDisabled: PropTypes.bool,
     errorMessage: PropTypes.string,
+    defaultChecked: PropTypes.bool,
     onChange: PropTypes.func,
 };
 

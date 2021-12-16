@@ -11,7 +11,6 @@ import (
 	"github.com/asaskevich/govalidator"
 	"net/http"
 	"strconv"
-	"strings"
 	"time"
 )
 
@@ -21,7 +20,7 @@ func ParseGuestFromRequest(r *http.Request, parseId bool, guestErrors *responses
 
 	err := json.NewDecoder(r.Body).Decode(&guestPayload)
 	if err != nil {
-		guestErrors.AddError("", "Invalid form data", http.StatusBadRequest)
+		guestErrors.AddError("", "Invalid form data.", http.StatusBadRequest)
 		return guest
 	}
 
@@ -37,7 +36,7 @@ func extractGuest(payload payloads.GuestPayload, parseId bool, guestErrors *resp
 	if parseId {
 		id, err := strconv.Atoi(payload.Id)
 		if err != nil {
-			guestErrors.AddError("", "Invalid form data", http.StatusBadRequest)
+			guestErrors.AddError("", "Invalid form data.", http.StatusBadRequest)
 		}
 
 		guest.ID = uint(id)
@@ -50,7 +49,7 @@ func extractGuest(payload payloads.GuestPayload, parseId bool, guestErrors *resp
 
 	dateBirth, err := time.Parse(constants.DefaultDateFormat, payload.DateBirth)
 	if err != nil {
-		guestErrors.AddError("dateBirth", "Invalid date of birth", http.StatusBadRequest)
+		guestErrors.AddError("dateBirth", "Invalid date of birth.", http.StatusBadRequest)
 	}
 	guest.DateBirth = types.Date{
 		Time: dateBirth,
@@ -59,7 +58,7 @@ func extractGuest(payload payloads.GuestPayload, parseId bool, guestErrors *resp
 	if len(payload.DiscountPercent) > 0 {
 		discountPercent, err := strconv.Atoi(payload.DiscountPercent)
 		if err != nil || discountPercent < 0 || discountPercent > 20 {
-			guestErrors.AddError("discountPercent", "Invalid discount percent", http.StatusBadRequest)
+			guestErrors.AddError("discountPercent", "Invalid discount percent.", http.StatusBadRequest)
 		}
 
 		guest.DiscountPercent = types.NullInt64{
@@ -87,17 +86,6 @@ func validateGuest(guest models.Guest, parseId bool, guestErrors *responses.Gues
 	}
 
 	if parseId && guest.ID < 1 {
-		guestErrors.AddError("", "Invalid form data", http.StatusBadRequest)
-	}
-}
-
-func parseStructError(err error, guestErrors *responses.GuestErrors) {
-	errorSlice := strings.Split(err.Error(), ";")
-
-	for _, fieldError := range errorSlice {
-		errorParts := strings.Split(fieldError, ":")
-		message := transformErrorMessage(strings.TrimSpace(errorParts[1]))
-
-		guestErrors.AddError(errorParts[0], message, http.StatusBadRequest)
+		guestErrors.AddError("", "Invalid form data.", http.StatusBadRequest)
 	}
 }

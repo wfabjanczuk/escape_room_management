@@ -17,12 +17,12 @@ type Guest struct {
 
 type Ticket struct {
 	ID                   uint            `gorm:"primarykey" json:"id"`
-	Price                decimal.Decimal `json:"price"`
-	ReservationID        uint            `json:"reservationId"`
-	Reservation          Reservation     `json:"reservation"`
-	GuestID              uint            `json:"guestId"`
-	Guest                Guest           `json:"guest"`
-	GuestAllowedToCancel bool            `json:"guestAllowedToCancel"`
+	Price                decimal.Decimal `json:"price" valid:"required"`
+	ReservationID        uint            `json:"reservationId" valid:"required"`
+	Reservation          Reservation     `json:"reservation" valid:"-"`
+	GuestID              uint            `json:"guestId" valid:"required"`
+	Guest                Guest           `json:"guest" valid:"-"`
+	GuestAllowedToCancel bool            `json:"guestAllowedToCancel" valid:"-"`
 }
 
 type Reservation struct {

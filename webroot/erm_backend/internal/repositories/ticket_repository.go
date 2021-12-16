@@ -37,6 +37,14 @@ func (r *TicketRepository) GetTickets() ([]models.Ticket, error) {
 	return tickets, result.Error
 }
 
+func (r *TicketRepository) SaveTicket(ticket models.Ticket, ticketErrors *responses.TicketErrors) {
+	result := r.db.Save(&ticket)
+
+	if result.Error != nil {
+		ticketErrors.AddError("", "Saving ticket failed. Please try again later.", http.StatusInternalServerError)
+	}
+}
+
 func (r *TicketRepository) DeleteTicket(id int, deleteError *responses.DeleteError) {
 	generalError := "Database error. Please try again later."
 

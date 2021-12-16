@@ -14,10 +14,11 @@ import axios from 'axios';
 
 const getInitialFormData = (ticket) => {
     return {
-        id: ticket.id ? ticket.id : '',
-        reservationId: ticket.reservationId ? ticket.reservationId.toString() : '',
-        guestId: ticket.guestId ? ticket.guestId.toString() : '',
-        price: ticket.price ? parseFloat(ticket.price).toFixed(2) : '0.00',
+        id: ticket ? ticket.id : '',
+        reservationId: ticket ? ticket.reservationId.toString() : '',
+        guestId: ticket ? ticket.guestId.toString() : '',
+        price: ticket ? parseFloat(ticket.price).toFixed(2) : '0.00',
+        guestAllowedToCancel: ticket ? !!ticket.guestAllowedToCancel : false,
     };
 };
 
@@ -164,9 +165,6 @@ const TicketForm = ({ticket, isDisabled, addSuccessMessage}) => {
             )}
         </React.Fragment>;
     }
-
-    console.log(reservationOptions.reservations);
-    console.log(guestOptions.guests);
 
     return <form className='form' method='POST' onSubmit={handleSubmit}>
         <TicketFormFields entityExists={entityExists}

@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"erm_backend/internal/parsers"
 	"erm_backend/internal/repositories"
 	"erm_backend/internal/responses"
 	"github.com/julienschmidt/httprouter"
@@ -11,13 +12,17 @@ import (
 
 type ticketController struct {
 	controller
-	ticketRepository *repositories.TicketRepository
+	ticketRepository      *repositories.TicketRepository
+	reservationRepository *repositories.ReservationRepository
+	guestRepository       *repositories.GuestRepository
 }
 
-func NewTicketController(logger *log.Logger, ticketRepository *repositories.TicketRepository) *ticketController {
+func NewTicketController(logger *log.Logger, ticketRepository *repositories.TicketRepository, reservationRepository *repositories.ReservationRepository, guestRepository *repositories.GuestRepository) *ticketController {
 	return &ticketController{
-		controller:       newController(logger),
-		ticketRepository: ticketRepository,
+		controller:            newController(logger),
+		ticketRepository:      ticketRepository,
+		reservationRepository: reservationRepository,
+		guestRepository:       guestRepository,
 	}
 }
 
@@ -55,6 +60,14 @@ func (c *ticketController) GetTickets(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func (c *ticketController) CreateTicket(w http.ResponseWriter, r *http.Request) {
+	c.handleSaveTicket(w, r, false)
+}
+
+func (c *ticketController) UpdateTicket(w http.ResponseWriter, r *http.Request) {
+	c.handleSaveTicket(w, r, true)
+}
+
 func (c *ticketController) DeleteTicket(w http.ResponseWriter, r *http.Request) {
 	deleteError := &responses.DeleteError{}
 	params := httprouter.ParamsFromContext(r.Context())
@@ -76,4 +89,41 @@ func (c *ticketController) DeleteTicket(w http.ResponseWriter, r *http.Request) 
 	}
 
 	c.writeEmptyResponse(w, http.StatusOK)
+}
+
+func (c *ticketController) handleSaveTicket(w http.ResponseWriter, r *http.Request, parseId bool) {
+	ticketErrors := &responses.TicketErrors{}
+	ticket := parsers.ParseTicketFromRequest(r, parseId, ticketErrors)
+
+	if ticketErrors.ErrorsCount == 0 {
+		reservation, err := c.reservationRepository.GetReservation(int(ticket.ReservationID))
+		if err != nil {
+			ticketErrors.AddError("", "Reservation not found.", http.StatusBadRequest)
+		}
+		ticket.Reservation = reservation
+
+		guest, err := c.guestRepository.GetGuest(int(ticket.GuestID))
+		if err != nil {
+			ticketErrors.AddError("", "Guest not found.", http.StatusBadRequest)
+		}
+		ticket.Guest = guest
+
+		if ticketErrors.ErrorsCount == 0 {
+			c.ticketRepository.SaveTicket(ticket, ticketErrors)
+		}
+	}
+
+	if ticketErrors.ErrorsCount > 0 {
+		err := c.writeWrappedJson(w, ticketErrors.StatusCode, ticketErrors, "error")
+		if err != nil {
+			c.logger.Println(err)
+		}
+
+		return
+	}
+
+	err := c.writeWrappedJson(w, http.StatusOK, ticket, "ticket")
+	if err != nil {
+		c.logger.Println(err)
+	}
 }

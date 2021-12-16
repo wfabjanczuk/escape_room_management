@@ -45,9 +45,13 @@ func (app *application) setGuestRoutes(router *httprouter.Router) *httprouter.Ro
 func (app *application) setTicketRoutes(router *httprouter.Router) *httprouter.Router {
 	ticketController := controllers.NewTicketController(app.logger,
 		repositories.NewTicketRepository(app.logger, app.db),
+		repositories.NewReservationRepository(app.logger, app.db),
+		repositories.NewGuestRepository(app.logger, app.db),
 	)
 	router.HandlerFunc(http.MethodGet, v+"/tickets", ticketController.GetTickets)
+	router.HandlerFunc(http.MethodPost, v+"/tickets", ticketController.CreateTicket)
 	router.HandlerFunc(http.MethodGet, v+"/tickets/:id", ticketController.GetTicket)
+	router.HandlerFunc(http.MethodPut, v+"/tickets/:id", ticketController.UpdateTicket)
 	router.HandlerFunc(http.MethodDelete, v+"/tickets/:id", ticketController.DeleteTicket)
 
 	return router

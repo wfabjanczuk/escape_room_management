@@ -9,3 +9,11 @@ type GuestPayload struct {
 	DateBirth       string `json:"dateBirth"`
 	DiscountPercent string `json:"discountPercent"`
 }
+
+type TicketPayload struct {
+	Id                   string `json:"id"`
+	Price                string `json:"price"`
+	ReservationID        string `json:"reservationId"`
+	GuestID              string `json:"guestId"`
+	GuestAllowedToCancel string `json:"guestAllowedToCancel"`
+}
