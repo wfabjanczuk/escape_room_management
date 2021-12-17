@@ -48,7 +48,7 @@ const Rooms = ({changeCounter}) => {
             columns={roomColumns}
             actionsRoute={ROUTES.rooms}
             getDeletePromise={getDeleteRoomPromise}
-            buttonText='Create new room'
+            buttonText='Add new room'
             buttonUrl={ROUTES.rooms.add}
         />
     </React.Fragment>;

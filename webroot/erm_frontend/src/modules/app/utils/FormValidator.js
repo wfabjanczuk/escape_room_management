@@ -54,11 +54,15 @@ const NewFormValidator = (formData) => ({
             }
         }
     },
-    isDigits: function (keys) {
+    isDigits: function (keys, nullable = true) {
         const errorMessage = 'Only digits allowed.',
             pattern = /^[0-9]+$/;
 
         for (const key of keys) {
+            if (nullable && formData[key] === '') {
+                continue;
+            }
+
             if (!pattern.test(formData[key])) {
                 this.putError(key, errorMessage);
             }

@@ -76,6 +76,7 @@ func (app *application) setRoomRoutes(router *httprouter.Router) *httprouter.Rou
 	router.HandlerFunc(http.MethodGet, v+"/rooms", roomController.GetRooms)
 	router.HandlerFunc(http.MethodGet, v+"/rooms/:id", roomController.GetRoom)
 	router.HandlerFunc(http.MethodDelete, v+"/rooms/:id", roomController.DeleteRoom)
+	router.HandlerFunc(http.MethodGet, v+"/rooms/:id/reservations", roomController.GetRoomReservations)
 
 	return router
 }

@@ -28,6 +28,19 @@ func (r *RoomRepository) GetRoom(id int) (models.Room, error) {
 	return room, result.Error
 }
 
+func (r *RoomRepository) GetRoomReservations(id int) ([]models.Reservation, error) {
+	var reservations []models.Reservation
+
+	_, err := r.GetRoom(id)
+	if err != nil {
+		return reservations, err
+	}
+
+	result := r.db.Preload("Room").Where("room_id = ?", id).Find(&reservations)
+
+	return reservations, result.Error
+}
+
 func (r *RoomRepository) GetRooms() ([]models.Room, error) {
 	var rooms []models.Room
 	result := r.db.Order("id asc").Find(&rooms)

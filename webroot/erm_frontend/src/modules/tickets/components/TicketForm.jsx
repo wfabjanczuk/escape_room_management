@@ -48,7 +48,7 @@ const validateFormData = (formData, setErrors) => {
     const formValidator = NewFormValidator(formData);
 
     formValidator.required(['reservationId', 'guestId', 'price']);
-    formValidator.isDigits(['reservationId', 'guestId']);
+    formValidator.isDigits(['reservationId', 'guestId'], false);
     formValidator.isMoney(['price'], false);
 
     if (!formValidator.isValid()) {

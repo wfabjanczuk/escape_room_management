@@ -48,7 +48,7 @@ const Tickets = ({changeCounter}) => {
             columns={ticketColumns}
             actionsRoute={ROUTES.tickets}
             getDeletePromise={getDeleteTicketPromise}
-            buttonText='Create new ticket'
+            buttonText='Add new ticket'
             buttonUrl={ROUTES.tickets.add}
         />
     </React.Fragment>;

@@ -48,7 +48,7 @@ const Reservations = ({changeCounter}) => {
             columns={reservationColumns}
             actionsRoute={ROUTES.reservations}
             getDeletePromise={getDeleteReservationPromise}
-            buttonText='Create new reservation'
+            buttonText='Add new reservation'
             buttonUrl={ROUTES.reservations.add}
         />
     </React.Fragment>;

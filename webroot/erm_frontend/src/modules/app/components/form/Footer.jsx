@@ -38,7 +38,7 @@ const Footer = (
 
     return <div className='form__footer'>
         {error && <span className='form__error form__error--summary'>{error}</span>}
-        <input className='button button--success hoverable' type='submit' value={entityExists ? 'Save' : 'Create'}/>
+        <input className='button button--success hoverable' type='submit' value={entityExists ? 'Save' : 'Add'}/>
         <Link className='button button--secondary hoverable' to={redirectUrl}>
             Cancel
         </Link>

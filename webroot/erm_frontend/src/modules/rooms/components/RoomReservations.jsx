@@ -3,19 +3,19 @@ import ROUTES, {getRouteWithParams} from '../../app/constants/routes';
 import axios from 'axios';
 import Listing from '../../app/components/listing/Listing';
 import * as PropTypes from 'prop-types';
-import getDeleteTicketPromise from '../../tickets/utils/getDeleteTicketPromise';
+import getDeleteReservationPromise from '../../reservations/utils/getDeleteReservationPromise';
 import {connect} from 'react-redux';
 
-const guestTicketColumns = [
+const roomReservationColumns = [
     {key: 'id', name: 'Id', centering: true},
-    {key: 'room', name: 'Room', render: (r) => r.reservation.room.name},
-    {key: 'dateFrom', name: 'Date from', render: (r) => r.reservation.dateFrom},
-    {key: 'dateTo', name: 'Date to', isExtra: true, render: (r) => r.reservation.dateTo},
+    {key: 'dateFrom', name: 'Date from'},
+    {key: 'dateTo', name: 'Date to', isExtra: true},
+    {key: 'totalPrice', name: 'Total price', render: (r) => parseFloat(r.totalPrice).toFixed(2)},
 ];
 
-const GuestTickets = ({id, changeCounter}) => {
+const RoomReservations = ({id, changeCounter}) => {
     const [state, setState] = useState({
-        tickets: [],
+        reservations: [],
         isLoading: true,
         error: null,
     });
@@ -23,7 +23,7 @@ const GuestTickets = ({id, changeCounter}) => {
     useEffect(() => {
             let cancel = false;
 
-            axios.get(getRouteWithParams(ROUTES.api.guestTickets, {id: id}))
+            axios.get(getRouteWithParams(ROUTES.api.roomReservations, {id: id}))
                 .then(
                     (response) => {
                         if (cancel) {
@@ -31,7 +31,7 @@ const GuestTickets = ({id, changeCounter}) => {
                         }
 
                         setState({
-                            tickets: response.data.tickets,
+                            reservations: response.data.reservations,
                             isLoading: false,
                             error: null,
                         });
@@ -42,7 +42,7 @@ const GuestTickets = ({id, changeCounter}) => {
                         }
 
                         setState({
-                            tickets: [],
+                            reservations: [],
                             isLoading: false,
                             error: error,
                         });
@@ -57,22 +57,22 @@ const GuestTickets = ({id, changeCounter}) => {
     );
 
     return <React.Fragment>
-        <h2>Guest tickets</h2>
+        <h2>Room reservations</h2>
         <Listing
             error={state.error}
             isLoading={state.isLoading}
-            rows={state.tickets}
-            noRowsText='No tickets found.'
-            columns={guestTicketColumns}
-            actionsRoute={ROUTES.tickets}
-            getDeletePromise={getDeleteTicketPromise}
-            buttonText='Add new ticket'
-            buttonUrl={ROUTES.tickets.add}
+            rows={state.reservations}
+            noRowsText='No reservations found.'
+            columns={roomReservationColumns}
+            actionsRoute={ROUTES.reservations}
+            getDeletePromise={getDeleteReservationPromise}
+            buttonText='Add new reservation'
+            buttonUrl={ROUTES.reservations.add}
         />
     </React.Fragment>;
 };
 
-GuestTickets.propTypes = {
+RoomReservations.propTypes = {
     id: PropTypes.number,
     changeCounter: PropTypes.number,
 };
@@ -81,4 +81,4 @@ const mapStateToProps = (state) => ({
     changeCounter: state.change.counter,
 });
 
-export default connect(mapStateToProps)(GuestTickets);
+export default connect(mapStateToProps)(RoomReservations);
