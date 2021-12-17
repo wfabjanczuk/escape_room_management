@@ -25,3 +25,12 @@ type ReservationPayload struct {
 	DateTo        string `json:"dateTo"`
 	DateCancelled string `json:"dateCancelled"`
 }
+
+type RoomPayload struct {
+	Id              string `json:"id"`
+	Name            string `json:"name"`
+	BaseTicketPrice string `json:"baseTicketPrice"`
+	MinParticipants string `json:"minParticipants"`
+	MaxParticipants string `json:"maxParticipants"`
+	MinAge          string `json:"minAge"`
+}

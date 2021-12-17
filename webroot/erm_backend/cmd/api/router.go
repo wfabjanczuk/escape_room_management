@@ -77,7 +77,9 @@ func (app *application) setRoomRoutes(router *httprouter.Router) *httprouter.Rou
 		repositories.NewRoomRepository(app.logger, app.db),
 	)
 	router.HandlerFunc(http.MethodGet, v+"/rooms", roomController.GetRooms)
+	router.HandlerFunc(http.MethodPost, v+"/rooms", roomController.CreateRoom)
 	router.HandlerFunc(http.MethodGet, v+"/rooms/:id", roomController.GetRoom)
+	router.HandlerFunc(http.MethodPut, v+"/rooms/:id", roomController.UpdateRoom)
 	router.HandlerFunc(http.MethodDelete, v+"/rooms/:id", roomController.DeleteRoom)
 	router.HandlerFunc(http.MethodGet, v+"/rooms/:id/reservations", roomController.GetRoomReservations)
 

@@ -36,10 +36,10 @@ type Reservation struct {
 }
 
 type Room struct {
-	ID              uint            `gorm:"primarykey" json:"id"`
-	Name            string          `json:"name"`
-	BaseTicketPrice decimal.Decimal `json:"baseTicketPrice"`
-	MinParticipants uint            `json:"minParticipants"`
-	MaxParticipants uint            `json:"maxParticipants"`
-	MinAge          types.NullInt64 `json:"minAge"`
+	ID              uint            `gorm:"primarykey" json:"id" valid:"-"`
+	Name            string          `json:"name" valid:"required,maxstringlength(100)"`
+	BaseTicketPrice decimal.Decimal `json:"baseTicketPrice" valid:"required"`
+	MinParticipants uint            `json:"minParticipants" valid:"-"`
+	MaxParticipants uint            `json:"maxParticipants" valid:"-"`
+	MinAge          types.NullInt64 `json:"minAge" valid:"-"`
 }

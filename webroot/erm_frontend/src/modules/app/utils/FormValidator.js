@@ -79,7 +79,7 @@ const NewFormValidator = (formData) => ({
     },
     isMoney: function (keys, nullable = true) {
         const isMoneyErrorMessage = 'Only positive numbers with 2 decimal points allowed.',
-            isNonZeroErrorMessage = 'Value of this number must be greater than zero.',
+            isNonZeroErrorMessage = 'This number must be greater than zero.',
             validPattern = /^[0-9]+\.[0-9]{2}$/,
             zeroPattern = /^[0]+\.[0]+$/;
 

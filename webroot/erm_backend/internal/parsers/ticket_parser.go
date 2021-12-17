@@ -87,6 +87,6 @@ func validateTicket(ticket models.Ticket, parseId bool, ticketErrors *responses.
 	}
 
 	if !ticket.Price.IsPositive() {
-		ticketErrors.AddError("price", "Value of this number must be greater than zero.", http.StatusBadRequest)
+		ticketErrors.AddError("price", "This number must be greater than zero.", http.StatusBadRequest)
 	}
 }

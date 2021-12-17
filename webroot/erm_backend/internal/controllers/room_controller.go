@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"erm_backend/internal/parsers"
 	"erm_backend/internal/repositories"
 	"erm_backend/internal/responses"
 	"github.com/julienschmidt/httprouter"
@@ -76,6 +77,14 @@ func (c *roomController) GetRooms(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func (c *roomController) CreateRoom(w http.ResponseWriter, r *http.Request) {
+	c.handleSaveRoom(w, r, false)
+}
+
+func (c *roomController) UpdateRoom(w http.ResponseWriter, r *http.Request) {
+	c.handleSaveRoom(w, r, true)
+}
+
 func (c *roomController) DeleteRoom(w http.ResponseWriter, r *http.Request) {
 	deleteError := &responses.DeleteError{}
 	params := httprouter.ParamsFromContext(r.Context())
@@ -97,4 +106,27 @@ func (c *roomController) DeleteRoom(w http.ResponseWriter, r *http.Request) {
 	}
 
 	c.writeEmptyResponse(w, http.StatusOK)
+}
+
+func (c *roomController) handleSaveRoom(w http.ResponseWriter, r *http.Request, parseId bool) {
+	roomErrors := &responses.RoomErrors{}
+	room := parsers.ParseRoomFromRequest(r, parseId, roomErrors)
+
+	if roomErrors.ErrorsCount == 0 {
+		c.roomRepository.SaveRoom(room, roomErrors)
+	}
+
+	if roomErrors.ErrorsCount > 0 {
+		err := c.writeWrappedJson(w, roomErrors.StatusCode, roomErrors, "error")
+		if err != nil {
+			c.logger.Println(err)
+		}
+
+		return
+	}
+
+	err := c.writeWrappedJson(w, http.StatusOK, room, "room")
+	if err != nil {
+		c.logger.Println(err)
+	}
 }
