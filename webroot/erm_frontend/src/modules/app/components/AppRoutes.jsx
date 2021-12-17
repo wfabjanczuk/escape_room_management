@@ -12,6 +12,12 @@ import Rooms from '../../rooms/views/Rooms';
 import TicketDetails from '../../tickets/views/TicketDetails';
 import TicketAdd from '../../tickets/views/TicketAdd';
 import TicketEdit from '../../tickets/views/TicketEdit';
+import ReservationAdd from "../../reservations/views/ReservationAdd";
+import ReservationEdit from "../../reservations/views/ReservationEdit";
+import ReservationDetails from "../../reservations/views/ReservationDetails";
+import RoomAdd from "../../rooms/views/RoomAdd";
+import RoomEdit from "../../rooms/views/RoomEdit";
+import RoomDetails from "../../rooms/views/RoomDetails";
 
 const AppRoutes = () => (<Routes>
     <Route path={ROUTES.home} element={<Home/>}/>
@@ -39,8 +45,14 @@ const getTicketRoutes = () => (<React.Fragment>
 
 const getReservationRoutes = () => (<React.Fragment>
     <Route path={ROUTES.reservations.index} element={<Reservations/>}/>
+    <Route path={ROUTES.reservations.add} element={<ReservationAdd/>}/>
+    <Route path={ROUTES.reservations.edit} element={<ReservationEdit/>}/>
+    <Route path={ROUTES.reservations.details} element={<ReservationDetails/>}/>
 </React.Fragment>);
 
 const getRoomRoutes = () => (<React.Fragment>
     <Route path={ROUTES.rooms.index} element={<Rooms/>}/>
+    <Route path={ROUTES.rooms.add} element={<RoomAdd/>}/>
+    <Route path={ROUTES.rooms.edit} element={<RoomEdit/>}/>
+    <Route path={ROUTES.rooms.details} element={<RoomDetails/>}/>
 </React.Fragment>);
