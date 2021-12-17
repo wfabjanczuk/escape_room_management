@@ -4,6 +4,7 @@ import {useParams} from 'react-router-dom';
 import axios from 'axios';
 import TicketForm from '../components/TicketForm';
 import GuestForm from '../../guests/components/GuestForm';
+import ReservationForm from '../../reservations/components/ReservationForm';
 
 export default function TicketDetails() {
     const [state, setState] = useState({
@@ -50,7 +51,7 @@ export default function TicketDetails() {
         <h2>{title}</h2>
         <TicketForm ticket={state.ticket} isDisabled={true}/>
         <h2>Ticket reservation</h2>
-        <p>Loading...</p>
+        <ReservationForm reservation={state.ticket.reservation} isDisabled={true}/>
         <h2>Ticket guest</h2>
         <GuestForm guest={state.ticket.guest} isDisabled={true}/>
     </React.Fragment>;

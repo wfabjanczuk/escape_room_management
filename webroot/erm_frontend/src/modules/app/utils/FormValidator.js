@@ -89,10 +89,14 @@ const NewFormValidator = (formData) => ({
             }
         }
     },
-    isDate: function (keys) {
+    isDate: function (keys, nullable = true) {
         const errorMessage = 'This field must be a valid date.';
 
         for (const key of keys) {
+            if (nullable && formData[key] === '') {
+                continue;
+            }
+
             const dateTime = moment(formData[key], API_DATE_FORMAT);
             if (!dateTime.isValid()) {
                 this.putError(key, errorMessage);

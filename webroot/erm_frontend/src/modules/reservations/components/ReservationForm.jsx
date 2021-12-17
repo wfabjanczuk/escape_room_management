@@ -21,6 +21,9 @@ const getInitialFormData = (reservation) => {
         roomId: reservation ? reservation.roomId.toString() : '',
         dateFrom: reservation ? moment(reservation.dateFrom, API_DATE_FORMAT).format(INPUT_DATE_FORMAT) : '',
         dateTo: reservation ? moment(reservation.dateTo, API_DATE_FORMAT).format(INPUT_DATE_FORMAT) : '',
+        dateCancelled: reservation && reservation.dateCancelled
+            ? moment(reservation.dateCancelled, API_DATE_FORMAT).format(INPUT_DATE_FORMAT)
+            : '',
     };
 };
 
@@ -49,7 +52,8 @@ const validateFormData = (formData, setErrors) => {
     const formValidator = NewFormValidator(formData);
 
     formValidator.required(['roomId', 'dateFrom', 'dateTo']);
-    formValidator.isDate(['dateFrom', 'dateTo']);
+    formValidator.isDate(['dateFrom', 'dateTo'], false);
+    formValidator.isDate(['dateCancelled'], true);
 
     if (!formValidator.isValid()) {
         setErrors(formValidator.errors);
@@ -65,9 +69,6 @@ const ReservationForm = ({reservation, isDisabled, addSuccessMessage, changeCoun
         urls = getUrls(reservation, entityExists, isDisabled),
         readOnlyValues = {
             totalPrice: reservation ? parseFloat(reservation.totalPrice).toFixed(2) : '',
-            dateCancelled: reservation && reservation.dateCancelled
-                ? moment(reservation.dateCancelled, API_DATE_FORMAT).format(INPUT_DATE_FORMAT)
-                : '',
         },
         [formData, setFormData] = useState(getInitialFormData(reservation)),
         [errors, setErrors] = useState({}),
@@ -89,6 +90,9 @@ const ReservationForm = ({reservation, isDisabled, addSuccessMessage, changeCoun
 
             submittedFormData.dateFrom = moment(submittedFormData.dateFrom, INPUT_DATE_FORMAT).format(API_DATE_FORMAT);
             submittedFormData.dateTo = moment(submittedFormData.dateTo, INPUT_DATE_FORMAT).format(API_DATE_FORMAT);
+            submittedFormData.dateCancelled = submittedFormData.dateCancelled
+                ? moment(submittedFormData.dateCancelled, INPUT_DATE_FORMAT).format(API_DATE_FORMAT)
+                : '';
 
             if (validateFormData(submittedFormData, setErrors)) {
                 sendData(submittedFormData, urls.api, urls.redirect, entityExists, setErrors, addSuccessMessage, navigate, 'Reservation');

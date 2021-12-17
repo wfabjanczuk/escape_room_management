@@ -3,7 +3,6 @@ import * as PropTypes from 'prop-types';
 import SelectField from '../../app/components/form/field/SelectField';
 import InputField from '../../app/components/form/field/InputField';
 import ReadOnlyField from '../../app/components/form/field/ReadOnlyField';
-import ReadOnlyDateField from '../../app/components/form/field/ReadOnlyDateField';
 
 const ReservationFormFields = (
     {
@@ -48,16 +47,21 @@ const ReservationFormFields = (
         value={formData.dateTo}
         onChange={onValueChange}
     />
+    <InputField
+        type='datetime-local'
+        name='dateCancelled'
+        displayName='Date cancelled'
+        isRequired={false}
+        isDisabled={isDisabled}
+        errorMessage={errors.dateCancelled}
+        value={formData.dateCancelled}
+        onChange={onValueChange}
+    />
     {isDisabled && <React.Fragment>
         <ReadOnlyField
             name='totalPrice'
             displayName='Total price'
             value={readOnlyValues.totalPrice}
-        />
-        <ReadOnlyDateField
-            name='dateCancelled'
-            displayName='Date cancelled'
-            value={readOnlyValues.dateCancelled}
         />
     </React.Fragment>}
 </React.Fragment>);
