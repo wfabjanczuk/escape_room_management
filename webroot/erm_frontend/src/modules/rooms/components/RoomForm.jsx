@@ -9,7 +9,7 @@ import * as PropTypes from 'prop-types';
 import {addSuccessMessage} from '../../redux/flash/flashActions';
 import {connect} from 'react-redux';
 import RoomFormFields from './RoomFormFields';
-import {sendData} from "../../app/utils/form";
+import {sendData} from '../../app/utils/form';
 
 const getInitialFormData = (room) => {
     return {
@@ -58,8 +58,8 @@ const validateFormData = (formData, setErrors) => {
             maxParticipants = parseInt(formData.maxParticipants, 10);
 
         if (maxParticipants < minParticipants) {
-            formValidator.putError("maxParticipants",
-                "\"Max. participants\" must be greater or equal to \"min. participants\".");
+            formValidator.putError('maxParticipants',
+                '"Max. participants" must be greater or equal to "min. participants".');
         }
     }
 

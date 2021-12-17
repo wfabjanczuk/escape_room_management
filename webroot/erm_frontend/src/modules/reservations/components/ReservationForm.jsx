@@ -13,7 +13,7 @@ import axios from 'axios';
 import {increaseChangeCounter} from '../../redux/change/changeActions';
 import moment from 'moment';
 import {API_DATE_FORMAT, INPUT_DATE_FORMAT} from '../../app/constants/dates';
-import {sendData} from "../../app/utils/form";
+import {sendData} from '../../app/utils/form';
 
 const getInitialFormData = (reservation) => {
     return {
@@ -60,7 +60,7 @@ const validateFormData = (formData, setErrors) => {
             dateTo = moment(formData.dateTo, API_DATE_FORMAT);
 
         if (!dateTo.isAfter(dateFrom)) {
-            formValidator.putError("dateTo", "\"Date to\" must be after \"date from\".");
+            formValidator.putError('dateTo', '"Date to" must be after "date from".');
         }
     }
 
