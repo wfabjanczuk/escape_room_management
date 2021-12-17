@@ -16,7 +16,7 @@ type Guest struct {
 }
 
 type Ticket struct {
-	ID                   uint            `gorm:"primarykey" json:"id"`
+	ID                   uint            `gorm:"primarykey" json:"id" valid:"-"`
 	Price                decimal.Decimal `json:"price" valid:"required"`
 	ReservationID        uint            `json:"reservationId" valid:"required"`
 	Reservation          Reservation     `json:"reservation" valid:"-"`
@@ -26,13 +26,13 @@ type Ticket struct {
 }
 
 type Reservation struct {
-	ID            uint               `gorm:"primarykey" json:"id"`
-	RoomID        uint               `json:"roomId"`
-	Room          Room               `json:"room"`
-	TotalPrice    decimal.Decimal    `json:"totalPrice"`
-	DateFrom      types.DateTime     `json:"dateFrom"`
-	DateTo        types.DateTime     `json:"dateTo"`
-	DateCancelled types.NullDateTime `json:"dateCancelled"`
+	ID            uint               `gorm:"primarykey" json:"id" valid:"-"`
+	RoomID        uint               `json:"roomId" valid:"required"`
+	Room          Room               `json:"room" valid:"-"`
+	TotalPrice    decimal.Decimal    `json:"totalPrice" valid:"-"`
+	DateFrom      types.DateTime     `json:"dateFrom" valid:"required"`
+	DateTo        types.DateTime     `json:"dateTo" valid:"required"`
+	DateCancelled types.NullDateTime `json:"dateCancelled" valid:"-"`
 }
 
 type Room struct {
