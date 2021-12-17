@@ -50,9 +50,9 @@ export default function TicketDetails() {
     return <React.Fragment>
         <h2>{title}</h2>
         <TicketForm ticket={state.ticket} isDisabled={true}/>
+        <h2>Ticket owner</h2>
+        <GuestForm guest={state.ticket.guest} isDisabled={true}/>
         <h2>Ticket reservation</h2>
         <ReservationForm reservation={state.ticket.reservation} isDisabled={true}/>
-        <h2>Ticket guest</h2>
-        <GuestForm guest={state.ticket.guest} isDisabled={true}/>
     </React.Fragment>;
 };

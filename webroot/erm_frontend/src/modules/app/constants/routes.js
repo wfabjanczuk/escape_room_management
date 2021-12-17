@@ -19,6 +19,7 @@ const ROUTES = {
         ticket: API + '/tickets/:id',
         reservations: API + '/reservations',
         reservation: API + '/reservations/:id',
+        reservationTickets: API + '/reservations/:id/tickets',
         rooms: API + '/rooms',
         room: API + '/rooms/:id',
     },

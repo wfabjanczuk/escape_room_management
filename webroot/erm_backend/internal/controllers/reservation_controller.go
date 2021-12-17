@@ -42,6 +42,27 @@ func (c *reservationController) GetReservation(w http.ResponseWriter, r *http.Re
 	}
 }
 
+func (c *reservationController) GetReservationTickets(w http.ResponseWriter, r *http.Request) {
+	params := httprouter.ParamsFromContext(r.Context())
+
+	id, err := strconv.Atoi(params.ByName("id"))
+	if err != nil {
+		c.writeWrappedErrorJson(w, err, http.StatusBadRequest)
+		return
+	}
+
+	tickets, err := c.reservationRepository.GetReservationTickets(id)
+	if err != nil {
+		c.writeWrappedErrorJson(w, err, http.StatusNotFound)
+		return
+	}
+
+	err = c.writeWrappedJson(w, http.StatusOK, tickets, "tickets")
+	if err != nil {
+		c.logger.Println(err)
+	}
+}
+
 func (c *reservationController) GetReservations(w http.ResponseWriter, r *http.Request) {
 	reservations, err := c.reservationRepository.GetReservations()
 	if err != nil {

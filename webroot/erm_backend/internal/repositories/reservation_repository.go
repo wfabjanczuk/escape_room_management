@@ -65,3 +65,18 @@ func (r *ReservationRepository) DeleteReservation(id int, deleteError *responses
 		deleteError.AddError(generalError, http.StatusInternalServerError)
 	}
 }
+
+func (r *ReservationRepository) GetReservationTickets(id int) ([]models.Ticket, error) {
+	var tickets []models.Ticket
+
+	_, err := r.GetReservation(id)
+	if err != nil {
+		return tickets, err
+	}
+
+	result := r.db.
+		Preload("Guest").Preload("Reservation").Preload("Reservation.Room").
+		Where("reservation_id = ?", id).Find(&tickets)
+
+	return tickets, result.Error
+}

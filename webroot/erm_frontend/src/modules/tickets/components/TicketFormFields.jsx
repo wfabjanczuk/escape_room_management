@@ -18,17 +18,6 @@ const TicketFormFields = (
 ) => (<React.Fragment>
     {entityExists && <input type='hidden' name='id' value={formData.id}/>}
     <SelectField
-        name='reservationId'
-        displayName='Reservation'
-        placeholderLabel='-- select reservation --'
-        options={reservationOptions}
-        isRequired={true}
-        isDisabled={isDisabled}
-        errorMessage={errors.reservationId}
-        value={formData.reservationId}
-        onChange={onValueChange}
-    />
-    <SelectField
         name='guestId'
         displayName='Guest'
         placeholderLabel='-- select guest --'
@@ -37,6 +26,17 @@ const TicketFormFields = (
         isDisabled={isDisabled}
         errorMessage={errors.guestId}
         value={formData.guestId}
+        onChange={onValueChange}
+    />
+    <SelectField
+        name='reservationId'
+        displayName='Reservation'
+        placeholderLabel='-- select reservation --'
+        options={reservationOptions}
+        isRequired={true}
+        isDisabled={isDisabled}
+        errorMessage={errors.reservationId}
+        value={formData.reservationId}
         onChange={onValueChange}
     />
     <MoneyField

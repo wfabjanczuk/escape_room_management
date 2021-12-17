@@ -64,6 +64,7 @@ func (app *application) setReservationRoutes(router *httprouter.Router) *httprou
 	router.HandlerFunc(http.MethodGet, v+"/reservations", reservationController.GetReservations)
 	router.HandlerFunc(http.MethodGet, v+"/reservations/:id", reservationController.GetReservation)
 	router.HandlerFunc(http.MethodDelete, v+"/reservations/:id", reservationController.DeleteReservation)
+	router.HandlerFunc(http.MethodGet, v+"/reservations/:id/tickets", reservationController.GetReservationTickets)
 
 	return router
 }
