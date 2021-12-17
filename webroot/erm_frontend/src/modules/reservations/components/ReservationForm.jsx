@@ -5,7 +5,6 @@ import Footer from '../../app/components/form/Footer';
 import ROUTES, {getRouteWithParams} from '../../app/constants/routes';
 import getDeleteReservationPromise from '../utils/getDeleteReservationPromise';
 import NewFormValidator from '../../app/utils/FormValidator';
-import {sendData} from '../../app/utils/form';
 import * as PropTypes from 'prop-types';
 import {addSuccessMessage} from '../../redux/flash/flashActions';
 import {connect} from 'react-redux';
@@ -14,6 +13,7 @@ import axios from 'axios';
 import {increaseChangeCounter} from '../../redux/change/changeActions';
 import moment from 'moment';
 import {API_DATE_FORMAT, INPUT_DATE_FORMAT} from '../../app/constants/dates';
+import {sendData} from "../../app/utils/form";
 
 const getInitialFormData = (reservation) => {
     return {
@@ -54,6 +54,15 @@ const validateFormData = (formData, setErrors) => {
     formValidator.required(['roomId', 'dateFrom', 'dateTo']);
     formValidator.isDate(['dateFrom', 'dateTo'], false);
     formValidator.isDate(['dateCancelled'], true);
+
+    if (formValidator.isValid()) {
+        const dateFrom = moment(formData.dateFrom, API_DATE_FORMAT),
+            dateTo = moment(formData.dateTo, API_DATE_FORMAT);
+
+        if (!dateTo.isAfter(dateFrom)) {
+            formValidator.putError("dateTo", "\"Date to\" must be after \"date from\".");
+        }
+    }
 
     if (!formValidator.isValid()) {
         setErrors(formValidator.errors);

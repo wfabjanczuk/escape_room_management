@@ -62,7 +62,7 @@ func (r *ReservationRepository) IsRoomAvailable(roomId uint, dateFrom, dateTo ty
 		"date_from between ? and ? or date_to between ? and ?)"
 
 	if id.Valid {
-		query = query.Where(fmt.Sprintf("%s and reservation_id <> ?", overlappingCondition),
+		query = query.Where(fmt.Sprintf("%s and id <> ?", overlappingCondition),
 			roomId, dateFrom, dateTo, dateFrom, dateTo, dateFrom, dateTo, id)
 	} else {
 		query = query.Where(overlappingCondition, roomId, dateFrom, dateTo, dateFrom, dateTo, dateFrom, dateTo)
