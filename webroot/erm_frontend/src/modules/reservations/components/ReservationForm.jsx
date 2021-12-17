@@ -63,6 +63,12 @@ const ReservationForm = ({reservation, isDisabled, addSuccessMessage, changeCoun
     const id = parseInt(_get(reservation, 'id', null), 10),
         entityExists = !!reservation,
         urls = getUrls(reservation, entityExists, isDisabled),
+        readOnlyValues = {
+            totalPrice: reservation ? parseFloat(reservation.totalPrice).toFixed(2) : '',
+            dateCancelled: reservation && reservation.dateCancelled
+                ? moment(reservation.dateCancelled, API_DATE_FORMAT).format(INPUT_DATE_FORMAT)
+                : '',
+        },
         [formData, setFormData] = useState(getInitialFormData(reservation)),
         [errors, setErrors] = useState({}),
         [roomOptions, setRoomOptions] = useState({
@@ -133,7 +139,7 @@ const ReservationForm = ({reservation, isDisabled, addSuccessMessage, changeCoun
     return <form className='form' method='POST' onSubmit={handleSubmit}>
         <ReservationFormFields entityExists={entityExists} roomOptions={roomOptions.rooms}
                                isDisabled={isDisabled} onValueChange={onValueChange}
-                               formData={formData} errors={errors}/>
+                               formData={formData} errors={errors} readOnlyValues={readOnlyValues}/>
         <Footer id={id} entityExists={entityExists}
                 isDisabled={isDisabled} getDeletePromise={getDeleteReservationPromise}
                 editUrl={urls.edit} redirectUrl={urls.redirect} error={errors.general}/>

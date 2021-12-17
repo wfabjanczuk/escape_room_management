@@ -2,6 +2,8 @@ import React from 'react';
 import * as PropTypes from 'prop-types';
 import SelectField from '../../app/components/form/field/SelectField';
 import InputField from '../../app/components/form/field/InputField';
+import ReadOnlyField from '../../app/components/form/field/ReadOnlyField';
+import ReadOnlyDateField from '../../app/components/form/field/ReadOnlyDateField';
 
 const ReservationFormFields = (
     {
@@ -10,7 +12,8 @@ const ReservationFormFields = (
         isDisabled,
         onValueChange,
         formData,
-        errors
+        errors,
+        readOnlyValues
     }
 ) => (<React.Fragment>
     {entityExists && <input type='hidden' name='id' value={formData.id}/>}
@@ -45,6 +48,18 @@ const ReservationFormFields = (
         value={formData.dateTo}
         onChange={onValueChange}
     />
+    {isDisabled && <React.Fragment>
+        <ReadOnlyField
+            name='totalPrice'
+            displayName='Total price'
+            value={readOnlyValues.totalPrice}
+        />
+        <ReadOnlyDateField
+            name='dateCancelled'
+            displayName='Date cancelled'
+            value={readOnlyValues.dateCancelled}
+        />
+    </React.Fragment>}
 </React.Fragment>);
 
 ReservationFormFields.propTypes = {
@@ -54,6 +69,7 @@ ReservationFormFields.propTypes = {
     onValueChange: PropTypes.func,
     formData: PropTypes.object,
     errors: PropTypes.object,
+    readOnlyValues: PropTypes.object,
 };
 
 export default ReservationFormFields;
