@@ -11,7 +11,7 @@ import {addSuccessMessage} from '../../redux/flash/flashActions';
 import {connect} from 'react-redux';
 import TicketFormFields from './TicketFormFields';
 import axios from 'axios';
-import {increaseChangeCounter} from "../../redux/change/changeActions";
+import {increaseChangeCounter} from '../../redux/change/changeActions';
 
 const getInitialFormData = (ticket) => {
     return {
@@ -121,7 +121,7 @@ const TicketForm = ({ticket, isDisabled, addSuccessMessage, changeCounter, incre
                     (error) => setReservationOptions({
                         ...reservationOptions,
                         isLoading: false,
-                        errors: [...errors, error],
+                        errors: [...reservationOptions.errors, error],
                     })
                 );
         },
@@ -150,7 +150,7 @@ const TicketForm = ({ticket, isDisabled, addSuccessMessage, changeCounter, incre
                     (error) => setGuestOptions({
                         ...guestOptions,
                         isLoading: false,
-                        errors: [...errors, error],
+                        errors: [...guestOptions.errors, error],
                     })
                 );
         },
@@ -181,7 +181,7 @@ const TicketForm = ({ticket, isDisabled, addSuccessMessage, changeCounter, incre
 }
 
 TicketForm.propTypes = {
-    guest: PropTypes.object,
+    ticket: PropTypes.object,
     isDisabled: PropTypes.bool,
     addSuccessMessage: PropTypes.func,
     changeCounter: PropTypes.number,

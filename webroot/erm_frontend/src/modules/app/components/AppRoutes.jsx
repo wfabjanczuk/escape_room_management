@@ -12,12 +12,12 @@ import Rooms from '../../rooms/views/Rooms';
 import TicketDetails from '../../tickets/views/TicketDetails';
 import TicketAdd from '../../tickets/views/TicketAdd';
 import TicketEdit from '../../tickets/views/TicketEdit';
-import ReservationAdd from "../../reservations/views/ReservationAdd";
-import ReservationEdit from "../../reservations/views/ReservationEdit";
-import ReservationDetails from "../../reservations/views/ReservationDetails";
-import RoomAdd from "../../rooms/views/RoomAdd";
-import RoomEdit from "../../rooms/views/RoomEdit";
-import RoomDetails from "../../rooms/views/RoomDetails";
+import ReservationAdd from '../../reservations/views/ReservationAdd';
+import ReservationEdit from '../../reservations/views/ReservationEdit';
+import ReservationDetails from '../../reservations/views/ReservationDetails';
+import RoomAdd from '../../rooms/views/RoomAdd';
+import RoomEdit from '../../rooms/views/RoomEdit';
+import RoomDetails from '../../rooms/views/RoomDetails';
 
 const AppRoutes = () => (<Routes>
     <Route path={ROUTES.home} element={<Home/>}/>

@@ -1,5 +1,7 @@
 import validatorIsEmail from 'validator/lib/isEmail';
 import XRegExp from 'xregexp';
+import {API_DATE_FORMAT} from '../constants/dates';
+import moment from 'moment';
 
 const NewFormValidator = (formData) => ({
     formData: formData,
@@ -84,6 +86,16 @@ const NewFormValidator = (formData) => ({
 
             if (!nullable && zeroPattern.test(formData[key])) {
                 this.putError(key, isNonZeroErrorMessage);
+            }
+        }
+    },
+    isDate: function (keys) {
+        const errorMessage = 'This field must be a valid date.';
+
+        for (const key of keys) {
+            const dateTime = moment(formData[key], API_DATE_FORMAT);
+            if (!dateTime.isValid()) {
+                this.putError(key, errorMessage);
             }
         }
     },
