@@ -21,7 +21,7 @@ const NewFormValidator = (formData) => ({
             }
         }
     },
-    maxLength: function (maxLength, keys) {
+    maxLength: function (keys, maxLength) {
         const errorMessage = `Maximum length is ${maxLength}.`;
 
         for (const key of keys) {
@@ -30,8 +30,23 @@ const NewFormValidator = (formData) => ({
             }
         }
     },
-    intMinMax: function (min, max, keys) {
-        const errorMessage = `Value of this number must be from ${min} to ${max}.`;
+    intPositive: function (keys) {
+        const errorMessage = `This number must be greater than zero.`;
+
+        for (const key of keys) {
+            if (!formData[key]) {
+                continue;
+            }
+
+            const number = parseInt(formData[key], 10);
+
+            if (number <= 0) {
+                this.putError(key, errorMessage);
+            }
+        }
+    },
+    intMinMax: function (keys, min, max) {
+        const errorMessage = `This number must be from ${min} to ${max}.`;
 
         for (const key of keys) {
             if (!formData[key]) {

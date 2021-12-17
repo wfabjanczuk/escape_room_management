@@ -58,7 +58,7 @@ func extractGuest(payload payloads.GuestPayload, parseId bool, guestErrors *resp
 	if len(payload.DiscountPercent) > 0 {
 		discountPercent, err := strconv.Atoi(payload.DiscountPercent)
 		if err != nil || discountPercent < 0 || discountPercent > 20 {
-			guestErrors.AddError("discountPercent", "Invalid discount percent.", http.StatusBadRequest)
+			guestErrors.AddError("discountPercent", "This number must be from 0 to 20.", http.StatusBadRequest)
 		}
 
 		guest.DiscountPercent = types.NullInt64{

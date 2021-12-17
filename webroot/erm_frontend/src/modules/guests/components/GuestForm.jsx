@@ -58,11 +58,11 @@ const validateFormData = (formData, setErrors) => {
     formValidator.isAlpha(['firstName', 'lastName']);
     formValidator.isEmail(['email']);
     formValidator.isDigits(['phoneNumber'], false);
-    formValidator.intMinMax(0, 20, ['discountPercent']);
+    formValidator.intMinMax(['discountPercent'], 0, 20);
 
-    formValidator.maxLength(50, ['firstName', 'lastName']);
-    formValidator.maxLength(100, ['email']);
-    formValidator.maxLength(12, ['phoneNumber']);
+    formValidator.maxLength(['firstName', 'lastName'], 50);
+    formValidator.maxLength(['email'], 100);
+    formValidator.maxLength(['phoneNumber'], 12);
 
     if (!formValidator.isValid()) {
         setErrors(formValidator.errors);

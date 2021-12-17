@@ -5,11 +5,11 @@ import Footer from '../../app/components/form/Footer';
 import ROUTES, {getRouteWithParams} from '../../app/constants/routes';
 import getDeleteRoomPromise from '../utils/getDeleteRoomPromise';
 import NewFormValidator from '../../app/utils/FormValidator';
-import {sendData} from '../../app/utils/form';
 import * as PropTypes from 'prop-types';
 import {addSuccessMessage} from '../../redux/flash/flashActions';
 import {connect} from 'react-redux';
 import RoomFormFields from './RoomFormFields';
+import {sendData} from "../../app/utils/form";
 
 const getInitialFormData = (room) => {
     return {
@@ -47,9 +47,21 @@ const validateFormData = (formData, setErrors) => {
     const formValidator = NewFormValidator(formData);
 
     formValidator.required(['name', 'baseTicketPrice', 'minParticipants', 'maxParticipants']);
+    formValidator.maxLength(['name'], 100);
     formValidator.isDigits(['minParticipants', 'maxParticipants'], false);
     formValidator.isDigits(['minAge'], true);
+    formValidator.intPositive(['minParticipants', 'maxParticipants', 'minAge']);
     formValidator.isMoney(['baseTicketPrice'], false);
+
+    if (formValidator.isValid()) {
+        const minParticipants = parseInt(formData.minParticipants, 10),
+            maxParticipants = parseInt(formData.maxParticipants, 10);
+
+        if (maxParticipants < minParticipants) {
+            formValidator.putError("maxParticipants",
+                "\"Max. participants\" must be greater or equal to \"min. participants\".");
+        }
+    }
 
     if (!formValidator.isValid()) {
         setErrors(formValidator.errors);
