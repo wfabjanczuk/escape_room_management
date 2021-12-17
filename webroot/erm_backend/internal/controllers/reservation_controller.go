@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"erm_backend/internal/parsers"
 	"erm_backend/internal/repositories"
 	"erm_backend/internal/responses"
 	"github.com/julienschmidt/httprouter"
@@ -76,6 +77,14 @@ func (c *reservationController) GetReservations(w http.ResponseWriter, r *http.R
 	}
 }
 
+func (c *reservationController) CreateReservation(w http.ResponseWriter, r *http.Request) {
+	c.handleSaveReservation(w, r, false)
+}
+
+func (c *reservationController) UpdateReservation(w http.ResponseWriter, r *http.Request) {
+	c.handleSaveReservation(w, r, true)
+}
+
 func (c *reservationController) DeleteReservation(w http.ResponseWriter, r *http.Request) {
 	deleteError := &responses.DeleteError{}
 	params := httprouter.ParamsFromContext(r.Context())
@@ -97,4 +106,23 @@ func (c *reservationController) DeleteReservation(w http.ResponseWriter, r *http
 	}
 
 	c.writeEmptyResponse(w, http.StatusOK)
+}
+
+func (c *reservationController) handleSaveReservation(w http.ResponseWriter, r *http.Request, parseId bool) {
+	reservationErrors := &responses.ReservationErrors{}
+	reservation := parsers.ParseReservationFromRequest(r, parseId, reservationErrors)
+
+	if reservationErrors.ErrorsCount > 0 {
+		err := c.writeWrappedJson(w, reservationErrors.StatusCode, reservationErrors, "error")
+		if err != nil {
+			c.logger.Println(err)
+		}
+
+		return
+	}
+
+	err := c.writeWrappedJson(w, http.StatusOK, reservation, "reservation")
+	if err != nil {
+		c.logger.Println(err)
+	}
 }

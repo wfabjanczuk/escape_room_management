@@ -17,3 +17,11 @@ type TicketPayload struct {
 	GuestID              string `json:"guestId"`
 	GuestAllowedToCancel string `json:"guestAllowedToCancel"`
 }
+
+type ReservationPayload struct {
+	Id            string `json:"id"`
+	RoomID        string `json:"roomId"`
+	DateFrom      string `json:"dateFrom"`
+	DateTo        string `json:"dateTo"`
+	DateCancelled string `json:"dateCancelled"`
+}

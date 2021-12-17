@@ -62,7 +62,9 @@ func (app *application) setReservationRoutes(router *httprouter.Router) *httprou
 		repositories.NewReservationRepository(app.logger, app.db),
 	)
 	router.HandlerFunc(http.MethodGet, v+"/reservations", reservationController.GetReservations)
+	router.HandlerFunc(http.MethodPost, v+"/reservations", reservationController.CreateReservation)
 	router.HandlerFunc(http.MethodGet, v+"/reservations/:id", reservationController.GetReservation)
+	router.HandlerFunc(http.MethodPut, v+"/reservations/:id", reservationController.UpdateReservation)
 	router.HandlerFunc(http.MethodDelete, v+"/reservations/:id", reservationController.DeleteReservation)
 	router.HandlerFunc(http.MethodGet, v+"/reservations/:id/tickets", reservationController.GetReservationTickets)
 
