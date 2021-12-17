@@ -1,8 +1,11 @@
 package repositories
 
 import (
+	"database/sql"
 	"erm_backend/internal/models"
 	"erm_backend/internal/responses"
+	"erm_backend/internal/types"
+	"fmt"
 	"gorm.io/gorm"
 	"log"
 	"net/http"
@@ -33,6 +36,40 @@ func (r *ReservationRepository) GetReservations() ([]models.Reservation, error) 
 	result := r.db.Order("id asc").Preload("Room").Find(&reservations)
 
 	return reservations, result.Error
+}
+
+func (r *ReservationRepository) SaveReservation(reservation models.Reservation, reservationErrors *responses.ReservationErrors) {
+	if !r.IsRoomAvailable(reservation.RoomID, reservation.DateFrom, reservation.DateTo, sql.NullInt64{
+		Int64: int64(reservation.ID),
+		Valid: reservation.ID > 0,
+	}) {
+		reservationErrors.AddError("", "Room is not available in the given date range.", http.StatusInternalServerError)
+		return
+	}
+
+	result := r.db.Save(&reservation)
+
+	if result.Error != nil {
+		reservationErrors.AddError("", "Saving reservation failed. Please try again later.", http.StatusInternalServerError)
+	}
+}
+
+func (r *ReservationRepository) IsRoomAvailable(roomId uint, dateFrom, dateTo types.DateTime, id sql.NullInt64) bool {
+	var reservationCount int64
+	query := r.db.Model(&models.Reservation{})
+
+	overlappingCondition := "room_id = ? and (? between date_from and date_to or ? between date_from and date_to or " +
+		"date_from between ? and ? or date_to between ? and ?)"
+
+	if id.Valid {
+		query = query.Where(fmt.Sprintf("%s and reservation_id <> ?", overlappingCondition),
+			roomId, dateFrom, dateTo, dateFrom, dateTo, dateFrom, dateTo, id)
+	} else {
+		query = query.Where(overlappingCondition, roomId, dateFrom, dateTo, dateFrom, dateTo, dateFrom, dateTo)
+	}
+
+	result := query.Count(&reservationCount)
+	return result.Error == nil && reservationCount == 0
 }
 
 func (r *ReservationRepository) DeleteReservation(id int, deleteError *responses.DeleteError) {

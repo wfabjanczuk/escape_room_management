@@ -13,12 +13,14 @@ import (
 type reservationController struct {
 	controller
 	reservationRepository *repositories.ReservationRepository
+	roomRepository        *repositories.RoomRepository
 }
 
-func NewReservationController(logger *log.Logger, reservationRepository *repositories.ReservationRepository) *reservationController {
+func NewReservationController(logger *log.Logger, reservationRepository *repositories.ReservationRepository, roomRepository *repositories.RoomRepository) *reservationController {
 	return &reservationController{
 		controller:            newController(logger),
 		reservationRepository: reservationRepository,
+		roomRepository:        roomRepository,
 	}
 }
 
@@ -111,6 +113,18 @@ func (c *reservationController) DeleteReservation(w http.ResponseWriter, r *http
 func (c *reservationController) handleSaveReservation(w http.ResponseWriter, r *http.Request, parseId bool) {
 	reservationErrors := &responses.ReservationErrors{}
 	reservation := parsers.ParseReservationFromRequest(r, parseId, reservationErrors)
+
+	if reservationErrors.ErrorsCount == 0 {
+		room, err := c.roomRepository.GetRoom(int(reservation.RoomID))
+		if err != nil {
+			reservationErrors.AddError("", "Room not found.", http.StatusBadRequest)
+		}
+		reservation.Room = room
+
+		if reservationErrors.ErrorsCount == 0 {
+			c.reservationRepository.SaveReservation(reservation, reservationErrors)
+		}
+	}
 
 	if reservationErrors.ErrorsCount > 0 {
 		err := c.writeWrappedJson(w, reservationErrors.StatusCode, reservationErrors, "error")

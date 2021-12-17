@@ -48,7 +48,7 @@ const Guests = ({changeCounter}) => {
             columns={guestColumns}
             actionsRoute={ROUTES.guests}
             getDeletePromise={getDeleteGuestPromise}
-            buttonText='Register new guest'
+            buttonText='Add new guest'
             buttonUrl={ROUTES.guests.add}
         />
     </React.Fragment>;

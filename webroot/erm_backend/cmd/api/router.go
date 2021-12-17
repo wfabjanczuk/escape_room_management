@@ -60,6 +60,7 @@ func (app *application) setTicketRoutes(router *httprouter.Router) *httprouter.R
 func (app *application) setReservationRoutes(router *httprouter.Router) *httprouter.Router {
 	reservationController := controllers.NewReservationController(app.logger,
 		repositories.NewReservationRepository(app.logger, app.db),
+		repositories.NewRoomRepository(app.logger, app.db),
 	)
 	router.HandlerFunc(http.MethodGet, v+"/reservations", reservationController.GetReservations)
 	router.HandlerFunc(http.MethodPost, v+"/reservations", reservationController.CreateReservation)
