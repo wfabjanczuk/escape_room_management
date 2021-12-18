@@ -6,6 +6,7 @@ import (
 	"erm_backend/internal/responses"
 	"erm_backend/internal/types"
 	"fmt"
+	"github.com/shopspring/decimal"
 	"gorm.io/gorm"
 	"log"
 	"net/http"
@@ -50,6 +51,12 @@ func (r *ReservationRepository) SaveReservation(reservation models.Reservation, 
 	result := r.db.Save(&reservation)
 
 	if result.Error != nil {
+		reservationErrors.AddError("", "Saving reservation failed. Please try again later.", http.StatusInternalServerError)
+		return
+	}
+
+	reservation, err := r.UpdateReservationTotalPrice(reservation)
+	if err != nil {
 		reservationErrors.AddError("", "Saving reservation failed. Please try again later.", http.StatusInternalServerError)
 	}
 }
@@ -116,4 +123,19 @@ func (r *ReservationRepository) GetReservationTickets(id int) ([]models.Ticket, 
 		Where("reservation_id = ?", id).Find(&tickets)
 
 	return tickets, result.Error
+}
+
+func (r *ReservationRepository) UpdateReservationTotalPrice(reservation models.Reservation) (models.Reservation, error) {
+	reservationTickets, err := r.GetReservationTickets(int(reservation.ID))
+	if err != nil {
+		return reservation, err
+	}
+
+	reservation.TotalPrice = decimal.Decimal{}
+	for _, ticket := range reservationTickets {
+		reservation.TotalPrice = reservation.TotalPrice.Add(ticket.Price)
+	}
+
+	result := r.db.Model(&reservation).Where("id = ?", reservation.ID).Update("total_price", reservation.TotalPrice)
+	return reservation, result.Error
 }

@@ -102,21 +102,10 @@ func (r *TicketRepository) GetReservationTicketsCount(reservationId uint, id sql
 	return uint(ticketCount), result.Error
 }
 
-func (r *TicketRepository) DeleteTicket(id int, deleteError *responses.DeleteError) {
-	generalError := "Database error. Please try again later."
-
-	ticket, err := r.GetTicket(id)
-	if err != nil {
-		if err == gorm.ErrRecordNotFound {
-			deleteError.AddError("Record not found.", http.StatusNotFound)
-		} else {
-			deleteError.AddError(generalError, http.StatusInternalServerError)
-		}
-		return
-	}
-
+func (r *TicketRepository) DeleteTicket(ticket models.Ticket, deleteError *responses.DeleteError) {
 	result := r.db.Delete(&ticket)
+
 	if result.Error != nil {
-		deleteError.AddError(generalError, http.StatusInternalServerError)
+		deleteError.AddError("Database error. Please try again later.", http.StatusInternalServerError)
 	}
 }

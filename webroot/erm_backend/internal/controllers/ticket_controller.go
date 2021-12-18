@@ -5,6 +5,7 @@ import (
 	"erm_backend/internal/repositories"
 	"erm_backend/internal/responses"
 	"github.com/julienschmidt/httprouter"
+	"gorm.io/gorm"
 	"log"
 	"net/http"
 	"strconv"
@@ -78,7 +79,27 @@ func (c *ticketController) DeleteTicket(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-	c.ticketRepository.DeleteTicket(id, deleteError)
+	generalDatabaseError := "Database error. Please try again later."
+	ticket, err := c.ticketRepository.GetTicket(id)
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			deleteError.AddError("Record not found.", http.StatusNotFound)
+		} else {
+			deleteError.AddError(generalDatabaseError, http.StatusInternalServerError)
+		}
+	}
+
+	if deleteError.ErrorsCount == 0 {
+		c.ticketRepository.DeleteTicket(ticket, deleteError)
+	}
+
+	if deleteError.ErrorsCount == 0 {
+		_, err = c.reservationRepository.UpdateReservationTotalPrice(ticket.Reservation)
+		if err != nil {
+			deleteError.AddError(generalDatabaseError, http.StatusInternalServerError)
+		}
+	}
+
 	if deleteError.ErrorsCount > 0 {
 		err = c.writeWrappedJson(w, deleteError.StatusCode, deleteError, "error")
 		if err != nil {
@@ -114,6 +135,13 @@ func (c *ticketController) handleSaveTicket(w http.ResponseWriter, r *http.Reque
 
 		if ticketErrors.ErrorsCount == 0 {
 			c.ticketRepository.SaveTicket(ticket, reservation, ticketErrors)
+		}
+
+		if ticketErrors.ErrorsCount == 0 {
+			_, err = c.reservationRepository.UpdateReservationTotalPrice(reservation)
+			if err != nil {
+				ticketErrors.AddError("", "Database error. Please try again later.", http.StatusInternalServerError)
+			}
 		}
 	}
 

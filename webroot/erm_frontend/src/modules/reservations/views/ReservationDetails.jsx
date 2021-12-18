@@ -5,8 +5,9 @@ import axios from 'axios';
 import ReservationForm from '../components/ReservationForm';
 import ReservationTickets from '../components/ReservationTickets';
 import RoomForm from '../../rooms/components/RoomForm';
+import {connect} from 'react-redux';
 
-export default function ReservationDetails() {
+const ReservationDetails = ({changeCounter}) => {
     const [state, setState] = useState({
             reservation: {},
             isLoading: true,
@@ -30,7 +31,7 @@ export default function ReservationDetails() {
                     })
                 )
         },
-        [params]
+        [params, changeCounter]
     );
 
     if (state.error) {
@@ -55,3 +56,9 @@ export default function ReservationDetails() {
         <ReservationTickets id={state.reservation.id}/>
     </React.Fragment>;
 };
+
+const mapStateToProps = (state) => ({
+    changeCounter: state.change.counter,
+});
+
+export default connect(mapStateToProps)(ReservationDetails);
