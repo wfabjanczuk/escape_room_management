@@ -36,13 +36,13 @@ func (r *GuestRepository) GetGuests() ([]models.Guest, error) {
 	return guests, result.Error
 }
 
-func (r *GuestRepository) SaveGuest(guest models.Guest, guestErrors *responses.GuestErrors) {
+func (r *GuestRepository) SaveGuest(guest models.Guest, guestErrors *responses.GuestErrors) models.Guest {
 	if !r.IsGuestEmailValid(guest.Email, sql.NullInt64{
 		Int64: int64(guest.ID),
 		Valid: guest.ID > 0,
 	}) {
 		guestErrors.AddError("email", "This email is already used.", http.StatusBadRequest)
-		return
+		return guest
 	}
 
 	result := r.db.Save(&guest)
@@ -50,6 +50,8 @@ func (r *GuestRepository) SaveGuest(guest models.Guest, guestErrors *responses.G
 	if result.Error != nil {
 		guestErrors.AddError("", "Saving guest failed. Please try again later.", http.StatusInternalServerError)
 	}
+
+	return guest
 }
 
 func (r *GuestRepository) IsGuestEmailValid(email string, id sql.NullInt64) bool {

@@ -122,7 +122,7 @@ func (c *reservationController) handleSaveReservation(w http.ResponseWriter, r *
 		reservation.Room = room
 
 		if reservationErrors.ErrorsCount == 0 {
-			c.reservationRepository.SaveReservation(reservation, reservationErrors)
+			reservation = c.reservationRepository.SaveReservation(reservation, reservationErrors)
 		}
 	}
 

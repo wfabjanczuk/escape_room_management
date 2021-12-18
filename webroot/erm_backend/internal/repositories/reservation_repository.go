@@ -39,26 +39,28 @@ func (r *ReservationRepository) GetReservations() ([]models.Reservation, error) 
 	return reservations, result.Error
 }
 
-func (r *ReservationRepository) SaveReservation(reservation models.Reservation, reservationErrors *responses.ReservationErrors) {
+func (r *ReservationRepository) SaveReservation(reservation models.Reservation, reservationErrors *responses.ReservationErrors) models.Reservation {
 	if !r.IsRoomAvailable(reservation.RoomID, reservation.DateFrom, reservation.DateTo, sql.NullInt64{
 		Int64: int64(reservation.ID),
 		Valid: reservation.ID > 0,
 	}) {
 		reservationErrors.AddError("", "Room is not available in the given date range.", http.StatusInternalServerError)
-		return
+		return reservation
 	}
 
 	result := r.db.Save(&reservation)
 
 	if result.Error != nil {
 		reservationErrors.AddError("", "Saving reservation failed. Please try again later.", http.StatusInternalServerError)
-		return
+		return reservation
 	}
 
 	reservation, err := r.UpdateReservationTotalPrice(reservation)
 	if err != nil {
 		reservationErrors.AddError("", "Saving reservation failed. Please try again later.", http.StatusInternalServerError)
 	}
+
+	return reservation
 }
 
 func (r *ReservationRepository) IsRoomAvailable(roomId uint, dateFrom, dateTo types.DateTime, id sql.NullInt64) bool {

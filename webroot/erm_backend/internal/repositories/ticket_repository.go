@@ -38,7 +38,7 @@ func (r *TicketRepository) GetTickets() ([]models.Ticket, error) {
 	return tickets, result.Error
 }
 
-func (r *TicketRepository) SaveTicket(ticket models.Ticket, reservation models.Reservation, ticketErrors *responses.TicketErrors) {
+func (r *TicketRepository) SaveTicket(ticket models.Ticket, reservation models.Reservation, ticketErrors *responses.TicketErrors) models.Ticket {
 	ticketID := sql.NullInt64{
 		Int64: int64(ticket.ID),
 		Valid: ticket.ID > 0,
@@ -47,24 +47,24 @@ func (r *TicketRepository) SaveTicket(ticket models.Ticket, reservation models.R
 	doesTicketExist, err := r.DoesTicketExist(ticket.ReservationID, ticket.GuestID, ticketID)
 	if err != nil {
 		ticketErrors.AddError("", "Saving ticket failed. Please try again later.", http.StatusInternalServerError)
-		return
+		return ticket
 	}
 	if doesTicketExist {
 		ticketErrors.AddError("", "Ticket for chosen guest and reservation already exists.", http.StatusBadRequest)
-		return
+		return ticket
 	}
 
 	reservationTicketsCount, err := r.GetReservationTicketsCount(ticket.ReservationID, ticketID)
 	if err != nil {
 		ticketErrors.AddError("", "Saving ticket failed. Please try again later.", http.StatusInternalServerError)
-		return
+		return ticket
 	}
 	if reservationTicketsCount >= reservation.Room.MaxParticipants {
 		ticketErrors.AddError("",
 			"Max. participants for the room is exceeded in this reservation. You cannot add anymore tickets.",
 			http.StatusBadRequest,
 		)
-		return
+		return ticket
 	}
 
 	result := r.db.Save(&ticket)
@@ -72,6 +72,8 @@ func (r *TicketRepository) SaveTicket(ticket models.Ticket, reservation models.R
 	if result.Error != nil {
 		ticketErrors.AddError("", "Saving ticket failed. Please try again later.", http.StatusInternalServerError)
 	}
+
+	return ticket
 }
 
 func (r *TicketRepository) DoesTicketExist(reservationId, guestId uint, id sql.NullInt64) (bool, error) {

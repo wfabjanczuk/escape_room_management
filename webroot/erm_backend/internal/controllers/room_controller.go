@@ -113,7 +113,7 @@ func (c *roomController) handleSaveRoom(w http.ResponseWriter, r *http.Request, 
 	room := parsers.ParseRoomFromRequest(r, parseId, roomErrors)
 
 	if roomErrors.ErrorsCount == 0 {
-		c.roomRepository.SaveRoom(room, roomErrors)
+		room = c.roomRepository.SaveRoom(room, roomErrors)
 	}
 
 	if roomErrors.ErrorsCount > 0 {

@@ -49,13 +49,13 @@ func (r *RoomRepository) GetRooms() ([]models.Room, error) {
 	return rooms, result.Error
 }
 
-func (r *RoomRepository) SaveRoom(room models.Room, roomErrors *responses.RoomErrors) {
+func (r *RoomRepository) SaveRoom(room models.Room, roomErrors *responses.RoomErrors) models.Room {
 	if !r.IsRoomNameValid(room.Name, sql.NullInt64{
 		Int64: int64(room.ID),
 		Valid: room.ID > 0,
 	}) {
 		roomErrors.AddError("name", "This name is already used.", http.StatusBadRequest)
-		return
+		return room
 	}
 
 	result := r.db.Save(&room)
@@ -63,6 +63,8 @@ func (r *RoomRepository) SaveRoom(room models.Room, roomErrors *responses.RoomEr
 	if result.Error != nil {
 		roomErrors.AddError("", "Saving room failed. Please try again later.", http.StatusInternalServerError)
 	}
+
+	return room
 }
 
 func (r *RoomRepository) IsRoomNameValid(name string, id sql.NullInt64) bool {

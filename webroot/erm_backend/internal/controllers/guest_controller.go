@@ -113,7 +113,7 @@ func (c *guestController) handleSaveGuest(w http.ResponseWriter, r *http.Request
 	guest := parsers.ParseGuestFromRequest(r, parseId, guestErrors)
 
 	if guestErrors.ErrorsCount == 0 {
-		c.guestRepository.SaveGuest(guest, guestErrors)
+		guest = c.guestRepository.SaveGuest(guest, guestErrors)
 	}
 
 	if guestErrors.ErrorsCount > 0 {
