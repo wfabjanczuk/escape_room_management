@@ -38,12 +38,32 @@ func (r *TicketRepository) GetTickets() ([]models.Ticket, error) {
 	return tickets, result.Error
 }
 
-func (r *TicketRepository) SaveTicket(ticket models.Ticket, ticketErrors *responses.TicketErrors) {
-	if !r.DoesTicketExist(ticket.ReservationID, ticket.GuestID, sql.NullInt64{
+func (r *TicketRepository) SaveTicket(ticket models.Ticket, reservation models.Reservation, ticketErrors *responses.TicketErrors) {
+	ticketID := sql.NullInt64{
 		Int64: int64(ticket.ID),
 		Valid: ticket.ID > 0,
-	}) {
-		ticketErrors.AddError("", "Ticket for chosen reservation and guest already exists.", http.StatusBadRequest)
+	}
+
+	doesTicketExist, err := r.DoesTicketExist(ticket.ReservationID, ticket.GuestID, ticketID)
+	if err != nil {
+		ticketErrors.AddError("", "Saving ticket failed. Please try again later.", http.StatusInternalServerError)
+		return
+	}
+	if doesTicketExist {
+		ticketErrors.AddError("", "Ticket for chosen guest and reservation already exists.", http.StatusBadRequest)
+		return
+	}
+
+	reservationTicketsCount, err := r.GetReservationTicketsCount(ticket.ReservationID, ticketID)
+	if err != nil {
+		ticketErrors.AddError("", "Saving ticket failed. Please try again later.", http.StatusInternalServerError)
+		return
+	}
+	if reservationTicketsCount >= reservation.Room.MaxParticipants {
+		ticketErrors.AddError("",
+			"Max. participants for the room is exceeded in this reservation. You cannot add anymore tickets.",
+			http.StatusBadRequest,
+		)
 		return
 	}
 
@@ -54,7 +74,7 @@ func (r *TicketRepository) SaveTicket(ticket models.Ticket, ticketErrors *respon
 	}
 }
 
-func (r *TicketRepository) DoesTicketExist(reservationId, guestId uint, id sql.NullInt64) bool {
+func (r *TicketRepository) DoesTicketExist(reservationId, guestId uint, id sql.NullInt64) (bool, error) {
 	var ticketCount int64
 	query := r.db.Model(&models.Ticket{})
 
@@ -65,7 +85,21 @@ func (r *TicketRepository) DoesTicketExist(reservationId, guestId uint, id sql.N
 	}
 
 	result := query.Count(&ticketCount)
-	return result.Error == nil && ticketCount == 0
+	return ticketCount != 0, result.Error
+}
+
+func (r *TicketRepository) GetReservationTicketsCount(reservationId uint, id sql.NullInt64) (uint, error) {
+	var ticketCount int64
+	query := r.db.Model(&models.Ticket{})
+
+	if id.Valid {
+		query = query.Where("reservation_id = ? and id <> ?", reservationId, id)
+	} else {
+		query = query.Where("reservation_id = ?", reservationId)
+	}
+
+	result := query.Count(&ticketCount)
+	return uint(ticketCount), result.Error
 }
 
 func (r *TicketRepository) DeleteTicket(id int, deleteError *responses.DeleteError) {

@@ -102,6 +102,10 @@ func (c *ticketController) handleSaveTicket(w http.ResponseWriter, r *http.Reque
 		}
 		ticket.Reservation = reservation
 
+		if !parseId && reservation.DateCancelled.Valid {
+			ticketErrors.AddError("", "Reservation is cancelled. You cannot add new tickets to it.", http.StatusBadRequest)
+		}
+
 		guest, err := c.guestRepository.GetGuest(int(ticket.GuestID))
 		if err != nil {
 			ticketErrors.AddError("", "Guest not found.", http.StatusBadRequest)
@@ -109,7 +113,7 @@ func (c *ticketController) handleSaveTicket(w http.ResponseWriter, r *http.Reque
 		ticket.Guest = guest
 
 		if ticketErrors.ErrorsCount == 0 {
-			c.ticketRepository.SaveTicket(ticket, ticketErrors)
+			c.ticketRepository.SaveTicket(ticket, reservation, ticketErrors)
 		}
 	}
 
