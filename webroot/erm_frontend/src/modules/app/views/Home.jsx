@@ -1,13 +1,13 @@
 import React from 'react';
+import {useTranslation} from "react-i18next";
 
-const Home = () => (
-    <React.Fragment>
-        <h2>Home</h2>
-        <p>
-            ERM is designed for management of escape room reservations.
-            The system allows to browse and edit guests, their tickets, reservations and available rooms.
-        </p>
-    </React.Fragment>
-);
+const Home = () => {
+    const {t} = useTranslation();
+
+    return <React.Fragment>
+        <h2>{t('home')}</h2>
+        <p>{t('welcome')}</p>
+    </React.Fragment>;
+};
 
 export default Home;
