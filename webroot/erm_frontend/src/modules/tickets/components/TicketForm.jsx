@@ -77,16 +77,25 @@ const TicketForm = ({ticket, isDisabled, addSuccessMessage, changeCounter, incre
         }),
         navigate = useNavigate(),
         onValueChange = (event) => {
+            const hasReservationChanged = event.target.name === 'reservationId'
+                    && parseFloat(event.target.value).toFixed(2) !== parseFloat(formData.price).toFixed(2),
+                newReservation = hasReservationChanged
+                    ? reservationOptions.reservations.find(r => parseInt(r.id, 10) === parseInt(event.target.value, 10))
+                    : undefined;
+
             setFormData(formData => ({
                 ...formData,
+                price: newReservation
+                    ? parseFloat(newReservation.room.baseTicketPrice).toFixed(2)
+                    : formData.price,
                 [event.target.name]: event.target.value,
-            }))
+            }));
         },
         forceValueChange = (field, value) => {
             setFormData(formData => ({
                 ...formData,
                 [field]: value,
-            }))
+            }));
         },
         handleSubmit = (event) => {
             event.preventDefault();
@@ -100,7 +109,7 @@ const TicketForm = ({ticket, isDisabled, addSuccessMessage, changeCounter, incre
         };
 
     useEffect(() => {
-            const mapReservationToOption = (r) => ({id: r.id, label: r.room.name});
+            const mapReservationToOption = (r) => ({id: r.id, label: r.room.name, room: r.room});
 
             if (isDisabled) {
                 setReservationOptions({
