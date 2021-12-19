@@ -8,7 +8,7 @@ import getDeleteReservationPromise from '../utils/getDeleteReservationPromise';
 
 const reservationColumns = [
     {key: 'id', name: 'Id', centering: true},
-    {key: 'room', name: 'Room', render: (r) => r.room.name},
+    {key: 'room', name: 'Room name', render: (r) => r.room.name},
     {key: 'dateFrom', name: 'Date from'},
     {key: 'dateTo', name: 'Date to', isExtra: true},
 ];

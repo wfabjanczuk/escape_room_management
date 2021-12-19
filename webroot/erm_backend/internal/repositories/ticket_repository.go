@@ -7,6 +7,7 @@ import (
 	"gorm.io/gorm"
 	"log"
 	"net/http"
+	"time"
 )
 
 type TicketRepository struct {
@@ -38,7 +39,7 @@ func (r *TicketRepository) GetTickets() ([]models.Ticket, error) {
 	return tickets, result.Error
 }
 
-func (r *TicketRepository) SaveTicket(ticket models.Ticket, reservation models.Reservation, ticketErrors *responses.TicketErrors) models.Ticket {
+func (r *TicketRepository) SaveTicket(ticket models.Ticket, reservation models.Reservation, guest models.Guest, ticketErrors *responses.TicketErrors) models.Ticket {
 	ticketID := sql.NullInt64{
 		Int64: int64(ticket.ID),
 		Valid: ticket.ID > 0,
@@ -62,6 +63,15 @@ func (r *TicketRepository) SaveTicket(ticket models.Ticket, reservation models.R
 	if reservationTicketsCount >= reservation.Room.MaxParticipants {
 		ticketErrors.AddError("",
 			"Max. participants for the room is exceeded in this reservation. You cannot add anymore tickets.",
+			http.StatusBadRequest,
+		)
+		return ticket
+	}
+
+	guestDateAllowed := guest.DateBirth.AddDate(int(reservation.Room.MinAge.Int64), 0, 0)
+	if time.Now().Before(guestDateAllowed) {
+		ticketErrors.AddError("",
+			"The guest is too young to enter the room from the reservation.",
 			http.StatusBadRequest,
 		)
 		return ticket

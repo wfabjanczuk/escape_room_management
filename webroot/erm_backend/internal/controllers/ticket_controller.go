@@ -134,7 +134,7 @@ func (c *ticketController) handleSaveTicket(w http.ResponseWriter, r *http.Reque
 		ticket.Guest = guest
 
 		if ticketErrors.ErrorsCount == 0 {
-			ticket = c.ticketRepository.SaveTicket(ticket, reservation, ticketErrors)
+			ticket = c.ticketRepository.SaveTicket(ticket, reservation, guest, ticketErrors)
 		}
 
 		if ticketErrors.ErrorsCount == 0 {
