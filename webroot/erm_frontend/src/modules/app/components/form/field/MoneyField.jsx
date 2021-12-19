@@ -3,7 +3,7 @@ import Label from '../Label';
 import Error from '../Error';
 import * as PropTypes from 'prop-types';
 
-const waitTime = 400;
+const waitTime = 600;
 
 const MoneyField = ({name, displayName, isRequired, isDisabled, errorMessage, value, onChange, forceValueChange}) => {
     useEffect(() => {
