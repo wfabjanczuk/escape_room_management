@@ -12,6 +12,7 @@ const v = "/v1"
 func (app *application) getRouter() http.Handler {
 	router := httprouter.New()
 
+	app.setAuthenticationRoutes(router)
 	app.setStatusRoutes(router)
 	app.setGuestRoutes(router)
 	app.setTicketRoutes(router)
@@ -19,6 +20,13 @@ func (app *application) getRouter() http.Handler {
 	app.setRoomRoutes(router)
 
 	return app.enableCors(router)
+}
+
+func (app *application) setAuthenticationRoutes(router *httprouter.Router) *httprouter.Router {
+	statusController := controllers.NewAuthenticationController(app.logger, app.config.jwt.secret)
+	router.HandlerFunc(http.MethodPost, "/v1/signin", statusController.Signin)
+
+	return router
 }
 
 func (app *application) setStatusRoutes(router *httprouter.Router) *httprouter.Router {

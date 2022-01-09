@@ -43,3 +43,9 @@ type Room struct {
 	MaxParticipants uint            `json:"maxParticipants" valid:"-"`
 	MinAge          types.NullInt64 `json:"minAge" valid:"-"`
 }
+
+type User struct {
+	ID       uint
+	Email    string
+	Password string
+}

@@ -16,6 +16,9 @@ type config struct {
 	port int
 	env  string
 	dsn  string
+	jwt  struct {
+		secret string
+	}
 }
 
 type application struct {
@@ -72,6 +75,11 @@ func getConfigFromEnv() config {
 	cfg.env = os.Getenv("ENV")
 	if cfg.env == "" {
 		cfg.env = "development"
+	}
+
+	cfg.jwt.secret = os.Getenv("JWT_SECRET")
+	if cfg.jwt.secret == "" {
+		log.Fatal("Error loading JWT_SECRET from .env file")
 	}
 
 	return cfg
