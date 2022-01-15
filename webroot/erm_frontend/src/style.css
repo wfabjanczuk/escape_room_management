@@ -54,7 +54,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.5rem 1.5rem 1.5rem 2rem;
+    padding: 1.5rem 2rem;
 }
 
 header img.header-logo {
@@ -64,6 +64,25 @@ header img.header-logo {
 
 header img.header-logo:hover {
     transform: scale(1.05);
+}
+
+header .title-with-authentication {
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+header .authentication {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+header .title-with-authentication p {
+    font-size: 0.9rem;
+    margin: 0 1rem;
 }
 
 footer {
@@ -112,6 +131,7 @@ main h2 {
 }
 
 .button {
+    display: inline-block;
     color: white;
     text-decoration: none;
     text-align: center;
@@ -129,6 +149,15 @@ main h2 {
 
 .button.button--primary:hover {
     background-color: #2170c0;
+}
+
+.button.button--primary-light {
+    background-color: #2685e3;
+    border: 1px solid #308be4;
+}
+
+.button.button--primary-light:hover {
+    background-color: #4697e7;
 }
 
 .button.button--secondary {
@@ -260,27 +289,33 @@ main h2 {
 }
 
 .listing .listing__actions .action {
-    margin: 0.1rem 0.2rem;
     display: inline-block;
+    margin: 0.1rem 0.2rem;
 }
 
 .listing .listing__actions .button {
-    display: inline-block;
     width: 80px;
 }
 
-.listing .listing__footer {
+header .button {
+    width: 100px;
+    margin: 0.1rem 0.2rem;
+}
+
+.listing .listing__footer,
+.statement .statement__footer {
     margin: 1rem 0;
 }
 
 .listing .listing__footer .button,
-.form .form__footer .button {
-    display: inline-block;
+.form .form__footer .button,
+.statement .statement__footer .button {
     width: 160px;
 }
 
 .listing .listing__footer .button.button--wide,
-.form .form__footer .button.button--wide {
+.form .form__footer .button.button--wide,
+.statement .statement__footer .button.button--wide {
     width: 240px;
 }
 
@@ -384,9 +419,21 @@ textarea {
         text-align: center;
     }
 
+    header .title-with-authentication {
+        margin: 0;
+    }
+
+    header .title-with-authentication p {
+        font-size: 1rem;
+        margin: 0.5rem 1rem 0.7rem;
+    }
+
+    header .authentication.authentication--wrap {
+        flex-direction: column;
+    }
+
     header .logo-link {
-        margin: 0.5rem 0;
-        align-self: center;
+        display: none;
     }
 
     nav ul {
@@ -438,7 +485,6 @@ textarea {
     .listing .listing__footer .button.button--wide,
     .form .form__footer .button,
     .form .form__footer .button.button--wide {
-        display: inline-block;
         width: 100%;
         margin: 0.4rem 0;
     }
