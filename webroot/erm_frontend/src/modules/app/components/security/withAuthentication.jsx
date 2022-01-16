@@ -1,8 +1,9 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import * as PropTypes from 'prop-types';
 
-const withAuthentication = (Component) => (
-    (props) => {
+const withAuthentication = (Component) => {
+    const Wrapped = (props) => {
         if (!props.currentUser) {
             return <div className='statement'>
                 <p>You need to sign in to see this page.</p>
@@ -15,8 +16,14 @@ const withAuthentication = (Component) => (
         }
 
         return <Component {...props} />
+    };
+
+    Wrapped.propTypes = {
+        currentUser: PropTypes.object,
     }
-);
+
+    return Wrapped;
+};
 
 const mapStateToProps = (state) => ({
     currentUser: state.user.currentUser,

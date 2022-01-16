@@ -4,9 +4,10 @@ import withAuthentication from './withAuthentication';
 import {Link} from 'react-router-dom';
 import ROUTES from '../../constants/routes';
 import isAuthorized from './isAuthorized';
+import * as PropTypes from 'prop-types';
 
-const withAuthorization = (Component) => (
-    (props) => {
+const withAuthorization = (Component) => {
+    const Wrapped = (props) => {
         if (!props.requiredPrivileges || !isAuthorized(props.currentUser, props.requiredPrivileges)) {
             return <div className='statement'>
                 <p>You are not authorized to see this page.</p>
@@ -19,8 +20,15 @@ const withAuthorization = (Component) => (
         }
 
         return <Component {...props} />
+    };
+
+    Wrapped.propTypes = {
+        requiredPrivileges: PropTypes.object,
+        currentUser: PropTypes.object,
     }
-);
+
+    return Wrapped;
+};
 
 const mapStateToProps = (state) => ({
     currentUser: state.user.currentUser,
