@@ -6,4 +6,4 @@ export default function GuestAdd() {
         <h2>New guest</h2>
         <GuestForm guest={null} isDisabled={false}/>
     </React.Fragment>;
-};
+}

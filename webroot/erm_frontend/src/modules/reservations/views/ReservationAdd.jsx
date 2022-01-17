@@ -6,4 +6,4 @@ export default function ReservationAdd() {
         <h2>New reservation</h2>
         <ReservationForm reservation={null} isDisabled={false}/>
     </React.Fragment>;
-};
+}

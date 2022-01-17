@@ -6,4 +6,4 @@ export default function RoomAdd() {
         <h2>New room</h2>
         <RoomForm room={null} isDisabled={false}/>
     </React.Fragment>;
-};
+}

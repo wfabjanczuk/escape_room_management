@@ -49,4 +49,4 @@ export default function GuestEdit() {
         <h2>{title}</h2>
         <GuestForm guest={state.guest} isDisabled={false}/>
     </React.Fragment>;
-};
+}

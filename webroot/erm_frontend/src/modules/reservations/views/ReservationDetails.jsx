@@ -6,6 +6,7 @@ import ReservationForm from '../components/ReservationForm';
 import ReservationTickets from '../components/ReservationTickets';
 import RoomForm from '../../rooms/components/RoomForm';
 import {connect} from 'react-redux';
+import * as PropTypes from 'prop-types';
 
 const ReservationDetails = ({changeCounter}) => {
     const [state, setState] = useState({
@@ -55,6 +56,10 @@ const ReservationDetails = ({changeCounter}) => {
         <RoomForm room={state.reservation.room} isDisabled={true}/>
         <ReservationTickets id={state.reservation.id}/>
     </React.Fragment>;
+};
+
+ReservationDetails.propTypes = {
+    changeCounter: PropTypes.number,
 };
 
 const mapStateToProps = (state) => ({

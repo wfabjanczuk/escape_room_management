@@ -49,4 +49,4 @@ export default function RoomEdit() {
         <h2>{title}</h2>
         <RoomForm room={state.room} isDisabled={false}/>
     </React.Fragment>;
-};
+}

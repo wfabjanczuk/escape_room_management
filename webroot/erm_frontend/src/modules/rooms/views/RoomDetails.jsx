@@ -51,4 +51,4 @@ export default function RoomDetails() {
         <RoomForm room={state.room} isDisabled={true}/>
         <RoomReservations id={state.room.id}/>
     </React.Fragment>;
-};
+}

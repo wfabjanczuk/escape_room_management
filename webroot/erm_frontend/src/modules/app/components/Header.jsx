@@ -2,6 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import {logOutCurrentUser, setCurrentUser} from '../../redux/user/userActions';
 import {connect} from 'react-redux';
+import * as PropTypes from 'prop-types';
 
 const Header = ({currentUser, signIn, logOut}) => (<header>
     <div className='title-with-authentication'>
@@ -21,6 +22,12 @@ const Header = ({currentUser, signIn, logOut}) => (<header>
         <img className='header-logo' src={'logo.png'} alt='Escape Room Management Logo'/>
     </Link>
 </header>);
+
+Header.propTypes = {
+    currentUser: PropTypes.object,
+    signIn: PropTypes.func,
+    logOut: PropTypes.func,
+};
 
 const mapStateToProps = (state) => ({
     currentUser: state.user.currentUser,

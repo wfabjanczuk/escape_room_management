@@ -49,4 +49,4 @@ export default function TicketEdit() {
         <h2>{title}</h2>
         <TicketForm ticket={state.ticket} isDisabled={false}/>
     </React.Fragment>;
-};
+}

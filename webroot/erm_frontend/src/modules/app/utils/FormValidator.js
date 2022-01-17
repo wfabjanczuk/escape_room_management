@@ -31,7 +31,7 @@ const NewFormValidator = (formData) => ({
         }
     },
     intPositive: function (keys) {
-        const errorMessage = `This number must be greater than zero.`;
+        const errorMessage = 'This number must be greater than zero.';
 
         for (const key of keys) {
             if (!formData[key]) {

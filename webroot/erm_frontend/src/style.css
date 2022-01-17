@@ -60,6 +60,7 @@ header {
 header img.header-logo {
     display: block;
     border-radius: 10px;
+    margin-left: 40px;
 }
 
 header img.header-logo:hover {
@@ -78,6 +79,8 @@ header .authentication {
     display: flex;
     justify-content: center;
     align-items: center;
+    align-self: flex-start;
+    overflow-wrap: anywhere;
 }
 
 header .title-with-authentication p {
@@ -299,6 +302,7 @@ main h2 {
 
 header .button {
     width: 100px;
+    min-width: 100px;
     margin: 0.1rem 0.2rem;
 }
 
@@ -426,6 +430,10 @@ textarea {
     header .title-with-authentication p {
         font-size: 1rem;
         margin: 0.5rem 1rem 0.7rem;
+    }
+
+    header .authentication {
+        align-self: center;
     }
 
     header .authentication.authentication--wrap {

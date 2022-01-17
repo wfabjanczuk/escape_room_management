@@ -12,7 +12,7 @@ export const sendData = (formData, url, redirectUrl, entityExists, setErrors, ad
         data: formData
     })
         .then(
-            (response) => {
+            () => {
                 setErrors({});
                 addSuccessMessage(successMessage);
                 navigate(redirectUrl);

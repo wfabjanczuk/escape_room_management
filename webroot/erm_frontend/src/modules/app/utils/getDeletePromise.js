@@ -9,13 +9,14 @@ const getDeletePromise = (apiEndpoint, entityName, id, addSuccessMessage, addErr
 
     return axios.delete(url)
         .then(
-            (response) => addSuccessMessage(successMessage),
+            () => addSuccessMessage(successMessage),
             (error) => {
                 let errorMessage = '';
 
                 try {
                     errorMessage = _get(JSON.parse(error.request.response), 'error.message', '');
                 } catch (ignored) {
+                    // continue regardless of error
                 }
 
                 addErrorMessage(`${defaultErrorMessage} ${errorMessage}`);

@@ -55,4 +55,4 @@ export default function TicketDetails() {
         <h2>Ticket reservation</h2>
         <ReservationForm reservation={state.ticket.reservation} isDisabled={true}/>
     </React.Fragment>;
-};
+}

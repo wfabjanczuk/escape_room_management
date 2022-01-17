@@ -27,6 +27,7 @@ const Message = ({id, type, content, removeMessage}) => {
 };
 
 Message.propTypes = {
+    id: PropTypes.number,
     key: PropTypes.number,
     type: PropTypes.string,
     content: PropTypes.string,

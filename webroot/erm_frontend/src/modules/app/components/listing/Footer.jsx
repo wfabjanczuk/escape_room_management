@@ -9,8 +9,8 @@ const Footer = ({buttonText, buttonUrl}) => (<div className='listing__footer'>
 </div>);
 
 Footer.propTypes = {
-    entityExists: PropTypes.bool,
-    cancelUrl: PropTypes.string,
+    buttonText: PropTypes.string,
+    buttonUrl: PropTypes.string,
 };
 
 export default Footer;

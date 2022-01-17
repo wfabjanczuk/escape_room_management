@@ -49,4 +49,4 @@ export default function ReservationEdit() {
         <h2>{title}</h2>
         <ReservationForm reservation={state.reservation} isDisabled={false}/>
     </React.Fragment>;
-};
+}

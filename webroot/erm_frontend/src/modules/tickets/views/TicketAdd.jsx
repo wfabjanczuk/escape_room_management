@@ -6,4 +6,4 @@ export default function TicketAdd() {
         <h2>New ticket</h2>
         <TicketForm ticket={null} isDisabled={false}/>
     </React.Fragment>;
-};
+}
