@@ -25,6 +25,10 @@ const ROUTES = {
         roomReservations: API + '/rooms/:id/reservations',
     },
     home: '/',
+    authentication: {
+        signIn: '/signin',
+        signUp: '/signup',
+    },
     guests: {
         index: '/guests',
         add: '/guests/add',

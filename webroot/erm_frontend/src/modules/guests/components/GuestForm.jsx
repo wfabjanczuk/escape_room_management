@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import * as PropTypes from 'prop-types';
 import NewFormValidator from '../../app/utils/FormValidator';
-import Footer from '../../app/components/form/Footer';
+import Footer from '../../app/components/form/EntityFormFooter';
 import GuestFormFields from './GuestFormFields';
 import ROUTES, {getRouteWithParams} from '../../app/constants/routes';
 import {addSuccessMessage} from '../../redux/flash/flashActions';

@@ -1,7 +1,7 @@
 import {get as _get} from 'lodash';
 import React, {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
-import Footer from '../../app/components/form/Footer';
+import Footer from '../../app/components/form/EntityFormFooter';
 import ROUTES, {getRouteWithParams} from '../../app/constants/routes';
 import getDeleteTicketPromise from '../utils/getDeleteTicketPromise';
 import NewFormValidator from '../../app/utils/FormValidator';

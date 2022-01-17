@@ -1,61 +1,22 @@
 import React from 'react';
-import {Link, useNavigate} from 'react-router-dom';
 import * as PropTypes from 'prop-types';
 import {addErrorMessage, addSuccessMessage} from '../../../redux/flash/flashActions';
 import {increaseChangeCounter} from '../../../redux/change/changeActions';
 import {connect} from 'react-redux';
 
-const Footer = (
-    {
-        id,
-        entityExists,
-        editUrl,
-        redirectUrl,
-        isDisabled,
-        getDeletePromise,
-        error,
-        addSuccessMessage,
-        addErrorMessage,
-        increaseChangeCounter
-    }
-) => {
-    const navigate = useNavigate();
-
-    if (isDisabled) {
-        const onDelete = () => getDeletePromise(id, addSuccessMessage, addErrorMessage)
-            .then(() => navigate(redirectUrl))
-            .finally(() => increaseChangeCounter());
-
-        return <div className='form__footer'>
-            <Link className='button button--warning hoverable' to={editUrl}>
-                Edit
-            </Link>
-            <div className='button button--danger hoverable' onClick={onDelete}>
-                Delete
-            </div>
-        </div>;
-    }
+const Footer = ({submitText, submitWide, error}) => {
+    const submitClassName = `button button--success ${submitWide ? 'button--wide' : ''} hoverable`;
 
     return <div className='form__footer'>
         {error && <span className='form__error form__error--summary'>{error}</span>}
-        <input className='button button--success hoverable' type='submit' value={entityExists ? 'Save' : 'Add'}/>
-        <Link className='button button--secondary hoverable' to={redirectUrl}>
-            Cancel
-        </Link>
+        <input className={submitClassName} type='submit' value={submitText}/>
     </div>;
 };
 
 Footer.propTypes = {
-    id: PropTypes.number,
-    entityExists: PropTypes.bool,
-    editUrl: PropTypes.string,
-    redirectUrl: PropTypes.string,
-    isDisabled: PropTypes.bool,
-    getDeletePromise: PropTypes.func,
+    submitText: PropTypes.string,
+    submitWide: PropTypes.bool,
     error: PropTypes.string,
-    addSuccessMessage: PropTypes.func,
-    addErrorMessage: PropTypes.func,
-    increaseChangeCounter: PropTypes.func,
 };
 
 const mapDispatchToProps = (dispatch) => ({

@@ -1,20 +1,25 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {logOutCurrentUser, setCurrentUser} from '../../redux/user/userActions';
+import {logOutCurrentUser} from '../../redux/user/userActions';
 import {connect} from 'react-redux';
 import * as PropTypes from 'prop-types';
+import ROUTES from '../constants/routes';
 
-const Header = ({currentUser, signIn, logOut}) => (<header>
+const Header = ({currentUser, logOut}) => (<header>
     <div className='title-with-authentication'>
         <h1><Link className='hoverable' to='/'>Escape Room Management</Link></h1>
         {currentUser
             ? <div className='authentication authentication--wrap'>
                 <p>Hello {currentUser.name}!</p>
-                <button className='button button--primary-light' onClick={() => logOut()}>Log out</button>
+                <button className='button button--authentication' onClick={() => logOut()}>Log out</button>
             </div>
             : <div className='authentication'>
-                <button className='button button--primary-light' onClick={() => signIn()}>Sign in</button>
-                <button className='button button--primary-light'>Sign up</button>
+                <Link className='button button--authentication' to={ROUTES.authentication.signIn}>
+                    Sign in
+                </Link>
+                <Link className='button button--authentication' to={ROUTES.authentication.signUp}>
+                    Sign up
+                </Link>
             </div>
         }
     </div>
@@ -25,7 +30,6 @@ const Header = ({currentUser, signIn, logOut}) => (<header>
 
 Header.propTypes = {
     currentUser: PropTypes.object,
-    signIn: PropTypes.func,
     logOut: PropTypes.func,
 };
 
@@ -34,12 +38,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    signIn: () => dispatch(setCurrentUser({
-        name: 'John',
-        privileges: {
-            guests: 1,
-        }
-    })),
     logOut: () => dispatch(logOutCurrentUser()),
 });
 

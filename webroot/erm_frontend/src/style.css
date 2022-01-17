@@ -84,7 +84,6 @@ header .authentication {
 }
 
 header .title-with-authentication p {
-    font-size: 0.9rem;
     margin: 0 1rem;
 }
 
@@ -138,8 +137,7 @@ main h2 {
     color: white;
     text-decoration: none;
     text-align: center;
-    font-size: 0.9rem;
-    padding: 0.2rem 0.4rem;
+    padding: 0.4rem 0.8rem;
     border-radius: 5px;
     box-sizing: border-box;
     cursor: pointer;
@@ -154,13 +152,13 @@ main h2 {
     background-color: #2170c0;
 }
 
-.button.button--primary-light {
-    background-color: #2685e3;
-    border: 1px solid #308be4;
+.button.button--authentication {
+    background-color: #4e7bc2;
+    border: 1px solid #5983c6;
 }
 
-.button.button--primary-light:hover {
-    background-color: #4697e7;
+.button.button--authentication:hover {
+    background-color: #658CCA;
 }
 
 .button.button--secondary {
@@ -297,6 +295,8 @@ main h2 {
 }
 
 .listing .listing__actions .button {
+    font-size: 0.9rem;
+    padding: 0.2rem 0.4rem;
     width: 80px;
 }
 
@@ -306,9 +306,8 @@ header .button {
     margin: 0.1rem 0.2rem;
 }
 
-.listing .listing__footer,
-.statement .statement__footer {
-    margin: 1rem 0;
+.listing .listing__footer {
+    margin: 1.5rem 0 1rem;
 }
 
 .listing .listing__footer .button,
@@ -346,9 +345,13 @@ textarea {
 
 .form .form__footer {
     grid-column: 1 / span 3;
-    margin: 1rem 0;
     display: flex;
     flex-wrap: wrap;
+}
+
+.form .form__footer,
+.statement .statement__footer {
+    margin: 1.2rem 0 1rem;
 }
 
 .form .form__footer .button + .button {
@@ -357,6 +360,7 @@ textarea {
 
 .form select,
 .form input[type="text"],
+.form input[type="password"],
 .form input[type="number"],
 .form input[type="date"],
 .form input[type="datetime-local"],
@@ -480,7 +484,7 @@ textarea {
         flex-direction: column;
     }
 
-    .button {
+    .listing .listing__actions .button {
         font-size: 1rem;
         padding: 0.4rem 0.8rem;
     }

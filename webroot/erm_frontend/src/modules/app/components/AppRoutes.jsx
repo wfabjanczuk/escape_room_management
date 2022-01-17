@@ -18,9 +18,12 @@ import ReservationDetails from '../../reservations/views/ReservationDetails';
 import RoomAdd from '../../rooms/views/RoomAdd';
 import RoomEdit from '../../rooms/views/RoomEdit';
 import RoomDetails from '../../rooms/views/RoomDetails';
+import SignIn from '../../authentication/views/SignIn';
+import SignUp from '../../authentication/views/SignUp';
 
 const AppRoutes = () => (<Routes>
     <Route path={ROUTES.home} element={<Home/>}/>
+    {getAuthenticationRoutes()}
     {getGuestRoutes()}
     {getTicketRoutes()}
     {getReservationRoutes()}
@@ -28,6 +31,11 @@ const AppRoutes = () => (<Routes>
 </Routes>);
 
 export default AppRoutes;
+
+const getAuthenticationRoutes = () => (<React.Fragment>
+    <Route path={ROUTES.authentication.signIn} element={<SignIn/>}/>
+    <Route path={ROUTES.authentication.signUp} element={<SignUp/>}/>
+</React.Fragment>);
 
 const getGuestRoutes = () => (<React.Fragment>
     <Route path={ROUTES.guests.index} element={<Guests/>}/>
