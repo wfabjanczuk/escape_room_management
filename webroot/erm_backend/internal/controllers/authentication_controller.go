@@ -24,14 +24,21 @@ func NewAuthenticationController(logger *log.Logger, jwtSecret string) *authenti
 }
 
 var validUser = models.User{
-	ID:       1,
-	Email:    "admin@admin.com",
-	Password: "$2a$12$cdVUgQp0M7s8RQ2lsRCVPuUlcaFb6NuQbme.APdIUbWPyunE8i3bG",
+	ID:        1,
+	FirstName: "Admin",
+	LastName:  "Admin",
+	Email:     "admin@admin.com",
+	Password:  "$2a$12$0Fwrfnvo4s6e3z.4ZPdW1.KaC164Y.B4PKp.HO3HPfDLSGFqtQr/2",
 }
 
 type Credentials struct {
 	Username string `json:"email"`
 	Password string `json:"password"`
+}
+
+type AuthenticatedUser struct {
+	User models.User `json:"user"`
+	Jwt  []byte      `json:"jwt"`
 }
 
 func (c *authenticationController) Signin(w http.ResponseWriter, r *http.Request) {
@@ -40,12 +47,14 @@ func (c *authenticationController) Signin(w http.ResponseWriter, r *http.Request
 	err := json.NewDecoder(r.Body).Decode(&creds)
 	if err != nil {
 		c.writeWrappedErrorJson(w, err, 400)
+		return
 	}
 
 	hashedPassword := validUser.Password
 	err = bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(creds.Password))
 	if err != nil {
 		c.writeWrappedErrorJson(w, err, 400)
+		return
 	}
 
 	var claims jwt.Claims
@@ -53,15 +62,21 @@ func (c *authenticationController) Signin(w http.ResponseWriter, r *http.Request
 	claims.Issued = jwt.NewNumericTime(time.Now())
 	claims.NotBefore = jwt.NewNumericTime(time.Now())
 	claims.Expires = jwt.NewNumericTime(time.Now().Add(24 * time.Hour))
-	claims.Issuer = "mydomain.com"
-	claims.Audiences = []string{"mydomain.com"}
+	claims.Issuer = "erm.com"
+	claims.Audiences = []string{"erm.com"}
 
 	jwtBytes, err := claims.HMACSign(jwt.HS256, []byte(c.jwtSecret))
 	if err != nil {
 		c.writeWrappedErrorJson(w, err, 400)
+		return
 	}
 
-	err = c.writeWrappedJson(w, http.StatusOK, jwtBytes, "response")
+	var authenticatedUser = &AuthenticatedUser{
+		User: validUser,
+		Jwt:  jwtBytes,
+	}
+
+	err = c.writeWrappedJson(w, http.StatusOK, authenticatedUser, "result")
 	if err != nil {
 		c.logger.Println(err)
 	}

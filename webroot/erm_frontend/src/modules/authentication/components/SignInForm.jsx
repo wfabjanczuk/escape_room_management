@@ -4,6 +4,11 @@ import SignInFormFields from './SignInFormFields';
 import {addSuccessMessage} from '../../redux/flash/flashActions';
 import {connect} from 'react-redux';
 import Footer from '../../app/components/form/Footer';
+import axios from 'axios';
+import {get as _get} from 'lodash';
+import ROUTES from '../../app/constants/routes';
+import {setCurrentUser} from '../../redux/user/userActions';
+import * as PropTypes from 'prop-types';
 
 const getInitialFormData = () => ({
     email: '',
@@ -25,7 +30,7 @@ const validateFormData = (formData, setErrors) => {
     return true;
 };
 
-const SignInForm = () => {
+const SignInForm = ({addSuccessMessage, setCurrentUser}) => {
     const [formData, setFormData] = useState(getInitialFormData()),
         [errors, setErrors] = useState({}),
         onValueChange = (event) => {
@@ -39,7 +44,38 @@ const SignInForm = () => {
             const submittedFormData = Object.fromEntries(new FormData(event.target));
 
             if (validateFormData(submittedFormData, setErrors)) {
-                // empty
+                const successMessage = 'Successfully signed in.';
+
+                axios.post(ROUTES.api.signIn, formData, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                })
+                    .then(
+                        (response) => {
+                            setErrors({});
+                            addSuccessMessage(successMessage);
+
+                            const result = response.data.result;
+                            setCurrentUser({
+                                name: result.user.firstName,
+                                jwt: result.jwt,
+                            });
+                        },
+                        (error) => {
+                            const errorResponse = JSON.parse(error.request.response),
+                                errors = _get(errorResponse, 'error', {general: ['API error. Please try again later.']}),
+                                errorsToDisplay = {};
+
+                            for (const key in errors) {
+                                if (0 < errors[key].length) {
+                                    errorsToDisplay[key] = errors[key][0];
+                                }
+                            }
+
+                            setErrors(errorsToDisplay);
+                        },
+                    );
             }
         };
 
@@ -47,10 +83,16 @@ const SignInForm = () => {
         <SignInFormFields onValueChange={onValueChange} formData={formData} errors={errors}/>
         <Footer submitText='Sign in' submitWide={false} error={errors.general}/>
     </form>;
+};
+
+SignInForm.propTypes = {
+    addSuccessMessage: PropTypes.func,
+    setCurrentUser: PropTypes.func,
 }
 
 const mapDispatchToProps = (dispatch) => ({
     addSuccessMessage: (content) => dispatch(addSuccessMessage(content)),
+    setCurrentUser: (user) => dispatch(setCurrentUser(user)),
 });
 
 export default connect(null, mapDispatchToProps)(SignInForm);

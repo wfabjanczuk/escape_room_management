@@ -23,6 +23,8 @@ const ROUTES = {
         rooms: API + '/rooms',
         room: API + '/rooms/:id',
         roomReservations: API + '/rooms/:id/reservations',
+        signIn: API + '/signin',
+        signUp: API + '/signup',
     },
     home: '/',
     authentication: {
