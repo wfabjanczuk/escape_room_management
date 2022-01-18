@@ -24,7 +24,8 @@ func (app *application) getRouter() http.Handler {
 
 func (app *application) setAuthenticationRoutes(router *httprouter.Router) *httprouter.Router {
 	statusController := controllers.NewAuthenticationController(app.logger, app.config.jwt.secret)
-	router.HandlerFunc(http.MethodPost, "/v1/signin", statusController.Signin)
+	router.HandlerFunc(http.MethodPost, "/v1/signin", statusController.SignIn)
+	router.HandlerFunc(http.MethodPost, "/v1/signup", statusController.SignUp)
 
 	return router
 }

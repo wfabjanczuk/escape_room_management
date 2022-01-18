@@ -24,7 +24,7 @@ const Header = ({currentUser, logOut}) => (<header>
         }
     </div>
     <Link className='logo-link hoverable' to='/'>
-        <img className='header-logo' src={'logo.png'} alt='Escape Room Management Logo'/>
+        <img className='header-logo' src={process.env.PUBLIC_URL + '/logo.png'} alt='Escape Room Management Logo'/>
     </Link>
 </header>);
 

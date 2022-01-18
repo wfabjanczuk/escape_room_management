@@ -20,7 +20,8 @@ const validateFormData = (formData, setErrors) => {
 
     formValidator.required(['email', 'password']);
     formValidator.isEmail(['email']);
-    formValidator.maxLength(['email', 'password'], 100);
+    formValidator.maxLength(['email'], 320);
+    formValidator.maxLength(['password'], 128);
 
     if (!formValidator.isValid()) {
         setErrors(formValidator.errors);
@@ -58,7 +59,7 @@ const SignInForm = ({addSuccessMessage, setCurrentUser}) => {
 
                             const result = response.data.result;
                             setCurrentUser({
-                                name: result.user.firstName,
+                                name: result.user.email,
                                 jwt: result.jwt,
                             });
                         },

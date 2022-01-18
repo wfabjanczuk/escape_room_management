@@ -42,7 +42,7 @@ func extractGuest(payload payloads.GuestPayload, parseId bool, guestErrors *resp
 		guest.ID = uint(id)
 	}
 
-	guest.Email = payload.Email
+	guest.User.Email = payload.Email
 	guest.FirstName = payload.FirstName
 	guest.LastName = payload.LastName
 	guest.PhoneNumber = payload.PhoneNumber
@@ -85,7 +85,7 @@ func validateGuest(guest models.Guest, parseId bool, guestErrors *responses.Gues
 		parseStructError(err, guestErrors)
 	}
 
-	if parseId && guest.ID < 1 {
+	if parseId && (guest.ID < 1 && guest.UserID < 1) {
 		guestErrors.AddError("", "Invalid form data.", http.StatusBadRequest)
 	}
 }

@@ -24,11 +24,10 @@ func NewAuthenticationController(logger *log.Logger, jwtSecret string) *authenti
 }
 
 var validUser = models.User{
-	ID:        1,
-	FirstName: "Admin",
-	LastName:  "Admin",
-	Email:     "admin@admin.com",
-	Password:  "$2a$12$0Fwrfnvo4s6e3z.4ZPdW1.KaC164Y.B4PKp.HO3HPfDLSGFqtQr/2",
+	ID:       1,
+	Email:    "admin@admin.com",
+	Password: "$2a$12$0Fwrfnvo4s6e3z.4ZPdW1.KaC164Y.B4PKp.HO3HPfDLSGFqtQr/2",
+	IsActive: true,
 }
 
 type Credentials struct {
@@ -41,7 +40,7 @@ type AuthenticatedUser struct {
 	Jwt  []byte      `json:"jwt"`
 }
 
-func (c *authenticationController) Signin(w http.ResponseWriter, r *http.Request) {
+func (c *authenticationController) SignIn(w http.ResponseWriter, r *http.Request) {
 	var creds Credentials
 
 	err := json.NewDecoder(r.Body).Decode(&creds)
@@ -77,6 +76,13 @@ func (c *authenticationController) Signin(w http.ResponseWriter, r *http.Request
 	}
 
 	err = c.writeWrappedJson(w, http.StatusOK, authenticatedUser, "result")
+	if err != nil {
+		c.logger.Println(err)
+	}
+}
+
+func (c *authenticationController) SignUp(w http.ResponseWriter, r *http.Request) {
+	err := c.writeWrappedJson(w, http.StatusOK, nil, "result")
 	if err != nil {
 		c.logger.Println(err)
 	}

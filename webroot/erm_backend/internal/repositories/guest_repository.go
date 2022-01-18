@@ -24,29 +24,48 @@ func NewGuestRepository(logger *log.Logger, db *gorm.DB) *GuestRepository {
 
 func (r *GuestRepository) GetGuest(id int) (models.Guest, error) {
 	var guest models.Guest
-	result := r.db.First(&guest, id)
+	result := r.db.Preload("User").First(&guest, id)
 
 	return guest, result.Error
 }
 
 func (r *GuestRepository) GetGuests() ([]models.Guest, error) {
 	var guests []models.Guest
-	result := r.db.Order("id asc").Find(&guests)
+	result := r.db.Preload("User").Order("id asc").Find(&guests)
 
 	return guests, result.Error
 }
 
 func (r *GuestRepository) SaveGuest(guest models.Guest, guestErrors *responses.GuestErrors) models.Guest {
-	if !r.IsGuestEmailValid(guest.Email, sql.NullInt64{
-		Int64: int64(guest.ID),
-		Valid: guest.ID > 0,
+	if guest.ID > 0 {
+		var oldGuest models.Guest
+
+		result := r.db.Preload("User").First(&oldGuest, guest.ID)
+		if result.Error != nil {
+			guestErrors.AddError("", "Saving guest failed. Please try again later.", http.StatusInternalServerError)
+			return guest
+		}
+
+		guest.User.ID = oldGuest.User.ID
+		guest.User.Password = oldGuest.User.Password
+		guest.User.IsActive = oldGuest.User.IsActive
+	}
+
+	if !r.IsUserEmailValid(guest.User.Email, sql.NullInt64{
+		Int64: int64(guest.User.ID),
+		Valid: guest.User.ID > 0,
 	}) {
 		guestErrors.AddError("email", "This email is already used.", http.StatusBadRequest)
 		return guest
 	}
 
-	result := r.db.Save(&guest)
+	result := r.db.Save(&guest.User)
+	if result.Error != nil {
+		guestErrors.AddError("", "Saving guest failed. Please try again later.", http.StatusInternalServerError)
+		return guest
+	}
 
+	result = r.db.Save(&guest)
 	if result.Error != nil {
 		guestErrors.AddError("", "Saving guest failed. Please try again later.", http.StatusInternalServerError)
 	}
@@ -54,9 +73,9 @@ func (r *GuestRepository) SaveGuest(guest models.Guest, guestErrors *responses.G
 	return guest
 }
 
-func (r *GuestRepository) IsGuestEmailValid(email string, id sql.NullInt64) bool {
-	var guestCount int64
-	query := r.db.Model(&models.Guest{})
+func (r *GuestRepository) IsUserEmailValid(email string, id sql.NullInt64) bool {
+	var userCount int64
+	query := r.db.Model(&models.User{})
 
 	if id.Valid {
 		query = query.Where("email = ? and id <> ?", email, id)
@@ -64,8 +83,8 @@ func (r *GuestRepository) IsGuestEmailValid(email string, id sql.NullInt64) bool
 		query = query.Where("email = ?", email)
 	}
 
-	result := query.Count(&guestCount)
-	return result.Error == nil && guestCount == 0
+	result := query.Count(&userCount)
+	return result.Error == nil && userCount == 0
 }
 
 func (r *GuestRepository) DeleteGuest(id int, deleteError *responses.DeleteError) {

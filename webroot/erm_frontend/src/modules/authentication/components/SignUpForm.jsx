@@ -20,7 +20,8 @@ const validateFormData = (formData, setErrors) => {
     formValidator.isDigits(['phoneNumber'], false);
 
     formValidator.maxLength(['firstName', 'lastName'], 50);
-    formValidator.maxLength(['email', 'password'], 100);
+    formValidator.maxLength(['email'], 320);
+    formValidator.maxLength(['password'], 128);
     formValidator.maxLength(['phoneNumber'], 12);
 
     if (!formValidator.isValid()) {

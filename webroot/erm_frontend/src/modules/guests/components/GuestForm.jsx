@@ -14,7 +14,12 @@ import {sendData} from '../../app/utils/form';
 const getInitialFormData = (guest) => {
     if (guest) {
         return {
-            ...guest,
+            id: guest.id,
+            firstName: guest.firstName,
+            lastName: guest.lastName,
+            email: guest.user.email,
+            phoneNumber: guest.phoneNumber,
+            dateBirth: guest.dateBirth,
             discountPercent: (guest.discountPercent || 0 === guest.discountPercent) ? guest.discountPercent : '',
         };
     }
@@ -61,7 +66,7 @@ const validateFormData = (formData, setErrors) => {
     formValidator.intMinMax(['discountPercent'], 0, 20);
 
     formValidator.maxLength(['firstName', 'lastName'], 50);
-    formValidator.maxLength(['email'], 100);
+    formValidator.maxLength(['email'], 320);
     formValidator.maxLength(['phoneNumber'], 12);
 
     if (!formValidator.isValid()) {

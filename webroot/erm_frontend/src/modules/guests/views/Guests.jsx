@@ -10,7 +10,7 @@ const guestColumns = [
     {key: 'id', name: 'Id', isExtra: false, centering: true},
     {key: 'firstName', name: 'First name', isExtra: false},
     {key: 'lastName', name: 'Last name', isExtra: false},
-    {key: 'email', name: 'Email', isExtra: true},
+    {key: 'email', name: 'Email', isExtra: true, render: (g) => g.user.email},
 ];
 
 const Guests = ({changeCounter}) => {

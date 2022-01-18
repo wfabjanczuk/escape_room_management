@@ -7,7 +7,8 @@ import (
 
 type Guest struct {
 	ID              uint            `gorm:"primarykey" json:"id" valid:"-"`
-	Email           string          `json:"email" valid:"required,email,maxstringlength(100)"`
+	UserID          uint            `json:"userId" valid:"-"`
+	User            User            `json:"user" valid:"required"`
 	FirstName       string          `json:"firstName" valid:"required,utfletter,maxstringlength(50)"`
 	LastName        string          `json:"lastName" valid:"required,utfletter,maxstringlength(50)"`
 	PhoneNumber     string          `json:"phoneNumber" valid:"required,utfdigit,maxstringlength(12)"`
@@ -45,9 +46,8 @@ type Room struct {
 }
 
 type User struct {
-	ID        uint   `json:"id"`
-	FirstName string `json:"firstName"`
-	LastName  string `json:"lastName"`
-	Email     string `json:"email"`
-	Password  string `json:"password"`
+	ID       uint   `gorm:"primarykey" json:"id" valid:"-"`
+	Email    string `json:"email" valid:"required,email,maxstringlength(320)"`
+	Password string `json:"password" valid:"-"`
+	IsActive bool   `json:"isActive" valid:"-"`
 }
