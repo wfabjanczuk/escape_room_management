@@ -112,10 +112,10 @@ values (1, 10.00, '2021-10-23 17:00:00.000000', '2021-10-23 19:00:00.000000', nu
        (4, 30.00, '2021-10-30 22:00:00.000000', '2021-10-31 01:00:00.000000', null);
 
 insert into users (email, password, is_active)
-values ('linda.yehudit@gmail.com', '$2a$12$poXa3OTH3uAW0rXu82Mb4.0N1HjEaN/45B.Yjs6aeH.lkjuZH4uyy', true),
-       ('gillian.domantas@gmail.com', '$2a$12$poXa3OTH3uAW0rXu82Mb4.0N1HjEaN/45B.Yjs6aeH.lkjuZH4uyy', true),
-       ('meagan.ikra@gmail.com', '$2a$12$poXa3OTH3uAW0rXu82Mb4.0N1HjEaN/45B.Yjs6aeH.lkjuZH4uyy', true),
-       ('sunil.katenka@gmail.com', '$2a$12$poXa3OTH3uAW0rXu82Mb4.0N1HjEaN/45B.Yjs6aeH.lkjuZH4uyy', true);
+values ('linda.yehudit@gmail.com', '$2a$12$OFjTdVVs//MJ7uPrnNA5wON5.cR3yQqikVvqwhAU3moX2vUzImMBa', true),
+       ('gillian.domantas@gmail.com', '$2a$12$OFjTdVVs//MJ7uPrnNA5wON5.cR3yQqikVvqwhAU3moX2vUzImMBa', true),
+       ('meagan.ikra@gmail.com', '$2a$12$OFjTdVVs//MJ7uPrnNA5wON5.cR3yQqikVvqwhAU3moX2vUzImMBa', true),
+       ('sunil.katenka@gmail.com', '$2a$12$OFjTdVVs//MJ7uPrnNA5wON5.cR3yQqikVvqwhAU3moX2vUzImMBa', true);
 
 insert into guests (user_id, first_name, last_name, phone_number, date_birth, discount_percent)
 values (1, 'Linda', 'Yehudit', '48100100100', '1990-01-01', null),

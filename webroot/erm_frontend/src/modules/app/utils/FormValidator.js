@@ -21,6 +21,19 @@ const NewFormValidator = (formData) => ({
             }
         }
     },
+    minLength: function (keys, minLength, nullable = true) {
+        const errorMessage = `Minimum length is ${minLength}.`;
+
+        for (const key of keys) {
+            if (nullable && formData[key] === '') {
+                continue;
+            }
+
+            if (formData[key].length < minLength) {
+                this.putError(key, errorMessage);
+            }
+        }
+    },
     maxLength: function (keys, maxLength) {
         const errorMessage = `Maximum length is ${maxLength}.`;
 

@@ -83,8 +83,14 @@ header .authentication {
     overflow-wrap: anywhere;
 }
 
+header .authentication.authentication--wrap {
+    flex-direction: column;
+}
+
 header .title-with-authentication p {
-    margin: 0 1rem;
+    text-align: center;
+    align-self: flex-start;
+    margin: 0.5rem 0.2rem 0.7rem;
 }
 
 footer {
@@ -343,8 +349,16 @@ textarea {
     grid-template-columns: 160px 320px 1fr;
 }
 
+.form .form__section,
 .form .form__footer {
     grid-column: 1 / span 3;
+}
+
+.form .form__section {
+    margin: 1rem 0 0.5rem;
+}
+
+.form .form__footer {
     display: flex;
     flex-wrap: wrap;
 }
@@ -432,16 +446,11 @@ textarea {
     }
 
     header .title-with-authentication p {
-        font-size: 1rem;
-        margin: 0.5rem 1rem 0.7rem;
+        align-self: center;
     }
 
     header .authentication {
         align-self: center;
-    }
-
-    header .authentication.authentication--wrap {
-        flex-direction: column;
     }
 
     header .logo-link {

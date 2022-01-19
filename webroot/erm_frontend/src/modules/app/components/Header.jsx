@@ -11,7 +11,11 @@ const Header = ({currentUser, logOut}) => (<header>
         {currentUser
             ? <div className='authentication authentication--wrap'>
                 <p>Hello {currentUser.name}!</p>
-                <button className='button button--authentication' onClick={() => logOut()}>Log out</button>
+                <div className='authentication'>
+                    <button className='button button--authentication'>Profile</button>
+                    <button className='button button--authentication' onClick={() => logOut()}>Log out</button>
+                </div>
+
             </div>
             : <div className='authentication'>
                 <Link className='button button--authentication' to={ROUTES.authentication.signIn}>

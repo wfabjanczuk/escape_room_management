@@ -21,6 +21,7 @@ const validateFormData = (formData, setErrors) => {
 
     formValidator.maxLength(['firstName', 'lastName'], 50);
     formValidator.maxLength(['email'], 320);
+    formValidator.minLength(['password'], 8);
     formValidator.maxLength(['password'], 128);
     formValidator.maxLength(['phoneNumber'], 12);
 

@@ -7,6 +7,7 @@ type GuestErrors struct {
 	StatusCode      int      `json:"-"`
 	General         []string `json:"general,omitempty"`
 	Email           []string `json:"email,omitempty"`
+	Password        []string `json:"password,omitempty"`
 	FirstName       []string `json:"firstName,omitempty"`
 	LastName        []string `json:"lastName,omitempty"`
 	PhoneNumber     []string `json:"phoneNumber,omitempty"`
@@ -18,6 +19,8 @@ func (e *GuestErrors) AddError(key, message string, status int) {
 	switch key {
 	case "email":
 		e.Email = append(e.Email, message)
+	case "password":
+		e.Password = append(e.Password, message)
 	case "firstName":
 		e.FirstName = append(e.FirstName, message)
 	case "lastName":
@@ -31,7 +34,7 @@ func (e *GuestErrors) AddError(key, message string, status int) {
 	case "":
 		e.General = append(e.General, message)
 	default:
-		log.Fatal("Adding guest error failed.")
+		log.Fatal("Adding guest error failed with key=" + key + " and message=" + message)
 	}
 
 	e.ErrorsCount++

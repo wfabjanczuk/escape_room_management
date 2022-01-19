@@ -47,8 +47,15 @@ func (r *GuestRepository) SaveGuest(guest models.Guest, guestErrors *responses.G
 		}
 
 		guest.User.ID = oldGuest.User.ID
-		guest.User.Password = oldGuest.User.Password
-		guest.User.IsActive = oldGuest.User.IsActive
+
+		if len(guest.User.Password) == 0 {
+			guest.User.Password = oldGuest.User.Password
+		}
+	}
+
+	if guest.User.IsActive && len(guest.User.Password) == 0 {
+		guestErrors.AddError("password", "You must set password for active user account.", http.StatusBadRequest)
+		return guest
 	}
 
 	if !r.IsUserEmailValid(guest.User.Email, sql.NullInt64{

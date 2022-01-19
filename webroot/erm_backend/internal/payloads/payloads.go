@@ -4,6 +4,8 @@ type GuestPayload struct {
 	Id              string `json:"id"`
 	UserId          string `json:"userId"`
 	Email           string `json:"email"`
+	Password        string `json:"password"`
+	IsActive        string `json:"isActive"`
 	FirstName       string `json:"firstName"`
 	LastName        string `json:"lastName"`
 	PhoneNumber     string `json:"phoneNumber"`

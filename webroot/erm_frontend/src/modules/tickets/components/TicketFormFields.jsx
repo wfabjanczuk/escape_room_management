@@ -50,7 +50,6 @@ const TicketFormFields = (
         forceValueChange={forceValueChange}
     />
     <CheckboxField
-        type='number'
         name='guestAllowedToCancel'
         displayName='Is guest allowed to cancel reservation'
         isRequired={false}

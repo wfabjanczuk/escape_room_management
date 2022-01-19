@@ -9,6 +9,7 @@ import (
 	"erm_backend/internal/responses"
 	"erm_backend/internal/types"
 	"github.com/asaskevich/govalidator"
+	"golang.org/x/crypto/bcrypt"
 	"net/http"
 	"strconv"
 	"time"
@@ -27,6 +28,21 @@ func ParseGuestFromRequest(r *http.Request, parseId bool, guestErrors *responses
 	guest = extractGuest(guestPayload, parseId, guestErrors)
 	validateGuest(guest, parseId, guestErrors)
 
+	if guestErrors.ErrorsCount > 0 {
+		return guest
+	}
+
+	if len(guest.User.Password) > 0 {
+		passwordHash, err := bcrypt.GenerateFromPassword([]byte(guest.User.Password), bcrypt.DefaultCost)
+
+		if err != nil {
+			guestErrors.AddError("", "Error during password hash generation. Please try again later.", http.StatusInternalServerError)
+			return guest
+		}
+
+		guest.User.Password = string(passwordHash)
+	}
+
 	return guest
 }
 
@@ -43,6 +59,11 @@ func extractGuest(payload payloads.GuestPayload, parseId bool, guestErrors *resp
 	}
 
 	guest.User.Email = payload.Email
+	guest.User.IsActive = payload.IsActive == "1"
+	if len(payload.Password) > 0 {
+		guest.User.Password = payload.Password
+	}
+
 	guest.FirstName = payload.FirstName
 	guest.LastName = payload.LastName
 	guest.PhoneNumber = payload.PhoneNumber

@@ -1,4 +1,5 @@
 import React from 'react';
+import CheckboxField from '../../app/components/form/field/CheckboxField';
 import InputField from '../../app/components/form/field/InputField';
 import * as PropTypes from 'prop-types';
 
@@ -62,6 +63,26 @@ const GuestFormFields = ({entityExists, isDisabled, onValueChange, formData, err
         isDisabled={isDisabled}
         errorMessage={errors.discountPercent}
         value={formData.discountPercent}
+        onChange={onValueChange}
+    />
+    <h3 className='form__section'>Account</h3>
+    {!isDisabled && <InputField
+        type='password'
+        name='password'
+        displayName='Password'
+        isRequired={false}
+        isDisabled={false}
+        errorMessage={errors.password}
+        value={formData.password}
+        onChange={onValueChange}
+    />}
+    <CheckboxField
+        name='isActive'
+        displayName='Is account active'
+        isRequired={false}
+        isDisabled={isDisabled}
+        errorMessage={errors.isActive}
+        defaultChecked={!!formData.isActive}
         onChange={onValueChange}
     />
 </React.Fragment>);

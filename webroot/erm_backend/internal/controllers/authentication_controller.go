@@ -26,7 +26,7 @@ func NewAuthenticationController(logger *log.Logger, jwtSecret string) *authenti
 var validUser = models.User{
 	ID:       1,
 	Email:    "admin@admin.com",
-	Password: "$2a$12$0Fwrfnvo4s6e3z.4ZPdW1.KaC164Y.B4PKp.HO3HPfDLSGFqtQr/2",
+	Password: "$2a$12$OFjTdVVs//MJ7uPrnNA5wON5.cR3yQqikVvqwhAU3moX2vUzImMBa",
 	IsActive: true,
 }
 

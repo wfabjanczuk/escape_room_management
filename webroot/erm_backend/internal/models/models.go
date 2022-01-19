@@ -48,6 +48,6 @@ type Room struct {
 type User struct {
 	ID       uint   `gorm:"primarykey" json:"id" valid:"-"`
 	Email    string `json:"email" valid:"required,email,maxstringlength(320)"`
-	Password string `json:"password" valid:"-"`
+	Password string `json:"-" valid:"minstringlength(8),maxstringlength(128)"`
 	IsActive bool   `json:"isActive" valid:"-"`
 }
