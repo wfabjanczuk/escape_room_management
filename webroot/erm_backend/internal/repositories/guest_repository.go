@@ -134,7 +134,7 @@ func (r *GuestRepository) GetGuestTickets(id int) ([]models.Ticket, error) {
 	}
 
 	result := r.db.
-		Preload("Guest").Preload("Reservation").Preload("Reservation.Room").
+		Preload("Guest").Preload("Guest.User").Preload("Reservation").Preload("Reservation.Room").
 		Where("guest_id = ?", id).Find(&tickets)
 
 	return tickets, result.Error

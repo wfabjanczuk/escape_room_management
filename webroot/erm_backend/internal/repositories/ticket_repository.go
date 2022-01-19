@@ -26,7 +26,7 @@ func NewTicketRepository(logger *log.Logger, db *gorm.DB) *TicketRepository {
 func (r *TicketRepository) GetTicket(id int) (models.Ticket, error) {
 	var ticket models.Ticket
 	result := r.db.
-		Preload("Guest").Preload("Reservation").Preload("Reservation.Room").First(&ticket, id)
+		Preload("Guest").Preload("Guest.User").Preload("Reservation").Preload("Reservation.Room").First(&ticket, id)
 
 	return ticket, result.Error
 }
@@ -34,7 +34,7 @@ func (r *TicketRepository) GetTicket(id int) (models.Ticket, error) {
 func (r *TicketRepository) GetTickets() ([]models.Ticket, error) {
 	var tickets []models.Ticket
 	result := r.db.Order("id asc").
-		Preload("Guest").Preload("Reservation").Preload("Reservation.Room").Find(&tickets)
+		Preload("Guest").Preload("Guest.User").Preload("Reservation").Preload("Reservation.Room").Find(&tickets)
 
 	return tickets, result.Error
 }
@@ -68,7 +68,7 @@ func (r *TicketRepository) SaveTicket(ticket models.Ticket, reservation models.R
 		return ticket
 	}
 
-	guestDateAllowed := guest.DateBirth.AddDate(int(reservation.Room.MinAge.Int64), 0, 0)
+	guestDateAllowed := guest.User.DateBirth.AddDate(int(reservation.Room.MinAge.Int64), 0, 0)
 	if time.Now().Before(guestDateAllowed) {
 		ticketErrors.AddError("",
 			"The guest is too young to enter the room from the reservation.",

@@ -8,8 +8,8 @@ import * as PropTypes from 'prop-types';
 
 const guestColumns = [
     {key: 'id', name: 'Id', isExtra: false, centering: true},
-    {key: 'firstName', name: 'First name', isExtra: false},
-    {key: 'lastName', name: 'Last name', isExtra: false},
+    {key: 'firstName', name: 'First name', isExtra: false, render: (g) => g.user.firstName},
+    {key: 'lastName', name: 'Last name', isExtra: false, render: (g) => g.user.lastName},
     {key: 'email', name: 'Email', isExtra: true, render: (g) => g.user.email},
 ];
 

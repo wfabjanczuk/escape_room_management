@@ -8,7 +8,7 @@ import {connect} from 'react-redux';
 
 const ticketColumns = [
     {key: 'id', name: 'Id', centering: true},
-    {key: 'guest', name: 'Guest', render: (r) => `${r.guest.firstName} ${r.guest.lastName}`},
+    {key: 'guest', name: 'Guest', render: (r) => `${r.guest.user.firstName} ${r.guest.user.lastName}`},
     {key: 'room', name: 'Room', render: (r) => r.reservation.room.name},
     {key: 'dateFrom', name: 'Date from', isExtra: true, render: (r) => r.reservation.dateFrom},
 ];

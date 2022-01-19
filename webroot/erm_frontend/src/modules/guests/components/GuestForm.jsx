@@ -15,14 +15,14 @@ const getInitialFormData = (guest) => {
     if (guest) {
         return {
             id: guest.id,
-            firstName: guest.firstName,
-            lastName: guest.lastName,
+            firstName: guest.user.firstName,
+            lastName: guest.user.lastName,
             email: guest.user.email,
+            phoneNumber: guest.user.phoneNumber,
+            dateBirth: guest.user.dateBirth,
+            discountPercent: (guest.discountPercent || 0 === guest.discountPercent) ? guest.discountPercent : '',
             password: '',
             isActive: !!guest.user.isActive,
-            phoneNumber: guest.phoneNumber,
-            dateBirth: guest.dateBirth,
-            discountPercent: (guest.discountPercent || 0 === guest.discountPercent) ? guest.discountPercent : '',
         };
     }
 
@@ -30,11 +30,11 @@ const getInitialFormData = (guest) => {
         firstName: '',
         lastName: '',
         email: '',
-        password: '',
-        isActive: false,
         phoneNumber: '',
         dateBirth: '',
         discountPercent: '',
+        password: '',
+        isActive: false,
     };
 };
 

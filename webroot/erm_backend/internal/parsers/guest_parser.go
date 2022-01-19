@@ -64,15 +64,15 @@ func extractGuest(payload payloads.GuestPayload, parseId bool, guestErrors *resp
 		guest.User.Password = payload.Password
 	}
 
-	guest.FirstName = payload.FirstName
-	guest.LastName = payload.LastName
-	guest.PhoneNumber = payload.PhoneNumber
+	guest.User.FirstName = payload.FirstName
+	guest.User.LastName = payload.LastName
+	guest.User.PhoneNumber = payload.PhoneNumber
 
 	dateBirth, err := time.Parse(constants.DefaultDateFormat, payload.DateBirth)
 	if err != nil {
 		guestErrors.AddError("dateBirth", "Invalid date of birth.", http.StatusBadRequest)
 	}
-	guest.DateBirth = types.Date{
+	guest.User.DateBirth = types.Date{
 		Time: dateBirth,
 	}
 
@@ -106,7 +106,7 @@ func validateGuest(guest models.Guest, parseId bool, guestErrors *responses.Gues
 		parseStructError(err, guestErrors)
 	}
 
-	if parseId && (guest.ID < 1 && guest.UserID < 1) {
+	if parseId && guest.ID < 1 {
 		guestErrors.AddError("", "Invalid form data.", http.StatusBadRequest)
 	}
 }

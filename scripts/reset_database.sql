@@ -43,12 +43,16 @@ alter table reservations
 
 create table users
 (
-    id        serial
+    id           serial
         constraint users_pk
             primary key,
-    email     varchar(320)              not null,
-    password  varchar(64) default ''    not null,
-    is_active boolean     default false not null
+    first_name   varchar(50)               not null,
+    last_name    varchar(50)               not null,
+    phone_number varchar(12)               not null,
+    date_birth   date                      not null,
+    email        varchar(320)              not null,
+    password     varchar(64) default ''    not null,
+    is_active    boolean     default false not null
 );
 
 alter table users
@@ -62,14 +66,10 @@ create table guests
     id               serial
         constraint guests_pk
             primary key,
-    user_id          integer     not null
+    user_id          integer not null
         constraint guests_users_id_fk
             references users
             on update restrict on delete restrict,
-    first_name       varchar(50) not null,
-    last_name        varchar(50) not null,
-    phone_number     varchar(12) not null,
-    date_birth       date        not null,
     discount_percent integer
 );
 
@@ -111,17 +111,21 @@ values (1, 10.00, '2021-10-23 17:00:00.000000', '2021-10-23 19:00:00.000000', nu
        (3, 20.00, '2021-10-25 16:00:00.000000', '2021-10-25 18:00:00.000000', null),
        (4, 30.00, '2021-10-30 22:00:00.000000', '2021-10-31 01:00:00.000000', null);
 
-insert into users (email, password, is_active)
-values ('linda.yehudit@gmail.com', '$2a$12$OFjTdVVs//MJ7uPrnNA5wON5.cR3yQqikVvqwhAU3moX2vUzImMBa', true),
-       ('gillian.domantas@gmail.com', '$2a$12$OFjTdVVs//MJ7uPrnNA5wON5.cR3yQqikVvqwhAU3moX2vUzImMBa', true),
-       ('meagan.ikra@gmail.com', '$2a$12$OFjTdVVs//MJ7uPrnNA5wON5.cR3yQqikVvqwhAU3moX2vUzImMBa', true),
-       ('sunil.katenka@gmail.com', '$2a$12$OFjTdVVs//MJ7uPrnNA5wON5.cR3yQqikVvqwhAU3moX2vUzImMBa', true);
+insert into users (first_name, last_name, phone_number, date_birth, email, password, is_active)
+values ('Linda', 'Yehudit', '48100100100', '1990-01-01', 'linda.yehudit@gmail.com',
+        '$2a$12$OFjTdVVs//MJ7uPrnNA5wON5.cR3yQqikVvqwhAU3moX2vUzImMBa', true),
+       ('Gillian', 'Domantas', '48200200200', '1985-02-02', 'gillian.domantas@gmail.com',
+        '$2a$12$OFjTdVVs//MJ7uPrnNA5wON5.cR3yQqikVvqwhAU3moX2vUzImMBa', true),
+       ('Meagan', 'Ikra', '48300300300', '1986-03-03', 'meagan.ikra@gmail.com',
+        '$2a$12$OFjTdVVs//MJ7uPrnNA5wON5.cR3yQqikVvqwhAU3moX2vUzImMBa', true),
+       ('Sunil', 'Katenka', '48400400400', '1989-04-04', 'sunil.katenka@gmail.com',
+        '$2a$12$OFjTdVVs//MJ7uPrnNA5wON5.cR3yQqikVvqwhAU3moX2vUzImMBa', true);
 
-insert into guests (user_id, first_name, last_name, phone_number, date_birth, discount_percent)
-values (1, 'Linda', 'Yehudit', '48100100100', '1990-01-01', null),
-       (2, 'Gillian', 'Domantas', '48200200200', '1985-02-02', null),
-       (3, 'Meagan', 'Ikra', '48300300300', '1986-03-03', null),
-       (4, 'Sunil', 'Katenka', '48400400400', '1989-04-04', null);
+insert into guests (user_id, discount_percent)
+values (1, null),
+       (2, null),
+       (3, null),
+       (4, null);
 
 insert into tickets (price, reservation_id, guest_id, guest_allowed_to_cancel)
 values (10.00, 1, 1, true),

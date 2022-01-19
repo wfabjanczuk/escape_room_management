@@ -9,10 +9,6 @@ type Guest struct {
 	ID              uint            `gorm:"primarykey" json:"id" valid:"-"`
 	UserID          uint            `json:"userId" valid:"-"`
 	User            User            `json:"user" valid:"required"`
-	FirstName       string          `json:"firstName" valid:"required,utfletter,maxstringlength(50)"`
-	LastName        string          `json:"lastName" valid:"required,utfletter,maxstringlength(50)"`
-	PhoneNumber     string          `json:"phoneNumber" valid:"required,utfdigit,maxstringlength(12)"`
-	DateBirth       types.Date      `json:"dateBirth" valid:"-"`
 	DiscountPercent types.NullInt64 `json:"discountPercent" valid:"-"`
 }
 
@@ -46,8 +42,12 @@ type Room struct {
 }
 
 type User struct {
-	ID       uint   `gorm:"primarykey" json:"id" valid:"-"`
-	Email    string `json:"email" valid:"required,email,maxstringlength(320)"`
-	Password string `json:"-" valid:"minstringlength(8),maxstringlength(128)"`
-	IsActive bool   `json:"isActive" valid:"-"`
+	ID          uint       `gorm:"primarykey" json:"id" valid:"-"`
+	FirstName   string     `json:"firstName" valid:"required,utfletter,maxstringlength(50)"`
+	LastName    string     `json:"lastName" valid:"required,utfletter,maxstringlength(50)"`
+	PhoneNumber string     `json:"phoneNumber" valid:"required,utfdigit,maxstringlength(12)"`
+	DateBirth   types.Date `json:"dateBirth" valid:"-"`
+	Email       string     `json:"email" valid:"required,email,maxstringlength(320)"`
+	Password    string     `json:"-" valid:"minstringlength(8),maxstringlength(128)"`
+	IsActive    bool       `json:"isActive" valid:"-"`
 }

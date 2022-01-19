@@ -8,7 +8,7 @@ import {connect} from 'react-redux';
 
 const reservationTicketColumns = [
     {key: 'id', name: 'Id', centering: true},
-    {key: 'guest', name: 'Guest', render: (r) => `${r.guest.firstName} ${r.guest.lastName}`},
+    {key: 'guest', name: 'Guest', render: (r) => `${r.guest.user.firstName} ${r.guest.user.lastName}`},
     {key: 'price', name: 'Price', render: (r) => parseFloat(r.price).toFixed(2)},
     {
         key: 'guestAllowedToCancel',
