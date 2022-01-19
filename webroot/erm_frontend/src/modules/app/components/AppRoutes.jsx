@@ -18,8 +18,9 @@ import ReservationDetails from '../../reservations/views/ReservationDetails';
 import RoomAdd from '../../rooms/views/RoomAdd';
 import RoomEdit from '../../rooms/views/RoomEdit';
 import RoomDetails from '../../rooms/views/RoomDetails';
-import SignIn from '../../authentication/views/SignIn';
-import SignUp from '../../authentication/views/SignUp';
+import SignIn from '../../users/views/SignIn';
+import SignUp from '../../users/views/SignUp';
+import Profile from '../../users/views/Profile';
 
 const AppRoutes = () => (<Routes>
     <Route path={ROUTES.home} element={<Home/>}/>
@@ -33,8 +34,10 @@ const AppRoutes = () => (<Routes>
 export default AppRoutes;
 
 const getAuthenticationRoutes = () => (<React.Fragment>
-    <Route path={ROUTES.authentication.signIn} element={<SignIn/>}/>
-    <Route path={ROUTES.authentication.signUp} element={<SignUp/>}/>
+    <Route path={ROUTES.users.signIn} element={<SignIn/>}/>
+    <Route path={ROUTES.users.signUp} element={<SignUp/>}/>
+    <Route path={ROUTES.users.details} element={<Profile/>}/>
+    <Route path={ROUTES.users.edit} element={<Profile/>}/>
 </React.Fragment>);
 
 const getGuestRoutes = () => (<React.Fragment>

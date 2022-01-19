@@ -73,6 +73,15 @@ const NewFormValidator = (formData) => ({
             }
         }
     },
+    identical: function (keys, mainKey, errorMessage) {
+        const mainValue = formData[mainKey];
+
+        for (const key of keys) {
+            if (formData[key] !== mainValue) {
+                this.putError(key, errorMessage);
+            }
+        }
+    },
     isAlpha: function (keys) {
         const errorMessage = 'Only letters allowed.';
 

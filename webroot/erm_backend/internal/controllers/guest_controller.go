@@ -78,11 +78,15 @@ func (c *guestController) GetGuests(w http.ResponseWriter, r *http.Request) {
 }
 
 func (c *guestController) CreateGuest(w http.ResponseWriter, r *http.Request) {
-	c.handleSaveGuest(w, r, false)
+	c.handleSaveGuest(w, r, false, false)
+}
+
+func (c *guestController) SignUp(w http.ResponseWriter, r *http.Request) {
+	c.handleSaveGuest(w, r, false, true)
 }
 
 func (c *guestController) UpdateGuest(w http.ResponseWriter, r *http.Request) {
-	c.handleSaveGuest(w, r, true)
+	c.handleSaveGuest(w, r, true, false)
 }
 
 func (c *guestController) DeleteGuest(w http.ResponseWriter, r *http.Request) {
@@ -108,9 +112,9 @@ func (c *guestController) DeleteGuest(w http.ResponseWriter, r *http.Request) {
 	c.writeEmptyResponse(w, http.StatusOK)
 }
 
-func (c *guestController) handleSaveGuest(w http.ResponseWriter, r *http.Request, parseId bool) {
+func (c *guestController) handleSaveGuest(w http.ResponseWriter, r *http.Request, parseId, signUp bool) {
 	guestErrors := &responses.GuestErrors{}
-	guest := parsers.ParseGuestFromRequest(r, parseId, guestErrors)
+	guest := parsers.ParseGuestFromRequest(r, parseId, signUp, guestErrors)
 
 	if guestErrors.ErrorsCount == 0 {
 		guest = c.guestRepository.SaveGuest(guest, guestErrors)

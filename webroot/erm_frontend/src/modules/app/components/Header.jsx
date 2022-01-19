@@ -12,16 +12,18 @@ const Header = ({currentUser, logOut}) => (<header>
             ? <div className='authentication authentication--wrap'>
                 <p>Hello {currentUser.name}!</p>
                 <div className='authentication'>
-                    <button className='button button--authentication'>Profile</button>
+                    <Link className='button button--authentication' to={ROUTES.users.profile}>
+                        Profile
+                    </Link>
                     <button className='button button--authentication' onClick={() => logOut()}>Log out</button>
                 </div>
 
             </div>
             : <div className='authentication'>
-                <Link className='button button--authentication' to={ROUTES.authentication.signIn}>
+                <Link className='button button--authentication' to={ROUTES.users.signIn}>
                     Sign in
                 </Link>
-                <Link className='button button--authentication' to={ROUTES.authentication.signUp}>
+                <Link className='button button--authentication' to={ROUTES.users.signUp}>
                     Sign up
                 </Link>
             </div>

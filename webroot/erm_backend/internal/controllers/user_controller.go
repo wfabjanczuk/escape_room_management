@@ -11,13 +11,13 @@ import (
 	"time"
 )
 
-type authenticationController struct {
+type userController struct {
 	controller
 	jwtSecret string
 }
 
-func NewAuthenticationController(logger *log.Logger, jwtSecret string) *authenticationController {
-	return &authenticationController{
+func NewUserController(logger *log.Logger, jwtSecret string) *userController {
+	return &userController{
 		controller: newController(logger),
 		jwtSecret:  jwtSecret,
 	}
@@ -40,7 +40,7 @@ type AuthenticatedUser struct {
 	Jwt  []byte      `json:"jwt"`
 }
 
-func (c *authenticationController) SignIn(w http.ResponseWriter, r *http.Request) {
+func (c *userController) SignIn(w http.ResponseWriter, r *http.Request) {
 	var creds Credentials
 
 	err := json.NewDecoder(r.Body).Decode(&creds)
@@ -76,13 +76,6 @@ func (c *authenticationController) SignIn(w http.ResponseWriter, r *http.Request
 	}
 
 	err = c.writeWrappedJson(w, http.StatusOK, authenticatedUser, "result")
-	if err != nil {
-		c.logger.Println(err)
-	}
-}
-
-func (c *authenticationController) SignUp(w http.ResponseWriter, r *http.Request) {
-	err := c.writeWrappedJson(w, http.StatusOK, nil, "result")
 	if err != nil {
 		c.logger.Println(err)
 	}

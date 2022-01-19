@@ -12,8 +12,8 @@ const v = "/v1"
 func (app *application) getRouter() http.Handler {
 	router := httprouter.New()
 
-	app.setAuthenticationRoutes(router)
 	app.setStatusRoutes(router)
+	app.setUserRoutes(router)
 	app.setGuestRoutes(router)
 	app.setTicketRoutes(router)
 	app.setReservationRoutes(router)
@@ -22,17 +22,16 @@ func (app *application) getRouter() http.Handler {
 	return app.enableCors(router)
 }
 
-func (app *application) setAuthenticationRoutes(router *httprouter.Router) *httprouter.Router {
-	statusController := controllers.NewAuthenticationController(app.logger, app.config.jwt.secret)
-	router.HandlerFunc(http.MethodPost, "/v1/signin", statusController.SignIn)
-	router.HandlerFunc(http.MethodPost, "/v1/signup", statusController.SignUp)
+func (app *application) setStatusRoutes(router *httprouter.Router) *httprouter.Router {
+	statusController := controllers.NewStatusController(app.logger, apiName, apiVersion)
+	router.HandlerFunc(http.MethodGet, "/", statusController.GetStatus)
 
 	return router
 }
 
-func (app *application) setStatusRoutes(router *httprouter.Router) *httprouter.Router {
-	statusController := controllers.NewStatusController(app.logger, apiName, apiVersion)
-	router.HandlerFunc(http.MethodGet, "/", statusController.GetStatus)
+func (app *application) setUserRoutes(router *httprouter.Router) *httprouter.Router {
+	userController := controllers.NewUserController(app.logger, app.config.jwt.secret)
+	router.HandlerFunc(http.MethodPost, v+"/signin", userController.SignIn)
 
 	return router
 }
@@ -47,6 +46,7 @@ func (app *application) setGuestRoutes(router *httprouter.Router) *httprouter.Ro
 	router.HandlerFunc(http.MethodPut, v+"/guests/:id", guestController.UpdateGuest)
 	router.HandlerFunc(http.MethodDelete, v+"/guests/:id", guestController.DeleteGuest)
 	router.HandlerFunc(http.MethodGet, v+"/guests/:id/tickets", guestController.GetGuestTickets)
+	router.HandlerFunc(http.MethodPost, v+"/signup", guestController.SignUp)
 
 	return router
 }

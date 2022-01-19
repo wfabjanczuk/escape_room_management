@@ -3,15 +3,7 @@ package responses
 import "log"
 
 type GuestErrors struct {
-	ErrorsCount     int      `json:"-"`
-	StatusCode      int      `json:"-"`
-	General         []string `json:"general,omitempty"`
-	Email           []string `json:"email,omitempty"`
-	Password        []string `json:"password,omitempty"`
-	FirstName       []string `json:"firstName,omitempty"`
-	LastName        []string `json:"lastName,omitempty"`
-	PhoneNumber     []string `json:"phoneNumber,omitempty"`
-	DateBirth       []string `json:"dateBirth,omitempty"`
+	UserErrors
 	DiscountPercent []string `json:"discountPercent,omitempty"`
 }
 

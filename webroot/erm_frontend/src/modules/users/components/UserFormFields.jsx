@@ -2,27 +2,7 @@ import React from 'react';
 import InputField from '../../app/components/form/field/InputField';
 import * as PropTypes from 'prop-types';
 
-const SignUpFormFields = ({onValueChange, formData, errors}) => (<React.Fragment>
-    <InputField
-        type='text'
-        name='firstName'
-        displayName='First name'
-        isRequired={true}
-        isDisabled={false}
-        errorMessage={errors.firstName}
-        value={formData.firstName}
-        onChange={onValueChange}
-    />
-    <InputField
-        type='text'
-        name='lastName'
-        displayName='Last name'
-        isRequired={true}
-        isDisabled={false}
-        errorMessage={errors.lastName}
-        value={formData.lastName}
-        onChange={onValueChange}
-    />
+const UserFormFields = ({onValueChange, formData, errors}) => (<React.Fragment>
     <InputField
         type='text'
         name='email'
@@ -55,6 +35,26 @@ const SignUpFormFields = ({onValueChange, formData, errors}) => (<React.Fragment
     />
     <InputField
         type='text'
+        name='firstName'
+        displayName='First name'
+        isRequired={true}
+        isDisabled={false}
+        errorMessage={errors.firstName}
+        value={formData.firstName}
+        onChange={onValueChange}
+    />
+    <InputField
+        type='text'
+        name='lastName'
+        displayName='Last name'
+        isRequired={true}
+        isDisabled={false}
+        errorMessage={errors.lastName}
+        value={formData.lastName}
+        onChange={onValueChange}
+    />
+    <InputField
+        type='text'
         name='phoneNumber'
         displayName='Phone number'
         isRequired={true}
@@ -75,10 +75,10 @@ const SignUpFormFields = ({onValueChange, formData, errors}) => (<React.Fragment
     />
 </React.Fragment>);
 
-SignUpFormFields.propTypes = {
+UserFormFields.propTypes = {
     onValueChange: PropTypes.func,
     formData: PropTypes.object,
     errors: PropTypes.object,
 };
 
-export default SignUpFormFields;
+export default UserFormFields;

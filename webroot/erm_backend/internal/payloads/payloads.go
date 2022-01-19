@@ -1,16 +1,19 @@
 package payloads
 
 type GuestPayload struct {
-	Id              string `json:"id"`
-	UserId          string `json:"userId"`
-	Email           string `json:"email"`
-	Password        string `json:"password"`
-	IsActive        string `json:"isActive"`
-	FirstName       string `json:"firstName"`
-	LastName        string `json:"lastName"`
-	PhoneNumber     string `json:"phoneNumber"`
-	DateBirth       string `json:"dateBirth"`
+	UserPayload
 	DiscountPercent string `json:"discountPercent"`
+}
+
+type UserPayload struct {
+	Id          string `json:"id"`
+	Email       string `json:"email"`
+	Password    string `json:"password"`
+	IsActive    string `json:"isActive"`
+	FirstName   string `json:"firstName"`
+	LastName    string `json:"lastName"`
+	PhoneNumber string `json:"phoneNumber"`
+	DateBirth   string `json:"dateBirth"`
 }
 
 type TicketPayload struct {

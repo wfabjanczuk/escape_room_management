@@ -1,9 +1,9 @@
 import React from 'react';
-import SignUpForm from '../components/SignUpForm';
+import UserForm from '../components/UserForm';
 
 export default function SignUp() {
     return <React.Fragment>
         <h2>Sign up</h2>
-        <SignUpForm/>
+        <UserForm user={null} isDisabled={false} isProfile={true}/>
     </React.Fragment>;
 }

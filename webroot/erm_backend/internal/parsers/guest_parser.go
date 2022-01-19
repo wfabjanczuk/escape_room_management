@@ -3,7 +3,6 @@ package parsers
 import (
 	"database/sql"
 	"encoding/json"
-	"erm_backend/internal/constants"
 	"erm_backend/internal/models"
 	"erm_backend/internal/payloads"
 	"erm_backend/internal/responses"
@@ -12,10 +11,9 @@ import (
 	"golang.org/x/crypto/bcrypt"
 	"net/http"
 	"strconv"
-	"time"
 )
 
-func ParseGuestFromRequest(r *http.Request, parseId bool, guestErrors *responses.GuestErrors) models.Guest {
+func ParseGuestFromRequest(r *http.Request, parseId, signUp bool, guestErrors *responses.GuestErrors) models.Guest {
 	var guestPayload payloads.GuestPayload
 	var guest models.Guest
 
@@ -43,6 +41,16 @@ func ParseGuestFromRequest(r *http.Request, parseId bool, guestErrors *responses
 		guest.User.Password = string(passwordHash)
 	}
 
+	if signUp {
+		guest.User.IsActive = true
+		guest.DiscountPercent = types.NullInt64{
+			NullInt64: sql.NullInt64{
+				Valid: false,
+				Int64: 0,
+			},
+		}
+	}
+
 	return guest
 }
 
@@ -58,23 +66,7 @@ func extractGuest(payload payloads.GuestPayload, parseId bool, guestErrors *resp
 		guest.ID = uint(id)
 	}
 
-	guest.User.Email = payload.Email
-	guest.User.IsActive = payload.IsActive == "1"
-	if len(payload.Password) > 0 {
-		guest.User.Password = payload.Password
-	}
-
-	guest.User.FirstName = payload.FirstName
-	guest.User.LastName = payload.LastName
-	guest.User.PhoneNumber = payload.PhoneNumber
-
-	dateBirth, err := time.Parse(constants.DefaultDateFormat, payload.DateBirth)
-	if err != nil {
-		guestErrors.AddError("dateBirth", "Invalid date of birth.", http.StatusBadRequest)
-	}
-	guest.User.DateBirth = types.Date{
-		Time: dateBirth,
-	}
+	guest.User = extractUser(payload.UserPayload, false, &guestErrors.UserErrors)
 
 	if len(payload.DiscountPercent) > 0 {
 		discountPercent, err := strconv.Atoi(payload.DiscountPercent)

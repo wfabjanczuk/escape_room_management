@@ -25,12 +25,17 @@ const ROUTES = {
         roomReservations: API + '/rooms/:id/reservations',
         signIn: API + '/signin',
         signUp: API + '/signup',
-        profile: API + '/profile/:id',
+        users: API + '/users',
+        user: API + '/users/:id',
     },
     home: '/',
-    authentication: {
+    users: {
         signIn: '/signin',
         signUp: '/signup',
+        index: '/users',
+        add: '/users/add',
+        details: '/users/:id/details',
+        edit: '/users/:id/edit',
     },
     guests: {
         index: '/guests',

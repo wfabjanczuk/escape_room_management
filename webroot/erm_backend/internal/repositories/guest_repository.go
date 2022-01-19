@@ -122,6 +122,12 @@ func (r *GuestRepository) DeleteGuest(id int, deleteError *responses.DeleteError
 	result = r.db.Delete(&guest)
 	if result.Error != nil {
 		deleteError.AddError(generalError, http.StatusInternalServerError)
+		return
+	}
+
+	result = r.db.Delete(&guest.User)
+	if result.Error != nil {
+		deleteError.AddError(generalError, http.StatusInternalServerError)
 	}
 }
 
