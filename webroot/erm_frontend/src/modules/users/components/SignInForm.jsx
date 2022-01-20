@@ -3,12 +3,13 @@ import NewFormValidator from '../../app/utils/FormValidator';
 import SignInFormFields from './SignInFormFields';
 import {addSuccessMessage} from '../../redux/flash/flashActions';
 import {connect} from 'react-redux';
-import Footer from '../../app/components/form/Footer';
 import axios from 'axios';
 import {get as _get} from 'lodash';
 import ROUTES from '../../app/constants/routes';
 import {setCurrentUser} from '../../redux/user/userActions';
 import * as PropTypes from 'prop-types';
+import {useNavigate} from 'react-router-dom';
+import SignInFormFooter from './SignInFormFooter';
 
 const getInitialFormData = () => ({
     email: '',
@@ -34,6 +35,7 @@ const validateFormData = (formData, setErrors) => {
 const SignInForm = ({addSuccessMessage, setCurrentUser}) => {
     const [formData, setFormData] = useState(getInitialFormData()),
         [errors, setErrors] = useState({}),
+        navigate = useNavigate(),
         onValueChange = (event) => {
             setFormData(formData => ({
                 ...formData,
@@ -59,9 +61,10 @@ const SignInForm = ({addSuccessMessage, setCurrentUser}) => {
 
                             const result = response.data.result;
                             setCurrentUser({
-                                name: result.user.email,
+                                user: result.user,
                                 jwt: result.jwt,
                             });
+                            navigate(ROUTES.users.profileDetails);
                         },
                         (error) => {
                             const errorResponse = JSON.parse(error.request.response),
@@ -82,7 +85,7 @@ const SignInForm = ({addSuccessMessage, setCurrentUser}) => {
 
     return <form className='form form--untitled' method='POST' onSubmit={handleSubmit}>
         <SignInFormFields onValueChange={onValueChange} formData={formData} errors={errors}/>
-        <Footer submitText='Sign in' submitWide={false} error={errors.general}/>
+        <SignInFormFooter error={errors.general}/>
     </form>;
 };
 

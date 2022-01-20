@@ -2,43 +2,44 @@ import React from 'react';
 import InputField from '../../app/components/form/field/InputField';
 import * as PropTypes from 'prop-types';
 
-const UserFormFields = ({onValueChange, formData, errors}) => (<React.Fragment>
+const UserFormFields = ({entityExists, isDisabled, isProfile, onValueChange, formData, errors}) => (<React.Fragment>
+    {entityExists && <input type='hidden' name='id' value={formData.id}/>}
     <InputField
         type='text'
         name='email'
         displayName='Email'
         isRequired={true}
-        isDisabled={false}
+        isDisabled={isDisabled}
         errorMessage={errors.email}
         value={formData.email}
         onChange={onValueChange}
     />
-    <InputField
+    {!isDisabled && <InputField
         type='password'
         name='password'
-        displayName='Password'
-        isRequired={true}
-        isDisabled={false}
+        displayName={entityExists ? 'New password' : 'Password'}
+        isRequired={!entityExists}
+        isDisabled={isDisabled}
         errorMessage={errors.password}
         value={formData.password}
         onChange={onValueChange}
-    />
-    <InputField
+    />}
+    {!isDisabled && isProfile && <InputField
         type='password'
         name='confirmPassword'
         displayName='Confirm password'
-        isRequired={true}
-        isDisabled={false}
+        isRequired={!entityExists}
+        isDisabled={isDisabled}
         errorMessage={errors.confirmPassword}
         value={formData.confirmPassword}
         onChange={onValueChange}
-    />
+    />}
     <InputField
         type='text'
         name='firstName'
         displayName='First name'
         isRequired={true}
-        isDisabled={false}
+        isDisabled={isDisabled}
         errorMessage={errors.firstName}
         value={formData.firstName}
         onChange={onValueChange}
@@ -48,7 +49,7 @@ const UserFormFields = ({onValueChange, formData, errors}) => (<React.Fragment>
         name='lastName'
         displayName='Last name'
         isRequired={true}
-        isDisabled={false}
+        isDisabled={isDisabled}
         errorMessage={errors.lastName}
         value={formData.lastName}
         onChange={onValueChange}
@@ -58,7 +59,7 @@ const UserFormFields = ({onValueChange, formData, errors}) => (<React.Fragment>
         name='phoneNumber'
         displayName='Phone number'
         isRequired={true}
-        isDisabled={false}
+        isDisabled={isDisabled}
         errorMessage={errors.phoneNumber}
         value={formData.phoneNumber}
         onChange={onValueChange}
@@ -68,7 +69,7 @@ const UserFormFields = ({onValueChange, formData, errors}) => (<React.Fragment>
         name='dateBirth'
         displayName='Date of birth'
         isRequired={true}
-        isDisabled={false}
+        isDisabled={isDisabled}
         errorMessage={errors.dateBirth}
         value={formData.dateBirth}
         onChange={onValueChange}
@@ -76,6 +77,9 @@ const UserFormFields = ({onValueChange, formData, errors}) => (<React.Fragment>
 </React.Fragment>);
 
 UserFormFields.propTypes = {
+    entityExists: PropTypes.bool,
+    isDisabled: PropTypes.bool,
+    isProfile: PropTypes.bool,
     onValueChange: PropTypes.func,
     formData: PropTypes.object,
     errors: PropTypes.object,

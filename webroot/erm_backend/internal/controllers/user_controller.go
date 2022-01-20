@@ -3,6 +3,8 @@ package controllers
 import (
 	"encoding/json"
 	"erm_backend/internal/models"
+	"erm_backend/internal/payloads"
+	"erm_backend/internal/repositories"
 	"fmt"
 	"github.com/pascaldekloe/jwt"
 	"golang.org/x/crypto/bcrypt"
@@ -11,53 +13,49 @@ import (
 	"time"
 )
 
-type userController struct {
-	controller
-	jwtSecret string
-}
-
-func NewUserController(logger *log.Logger, jwtSecret string) *userController {
-	return &userController{
-		controller: newController(logger),
-		jwtSecret:  jwtSecret,
-	}
-}
-
-var validUser = models.User{
-	ID:       1,
-	Email:    "admin@admin.com",
-	Password: "$2a$12$OFjTdVVs//MJ7uPrnNA5wON5.cR3yQqikVvqwhAU3moX2vUzImMBa",
-	IsActive: true,
-}
-
-type Credentials struct {
-	Username string `json:"email"`
-	Password string `json:"password"`
-}
-
 type AuthenticatedUser struct {
 	User models.User `json:"user"`
 	Jwt  []byte      `json:"jwt"`
 }
 
-func (c *userController) SignIn(w http.ResponseWriter, r *http.Request) {
-	var creds Credentials
+type userController struct {
+	controller
+	jwtSecret      string
+	userRepository *repositories.UserRepository
+}
 
-	err := json.NewDecoder(r.Body).Decode(&creds)
+func NewUserController(logger *log.Logger, jwtSecret string, userRepository *repositories.UserRepository) *userController {
+	return &userController{
+		controller:     newController(logger),
+		jwtSecret:      jwtSecret,
+		userRepository: userRepository,
+	}
+}
+
+func (c *userController) SignIn(w http.ResponseWriter, r *http.Request) {
+	var payload payloads.SignInPayload
+
+	err := json.NewDecoder(r.Body).Decode(&payload)
 	if err != nil {
-		c.writeWrappedErrorJson(w, err, 400)
+		c.writeWrappedErrorJson(w, err, http.StatusBadRequest)
 		return
 	}
 
-	hashedPassword := validUser.Password
-	err = bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(creds.Password))
+	user, err := c.userRepository.GetActiveUserByEmail(payload.Email)
 	if err != nil {
-		c.writeWrappedErrorJson(w, err, 400)
+		c.writeWrappedErrorJson(w, err, http.StatusBadRequest)
+		return
+	}
+
+	hashedPassword := user.Password
+	err = bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(payload.Password))
+	if err != nil {
+		c.writeWrappedErrorJson(w, err, http.StatusBadRequest)
 		return
 	}
 
 	var claims jwt.Claims
-	claims.Subject = fmt.Sprint(validUser.ID)
+	claims.Subject = fmt.Sprint(user.ID)
 	claims.Issued = jwt.NewNumericTime(time.Now())
 	claims.NotBefore = jwt.NewNumericTime(time.Now())
 	claims.Expires = jwt.NewNumericTime(time.Now().Add(24 * time.Hour))
@@ -66,12 +64,13 @@ func (c *userController) SignIn(w http.ResponseWriter, r *http.Request) {
 
 	jwtBytes, err := claims.HMACSign(jwt.HS256, []byte(c.jwtSecret))
 	if err != nil {
-		c.writeWrappedErrorJson(w, err, 400)
+		c.writeWrappedErrorJson(w, err, http.StatusBadRequest)
 		return
 	}
 
+	user.Password = ""
 	var authenticatedUser = &AuthenticatedUser{
-		User: validUser,
+		User: user,
 		Jwt:  jwtBytes,
 	}
 

@@ -32,6 +32,8 @@ const ROUTES = {
     users: {
         signIn: '/signin',
         signUp: '/signup',
+        profileDetails: '/profile/details',
+        profileEdit: '/profile/edit',
         index: '/users',
         add: '/users/add',
         details: '/users/:id/details',

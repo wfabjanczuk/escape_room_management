@@ -30,7 +30,9 @@ func (app *application) setStatusRoutes(router *httprouter.Router) *httprouter.R
 }
 
 func (app *application) setUserRoutes(router *httprouter.Router) *httprouter.Router {
-	userController := controllers.NewUserController(app.logger, app.config.jwt.secret)
+	userController := controllers.NewUserController(app.logger, app.config.jwt.secret,
+		repositories.NewUserRepository(app.logger, app.db),
+	)
 	router.HandlerFunc(http.MethodPost, v+"/signin", userController.SignIn)
 
 	return router

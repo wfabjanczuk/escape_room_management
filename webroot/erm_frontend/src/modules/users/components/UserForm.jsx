@@ -3,54 +3,84 @@ import NewFormValidator from '../../app/utils/FormValidator';
 import UserFormFields from './UserFormFields';
 import {addSuccessMessage} from '../../redux/flash/flashActions';
 import {connect} from 'react-redux';
-import Footer from '../../app/components/form/Footer';
 import {sendData} from '../../app/utils/form';
 import * as PropTypes from 'prop-types';
-import ROUTES from '../../app/constants/routes';
+import ROUTES, {getRouteWithParams} from '../../app/constants/routes';
 import {useNavigate} from 'react-router-dom';
+import ProfileFooter from './ProfileFooter';
+import EntityFormFooter from '../../app/components/form/EntityFormFooter';
+import {get as _get} from 'lodash';
+import getDeleteUserPromise from '../utils/getDeleteUserPromise';
 
-// const getInitialFormData = () => ({
-//     email: '',
-//     password: '',
-//     confirmPassword: '',
-//     firstName: '',
-//     lastName: '',
-//     phoneNumber: '',
-//     dateBirth: '',
-// });
-
-const getInitialFormData = () => ({
-    email: 'first@last.com',
-    password: 'password',
-    confirmPassword: 'password',
-    firstName: 'First',
-    lastName: 'Last',
-    phoneNumber: '100200300',
-    dateBirth: '2022-01-18',
-});
-
-const getUrls = (user, entityExists, isDisabled, isProfile) => {
-    console.log(isProfile);
-
-    // const apiUrl = entityExists
-    //         ? getRouteWithParams(ROUTES.api.user, {id: user.id})
-    //         : ROUTES.api.signUp,
-    //     cancelUrl = entityExists
-    //         ? getRouteWithParams(ROUTES.users.details, {id: user.id})
-    //         : ROUTES.users.index,
-    //     editUrl = entityExists
-    //         ? getRouteWithParams(ROUTES.users.edit, {id: user.id})
-    //         : '',
-    //     redirectUrl = isDisabled
-    //         ? ROUTES.users.index
-    //         : cancelUrl;
+const getInitialFormData = (user) => {
+    if (user) {
+        return {
+            email: user.email,
+            password: '',
+            confirmPassword: '',
+            firstName: user.firstName,
+            lastName: user.lastName,
+            phoneNumber: user.phoneNumber,
+            dateBirth: user.dateBirth,
+        };
+    }
 
     return {
-        api: ROUTES.api.signUp,
-        edit: '',
-        redirect: ROUTES.home,
-    }
+        email: '',
+        password: '',
+        confirmPassword: '',
+        firstName: '',
+        lastName: '',
+        phoneNumber: '',
+        dateBirth: '',
+    };
 };
+
+const getUrls = (user, entityExists, isDisabled, isProfile) => {
+    if (isProfile) {
+        return getProfileUrls(user, entityExists, isDisabled);
+    }
+
+    const apiUrl = entityExists
+            ? getRouteWithParams(ROUTES.api.user, {id: user.id})
+            : ROUTES.api.users,
+        cancelUrl = entityExists
+            ? getRouteWithParams(ROUTES.users.details, {id: user.id})
+            : ROUTES.users.index,
+        editUrl = entityExists
+            ? getRouteWithParams(ROUTES.users.edit, {id: user.id})
+            : '',
+        redirectUrl = isDisabled
+            ? ROUTES.users.index
+            : cancelUrl;
+
+    return {
+        api: apiUrl,
+        edit: editUrl,
+        redirect: redirectUrl,
+    };
+};
+
+const getProfileUrls = (user, entityExists, isDisabled) => {
+    const apiUrl = entityExists
+            ? getRouteWithParams(ROUTES.api.user, {id: user.id})
+            : ROUTES.api.signUp,
+        cancelUrl = entityExists
+            ? getRouteWithParams(ROUTES.users.profileDetails, {id: user.id})
+            : ROUTES.users.index,
+        editUrl = entityExists
+            ? getRouteWithParams(ROUTES.users.profileEdit, {id: user.id})
+            : '',
+        redirectUrl = isDisabled
+            ? ROUTES.home
+            : cancelUrl;
+
+    return {
+        api: apiUrl,
+        edit: editUrl,
+        redirect: redirectUrl,
+    };
+}
 
 const validateFormData = (formData, setErrors) => {
     const formValidator = NewFormValidator(formData);
@@ -78,9 +108,10 @@ const validateFormData = (formData, setErrors) => {
 };
 
 const UserForm = ({user, isDisabled, isProfile, addSuccessMessage}) => {
-    const entityExists = !!user,
+    const id = parseInt(_get(user, 'id', null), 10),
+        entityExists = !!user,
         urls = getUrls(user, entityExists, isDisabled, isProfile),
-        [formData, setFormData] = useState(getInitialFormData()),
+        [formData, setFormData] = useState(getInitialFormData(user)),
         [errors, setErrors] = useState({}),
         navigate = useNavigate(),
         onValueChange = (event) => {
@@ -100,8 +131,35 @@ const UserForm = ({user, isDisabled, isProfile, addSuccessMessage}) => {
         };
 
     return <form className='form form--untitled' method='POST' onSubmit={handleSubmit}>
-        <UserFormFields onValueChange={onValueChange} formData={formData} errors={errors}/>
-        <Footer submitText='Create guest account' submitWide={true} error={errors.general}/>
+        <UserFormFields
+            entityExists={entityExists}
+            isDisabled={isDisabled}
+            isProfile={isProfile}
+            onValueChange={onValueChange}
+            formData={formData}
+            errors={errors}
+        />
+        {isProfile
+            ? <ProfileFooter
+                id={id}
+                entityExists={entityExists}
+                isDisabled={isDisabled}
+                getDeletePromise={getDeleteUserPromise}
+                editUrl={urls.edit}
+                redirectUrl={urls.redirect}
+                error={errors.general}
+            />
+            : <EntityFormFooter
+                id={id}
+                entityExists={entityExists}
+                isDisabled={isDisabled}
+                getDeletePromise={getDeleteUserPromise}
+                editUrl={urls.edit}
+                redirectUrl={urls.redirect}
+                error={errors.general}
+            />
+        }
+
     </form>;
 }
 

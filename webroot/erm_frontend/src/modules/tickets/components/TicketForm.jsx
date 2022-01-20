@@ -138,7 +138,7 @@ const TicketForm = ({ticket, isDisabled, addSuccessMessage, changeCounter, incre
     );
 
     useEffect(() => {
-            const mapGuestToOption = (g) => ({id: g.id, label: `${g.firstName} ${g.lastName}`});
+            const mapGuestToOption = (g) => ({id: g.id, label: `${g.user.firstName} ${g.user.lastName}`});
 
             if (isDisabled) {
                 setGuestOptions({
