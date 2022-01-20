@@ -16,7 +16,8 @@ const EntityFormFooter = (
         error,
         addSuccessMessage,
         addErrorMessage,
-        increaseChangeCounter
+        increaseChangeCounter,
+        extraButtons,
     }
 ) => {
     const navigate = useNavigate();
@@ -33,6 +34,7 @@ const EntityFormFooter = (
             <div className='button button--danger hoverable' onClick={onDelete}>
                 Delete
             </div>
+            {extraButtons}
         </div>;
     }
 
@@ -56,6 +58,7 @@ EntityFormFooter.propTypes = {
     addSuccessMessage: PropTypes.func,
     addErrorMessage: PropTypes.func,
     increaseChangeCounter: PropTypes.func,
+    extraButtons: PropTypes.node,
 };
 
 const mapDispatchToProps = (dispatch) => ({

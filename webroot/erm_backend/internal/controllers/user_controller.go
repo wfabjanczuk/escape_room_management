@@ -45,13 +45,13 @@ func (c *userController) GetUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	guest, err := c.userRepository.GetUser(id)
+	user, err := c.userRepository.GetUser(id)
 	if err != nil {
 		c.writeWrappedErrorJson(w, err, http.StatusNotFound)
 		return
 	}
 
-	err = c.writeWrappedJson(w, http.StatusOK, guest, "user")
+	err = c.writeWrappedJson(w, http.StatusOK, user, "user")
 	if err != nil {
 		c.logger.Println(err)
 	}
@@ -167,6 +167,33 @@ func (c *userController) handleSaveUser(w http.ResponseWriter, r *http.Request, 
 	}
 
 	err := c.writeWrappedJson(w, http.StatusOK, user, "user")
+	if err != nil {
+		c.logger.Println(err)
+	}
+}
+
+func (c *userController) GetUserGuest(w http.ResponseWriter, r *http.Request) {
+	params := httprouter.ParamsFromContext(r.Context())
+
+	id, err := strconv.Atoi(params.ByName("id"))
+	if err != nil {
+		c.writeWrappedErrorJson(w, err, http.StatusBadRequest)
+		return
+	}
+
+	user, err := c.userRepository.GetUser(id)
+	if err != nil {
+		c.writeWrappedErrorJson(w, err, http.StatusNotFound)
+		return
+	}
+
+	guest, err := c.userRepository.GetUserGuest(int(user.ID))
+	if err != nil {
+		c.writeWrappedErrorJson(w, err, http.StatusNotFound)
+		return
+	}
+
+	err = c.writeWrappedJson(w, http.StatusOK, guest, "guest")
 	if err != nil {
 		c.logger.Println(err)
 	}

@@ -124,3 +124,9 @@ func (r *UserRepository) DeleteUser(id int, deleteError *responses.DeleteError) 
 		return
 	}
 }
+
+func (r *UserRepository) GetUserGuest(id int) (models.Guest, error) {
+	var guest models.Guest
+	result := r.db.Where("user_id = ?", id).Find(&guest)
+	return guest, result.Error
+}

@@ -5,8 +5,13 @@ import axios from 'axios';
 import UserForm from '../components/UserForm';
 
 export default function UserDetails() {
-    const [state, setState] = useState({
+    const [userState, setUserState] = useState({
             user: {},
+            isLoading: true,
+            error: null,
+        }),
+        [guestState, setGuestState] = useState({
+            guestId: 0,
             isLoading: true,
             error: null,
         }),
@@ -16,12 +21,12 @@ export default function UserDetails() {
     useEffect(() => {
             axios.get(getRouteWithParams(ROUTES.api.user, {id: params.id}))
                 .then(
-                    (response) => setState({
+                    (response) => setUserState({
                         user: response.data.user,
                         isLoading: false,
                         error: null,
                     }),
-                    (error) => setState({
+                    (error) => setUserState({
                         user: {},
                         isLoading: false,
                         error: error,
@@ -31,14 +36,33 @@ export default function UserDetails() {
         [params]
     );
 
-    if (state.error) {
+    useEffect(() => {
+            axios.get(getRouteWithParams(ROUTES.api.userGuest, {id: params.id}))
+                .then(
+                    (response) => setGuestState({
+                        guestId: response.data.guest.id,
+                        isLoading: false,
+                        error: null,
+                    }),
+                    (error) => setGuestState({
+                        guestId: 0,
+                        isLoading: false,
+                        error: error,
+                    })
+                )
+        },
+        [params]
+    );
+
+    if (userState.error || guestState.error) {
+        const errorMessage = userState.error.message + ' ' + guestState.error.message;
+
         return <React.Fragment>
-            <h2>{title}</h2>
-            <p>{state.error.message}</p>
+            <p>{errorMessage.trim()}</p>
         </React.Fragment>;
     }
 
-    if (state.isLoading) {
+    if (userState.isLoading || guestState.isLoading) {
         return <React.Fragment>
             <h2>{title}</h2>
             <p>Loading...</p>
@@ -47,6 +71,11 @@ export default function UserDetails() {
 
     return <React.Fragment>
         <h2>{title}</h2>
-        <UserForm user={state.user} isDisabled={true} isProfile={false}/>
+        <UserForm
+            user={userState.user}
+            isDisabled={true}
+            isProfile={false}
+            guestId={guestState.guestId}
+        />
     </React.Fragment>;
 }

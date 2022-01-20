@@ -6,7 +6,7 @@ import GuestFormFields from './GuestFormFields';
 import ROUTES, {getRouteWithParams} from '../../app/constants/routes';
 import {addSuccessMessage} from '../../redux/flash/flashActions';
 import {connect} from 'react-redux';
-import {useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {get as _get} from 'lodash';
 import getDeleteGuestPromise from '../utils/getDeleteGuestPromise';
 import {sendData} from '../../app/utils/form';
@@ -103,14 +103,32 @@ const GuestForm = ({guest, isDisabled, addSuccessMessage}) => {
             if (validateFormData(submittedFormData, setErrors)) {
                 sendData(submittedFormData, urls.api, urls.redirect, entityExists, setErrors, addSuccessMessage, navigate, 'Guest');
             }
-        };
+        },
+        extraButton = id > 0
+            ? <Link
+                className='button button--primary hoverable'
+                to={getRouteWithParams(ROUTES.users.details, {id: id})}>
+                User details
+            </Link>
+            : null;
 
     return <form className='form' method='POST' onSubmit={handleSubmit}>
-        <GuestFormFields entityExists={entityExists} isDisabled={isDisabled} onValueChange={onValueChange}
-                         formData={formData} errors={errors}/>
-        <Footer id={id} entityExists={entityExists}
-                isDisabled={isDisabled} getDeletePromise={getDeleteGuestPromise}
-                editUrl={urls.edit} redirectUrl={urls.redirect} error={errors.general}/>
+        <GuestFormFields
+            entityExists={entityExists}
+            isDisabled={isDisabled}
+            onValueChange={onValueChange}
+            formData={formData}
+            errors={errors}
+        />
+        <Footer id={id}
+                entityExists={entityExists}
+                isDisabled={isDisabled}
+                getDeletePromise={getDeleteGuestPromise}
+                editUrl={urls.edit}
+                redirectUrl={urls.redirect}
+                error={errors.general}
+                extraButtons={extraButton}
+        />
     </form>;
 }
 

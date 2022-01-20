@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import {sendData} from '../../app/utils/form';
 import * as PropTypes from 'prop-types';
 import ROUTES, {getRouteWithParams} from '../../app/constants/routes';
-import {useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import ProfileFooter from './ProfileFooter';
 import EntityFormFooter from '../../app/components/form/EntityFormFooter';
 import {get as _get} from 'lodash';
@@ -117,7 +117,7 @@ const validateFormData = (entityExists, isProfile, formData, setErrors) => {
     return true;
 };
 
-const UserForm = ({user, isDisabled, isProfile, addSuccessMessage}) => {
+const UserForm = ({user, isDisabled, isProfile, addSuccessMessage, guestId = 0}) => {
     const id = parseInt(_get(user, 'id', null), 10),
         entityExists = !!user,
         urls = getUrls(user, entityExists, isDisabled, isProfile),
@@ -138,7 +138,14 @@ const UserForm = ({user, isDisabled, isProfile, addSuccessMessage}) => {
                 delete submittedFormData.confirmPassword;
                 sendData(submittedFormData, urls.api, urls.redirect, entityExists, setErrors, addSuccessMessage, navigate, 'User');
             }
-        };
+        },
+        extraButton = guestId > 0
+            ? <Link
+                className='button button--primary hoverable'
+                to={getRouteWithParams(ROUTES.guests.details, {id: guestId})}>
+                Guest details
+            </Link>
+            : null;
 
     return <form className='form form--untitled' method='POST' onSubmit={handleSubmit}>
         <UserFormFields
@@ -165,6 +172,7 @@ const UserForm = ({user, isDisabled, isProfile, addSuccessMessage}) => {
                 editUrl={urls.edit}
                 redirectUrl={urls.redirect}
                 error={errors.general}
+                extraButtons={extraButton}
             />
         }
     </form>;
@@ -175,6 +183,7 @@ UserForm.propTypes = {
     isDisabled: PropTypes.bool,
     isProfile: PropTypes.bool,
     addSuccessMessage: PropTypes.func,
+    guestId: PropTypes.number,
 };
 
 const mapDispatchToProps = (dispatch) => ({
