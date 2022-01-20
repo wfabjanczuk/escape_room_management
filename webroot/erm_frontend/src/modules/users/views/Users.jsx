@@ -9,7 +9,7 @@ import * as PropTypes from 'prop-types';
 const userColumns = [
     {key: 'id', name: 'Id', isExtra: false, centering: true},
     {key: 'email', name: 'Email', isExtra: false},
-    {key: 'isActive', name: 'Is active', isExtra: false, render: (u) => u.isActive ? 'Yes' : 'No'},
+    {key: 'isActive', name: 'Active', isExtra: false, render: (u) => u.isActive ? 'Yes' : 'No'},
 ];
 
 const Users = ({changeCounter}) => {

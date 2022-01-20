@@ -36,6 +36,27 @@ func NewUserController(logger *log.Logger, jwtSecret string, userRepository *rep
 	}
 }
 
+func (c *userController) GetUser(w http.ResponseWriter, r *http.Request) {
+	params := httprouter.ParamsFromContext(r.Context())
+
+	id, err := strconv.Atoi(params.ByName("id"))
+	if err != nil {
+		c.writeWrappedErrorJson(w, err, http.StatusBadRequest)
+		return
+	}
+
+	guest, err := c.userRepository.GetUser(id)
+	if err != nil {
+		c.writeWrappedErrorJson(w, err, http.StatusNotFound)
+		return
+	}
+
+	err = c.writeWrappedJson(w, http.StatusOK, guest, "user")
+	if err != nil {
+		c.logger.Println(err)
+	}
+}
+
 func (c *userController) GetUsers(w http.ResponseWriter, r *http.Request) {
 	users, err := c.userRepository.GetUsers()
 	if err != nil {

@@ -89,10 +89,14 @@ const validateFormData = (entityExists, isProfile, formData, setErrors) => {
 
     if (!entityExists) {
         formValidator.required(['password']);
+    }
 
-        if (isProfile) {
-            formValidator.required(['confirmPassword']);
-        }
+    if (isProfile) {
+        formValidator.identical(['password', 'confirmPassword'], 'password', 'Passwords must be the same!');
+    }
+
+    if (!entityExists && isProfile) {
+        formValidator.required(['confirmPassword']);
     }
 
     formValidator.isAlpha(['firstName', 'lastName']);
@@ -104,8 +108,6 @@ const validateFormData = (entityExists, isProfile, formData, setErrors) => {
     formValidator.minLength(['password'], 8);
     formValidator.maxLength(['password'], 128);
     formValidator.maxLength(['phoneNumber'], 12);
-
-    formValidator.identical(['password', 'confirmPassword'], 'password', 'Passwords must be the same!');
 
     if (!formValidator.isValid()) {
         setErrors(formValidator.errors);

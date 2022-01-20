@@ -79,7 +79,7 @@ const UserFormFields = ({entityExists, isDisabled, isProfile, onValueChange, for
         ? <input type='hidden' name='isActive' value='1'/>
         : <CheckboxField
             name='isActive'
-            displayName='Is active'
+            displayName='Active'
             isRequired={false}
             isDisabled={isDisabled}
             errorMessage={errors.isActive}

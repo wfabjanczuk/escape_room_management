@@ -36,6 +36,7 @@ func (app *application) setUserRoutes(router *httprouter.Router) *httprouter.Rou
 	router.HandlerFunc(http.MethodPost, v+"/signin", userController.SignIn)
 	router.HandlerFunc(http.MethodGet, v+"/users", userController.GetUsers)
 	router.HandlerFunc(http.MethodPost, v+"/users", userController.CreateUser)
+	router.HandlerFunc(http.MethodGet, v+"/users/:id", userController.GetUser)
 	router.HandlerFunc(http.MethodPut, v+"/users/:id", userController.UpdateUser)
 	router.HandlerFunc(http.MethodDelete, v+"/users/:id", userController.DeleteUser)
 

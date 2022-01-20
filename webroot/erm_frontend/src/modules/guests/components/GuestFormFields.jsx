@@ -78,7 +78,7 @@ const GuestFormFields = ({entityExists, isDisabled, onValueChange, formData, err
     />}
     <CheckboxField
         name='isActive'
-        displayName='Is account active'
+        displayName='Active'
         isRequired={false}
         isDisabled={isDisabled}
         errorMessage={errors.isActive}
