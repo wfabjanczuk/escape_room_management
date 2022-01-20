@@ -8,10 +8,12 @@ import (
 	"erm_backend/internal/repositories"
 	"erm_backend/internal/responses"
 	"fmt"
+	"github.com/julienschmidt/httprouter"
 	"github.com/pascaldekloe/jwt"
 	"golang.org/x/crypto/bcrypt"
 	"log"
 	"net/http"
+	"strconv"
 	"time"
 )
 
@@ -31,6 +33,19 @@ func NewUserController(logger *log.Logger, jwtSecret string, userRepository *rep
 		controller:     newController(logger),
 		jwtSecret:      jwtSecret,
 		userRepository: userRepository,
+	}
+}
+
+func (c *userController) GetUsers(w http.ResponseWriter, r *http.Request) {
+	users, err := c.userRepository.GetUsers()
+	if err != nil {
+		c.writeWrappedErrorJson(w, err, http.StatusInternalServerError)
+		return
+	}
+
+	err = c.writeWrappedJson(w, http.StatusOK, users, "users")
+	if err != nil {
+		c.logger.Println(err)
 	}
 }
 
@@ -88,6 +103,29 @@ func (c *userController) CreateUser(w http.ResponseWriter, r *http.Request) {
 
 func (c *userController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	c.handleSaveUser(w, r, true)
+}
+
+func (c *userController) DeleteUser(w http.ResponseWriter, r *http.Request) {
+	deleteError := &responses.DeleteError{}
+	params := httprouter.ParamsFromContext(r.Context())
+
+	id, err := strconv.Atoi(params.ByName("id"))
+	if err != nil {
+		c.writeWrappedErrorJson(w, err, http.StatusBadRequest)
+		return
+	}
+
+	c.userRepository.DeleteUser(id, deleteError)
+	if deleteError.ErrorsCount > 0 {
+		err = c.writeWrappedJson(w, deleteError.StatusCode, deleteError, "error")
+		if err != nil {
+			c.logger.Println(err)
+		}
+
+		return
+	}
+
+	c.writeEmptyResponse(w, http.StatusOK)
 }
 
 func (c *userController) handleSaveUser(w http.ResponseWriter, r *http.Request, parseId bool) {

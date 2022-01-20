@@ -22,6 +22,20 @@ func NewUserRepository(logger *log.Logger, db *gorm.DB) *UserRepository {
 	}
 }
 
+func (r *UserRepository) GetUser(id int) (models.User, error) {
+	var user models.User
+	result := r.db.First(&user, id)
+
+	return user, result.Error
+}
+
+func (r *UserRepository) GetUsers() ([]models.User, error) {
+	var users []models.User
+	result := r.db.Order("id asc").Find(&users)
+
+	return users, result.Error
+}
+
 func (r *UserRepository) GetActiveUserByEmail(email string) (models.User, error) {
 	var user models.User
 	result := r.db.Where("email = ? and is_active = ?", email, true).First(&user)
@@ -77,4 +91,36 @@ func (r *UserRepository) IsUserEmailValid(email string, id sql.NullInt64) bool {
 
 	result := query.Count(&userCount)
 	return result.Error == nil && userCount == 0
+}
+
+func (r *UserRepository) DeleteUser(id int, deleteError *responses.DeleteError) {
+	var guestCount int64
+	generalError := "Database error. Please try again later."
+
+	user, err := r.GetUser(id)
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			deleteError.AddError("Record not found.", http.StatusNotFound)
+		} else {
+			deleteError.AddError(generalError, http.StatusInternalServerError)
+		}
+		return
+	}
+
+	result := r.db.Model(&models.Guest{}).Where("user_id = ?", id).Count(&guestCount)
+	if result.Error != nil {
+		deleteError.AddError(generalError, http.StatusInternalServerError)
+		return
+	}
+
+	if guestCount > 0 {
+		deleteError.AddError("Delete guest associated with user instead.", http.StatusBadRequest)
+		return
+	}
+
+	result = r.db.Delete(&user)
+	if result.Error != nil {
+		deleteError.AddError(generalError, http.StatusInternalServerError)
+		return
+	}
 }

@@ -22,23 +22,25 @@ import SignIn from '../../users/views/SignIn';
 import SignUp from '../../users/views/SignUp';
 import ProfileDetails from '../../users/views/ProfileDetails';
 import ProfileEdit from '../../users/views/ProfileEdit';
+import Users from '../../users/views/Users';
 
 const AppRoutes = () => (<Routes>
     <Route path={ROUTES.home} element={<Home/>}/>
-    {getAuthenticationRoutes()}
     {getGuestRoutes()}
     {getTicketRoutes()}
     {getReservationRoutes()}
     {getRoomRoutes()}
+    {getUserRoutes()}
 </Routes>);
 
 export default AppRoutes;
 
-const getAuthenticationRoutes = () => (<React.Fragment>
+const getUserRoutes = () => (<React.Fragment>
     <Route path={ROUTES.users.signIn} element={<SignIn/>}/>
     <Route path={ROUTES.users.signUp} element={<SignUp/>}/>
     <Route path={ROUTES.users.profileDetails} element={<ProfileDetails/>}/>
     <Route path={ROUTES.users.profileEdit} element={<ProfileEdit/>}/>
+    <Route path={ROUTES.users.index} element={<Users/>}/>
 </React.Fragment>);
 
 const getGuestRoutes = () => (<React.Fragment>

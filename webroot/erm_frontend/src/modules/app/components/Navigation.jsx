@@ -10,6 +10,7 @@ const Navigation = () => {
             tickets: pathname.startsWith(ROUTES.tickets.index),
             reservations: pathname.startsWith(ROUTES.reservations.index),
             rooms: pathname.startsWith(ROUTES.rooms.index),
+            users: pathname.startsWith(ROUTES.users.index),
         };
 
     return <nav>
@@ -37,6 +38,11 @@ const Navigation = () => {
             <li>
                 <Link className={`hoverable ${isActive.rooms ? 'active' : ''}`} to={ROUTES.rooms.index}>
                     Rooms
+                </Link>
+            </li>
+            <li>
+                <Link className={`hoverable ${isActive.users ? 'active' : ''}`} to={ROUTES.users.index}>
+                    Users
                 </Link>
             </li>
         </ul>
