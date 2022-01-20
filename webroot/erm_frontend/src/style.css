@@ -4,6 +4,22 @@ html {
     font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
 }
 
+body,
+.root-frame {
+    display: flex;
+    justify-content: center;
+}
+
+.root-frame {
+    min-width: 360px;
+    max-width: 1440px;
+}
+
+.root-frame,
+.root-content {
+    flex-grow: 1;
+}
+
 .default-font,
 .default-font:hover {
     font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
@@ -11,10 +27,6 @@ html {
 
 .hoverable:hover {
     font-family: Candara, Calibri, Segoe, "Segoe UI", Optima, Arial, sans-serif;
-}
-
-body {
-    min-width: 360px;
 }
 
 p {
@@ -561,7 +573,7 @@ textarea {
 }
 
 @media all and (max-width: 440px) {
-    body {
+    .root-content {
         min-height: 100vh;
         display: flex;
         flex-direction: column;
