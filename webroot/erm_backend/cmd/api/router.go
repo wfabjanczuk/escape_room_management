@@ -34,6 +34,8 @@ func (app *application) setUserRoutes(router *httprouter.Router) *httprouter.Rou
 		repositories.NewUserRepository(app.logger, app.db),
 	)
 	router.HandlerFunc(http.MethodPost, v+"/signin", userController.SignIn)
+	router.HandlerFunc(http.MethodPost, v+"/users", userController.CreateUser)
+	router.HandlerFunc(http.MethodPut, v+"/users/:id", userController.UpdateUser)
 
 	return router
 }
@@ -48,7 +50,7 @@ func (app *application) setGuestRoutes(router *httprouter.Router) *httprouter.Ro
 	router.HandlerFunc(http.MethodPut, v+"/guests/:id", guestController.UpdateGuest)
 	router.HandlerFunc(http.MethodDelete, v+"/guests/:id", guestController.DeleteGuest)
 	router.HandlerFunc(http.MethodGet, v+"/guests/:id/tickets", guestController.GetGuestTickets)
-	router.HandlerFunc(http.MethodPost, v+"/signup", guestController.SignUp)
+	router.HandlerFunc(http.MethodPost, v+"/guests/signup", guestController.SignUp)
 
 	return router
 }

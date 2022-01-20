@@ -1,5 +1,6 @@
 import React from 'react';
 import InputField from '../../app/components/form/field/InputField';
+import CheckboxField from '../../app/components/form/field/CheckboxField';
 import * as PropTypes from 'prop-types';
 
 const UserFormFields = ({entityExists, isDisabled, isProfile, onValueChange, formData, errors}) => (<React.Fragment>
@@ -74,6 +75,18 @@ const UserFormFields = ({entityExists, isDisabled, isProfile, onValueChange, for
         value={formData.dateBirth}
         onChange={onValueChange}
     />
+    {isProfile
+        ? <input type='hidden' name='isActive' value='1'/>
+        : <CheckboxField
+            name='isActive'
+            displayName='Is active'
+            isRequired={false}
+            isDisabled={isDisabled}
+            errorMessage={errors.isActive}
+            defaultChecked={!!formData.isActive}
+            onChange={onValueChange}
+        />
+    }
 </React.Fragment>);
 
 UserFormFields.propTypes = {

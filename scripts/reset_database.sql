@@ -69,7 +69,7 @@ create table guests
     user_id          integer not null
         constraint guests_users_id_fk
             references users
-            on update restrict on delete restrict,
+            on update cascade on delete cascade,
     discount_percent integer
 );
 

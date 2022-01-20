@@ -3,8 +3,10 @@ package controllers
 import (
 	"encoding/json"
 	"erm_backend/internal/models"
+	"erm_backend/internal/parsers"
 	"erm_backend/internal/payloads"
 	"erm_backend/internal/repositories"
+	"erm_backend/internal/responses"
 	"fmt"
 	"github.com/pascaldekloe/jwt"
 	"golang.org/x/crypto/bcrypt"
@@ -75,6 +77,37 @@ func (c *userController) SignIn(w http.ResponseWriter, r *http.Request) {
 	}
 
 	err = c.writeWrappedJson(w, http.StatusOK, authenticatedUser, "result")
+	if err != nil {
+		c.logger.Println(err)
+	}
+}
+
+func (c *userController) CreateUser(w http.ResponseWriter, r *http.Request) {
+	c.handleSaveUser(w, r, false)
+}
+
+func (c *userController) UpdateUser(w http.ResponseWriter, r *http.Request) {
+	c.handleSaveUser(w, r, true)
+}
+
+func (c *userController) handleSaveUser(w http.ResponseWriter, r *http.Request, parseId bool) {
+	userErrors := &responses.UserErrors{}
+	user := parsers.ParseUserFromRequest(r, parseId, userErrors)
+
+	if userErrors.ErrorsCount == 0 {
+		user = c.userRepository.SaveUser(user, userErrors)
+	}
+
+	if userErrors.ErrorsCount > 0 {
+		err := c.writeWrappedJson(w, userErrors.StatusCode, userErrors, "error")
+		if err != nil {
+			c.logger.Println(err)
+		}
+
+		return
+	}
+
+	err := c.writeWrappedJson(w, http.StatusOK, user, "user")
 	if err != nil {
 		c.logger.Println(err)
 	}

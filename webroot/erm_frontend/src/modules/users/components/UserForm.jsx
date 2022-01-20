@@ -15,6 +15,7 @@ import getDeleteUserPromise from '../utils/getDeleteUserPromise';
 const getInitialFormData = (user) => {
     if (user) {
         return {
+            id: user.id,
             email: user.email,
             password: '',
             confirmPassword: '',
@@ -22,6 +23,7 @@ const getInitialFormData = (user) => {
             lastName: user.lastName,
             phoneNumber: user.phoneNumber,
             dateBirth: user.dateBirth,
+            isActive: !!user.isActive,
         };
     }
 
@@ -33,12 +35,13 @@ const getInitialFormData = (user) => {
         lastName: '',
         phoneNumber: '',
         dateBirth: '',
+        isActive: false,
     };
 };
 
 const getUrls = (user, entityExists, isDisabled, isProfile) => {
     if (isProfile) {
-        return getProfileUrls(user, entityExists, isDisabled);
+        return getProfileUrls(user, entityExists);
     }
 
     const apiUrl = entityExists
@@ -61,19 +64,16 @@ const getUrls = (user, entityExists, isDisabled, isProfile) => {
     };
 };
 
-const getProfileUrls = (user, entityExists, isDisabled) => {
+const getProfileUrls = (user, entityExists) => {
     const apiUrl = entityExists
             ? getRouteWithParams(ROUTES.api.user, {id: user.id})
             : ROUTES.api.signUp,
-        cancelUrl = entityExists
-            ? getRouteWithParams(ROUTES.users.profileDetails, {id: user.id})
-            : ROUTES.users.index,
         editUrl = entityExists
             ? getRouteWithParams(ROUTES.users.profileEdit, {id: user.id})
             : '',
-        redirectUrl = isDisabled
-            ? ROUTES.home
-            : cancelUrl;
+        redirectUrl = entityExists
+            ? getRouteWithParams(ROUTES.users.profileDetails, {id: user.id})
+            : ROUTES.users.signIn;
 
     return {
         api: apiUrl,
@@ -82,10 +82,18 @@ const getProfileUrls = (user, entityExists, isDisabled) => {
     };
 }
 
-const validateFormData = (formData, setErrors) => {
+const validateFormData = (entityExists, isProfile, formData, setErrors) => {
     const formValidator = NewFormValidator(formData);
 
-    formValidator.required(['email', 'password', 'confirmPassword', 'firstName', 'lastName', 'phoneNumber', 'dateBirth']);
+    formValidator.required(['email', 'firstName', 'lastName', 'phoneNumber', 'dateBirth']);
+
+    if (!entityExists) {
+        formValidator.required(['password']);
+
+        if (isProfile) {
+            formValidator.required(['confirmPassword']);
+        }
+    }
 
     formValidator.isAlpha(['firstName', 'lastName']);
     formValidator.isEmail(['email']);
@@ -124,7 +132,7 @@ const UserForm = ({user, isDisabled, isProfile, addSuccessMessage}) => {
             event.preventDefault();
             const submittedFormData = Object.fromEntries(new FormData(event.target));
 
-            if (validateFormData(submittedFormData, setErrors)) {
+            if (validateFormData(entityExists, isProfile, submittedFormData, setErrors)) {
                 delete submittedFormData.confirmPassword;
                 sendData(submittedFormData, urls.api, urls.redirect, entityExists, setErrors, addSuccessMessage, navigate, 'User');
             }
@@ -141,10 +149,8 @@ const UserForm = ({user, isDisabled, isProfile, addSuccessMessage}) => {
         />
         {isProfile
             ? <ProfileFooter
-                id={id}
                 entityExists={entityExists}
                 isDisabled={isDisabled}
-                getDeletePromise={getDeleteUserPromise}
                 editUrl={urls.edit}
                 redirectUrl={urls.redirect}
                 error={errors.general}
@@ -159,7 +165,6 @@ const UserForm = ({user, isDisabled, isProfile, addSuccessMessage}) => {
                 error={errors.general}
             />
         }
-
     </form>;
 }
 
