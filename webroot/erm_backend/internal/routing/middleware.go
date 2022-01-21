@@ -1,8 +1,8 @@
-package main
+package routing
 
 import "net/http"
 
-func (app *application) enableCors(next http.Handler) http.Handler {
+func (s *Service) enableCors(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
@@ -11,9 +11,9 @@ func (app *application) enableCors(next http.Handler) http.Handler {
 	})
 }
 
-func (app *application) checkJwt(next http.Handler) http.Handler {
+func (s *Service) authenticate(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if !app.authController.HandleAuthorization(w, r) {
+		if !s.controllersTable.Auth.HandleAuthentication(w, r) {
 			return
 		}
 

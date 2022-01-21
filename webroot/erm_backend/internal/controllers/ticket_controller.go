@@ -18,7 +18,7 @@ type ticketController struct {
 	guestRepository       *repositories.GuestRepository
 }
 
-func NewTicketController(logger *log.Logger, ticketRepository *repositories.TicketRepository, reservationRepository *repositories.ReservationRepository, guestRepository *repositories.GuestRepository) *ticketController {
+func newTicketController(logger *log.Logger, ticketRepository *repositories.TicketRepository, reservationRepository *repositories.ReservationRepository, guestRepository *repositories.GuestRepository) *ticketController {
 	return &ticketController{
 		controller:            newController(logger),
 		ticketRepository:      ticketRepository,

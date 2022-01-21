@@ -12,14 +12,12 @@ import (
 
 type userController struct {
 	controller
-	jwtSecret      string
 	userRepository *repositories.UserRepository
 }
 
-func NewUserController(logger *log.Logger, jwtSecret string, userRepository *repositories.UserRepository) *userController {
+func newUserController(logger *log.Logger, userRepository *repositories.UserRepository) *userController {
 	return &userController{
 		controller:     newController(logger),
-		jwtSecret:      jwtSecret,
 		userRepository: userRepository,
 	}
 }

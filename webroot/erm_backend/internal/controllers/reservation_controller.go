@@ -16,7 +16,7 @@ type reservationController struct {
 	roomRepository        *repositories.RoomRepository
 }
 
-func NewReservationController(logger *log.Logger, reservationRepository *repositories.ReservationRepository, roomRepository *repositories.RoomRepository) *reservationController {
+func newReservationController(logger *log.Logger, reservationRepository *repositories.ReservationRepository, roomRepository *repositories.RoomRepository) *reservationController {
 	return &reservationController{
 		controller:            newController(logger),
 		reservationRepository: reservationRepository,

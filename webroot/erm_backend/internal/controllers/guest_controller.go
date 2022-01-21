@@ -15,7 +15,7 @@ type guestController struct {
 	guestRepository *repositories.GuestRepository
 }
 
-func NewGuestController(logger *log.Logger, guestRepository *repositories.GuestRepository) *guestController {
+func newGuestController(logger *log.Logger, guestRepository *repositories.GuestRepository) *guestController {
 	return &guestController{
 		controller:      newController(logger),
 		guestRepository: guestRepository,

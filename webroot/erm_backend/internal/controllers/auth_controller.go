@@ -16,7 +16,7 @@ import (
 	"time"
 )
 
-type AuthController struct {
+type authController struct {
 	controller
 	userRepository *repositories.UserRepository
 	jwtSecret      string
@@ -27,15 +27,15 @@ type AuthenticatedUser struct {
 	Jwt  string      `json:"jwt"`
 }
 
-func NewAuthController(userRepository *repositories.UserRepository, jwtSecret string, logger *log.Logger) *AuthController {
-	return &AuthController{
+func newAuthController(userRepository *repositories.UserRepository, jwtSecret string, logger *log.Logger) *authController {
+	return &authController{
 		controller:     newController(logger),
 		userRepository: userRepository,
 		jwtSecret:      jwtSecret,
 	}
 }
 
-func (c *AuthController) SignIn(w http.ResponseWriter, r *http.Request) {
+func (c *authController) SignIn(w http.ResponseWriter, r *http.Request) {
 	var payload payloads.SignInPayload
 
 	err := json.NewDecoder(r.Body).Decode(&payload)
@@ -83,7 +83,7 @@ func (c *AuthController) SignIn(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (c *AuthController) HandleAuthorization(w http.ResponseWriter, r *http.Request) bool {
+func (c *authController) HandleAuthentication(w http.ResponseWriter, r *http.Request) bool {
 	w.Header().Add("Vary", "Authorization")
 
 	err := c.validateAuthorizationHeader(r.Header.Get("Authorization"))
@@ -94,7 +94,7 @@ func (c *AuthController) HandleAuthorization(w http.ResponseWriter, r *http.Requ
 	return err == nil
 }
 
-func (c *AuthController) validateAuthorizationHeader(authorizationHeader string) error {
+func (c *authController) validateAuthorizationHeader(authorizationHeader string) error {
 	headerParts := strings.Split(authorizationHeader, " ")
 
 	if len(headerParts) != 2 {

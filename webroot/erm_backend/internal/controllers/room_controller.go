@@ -15,7 +15,7 @@ type roomController struct {
 	roomRepository *repositories.RoomRepository
 }
 
-func NewRoomController(logger *log.Logger, roomRepository *repositories.RoomRepository) *roomController {
+func newRoomController(logger *log.Logger, roomRepository *repositories.RoomRepository) *roomController {
 	return &roomController{
 		controller:     newController(logger),
 		roomRepository: roomRepository,

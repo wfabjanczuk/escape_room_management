@@ -16,7 +16,7 @@ type ReservationRepository struct {
 	repository
 }
 
-func NewReservationRepository(logger *log.Logger, db *gorm.DB) *ReservationRepository {
+func newReservationRepository(logger *log.Logger, db *gorm.DB) *ReservationRepository {
 	return &ReservationRepository{
 		repository{
 			logger: logger,

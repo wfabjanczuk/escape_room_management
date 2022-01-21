@@ -11,7 +11,7 @@ type statusController struct {
 	version string
 }
 
-func NewStatusController(logger *log.Logger, name string, version string) *statusController {
+func newStatusController(logger *log.Logger, name string, version string) *statusController {
 	return &statusController{
 		controller: newController(logger),
 		name:       name,

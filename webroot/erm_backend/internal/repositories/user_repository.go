@@ -13,7 +13,7 @@ type UserRepository struct {
 	repository
 }
 
-func NewUserRepository(logger *log.Logger, db *gorm.DB) *UserRepository {
+func newUserRepository(logger *log.Logger, db *gorm.DB) *UserRepository {
 	return &UserRepository{
 		repository{
 			logger: logger,

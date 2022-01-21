@@ -14,7 +14,7 @@ type TicketRepository struct {
 	repository
 }
 
-func NewTicketRepository(logger *log.Logger, db *gorm.DB) *TicketRepository {
+func newTicketRepository(logger *log.Logger, db *gorm.DB) *TicketRepository {
 	return &TicketRepository{
 		repository{
 			logger: logger,

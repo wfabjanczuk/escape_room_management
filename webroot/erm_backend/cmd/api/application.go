@@ -3,6 +3,7 @@ package main
 import (
 	"erm_backend/internal/controllers"
 	"erm_backend/internal/repositories"
+	"erm_backend/internal/routing"
 	"fmt"
 	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
@@ -22,33 +23,37 @@ type config struct {
 }
 
 type application struct {
-	config         config
-	authController *controllers.AuthController
-	logger         *log.Logger
-	db             *gorm.DB
+	config            config
+	db                *gorm.DB
+	logger            *log.Logger
+	routingService    *routing.Service
+	repositoriesTable repositories.Table
+	controllersTable  controllers.Table
 }
 
 func newApplication() *application {
-	cfg := getConfigFromEnv()
 	logger := log.New(os.Stdout, "", log.Ldate|log.Ltime)
+	cfg := getConfigFromEnv()
 	db := openLocalDbConnection(cfg.dsn)
 
+	repositoriesTable := repositories.NewTable(logger, db)
+	controllersTable := controllers.NewTable(repositoriesTable, logger, cfg.jwtSecret, apiName, apiVersion)
+	routingService := routing.NewService(controllersTable)
+
 	return &application{
-		authController: controllers.NewAuthController(
-			repositories.NewUserRepository(logger, db),
-			cfg.jwtSecret,
-			logger,
-		),
-		config: cfg,
-		logger: logger,
-		db:     db,
+		config:            cfg,
+		db:                db,
+		logger:            logger,
+		repositoriesTable: repositoriesTable,
+		controllersTable:  controllersTable,
+		routingService:    routingService,
 	}
 }
 
 func (app *application) start() {
 	srv := &http.Server{
 		Addr:         fmt.Sprintf(":%d", app.config.port),
-		Handler:      app.getRouter(),
+		Handler:      app.routingService.GetHandler(),
 		IdleTimeout:  time.Minute,
 		ReadTimeout:  10 * time.Second,
 		WriteTimeout: 30 * time.Second,
