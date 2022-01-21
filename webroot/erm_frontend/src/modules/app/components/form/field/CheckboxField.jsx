@@ -5,7 +5,7 @@ import * as PropTypes from 'prop-types';
 
 const CheckboxField = ({name, displayName, isRequired, isDisabled, errorMessage, defaultChecked, onChange}) => {
     return <React.Fragment>
-        <Label name={name} displayName={displayName} isRequired={isRequired}/>
+        <Label name={name} displayName={displayName} isRequired={isRequired} isDisabled={isDisabled}/>
         <div className='form__field form__field--checkbox'>
             <input
                 type='checkbox'

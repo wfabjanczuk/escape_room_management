@@ -11,6 +11,7 @@ const ListingActions = (
         id,
         route,
         getDeletePromise,
+        currentUser,
         addSuccessMessage,
         addErrorMessage,
         increaseChangeCounter
@@ -25,16 +26,20 @@ const ListingActions = (
                 Details
             </Link>
         </li>
-        <li className='action'>
-            <Link className='button button--warning hoverable' to={getRouteWithParams(route.edit, {id: id})}>
-                Edit
-            </Link>
-        </li>
-        <li className='action'>
-            <div className='button button--danger hoverable' onClick={onDelete}>
-                Delete
-            </div>
-        </li>
+        {currentUser &&
+            <React.Fragment>
+                <li className='action'>
+                    <Link className='button button--warning hoverable' to={getRouteWithParams(route.edit, {id: id})}>
+                        Edit
+                    </Link>
+                </li>
+                <li className='action'>
+                    <div className='button button--danger hoverable' onClick={onDelete}>
+                        Delete
+                    </div>
+                </li>
+            </React.Fragment>
+        }
     </ul>;
 };
 
@@ -42,10 +47,15 @@ ListingActions.propTypes = {
     id: PropTypes.number,
     route: PropTypes.object,
     getDeletePromise: PropTypes.func,
+    currentUser: PropTypes.object,
     addSuccessMessage: PropTypes.func,
     addErrorMessage: PropTypes.func,
     increaseChangeCounter: PropTypes.func,
 };
+
+const mapStateToProps = (state) => ({
+    currentUser: state.user.currentUser,
+});
 
 const mapDispatchToProps = (dispatch) => ({
     addSuccessMessage: (content) => dispatch(addSuccessMessage(content)),
@@ -53,4 +63,4 @@ const mapDispatchToProps = (dispatch) => ({
     increaseChangeCounter: () => dispatch(increaseChangeCounter()),
 });
 
-export default connect(null, mapDispatchToProps)(ListingActions);
+export default connect(mapStateToProps, mapDispatchToProps)(ListingActions);

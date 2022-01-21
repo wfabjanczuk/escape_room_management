@@ -14,13 +14,22 @@ const EntityFormFooter = (
         isDisabled,
         getDeletePromise,
         error,
+        extraButtons,
+        currentUser,
         addSuccessMessage,
         addErrorMessage,
         increaseChangeCounter,
-        extraButtons,
     }
 ) => {
     const navigate = useNavigate();
+
+    if (!currentUser) {
+        return <div className='form__footer'>
+            <Link className='button button--primary hoverable' to={redirectUrl}>
+                Return to list
+            </Link>
+        </div>;
+    }
 
     if (isDisabled) {
         const onDelete = () => getDeletePromise(id, addSuccessMessage, addErrorMessage)
@@ -55,11 +64,16 @@ EntityFormFooter.propTypes = {
     isDisabled: PropTypes.bool,
     getDeletePromise: PropTypes.func,
     error: PropTypes.string,
+    extraButtons: PropTypes.node,
+    currentUser: PropTypes.object,
     addSuccessMessage: PropTypes.func,
     addErrorMessage: PropTypes.func,
     increaseChangeCounter: PropTypes.func,
-    extraButtons: PropTypes.node,
 };
+
+const mapStateToProps = (state) => ({
+    currentUser: state.user.currentUser,
+});
 
 const mapDispatchToProps = (dispatch) => ({
     addSuccessMessage: (content) => dispatch(addSuccessMessage(content)),
@@ -67,4 +81,4 @@ const mapDispatchToProps = (dispatch) => ({
     increaseChangeCounter: () => dispatch(increaseChangeCounter()),
 });
 
-export default connect(null, mapDispatchToProps)(EntityFormFooter);
+export default connect(mapStateToProps, mapDispatchToProps)(EntityFormFooter);

@@ -1,15 +1,16 @@
 import React from 'react';
 import * as PropTypes from 'prop-types';
 
-const Label = ({name, displayName, isRequired}) => (<label htmlFor={name}>
+const Label = ({name, displayName, isRequired, isDisabled}) => (<label htmlFor={name}>
     {`${displayName}: `}
-    {isRequired && <span className='form__symbol-required'>*</span>}
+    {!isDisabled && isRequired && <span className='form__symbol-required'>*</span>}
 </label>);
 
 Label.propTypes = {
     name: PropTypes.string,
     displayName: PropTypes.string,
     isRequired: PropTypes.bool,
+    isDisabled: PropTypes.bool,
 };
 
 

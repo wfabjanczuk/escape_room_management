@@ -17,7 +17,7 @@ const SelectField = (
     }
 ) => {
     return <React.Fragment>
-        <Label name={name} displayName={displayName} isRequired={isRequired}/>
+        <Label name={name} displayName={displayName} isRequired={isRequired} isDisabled={isDisabled}/>
         <select
             className={`form__field ${errorMessage ? 'form__field--error' : ''}`}
             name={name}

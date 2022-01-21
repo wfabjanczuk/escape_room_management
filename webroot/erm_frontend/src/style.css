@@ -189,8 +189,14 @@ main h2 {
     border: 1px solid #5983c6;
 }
 
+.button.button--authentication.active {
+    background-color: #daefff;
+    color: #041c44;
+}
+
 .button.button--authentication:hover {
-    background-color: #658CCA;
+    background-color: #D6FF79;
+    color: #041c44;
 }
 
 .button.button--secondary {
@@ -485,17 +491,13 @@ textarea {
     }
 
     nav ul {
-        justify-content: center;
+        justify-content: flex-start;
         flex-wrap: wrap;
     }
 
     nav ul li {
         flex-basis: 50%;
         text-align: center;
-    }
-
-    nav ul li:first-child {
-        flex-basis: 100%;
     }
 
     nav ul li a {

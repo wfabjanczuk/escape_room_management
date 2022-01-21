@@ -5,7 +5,7 @@ import * as PropTypes from 'prop-types';
 
 const ReadOnlyField = ({name, displayName, value}) => {
     return <React.Fragment>
-        <Label name={name} displayName={displayName} isRequired={false}/>
+        <Label name={name} displayName={displayName} isRequired={false} isDisabled={true}/>
         <input
             className='form__field'
             type='text'

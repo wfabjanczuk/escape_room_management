@@ -5,7 +5,7 @@ import * as PropTypes from 'prop-types';
 
 const InputField = ({name, displayName, isRequired, isDisabled, type, errorMessage, value, onChange}) => {
     return <React.Fragment>
-        <Label name={name} displayName={displayName} isRequired={isRequired}/>
+        <Label name={name} displayName={displayName} isRequired={isRequired} isDisabled={isDisabled}/>
         <input
             className={`form__field ${errorMessage ? 'form__field--error' : ''}`}
             type={type}

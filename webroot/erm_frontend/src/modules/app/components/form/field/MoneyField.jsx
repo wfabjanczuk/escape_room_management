@@ -18,7 +18,7 @@ const MoneyField = ({name, displayName, isRequired, isDisabled, errorMessage, va
     }, [name, value, forceValueChange]);
 
     return <React.Fragment>
-        <Label name={name} displayName={displayName} isRequired={isRequired}/>
+        <Label name={name} displayName={displayName} isRequired={isRequired} isDisabled={isDisabled}/>
         <input
             type='number'
             step='0.01'

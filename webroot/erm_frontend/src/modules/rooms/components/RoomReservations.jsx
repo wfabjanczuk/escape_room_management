@@ -13,7 +13,11 @@ const roomReservationColumns = [
     {key: 'totalPrice', name: 'Total price', render: (r) => parseFloat(r.totalPrice).toFixed(2)},
 ];
 
-const RoomReservations = ({id, changeCounter}) => {
+const RoomReservations = ({id, currentUser, changeCounter}) => {
+    if (!currentUser) {
+        return null;
+    }
+
     const [state, setState] = useState({
         reservations: [],
         isLoading: true,
@@ -74,10 +78,12 @@ const RoomReservations = ({id, changeCounter}) => {
 
 RoomReservations.propTypes = {
     id: PropTypes.number,
+    currentUser: PropTypes.object,
     changeCounter: PropTypes.number,
 };
 
 const mapStateToProps = (state) => ({
+    currentUser: state.user.currentUser,
     changeCounter: state.change.counter,
 });
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import {Link, useLocation, useNavigate} from 'react-router-dom';
 import {logOutCurrentUser} from '../redux/user/userActions';
 import {connect} from 'react-redux';
 import * as PropTypes from 'prop-types';
@@ -7,6 +7,12 @@ import ROUTES from '../constants/routes';
 
 const Header = ({currentUser, logOut}) => {
     const navigate = useNavigate(),
+        {pathname} = useLocation(),
+        isActive = {
+            profileDetails: pathname.startsWith(ROUTES.users.profileDetails),
+            signIn: pathname.startsWith(ROUTES.users.signIn),
+            signUp: pathname.startsWith(ROUTES.users.signUp),
+        },
         onLogOutClick = () => {
             logOut();
             navigate(ROUTES.users.signIn);
@@ -19,19 +25,24 @@ const Header = ({currentUser, logOut}) => {
                 ? <div className='authentication authentication--wrap'>
                     <p>Hello {currentUser.firstName}!</p>
                     <div className='authentication'>
-                        <Link className='button button--authentication' to={ROUTES.users.profileDetails}>
+                        <Link
+                            className={`button button--authentication hoverable ${isActive.profileDetails ? 'active' : ''}`}
+                            to={ROUTES.users.profileDetails}
+                        >
                             Profile
                         </Link>
-                        <button className='button button--authentication' onClick={onLogOutClick}>
+                        <button className='button button--authentication hoverable' onClick={onLogOutClick}>
                             Log out
                         </button>
                     </div>
                 </div>
                 : <div className='authentication'>
-                    <Link className='button button--authentication' to={ROUTES.users.signIn}>
+                    <Link className={`button button--authentication hoverable ${isActive.signIn ? 'active' : ''}`}
+                          to={ROUTES.users.signIn}>
                         Sign in
                     </Link>
-                    <Link className='button button--authentication' to={ROUTES.users.signUp}>
+                    <Link className={`button button--authentication hoverable ${isActive.signUp ? 'active' : ''}`}
+                          to={ROUTES.users.signUp}>
                         Sign up
                     </Link>
                 </div>
