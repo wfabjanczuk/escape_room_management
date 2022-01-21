@@ -4,7 +4,7 @@ import NewFormValidator from '../../app/utils/FormValidator';
 import Footer from '../../app/components/form/EntityFormFooter';
 import GuestFormFields from './GuestFormFields';
 import ROUTES, {getRouteWithParams} from '../../app/constants/routes';
-import {addSuccessMessage} from '../../redux/flash/flashActions';
+import {addSuccessMessage} from '../../app/redux/flash/flashActions';
 import {connect} from 'react-redux';
 import {Link, useNavigate} from 'react-router-dom';
 import {get as _get} from 'lodash';

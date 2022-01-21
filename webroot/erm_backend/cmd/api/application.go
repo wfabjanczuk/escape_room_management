@@ -1,6 +1,8 @@
 package main
 
 import (
+	"erm_backend/internal/controllers"
+	"erm_backend/internal/repositories"
 	"fmt"
 	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
@@ -13,27 +15,33 @@ import (
 )
 
 type config struct {
-	port int
-	env  string
-	dsn  string
-	jwt  struct {
-		secret string
-	}
+	port      int
+	env       string
+	dsn       string
+	jwtSecret string
 }
 
 type application struct {
-	config config
-	logger *log.Logger
-	db     *gorm.DB
+	config         config
+	authController *controllers.AuthController
+	logger         *log.Logger
+	db             *gorm.DB
 }
 
 func newApplication() *application {
 	cfg := getConfigFromEnv()
+	logger := log.New(os.Stdout, "", log.Ldate|log.Ltime)
+	db := openLocalDbConnection(cfg.dsn)
 
 	return &application{
+		authController: controllers.NewAuthController(
+			repositories.NewUserRepository(logger, db),
+			cfg.jwtSecret,
+			logger,
+		),
 		config: cfg,
-		logger: log.New(os.Stdout, "", log.Ldate|log.Ltime),
-		db:     openLocalDbConnection(cfg.dsn),
+		logger: logger,
+		db:     db,
 	}
 }
 
@@ -77,8 +85,8 @@ func getConfigFromEnv() config {
 		cfg.env = "development"
 	}
 
-	cfg.jwt.secret = os.Getenv("JWT_SECRET")
-	if cfg.jwt.secret == "" {
+	cfg.jwtSecret = os.Getenv("JWT_SECRET")
+	if cfg.jwtSecret == "" {
 		log.Fatal("Error loading JWT_SECRET from .env file")
 	}
 

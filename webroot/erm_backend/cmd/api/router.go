@@ -1,9 +1,11 @@
 package main
 
 import (
+	"context"
 	"erm_backend/internal/controllers"
 	"erm_backend/internal/repositories"
 	"github.com/julienschmidt/httprouter"
+	"github.com/justinas/alice"
 	"net/http"
 )
 
@@ -11,9 +13,11 @@ const v = "/v1"
 
 func (app *application) getRouter() http.Handler {
 	router := httprouter.New()
+	secure := alice.New(app.checkJwt)
 
 	app.setStatusRoutes(router)
-	app.setUserRoutes(router)
+	app.setAuthRoutes(router)
+	app.setUserRoutes(router, secure)
 	app.setGuestRoutes(router)
 	app.setTicketRoutes(router)
 	app.setReservationRoutes(router)
@@ -29,12 +33,20 @@ func (app *application) setStatusRoutes(router *httprouter.Router) *httprouter.R
 	return router
 }
 
-func (app *application) setUserRoutes(router *httprouter.Router) *httprouter.Router {
-	userController := controllers.NewUserController(app.logger, app.config.jwt.secret,
+func (app *application) setAuthRoutes(router *httprouter.Router) *httprouter.Router {
+	router.HandlerFunc(http.MethodPost, v+"/signin", app.authController.SignIn)
+
+	return router
+}
+
+func (app *application) setUserRoutes(router *httprouter.Router, secureChain alice.Chain) *httprouter.Router {
+	userController := controllers.NewUserController(app.logger, app.config.jwtSecret,
 		repositories.NewUserRepository(app.logger, app.db),
 	)
-	router.HandlerFunc(http.MethodPost, v+"/signin", userController.SignIn)
-	router.HandlerFunc(http.MethodGet, v+"/users", userController.GetUsers)
+
+	//router.HandlerFunc(http.MethodGet, v+"/users", userController.GetUsers)
+	router.GET(v+"/users", app.wrapHandler(secureChain.ThenFunc(userController.GetUsers)))
+
 	router.HandlerFunc(http.MethodPost, v+"/users", userController.CreateUser)
 	router.HandlerFunc(http.MethodGet, v+"/users/:id", userController.GetUser)
 	router.HandlerFunc(http.MethodPut, v+"/users/:id", userController.UpdateUser)
@@ -101,4 +113,11 @@ func (app *application) setRoomRoutes(router *httprouter.Router) *httprouter.Rou
 	router.HandlerFunc(http.MethodGet, v+"/rooms/:id/reservations", roomController.GetRoomReservations)
 
 	return router
+}
+
+func (app *application) wrapHandler(next http.Handler) httprouter.Handle {
+	return func(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
+		ctx := context.WithValue(r.Context(), "params", params)
+		next.ServeHTTP(w, r.WithContext(ctx))
+	}
 }

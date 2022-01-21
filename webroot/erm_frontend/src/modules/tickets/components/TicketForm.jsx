@@ -7,11 +7,11 @@ import getDeleteTicketPromise from '../utils/getDeleteTicketPromise';
 import NewFormValidator from '../../app/utils/FormValidator';
 import {sendData} from '../../app/utils/form';
 import * as PropTypes from 'prop-types';
-import {addSuccessMessage} from '../../redux/flash/flashActions';
+import {addSuccessMessage} from '../../app/redux/flash/flashActions';
 import {connect} from 'react-redux';
 import TicketFormFields from './TicketFormFields';
 import axios from 'axios';
-import {increaseChangeCounter} from '../../redux/change/changeActions';
+import {increaseChangeCounter} from '../../app/redux/change/changeActions';
 
 const getInitialFormData = (ticket) => {
     return {

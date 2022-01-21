@@ -3,8 +3,8 @@ import {Link} from 'react-router-dom';
 import * as PropTypes from 'prop-types';
 import {getRouteWithParams} from '../../constants/routes';
 import {connect} from 'react-redux';
-import {addErrorMessage, addSuccessMessage} from '../../../redux/flash/flashActions';
-import {increaseChangeCounter} from '../../../redux/change/changeActions';
+import {addErrorMessage, addSuccessMessage} from '../../redux/flash/flashActions';
+import {increaseChangeCounter} from '../../redux/change/changeActions';
 
 const ListingActions = (
     {

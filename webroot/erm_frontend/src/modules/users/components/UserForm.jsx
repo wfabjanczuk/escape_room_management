@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import NewFormValidator from '../../app/utils/FormValidator';
 import UserFormFields from './UserFormFields';
-import {addSuccessMessage} from '../../redux/flash/flashActions';
+import {addSuccessMessage} from '../../app/redux/flash/flashActions';
 import {connect} from 'react-redux';
 import {sendData} from '../../app/utils/form';
 import * as PropTypes from 'prop-types';

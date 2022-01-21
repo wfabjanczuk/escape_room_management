@@ -6,7 +6,7 @@ import * as PropTypes from 'prop-types';
 const ProfileEdit = ({currentUser}) => {
     return <React.Fragment>
         <h2>Edit profile</h2>
-        <UserForm user={currentUser.user} isProfile={true} isDisabled={false}/>
+        <UserForm user={currentUser} isProfile={true} isDisabled={false}/>
     </React.Fragment>;
 }
 

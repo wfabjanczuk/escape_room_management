@@ -1,26 +1,14 @@
 package controllers
 
 import (
-	"encoding/json"
-	"erm_backend/internal/models"
 	"erm_backend/internal/parsers"
-	"erm_backend/internal/payloads"
 	"erm_backend/internal/repositories"
 	"erm_backend/internal/responses"
-	"fmt"
 	"github.com/julienschmidt/httprouter"
-	"github.com/pascaldekloe/jwt"
-	"golang.org/x/crypto/bcrypt"
 	"log"
 	"net/http"
 	"strconv"
-	"time"
 )
-
-type AuthenticatedUser struct {
-	User models.User `json:"user"`
-	Jwt  []byte      `json:"jwt"`
-}
 
 type userController struct {
 	controller
@@ -65,54 +53,6 @@ func (c *userController) GetUsers(w http.ResponseWriter, r *http.Request) {
 	}
 
 	err = c.writeWrappedJson(w, http.StatusOK, users, "users")
-	if err != nil {
-		c.logger.Println(err)
-	}
-}
-
-func (c *userController) SignIn(w http.ResponseWriter, r *http.Request) {
-	var payload payloads.SignInPayload
-
-	err := json.NewDecoder(r.Body).Decode(&payload)
-	if err != nil {
-		c.writeWrappedErrorJson(w, err, http.StatusBadRequest)
-		return
-	}
-
-	user, err := c.userRepository.GetActiveUserByEmail(payload.Email)
-	if err != nil {
-		c.writeWrappedErrorJson(w, err, http.StatusBadRequest)
-		return
-	}
-
-	hashedPassword := user.Password
-	err = bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(payload.Password))
-	if err != nil {
-		c.writeWrappedErrorJson(w, err, http.StatusBadRequest)
-		return
-	}
-
-	var claims jwt.Claims
-	claims.Subject = fmt.Sprint(user.ID)
-	claims.Issued = jwt.NewNumericTime(time.Now())
-	claims.NotBefore = jwt.NewNumericTime(time.Now())
-	claims.Expires = jwt.NewNumericTime(time.Now().Add(24 * time.Hour))
-	claims.Issuer = "erm.com"
-	claims.Audiences = []string{"erm.com"}
-
-	jwtBytes, err := claims.HMACSign(jwt.HS256, []byte(c.jwtSecret))
-	if err != nil {
-		c.writeWrappedErrorJson(w, err, http.StatusBadRequest)
-		return
-	}
-
-	user.Password = ""
-	var authenticatedUser = &AuthenticatedUser{
-		User: user,
-		Jwt:  jwtBytes,
-	}
-
-	err = c.writeWrappedJson(w, http.StatusOK, authenticatedUser, "result")
 	if err != nil {
 		c.logger.Println(err)
 	}

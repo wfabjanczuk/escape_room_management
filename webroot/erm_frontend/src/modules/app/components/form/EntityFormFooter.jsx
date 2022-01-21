@@ -1,8 +1,8 @@
 import React from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import * as PropTypes from 'prop-types';
-import {addErrorMessage, addSuccessMessage} from '../../../redux/flash/flashActions';
-import {increaseChangeCounter} from '../../../redux/change/changeActions';
+import {addErrorMessage, addSuccessMessage} from '../../redux/flash/flashActions';
+import {increaseChangeCounter} from '../../redux/change/changeActions';
 import {connect} from 'react-redux';
 
 const EntityFormFooter = (

@@ -1,5 +1,6 @@
 const INITIAL_STATE = {
-    currentUser: null
+    currentUser: null,
+    authorizationHeader: '',
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -7,13 +8,11 @@ const userReducer = (state = INITIAL_STATE, action) => {
         case 'SET_CURRENT_USER':
             return {
                 ...state,
-                currentUser: action.payload,
+                currentUser: action.payload.user,
+                authorizationHeader: 'Bearer ' + action.payload.jwt,
             };
         case 'LOG_OUT_CURRENT_USER':
-            return {
-                ...state,
-                currentUser: null,
-            };
+            return INITIAL_STATE;
         default:
             return state;
     }

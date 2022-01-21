@@ -12,7 +12,7 @@ const userColumns = [
     {key: 'isActive', name: 'Active', isExtra: false, render: (u) => u.isActive ? 'Yes' : 'No'},
 ];
 
-const Users = ({changeCounter}) => {
+const Users = ({changeCounter, authorizationHeader}) => {
     const [state, setState] = useState({
         users: [],
         isLoading: true,
@@ -20,7 +20,12 @@ const Users = ({changeCounter}) => {
     });
 
     useEffect(() => {
-            axios.get(ROUTES.api.users)
+            axios.get(ROUTES.api.users, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': authorizationHeader,
+                },
+            })
                 .then(
                     (response) => setState({
                         users: response.data.users,
@@ -55,10 +60,12 @@ const Users = ({changeCounter}) => {
 
 Users.propTypes = {
     changeCounter: PropTypes.number,
+    authorizationHeader: PropTypes.string,
 };
 
 const mapStateToProps = (state) => ({
     changeCounter: state.change.counter,
+    authorizationHeader: state.user.authorizationHeader,
 });
 
 export default connect(mapStateToProps)(Users);

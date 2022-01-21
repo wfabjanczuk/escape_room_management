@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
 import NewFormValidator from '../../app/utils/FormValidator';
 import SignInFormFields from './SignInFormFields';
-import {addSuccessMessage} from '../../redux/flash/flashActions';
+import {addSuccessMessage} from '../../app/redux/flash/flashActions';
 import {connect} from 'react-redux';
 import axios from 'axios';
 import {get as _get} from 'lodash';
 import ROUTES from '../../app/constants/routes';
-import {setCurrentUser} from '../../redux/user/userActions';
+import {setCurrentUser} from '../../app/redux/user/userActions';
 import * as PropTypes from 'prop-types';
 import {useNavigate} from 'react-router-dom';
 import SignInFormFooter from './SignInFormFooter';

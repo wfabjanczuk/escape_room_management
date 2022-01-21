@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link, useNavigate} from 'react-router-dom';
-import {logOutCurrentUser} from '../../redux/user/userActions';
+import {logOutCurrentUser} from '../redux/user/userActions';
 import {connect} from 'react-redux';
 import * as PropTypes from 'prop-types';
 import ROUTES from '../constants/routes';
@@ -17,7 +17,7 @@ const Header = ({currentUser, logOut}) => {
             <h1><Link className='hoverable' to='/'>Escape Room Management</Link></h1>
             {currentUser
                 ? <div className='authentication authentication--wrap'>
-                    <p>Hello {currentUser.user.firstName}!</p>
+                    <p>Hello {currentUser.firstName}!</p>
                     <div className='authentication'>
                         <Link className='button button--authentication' to={ROUTES.users.profileDetails}>
                             Profile
