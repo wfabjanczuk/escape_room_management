@@ -28,48 +28,49 @@ func (s *Service) setAuthRoutes() {
 
 func (s *Service) setUserRoutes() {
 	s.router.GET(v+"/users", s.withAuthentication(s.controllersTable.User.GetUsers))
-
-	s.router.HandlerFunc(http.MethodPost, v+"/users", s.controllersTable.User.CreateUser)
-	s.router.HandlerFunc(http.MethodGet, v+"/users/:id", s.controllersTable.User.GetUser)
-	s.router.HandlerFunc(http.MethodPut, v+"/users/:id", s.controllersTable.User.UpdateUser)
-	s.router.HandlerFunc(http.MethodDelete, v+"/users/:id", s.controllersTable.User.DeleteUser)
-	s.router.HandlerFunc(http.MethodGet, v+"/users/:id/guest", s.controllersTable.User.GetUserGuest)
+	s.router.POST(v+"/users", s.withAuthentication(s.controllersTable.User.CreateUser))
+	s.router.GET(v+"/users/:id", s.withAuthentication(s.controllersTable.User.GetUser))
+	s.router.PUT(v+"/users/:id", s.withAuthentication(s.controllersTable.User.UpdateUser))
+	s.router.DELETE(v+"/users/:id", s.withAuthentication(s.controllersTable.User.DeleteUser))
+	s.router.GET(v+"/users/:id/guest", s.withAuthentication(s.controllersTable.User.GetUserGuest))
 }
 
 func (s *Service) setGuestRoutes() {
-	s.router.HandlerFunc(http.MethodGet, v+"/guests", s.controllersTable.Guest.GetGuests)
-	s.router.HandlerFunc(http.MethodPost, v+"/guests", s.controllersTable.Guest.CreateGuest)
-	s.router.HandlerFunc(http.MethodGet, v+"/guests/:id", s.controllersTable.Guest.GetGuest)
-	s.router.HandlerFunc(http.MethodPut, v+"/guests/:id", s.controllersTable.Guest.UpdateGuest)
-	s.router.HandlerFunc(http.MethodDelete, v+"/guests/:id", s.controllersTable.Guest.DeleteGuest)
-	s.router.HandlerFunc(http.MethodGet, v+"/guests/:id/tickets", s.controllersTable.Guest.GetGuestTickets)
+	s.router.GET(v+"/guests", s.withAuthentication(s.controllersTable.Guest.GetGuests))
+	s.router.POST(v+"/guests", s.withAuthentication(s.controllersTable.Guest.CreateGuest))
+	s.router.GET(v+"/guests/:id", s.withAuthentication(s.controllersTable.Guest.GetGuest))
+	s.router.PUT(v+"/guests/:id", s.withAuthentication(s.controllersTable.Guest.UpdateGuest))
+	s.router.DELETE(v+"/guests/:id", s.withAuthentication(s.controllersTable.Guest.DeleteGuest))
+	s.router.GET(v+"/guests/:id/tickets", s.withAuthentication(s.controllersTable.Guest.GetGuestTickets))
+
 	s.router.HandlerFunc(http.MethodPost, v+"/guests/signup", s.controllersTable.Guest.SignUp)
 }
 
 func (s *Service) setTicketRoutes() {
-	s.router.HandlerFunc(http.MethodGet, v+"/tickets", s.controllersTable.Ticket.GetTickets)
-	s.router.HandlerFunc(http.MethodPost, v+"/tickets", s.controllersTable.Ticket.CreateTicket)
-	s.router.HandlerFunc(http.MethodGet, v+"/tickets/:id", s.controllersTable.Ticket.GetTicket)
-	s.router.HandlerFunc(http.MethodPut, v+"/tickets/:id", s.controllersTable.Ticket.UpdateTicket)
-	s.router.HandlerFunc(http.MethodDelete, v+"/tickets/:id", s.controllersTable.Ticket.DeleteTicket)
+	s.router.GET(v+"/tickets", s.withAuthentication(s.controllersTable.Ticket.GetTickets))
+	s.router.POST(v+"/tickets", s.withAuthentication(s.controllersTable.Ticket.CreateTicket))
+	s.router.GET(v+"/tickets/:id", s.withAuthentication(s.controllersTable.Ticket.GetTicket))
+	s.router.PUT(v+"/tickets/:id", s.withAuthentication(s.controllersTable.Ticket.UpdateTicket))
+	s.router.DELETE(v+"/tickets/:id", s.withAuthentication(s.controllersTable.Ticket.DeleteTicket))
 }
 
 func (s *Service) setReservationRoutes() {
-	s.router.HandlerFunc(http.MethodGet, v+"/reservations", s.controllersTable.Reservation.GetReservations)
-	s.router.HandlerFunc(http.MethodPost, v+"/reservations", s.controllersTable.Reservation.CreateReservation)
-	s.router.HandlerFunc(http.MethodGet, v+"/reservations/:id", s.controllersTable.Reservation.GetReservation)
-	s.router.HandlerFunc(http.MethodPut, v+"/reservations/:id", s.controllersTable.Reservation.UpdateReservation)
-	s.router.HandlerFunc(http.MethodDelete, v+"/reservations/:id", s.controllersTable.Reservation.DeleteReservation)
-	s.router.HandlerFunc(http.MethodGet, v+"/reservations/:id/tickets", s.controllersTable.Reservation.GetReservationTickets)
+	s.router.GET(v+"/reservations", s.withAuthentication(s.controllersTable.Reservation.GetReservations))
+	s.router.POST(v+"/reservations", s.withAuthentication(s.controllersTable.Reservation.CreateReservation))
+	s.router.GET(v+"/reservations/:id", s.withAuthentication(s.controllersTable.Reservation.GetReservation))
+	s.router.PUT(v+"/reservations/:id", s.withAuthentication(s.controllersTable.Reservation.UpdateReservation))
+	s.router.DELETE(v+"/reservations/:id", s.withAuthentication(s.controllersTable.Reservation.DeleteReservation))
+	s.router.GET(v+"/reservations/:id/tickets", s.withAuthentication(s.controllersTable.Reservation.GetReservationTickets))
 }
 
 func (s *Service) setRoomRoutes() {
 	s.router.HandlerFunc(http.MethodGet, v+"/rooms", s.controllersTable.Room.GetRooms)
-	s.router.HandlerFunc(http.MethodPost, v+"/rooms", s.controllersTable.Room.CreateRoom)
 	s.router.HandlerFunc(http.MethodGet, v+"/rooms/:id", s.controllersTable.Room.GetRoom)
-	s.router.HandlerFunc(http.MethodPut, v+"/rooms/:id", s.controllersTable.Room.UpdateRoom)
-	s.router.HandlerFunc(http.MethodDelete, v+"/rooms/:id", s.controllersTable.Room.DeleteRoom)
-	s.router.HandlerFunc(http.MethodGet, v+"/rooms/:id/reservations", s.controllersTable.Room.GetRoomReservations)
+
+	s.router.POST(v+"/rooms", s.withAuthentication(s.controllersTable.Room.CreateRoom))
+	s.router.PUT(v+"/rooms/:id", s.withAuthentication(s.controllersTable.Room.UpdateRoom))
+	s.router.DELETE(v+"/rooms/:id", s.withAuthentication(s.controllersTable.Room.DeleteRoom))
+	s.router.GET(v+"/rooms/:id/reservations", s.withAuthentication(s.controllersTable.Room.GetRoomReservations))
 }
 
 func (s *Service) withAuthentication(fn http.HandlerFunc) httprouter.Handle {
