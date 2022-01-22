@@ -69,7 +69,7 @@ const GuestFormFields = ({entityExists, isDisabled, onValueChange, formData, err
     {!isDisabled && <InputField
         type='password'
         name='password'
-        displayName='Password'
+        displayName={entityExists ? 'New password' : 'Password'}
         isRequired={false}
         isDisabled={false}
         errorMessage={errors.password}

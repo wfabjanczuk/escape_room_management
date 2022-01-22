@@ -50,4 +50,11 @@ type User struct {
 	Email       string     `json:"email" valid:"required,email,maxstringlength(320)"`
 	Password    string     `json:"-" valid:"minstringlength(8),maxstringlength(128)"`
 	IsActive    bool       `json:"isActive" valid:"-"`
+	RoleID      uint       `json:"roleId" valid:"required"`
+	Role        Role       `json:"role" valid:"-"`
+}
+
+type Role struct {
+	ID   uint   `gorm:"primarykey" json:"id" valid:"-"`
+	Name string `json:"name" valid:"-"`
 }

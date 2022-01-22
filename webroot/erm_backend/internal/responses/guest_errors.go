@@ -23,6 +23,8 @@ func (e *GuestErrors) AddError(key, message string, status int) {
 		e.DateBirth = append(e.DateBirth, message)
 	case "discountPercent":
 		e.DiscountPercent = append(e.DiscountPercent, message)
+	case "roleId":
+		e.RoleId = append(e.RoleId, message)
 	case "":
 		e.General = append(e.General, message)
 	default:

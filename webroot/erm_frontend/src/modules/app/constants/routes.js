@@ -27,6 +27,7 @@ const ROUTES = {
         signUp: API + '/guests/signup',
         users: API + '/users',
         user: API + '/users/:id',
+        userProfile: API + '/users/:id/profile',
         userGuest: API + '/users/:id/guest',
     },
     home: '/',

@@ -41,6 +41,20 @@ create table reservations
 alter table reservations
     owner to developer;
 
+create table roles
+(
+    id   serial
+        constraint roles_pk
+            primary key,
+    name varchar(50) not null
+);
+
+alter table roles
+    owner to developer;
+
+create unique index roles_name_uindex
+    on roles (name);
+
 create table users
 (
     id           serial
@@ -52,7 +66,8 @@ create table users
     date_birth   date                      not null,
     email        varchar(320)              not null,
     password     varchar(64) default ''    not null,
-    is_active    boolean     default false not null
+    is_active    boolean     default false not null,
+    role_id      integer                   not null
 );
 
 alter table users
@@ -111,15 +126,24 @@ values (1, 10.00, '2021-10-23 17:00:00.000000', '2021-10-23 19:00:00.000000', nu
        (3, 20.00, '2021-10-25 16:00:00.000000', '2021-10-25 18:00:00.000000', null),
        (4, 30.00, '2021-10-30 22:00:00.000000', '2021-10-31 01:00:00.000000', null);
 
-insert into users (first_name, last_name, phone_number, date_birth, email, password, is_active)
+insert into users (first_name, last_name, phone_number, date_birth, email, password, is_active, role_id)
 values ('Linda', 'Yehudit', '48100100100', '1990-01-01', 'linda.yehudit@gmail.com',
-        '$2a$12$OFjTdVVs//MJ7uPrnNA5wON5.cR3yQqikVvqwhAU3moX2vUzImMBa', true),
+        '$2a$12$OFjTdVVs//MJ7uPrnNA5wON5.cR3yQqikVvqwhAU3moX2vUzImMBa', true, 1),
        ('Gillian', 'Domantas', '48200200200', '1985-02-02', 'gillian.domantas@gmail.com',
-        '$2a$12$OFjTdVVs//MJ7uPrnNA5wON5.cR3yQqikVvqwhAU3moX2vUzImMBa', true),
+        '$2a$12$OFjTdVVs//MJ7uPrnNA5wON5.cR3yQqikVvqwhAU3moX2vUzImMBa', true, 1),
        ('Meagan', 'Ikra', '48300300300', '1986-03-03', 'meagan.ikra@gmail.com',
-        '$2a$12$OFjTdVVs//MJ7uPrnNA5wON5.cR3yQqikVvqwhAU3moX2vUzImMBa', true),
+        '$2a$12$OFjTdVVs//MJ7uPrnNA5wON5.cR3yQqikVvqwhAU3moX2vUzImMBa', true, 1),
        ('Sunil', 'Katenka', '48400400400', '1989-04-04', 'sunil.katenka@gmail.com',
-        '$2a$12$OFjTdVVs//MJ7uPrnNA5wON5.cR3yQqikVvqwhAU3moX2vUzImMBa', true);
+        '$2a$12$OFjTdVVs//MJ7uPrnNA5wON5.cR3yQqikVvqwhAU3moX2vUzImMBa', true, 1),
+       ('Mario', 'Manager', '48500500500', '1987-05-05', 'manager@gmail.com',
+        '$2a$12$OFjTdVVs//MJ7uPrnNA5wON5.cR3yQqikVvqwhAU3moX2vUzImMBa', true, 2),
+       ('Adam', 'Admin', '48600600600', '1988-06-06', 'admin@gmail.com',
+        '$2a$12$OFjTdVVs//MJ7uPrnNA5wON5.cR3yQqikVvqwhAU3moX2vUzImMBa', true, 3);
+
+insert into roles (name)
+values ('Guest'),
+       ('Manager'),
+       ('Admin');
 
 insert into guests (user_id, discount_percent)
 values (1, null),

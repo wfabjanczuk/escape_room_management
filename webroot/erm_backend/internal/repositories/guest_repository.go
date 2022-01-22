@@ -24,14 +24,14 @@ func newGuestRepository(logger *log.Logger, db *gorm.DB) *GuestRepository {
 
 func (r *GuestRepository) GetGuest(id int) (models.Guest, error) {
 	var guest models.Guest
-	result := r.db.Preload("User").First(&guest, id)
+	result := r.db.Preload("User").Preload("User.Role").First(&guest, id)
 
 	return guest, result.Error
 }
 
 func (r *GuestRepository) GetGuests() ([]models.Guest, error) {
 	var guests []models.Guest
-	result := r.db.Preload("User").Order("id asc").Find(&guests)
+	result := r.db.Preload("User").Preload("User.Role").Order("id asc").Find(&guests)
 
 	return guests, result.Error
 }
@@ -40,7 +40,7 @@ func (r *GuestRepository) SaveGuest(guest models.Guest, guestErrors *responses.G
 	if guest.ID > 0 {
 		var oldGuest models.Guest
 
-		result := r.db.Preload("User").First(&oldGuest, guest.ID)
+		result := r.db.Preload("User").Preload("User.Role").First(&oldGuest, guest.ID)
 		if result.Error != nil {
 			guestErrors.AddError("", "Saving guest failed. Please try again later.", http.StatusInternalServerError)
 			return guest
@@ -140,7 +140,7 @@ func (r *GuestRepository) GetGuestTickets(id int) ([]models.Ticket, error) {
 	}
 
 	result := r.db.
-		Preload("Guest").Preload("Guest.User").Preload("Reservation").Preload("Reservation.Room").
+		Preload("Guest").Preload("Guest.User").Preload("Guest.User.Role").Preload("Reservation").Preload("Reservation.Room").
 		Where("guest_id = ?", id).Find(&tickets)
 
 	return tickets, result.Error

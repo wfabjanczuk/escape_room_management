@@ -3,6 +3,7 @@ package parsers
 import (
 	"database/sql"
 	"encoding/json"
+	"erm_backend/internal/constants"
 	"erm_backend/internal/models"
 	"erm_backend/internal/payloads"
 	"erm_backend/internal/responses"
@@ -66,7 +67,8 @@ func extractGuest(payload payloads.GuestPayload, parseId bool, guestErrors *resp
 		guest.ID = uint(id)
 	}
 
-	guest.User = extractUser(payload.UserPayload, false, &guestErrors.UserErrors)
+	guest.User = extractUser(payload.UserPayload, false, true, &guestErrors.UserErrors)
+	guest.User.RoleID = constants.RoleGuest
 
 	if len(payload.DiscountPercent) > 0 {
 		discountPercent, err := strconv.Atoi(payload.DiscountPercent)

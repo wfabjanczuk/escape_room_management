@@ -11,6 +11,7 @@ import ProfileFooter from './ProfileFooter';
 import EntityFormFooter from '../../app/components/form/EntityFormFooter';
 import {get as _get} from 'lodash';
 import getDeleteUserPromise from '../utils/getDeleteUserPromise';
+import {ROLE_SELECT_OPTIONS} from '../../app/constants/roles';
 
 const getInitialFormData = (user) => {
     if (user) {
@@ -24,6 +25,7 @@ const getInitialFormData = (user) => {
             phoneNumber: user.phoneNumber,
             dateBirth: user.dateBirth,
             isActive: !!user.isActive,
+            roleId: user.roleId,
         };
     }
 
@@ -36,6 +38,7 @@ const getInitialFormData = (user) => {
         phoneNumber: '',
         dateBirth: '',
         isActive: false,
+        roleId: '',
     };
 };
 
@@ -66,7 +69,7 @@ const getUrls = (user, entityExists, isDisabled, isProfile) => {
 
 const getProfileUrls = (user, entityExists) => {
     const apiUrl = entityExists
-            ? getRouteWithParams(ROUTES.api.user, {id: user.id})
+            ? getRouteWithParams(ROUTES.api.userProfile, {id: user.id})
             : ROUTES.api.signUp,
         editUrl = entityExists
             ? getRouteWithParams(ROUTES.users.profileEdit, {id: user.id})
@@ -91,12 +94,14 @@ const validateFormData = (entityExists, isProfile, formData, setErrors) => {
         formValidator.required(['password']);
     }
 
-    if (isProfile) {
-        formValidator.identical(['password', 'confirmPassword'], 'password', 'Passwords must be the same!');
-    }
-
     if (!entityExists && isProfile) {
         formValidator.required(['confirmPassword']);
+    }
+
+    if (isProfile) {
+        formValidator.identical(['password', 'confirmPassword'], 'password', 'Passwords must be the same!');
+    } else {
+        formValidator.required(['roleId']);
     }
 
     formValidator.isAlpha(['firstName', 'lastName']);
@@ -150,6 +155,7 @@ const UserForm = ({user, isDisabled, isProfile, apiHeaders, addSuccessMessage, g
     return <form className='form form--untitled' method='POST' onSubmit={handleSubmit}>
         <UserFormFields
             entityExists={entityExists}
+            roleOptions={ROLE_SELECT_OPTIONS}
             isDisabled={isDisabled}
             isProfile={isProfile}
             onValueChange={onValueChange}

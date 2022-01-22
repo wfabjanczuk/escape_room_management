@@ -24,26 +24,26 @@ func newUserRepository(logger *log.Logger, db *gorm.DB) *UserRepository {
 
 func (r *UserRepository) GetUser(id int) (models.User, error) {
 	var user models.User
-	result := r.db.First(&user, id)
+	result := r.db.Preload("Role").First(&user, id)
 
 	return user, result.Error
 }
 
 func (r *UserRepository) GetUsers() ([]models.User, error) {
 	var users []models.User
-	result := r.db.Order("id asc").Find(&users)
+	result := r.db.Preload("Role").Order("id asc").Find(&users)
 
 	return users, result.Error
 }
 
 func (r *UserRepository) GetActiveUserByEmail(email string) (models.User, error) {
 	var user models.User
-	result := r.db.Where("email = ? and is_active = ?", email, true).First(&user)
+	result := r.db.Where("email = ? and is_active = ?", email, true).Preload("Role").First(&user)
 
 	return user, result.Error
 }
 
-func (r *UserRepository) SaveUser(user models.User, userErrors *responses.UserErrors) models.User {
+func (r *UserRepository) SaveUser(user models.User, userErrors *responses.UserErrors, isProfile bool) models.User {
 	if user.ID > 0 {
 		var oldUser models.User
 
@@ -55,6 +55,15 @@ func (r *UserRepository) SaveUser(user models.User, userErrors *responses.UserEr
 
 		if len(user.Password) == 0 {
 			user.Password = oldUser.Password
+		}
+
+		if isProfile {
+			user.RoleID = oldUser.RoleID
+		}
+
+		if user.RoleID != oldUser.RoleID && oldUser.RoleID == 1 {
+			userErrors.AddError("roleId", "You cannot change the Guest role.", http.StatusBadRequest)
+			return user
 		}
 	}
 
@@ -127,6 +136,6 @@ func (r *UserRepository) DeleteUser(id int, deleteError *responses.DeleteError) 
 
 func (r *UserRepository) GetUserGuest(id int) (models.Guest, error) {
 	var guest models.Guest
-	result := r.db.Where("user_id = ?", id).Find(&guest)
+	result := r.db.Preload("User").Preload("User.Role").Where("user_id = ?", id).Find(&guest)
 	return guest, result.Error
 }

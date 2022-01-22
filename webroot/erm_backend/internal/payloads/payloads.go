@@ -14,6 +14,7 @@ type UserPayload struct {
 	LastName    string `json:"lastName"`
 	PhoneNumber string `json:"phoneNumber"`
 	DateBirth   string `json:"dateBirth"`
+	RoleID      string `json:"roleId"`
 }
 
 type TicketPayload struct {

@@ -14,7 +14,7 @@ import (
 	"time"
 )
 
-func ParseUserFromRequest(r *http.Request, parseId bool, userErrors *responses.UserErrors) models.User {
+func ParseUserFromRequest(r *http.Request, parseId, isProfile bool, userErrors *responses.UserErrors) models.User {
 	var userPayload payloads.UserPayload
 	var user models.User
 
@@ -24,7 +24,7 @@ func ParseUserFromRequest(r *http.Request, parseId bool, userErrors *responses.U
 		return user
 	}
 
-	user = extractUser(userPayload, parseId, userErrors)
+	user = extractUser(userPayload, parseId, isProfile, userErrors)
 	validateUser(user, parseId, userErrors)
 
 	if userErrors.ErrorsCount > 0 {
@@ -45,7 +45,7 @@ func ParseUserFromRequest(r *http.Request, parseId bool, userErrors *responses.U
 	return user
 }
 
-func extractUser(payload payloads.UserPayload, parseId bool, userErrors *responses.UserErrors) models.User {
+func extractUser(payload payloads.UserPayload, parseId, isProfile bool, userErrors *responses.UserErrors) models.User {
 	var user models.User
 
 	if parseId {
@@ -75,6 +75,17 @@ func extractUser(payload payloads.UserPayload, parseId bool, userErrors *respons
 		Time: dateBirth,
 	}
 
+	if isProfile {
+		user.RoleID = constants.RoleGuest
+		return user
+	}
+
+	roleId, err := strconv.Atoi(payload.RoleID)
+	if err != nil {
+		userErrors.AddError("", "Invalid form data.", http.StatusBadRequest)
+	}
+	user.RoleID = uint(roleId)
+
 	return user
 }
 
@@ -86,5 +97,9 @@ func validateUser(user models.User, parseId bool, userErrors *responses.UserErro
 
 	if parseId && user.ID < 1 {
 		userErrors.AddError("", "Invalid form data.", http.StatusBadRequest)
+	}
+
+	if !parseId && user.RoleID == 1 {
+		userErrors.AddError("roleId", "Guests can be created only in the Guests tab.", http.StatusBadRequest)
 	}
 }

@@ -12,6 +12,7 @@ type UserErrors struct {
 	LastName    []string `json:"lastName,omitempty"`
 	PhoneNumber []string `json:"phoneNumber,omitempty"`
 	DateBirth   []string `json:"dateBirth,omitempty"`
+	RoleId      []string `json:"roleId,omitempty"`
 }
 
 func (e *UserErrors) AddError(key, message string, status int) {
@@ -28,6 +29,8 @@ func (e *UserErrors) AddError(key, message string, status int) {
 		e.PhoneNumber = append(e.PhoneNumber, message)
 	case "dateBirth":
 		e.DateBirth = append(e.DateBirth, message)
+	case "roleId":
+		e.RoleId = append(e.RoleId, message)
 	case "":
 		e.General = append(e.General, message)
 	default:

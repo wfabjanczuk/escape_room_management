@@ -10,7 +10,8 @@ import withAuthentication from '../../app/auth/withAuthentication';
 const userColumns = [
     {key: 'id', name: 'Id', isExtra: false, centering: true},
     {key: 'email', name: 'Email', isExtra: false},
-    {key: 'isActive', name: 'Active', isExtra: false, render: (u) => u.isActive ? 'Yes' : 'No'},
+    {key: 'role', name: 'Role', isExtra: false, render: (u) => u.role.name},
+    {key: 'isActive', name: 'Active', isExtra: true, render: (u) => u.isActive ? 'Yes' : 'No'},
 ];
 
 const Users = ({changeCounter, apiHeaders}) => {

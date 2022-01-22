@@ -1,9 +1,20 @@
 import React from 'react';
 import InputField from '../../app/components/form/field/InputField';
 import CheckboxField from '../../app/components/form/field/CheckboxField';
+import SelectField from '../../app/components/form/field/SelectField';
 import * as PropTypes from 'prop-types';
 
-const UserFormFields = ({entityExists, isDisabled, isProfile, onValueChange, formData, errors}) => (<React.Fragment>
+const UserFormFields = (
+    {
+        entityExists,
+        roleOptions,
+        isDisabled,
+        isProfile,
+        onValueChange,
+        formData,
+        errors
+    }
+) => (<React.Fragment>
     {entityExists && <input type='hidden' name='id' value={formData.id}/>}
     <InputField
         type='text'
@@ -77,20 +88,34 @@ const UserFormFields = ({entityExists, isDisabled, isProfile, onValueChange, for
     />
     {isProfile
         ? <input type='hidden' name='isActive' value='1'/>
-        : <CheckboxField
-            name='isActive'
-            displayName='Active'
-            isRequired={false}
-            isDisabled={isDisabled}
-            errorMessage={errors.isActive}
-            defaultChecked={!!formData.isActive}
-            onChange={onValueChange}
-        />
+        : <React.Fragment>
+            <SelectField
+                name='roleId'
+                displayName='Role'
+                placeholderLabel='-- select role --'
+                options={roleOptions}
+                isRequired={true}
+                isDisabled={isDisabled}
+                errorMessage={errors.roleId}
+                value={formData.roleId}
+                onChange={onValueChange}
+            />
+            <CheckboxField
+                name='isActive'
+                displayName='Active'
+                isRequired={false}
+                isDisabled={isDisabled}
+                errorMessage={errors.isActive}
+                defaultChecked={!!formData.isActive}
+                onChange={onValueChange}
+            />
+        </React.Fragment>
     }
 </React.Fragment>);
 
 UserFormFields.propTypes = {
     entityExists: PropTypes.bool,
+    roleOptions: PropTypes.array,
     isDisabled: PropTypes.bool,
     isProfile: PropTypes.bool,
     onValueChange: PropTypes.func,
