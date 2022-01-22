@@ -1,10 +1,10 @@
 import {combineReducers} from 'redux';
 import flashReducer from './flash/flashReducer';
 import changeReducer from './change/changeReducer';
-import userReducer from './user/userReducer';
+import authReducer from './auth/authReducer';
 
 export default combineReducers({
-    user: userReducer,
+    auth: authReducer,
     flash: flashReducer,
     change: changeReducer,
 });

@@ -3,8 +3,11 @@ import ROUTES, {getRouteWithParams} from '../../app/constants/routes';
 import {useParams} from 'react-router-dom';
 import axios from 'axios';
 import TicketForm from '../components/TicketForm';
+import withAuthentication from '../../app/auth/withAuthentication';
+import * as PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 
-export default function TicketEdit() {
+const TicketEdit = ({apiHeaders}) => {
     const [state, setState] = useState({
             ticket: {},
             isLoading: true,
@@ -14,7 +17,9 @@ export default function TicketEdit() {
         title = 'Edit ticket';
 
     useEffect(() => {
-            axios.get(getRouteWithParams(ROUTES.api.ticket, {id: params.id}))
+            axios.get(getRouteWithParams(ROUTES.api.ticket, {id: params.id}), {
+                headers: apiHeaders,
+            })
                 .then(
                     (response) => setState({
                         ticket: response.data.ticket,
@@ -50,3 +55,13 @@ export default function TicketEdit() {
         <TicketForm ticket={state.ticket} isDisabled={false}/>
     </React.Fragment>;
 }
+
+TicketEdit.propTypes = {
+    apiHeaders: PropTypes.object,
+};
+
+const mapStateToProps = (state) => ({
+    apiHeaders: state.auth.apiHeaders,
+});
+
+export default withAuthentication(connect(mapStateToProps)(TicketEdit));

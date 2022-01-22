@@ -5,6 +5,7 @@ import axios from 'axios';
 import getDeleteGuestPromise from '../utils/getDeleteGuestPromise';
 import {connect} from 'react-redux';
 import * as PropTypes from 'prop-types';
+import withAuthentication from '../../app/auth/withAuthentication';
 
 const guestColumns = [
     {key: 'id', name: 'Id', isExtra: false, centering: true},
@@ -13,7 +14,7 @@ const guestColumns = [
     {key: 'email', name: 'Email', isExtra: true, render: (g) => g.user.email},
 ];
 
-const Guests = ({changeCounter}) => {
+const Guests = ({apiHeaders, changeCounter}) => {
     const [state, setState] = useState({
         guests: [],
         isLoading: true,
@@ -21,7 +22,9 @@ const Guests = ({changeCounter}) => {
     });
 
     useEffect(() => {
-            axios.get(ROUTES.api.guests)
+            axios.get(ROUTES.api.guests, {
+                headers: apiHeaders,
+            })
                 .then(
                     (response) => setState({
                         guests: response.data.guests,
@@ -55,11 +58,13 @@ const Guests = ({changeCounter}) => {
 };
 
 Guests.propTypes = {
+    apiHeaders: PropTypes.object,
     changeCounter: PropTypes.number,
 };
 
 const mapStateToProps = (state) => ({
+    apiHeaders: state.auth.apiHeaders,
     changeCounter: state.change.counter,
 });
 
-export default connect(mapStateToProps)(Guests);
+export default withAuthentication(connect(mapStateToProps)(Guests));

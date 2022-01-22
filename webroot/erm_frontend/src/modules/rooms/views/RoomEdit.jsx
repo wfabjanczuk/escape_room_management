@@ -3,8 +3,11 @@ import {useParams} from 'react-router-dom';
 import axios from 'axios';
 import ROUTES, {getRouteWithParams} from '../../app/constants/routes';
 import RoomForm from '../../rooms/components/RoomForm';
+import withAuthentication from '../../app/auth/withAuthentication';
+import * as PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 
-export default function RoomEdit() {
+const RoomEdit = ({apiHeaders}) => {
     const [state, setState] = useState({
             room: {},
             isLoading: true,
@@ -14,7 +17,9 @@ export default function RoomEdit() {
         title = 'Edit room';
 
     useEffect(() => {
-            axios.get(getRouteWithParams(ROUTES.api.room, {id: params.id}))
+            axios.get(getRouteWithParams(ROUTES.api.room, {id: params.id}), {
+                headers: apiHeaders,
+            })
                 .then(
                     (response) => setState({
                         room: response.data.room,
@@ -50,3 +55,13 @@ export default function RoomEdit() {
         <RoomForm room={state.room} isDisabled={false}/>
     </React.Fragment>;
 }
+
+RoomEdit.propTypes = {
+    apiHeaders: PropTypes.object,
+};
+
+const mapStateToProps = (state) => ({
+    apiHeaders: state.auth.apiHeaders,
+});
+
+export default withAuthentication(connect(mapStateToProps)(RoomEdit));

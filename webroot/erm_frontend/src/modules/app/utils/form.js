@@ -1,14 +1,12 @@
 import axios from 'axios';
 import {get as _get} from 'lodash';
 
-export const sendData = (formData, url, redirectUrl, entityExists, setErrors, addSuccessMessage, navigate, entityName) => {
+export const sendData = (formData, url, redirectUrl, entityExists, apiHeaders, setErrors, addSuccessMessage, navigate, entityName) => {
     const successMessage = `${entityName} ${entityExists ? 'saved' : 'created'} successfully.`;
 
     axios(url, {
         method: entityExists ? 'PUT' : 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
+        headers: apiHeaders,
         data: formData
     })
         .then(

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Route, Routes} from 'react-router-dom';
+import {Navigate, Route, Routes} from 'react-router-dom';
 import ROUTES from '../constants/routes';
 import Home from '../views/Home';
 import Guests from '../../guests/views/Guests';
@@ -26,6 +26,7 @@ import Users from '../../users/views/Users';
 import UserAdd from '../../users/views/UserAdd';
 import UserEdit from '../../users/views/UserEdit';
 import UserDetails from '../../users/views/UserDetails';
+import NotFound from './NotFound';
 
 const AppRoutes = () => (<Routes>
     <Route path={ROUTES.home} element={<Home/>}/>
@@ -34,6 +35,11 @@ const AppRoutes = () => (<Routes>
     {getReservationRoutes()}
     {getRoomRoutes()}
     {getUserRoutes()}
+    <Route path="/not-found" element={<NotFound/>}/>
+    <Route
+        path="*"
+        element={<Navigate to="/not-found"/>}
+    />
 </Routes>);
 
 export default AppRoutes;

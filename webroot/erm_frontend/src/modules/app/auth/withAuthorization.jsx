@@ -2,7 +2,7 @@ import {connect} from 'react-redux';
 import React from 'react';
 import withAuthentication from './withAuthentication';
 import {Link} from 'react-router-dom';
-import ROUTES from '../../constants/routes';
+import ROUTES from '../constants/routes';
 import isAuthorized from './isAuthorized';
 import * as PropTypes from 'prop-types';
 
@@ -31,7 +31,7 @@ const withAuthorization = (Component) => {
 };
 
 const mapStateToProps = (state) => ({
-    currentUser: state.user.currentUser,
+    currentUser: state.auth.currentUser,
 });
 
 const withConnectedAuthorization = (Component) => connect(mapStateToProps)(withAuthorization(withAuthentication(Component)));

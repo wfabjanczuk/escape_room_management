@@ -16,6 +16,7 @@ const EntityFormFooter = (
         error,
         extraButtons,
         currentUser,
+        apiHeaders,
         addSuccessMessage,
         addErrorMessage,
         increaseChangeCounter,
@@ -32,7 +33,7 @@ const EntityFormFooter = (
     }
 
     if (isDisabled) {
-        const onDelete = () => getDeletePromise(id, addSuccessMessage, addErrorMessage)
+        const onDelete = () => getDeletePromise(id, apiHeaders, addSuccessMessage, addErrorMessage)
             .then(() => navigate(redirectUrl))
             .finally(() => increaseChangeCounter());
 
@@ -66,13 +67,15 @@ EntityFormFooter.propTypes = {
     error: PropTypes.string,
     extraButtons: PropTypes.node,
     currentUser: PropTypes.object,
+    apiHeaders: PropTypes.object,
     addSuccessMessage: PropTypes.func,
     addErrorMessage: PropTypes.func,
     increaseChangeCounter: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
-    currentUser: state.user.currentUser,
+    currentUser: state.auth.currentUser,
+    apiHeaders: state.auth.apiHeaders,
 });
 
 const mapDispatchToProps = (dispatch) => ({

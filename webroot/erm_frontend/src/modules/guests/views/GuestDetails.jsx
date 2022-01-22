@@ -4,8 +4,11 @@ import {useParams} from 'react-router-dom';
 import axios from 'axios';
 import GuestForm from '../components/GuestForm';
 import GuestTickets from '../components/GuestTickets';
+import * as PropTypes from 'prop-types';
+import withAuthentication from '../../app/auth/withAuthentication';
+import {connect} from 'react-redux';
 
-export default function GuestDetails() {
+const GuestDetails = ({apiHeaders}) => {
     const [state, setState] = useState({
             guest: {},
             isLoading: true,
@@ -15,7 +18,9 @@ export default function GuestDetails() {
         title = 'Guest details';
 
     useEffect(() => {
-            axios.get(getRouteWithParams(ROUTES.api.guest, {id: params.id}))
+            axios.get(getRouteWithParams(ROUTES.api.guest, {id: params.id}), {
+                headers: apiHeaders,
+            })
                 .then(
                     (response) => setState({
                         guest: response.data.guest,
@@ -51,4 +56,14 @@ export default function GuestDetails() {
         <GuestForm guest={state.guest} isDisabled={true}/>
         <GuestTickets id={parseInt(params.id, 10)}/>
     </React.Fragment>;
-}
+};
+
+GuestDetails.propTypes = {
+    apiHeaders: PropTypes.object,
+};
+
+const mapStateToProps = (state) => ({
+    apiHeaders: state.auth.apiHeaders,
+});
+
+export default withAuthentication(connect(mapStateToProps)(GuestDetails));

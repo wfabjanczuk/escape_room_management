@@ -2,12 +2,14 @@ import {getRouteWithParams} from '../constants/routes';
 import axios from 'axios';
 import {get as _get} from 'lodash';
 
-const getDeletePromise = (apiEndpoint, entityName, id, addSuccessMessage, addErrorMessage) => {
+const getDeletePromise = (apiEndpoint, entityName, id, apiHeaders, addSuccessMessage, addErrorMessage) => {
     const url = getRouteWithParams(apiEndpoint, {id: id}),
         successMessage = `${entityName} deleted successfully.`,
         defaultErrorMessage = `${entityName} could not be deleted.`;
 
-    return axios.delete(url)
+    return axios.delete(url, {
+        headers: apiHeaders,
+    })
         .then(
             () => addSuccessMessage(successMessage),
             (error) => {

@@ -5,6 +5,7 @@ import axios from 'axios';
 import getDeleteTicketPromise from '../utils/getDeleteTicketPromise';
 import * as PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import withAuthentication from '../../app/auth/withAuthentication';
 
 const ticketColumns = [
     {key: 'id', name: 'Id', centering: true},
@@ -13,7 +14,7 @@ const ticketColumns = [
     {key: 'dateFrom', name: 'Date from', isExtra: true, render: (r) => r.reservation.dateFrom},
 ];
 
-const Tickets = ({changeCounter}) => {
+const Tickets = ({changeCounter, apiHeaders}) => {
     const [state, setState] = useState({
         tickets: [],
         isLoading: true,
@@ -21,7 +22,9 @@ const Tickets = ({changeCounter}) => {
     });
 
     useEffect(() => {
-            axios.get(ROUTES.api.tickets)
+            axios.get(ROUTES.api.tickets, {
+                headers: apiHeaders,
+            })
                 .then(
                     (response) => setState({
                         tickets: response.data.tickets,
@@ -56,10 +59,12 @@ const Tickets = ({changeCounter}) => {
 
 Tickets.propTypes = {
     changeCounter: PropTypes.number,
+    apiHeaders: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
     changeCounter: state.change.counter,
+    apiHeaders: state.auth.apiHeaders,
 });
 
-export default connect(mapStateToProps)(Tickets);
+export default withAuthentication(connect(mapStateToProps)(Tickets));

@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import axios from 'axios';
 import {get as _get} from 'lodash';
 import ROUTES from '../../app/constants/routes';
-import {setCurrentUser} from '../../app/redux/user/userActions';
+import {setCurrentUser} from '../../app/redux/auth/authActions';
 import * as PropTypes from 'prop-types';
 import {useNavigate} from 'react-router-dom';
 import SignInFormFooter from './SignInFormFooter';
@@ -32,7 +32,7 @@ const validateFormData = (formData, setErrors) => {
     return true;
 };
 
-const SignInForm = ({addSuccessMessage, setCurrentUser}) => {
+const SignInForm = ({apiHeaders, addSuccessMessage, setCurrentUser}) => {
     const [formData, setFormData] = useState(getInitialFormData()),
         [errors, setErrors] = useState({}),
         navigate = useNavigate(),
@@ -50,9 +50,7 @@ const SignInForm = ({addSuccessMessage, setCurrentUser}) => {
                 const successMessage = 'Successfully signed in.';
 
                 axios.post(ROUTES.api.signIn, formData, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+                    headers: apiHeaders,
                 })
                     .then(
                         (response) => {
@@ -90,13 +88,18 @@ const SignInForm = ({addSuccessMessage, setCurrentUser}) => {
 };
 
 SignInForm.propTypes = {
+    apiHeaders: PropTypes.object,
     addSuccessMessage: PropTypes.func,
     setCurrentUser: PropTypes.func,
 }
+
+const mapStateToProps = (state) => ({
+    apiHeaders: state.auth.apiHeaders,
+});
 
 const mapDispatchToProps = (dispatch) => ({
     addSuccessMessage: (content) => dispatch(addSuccessMessage(content)),
     setCurrentUser: (user) => dispatch(setCurrentUser(user)),
 });
 
-export default connect(null, mapDispatchToProps)(SignInForm);
+export default connect(mapStateToProps, mapDispatchToProps)(SignInForm);

@@ -5,6 +5,7 @@ import axios from 'axios';
 import getDeleteUserPromise from '../utils/getDeleteUserPromise';
 import {connect} from 'react-redux';
 import * as PropTypes from 'prop-types';
+import withAuthentication from '../../app/auth/withAuthentication';
 
 const userColumns = [
     {key: 'id', name: 'Id', isExtra: false, centering: true},
@@ -12,7 +13,7 @@ const userColumns = [
     {key: 'isActive', name: 'Active', isExtra: false, render: (u) => u.isActive ? 'Yes' : 'No'},
 ];
 
-const Users = ({changeCounter, authorizationHeader}) => {
+const Users = ({changeCounter, apiHeaders}) => {
     const [state, setState] = useState({
         users: [],
         isLoading: true,
@@ -21,10 +22,7 @@ const Users = ({changeCounter, authorizationHeader}) => {
 
     useEffect(() => {
             axios.get(ROUTES.api.users, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': authorizationHeader,
-                },
+                headers: apiHeaders,
             })
                 .then(
                     (response) => setState({
@@ -60,12 +58,12 @@ const Users = ({changeCounter, authorizationHeader}) => {
 
 Users.propTypes = {
     changeCounter: PropTypes.number,
-    authorizationHeader: PropTypes.string,
+    apiHeaders: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
     changeCounter: state.change.counter,
-    authorizationHeader: state.user.authorizationHeader,
+    apiHeaders: state.auth.apiHeaders,
 });
 
-export default connect(mapStateToProps)(Users);
+export default withAuthentication(connect(mapStateToProps)(Users));

@@ -5,6 +5,7 @@ import axios from 'axios';
 import * as PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import getDeleteReservationPromise from '../utils/getDeleteReservationPromise';
+import withAuthentication from '../../app/auth/withAuthentication';
 
 const reservationColumns = [
     {key: 'id', name: 'Id', centering: true},
@@ -13,7 +14,7 @@ const reservationColumns = [
     {key: 'dateTo', name: 'Date to', isExtra: true},
 ];
 
-const Reservations = ({changeCounter}) => {
+const Reservations = ({changeCounter, apiHeaders}) => {
     const [state, setState] = useState({
         reservations: [],
         isLoading: true,
@@ -21,7 +22,9 @@ const Reservations = ({changeCounter}) => {
     });
 
     useEffect(() => {
-            axios.get(ROUTES.api.reservations)
+            axios.get(ROUTES.api.reservations, {
+                headers: apiHeaders,
+            })
                 .then(
                     (response) => setState({
                         reservations: response.data.reservations,
@@ -56,10 +59,12 @@ const Reservations = ({changeCounter}) => {
 
 Reservations.propTypes = {
     changeCounter: PropTypes.number,
+    apiHeaders: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
     changeCounter: state.change.counter,
+    apiHeaders: state.auth.apiHeaders,
 });
 
-export default connect(mapStateToProps)(Reservations);
+export default withAuthentication(connect(mapStateToProps)(Reservations));

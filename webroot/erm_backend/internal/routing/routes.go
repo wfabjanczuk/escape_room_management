@@ -79,7 +79,7 @@ func (s *Service) withAuthentication(fn http.HandlerFunc) httprouter.Handle {
 
 func (s *Service) wrapHandler(next http.Handler) httprouter.Handle {
 	return func(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
-		ctx := context.WithValue(r.Context(), "params", params)
+		ctx := context.WithValue(r.Context(), httprouter.ParamsKey, params)
 		next.ServeHTTP(w, r.WithContext(ctx))
 	}
 }

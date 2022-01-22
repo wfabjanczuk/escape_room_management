@@ -7,8 +7,9 @@ import ReservationTickets from '../components/ReservationTickets';
 import RoomForm from '../../rooms/components/RoomForm';
 import {connect} from 'react-redux';
 import * as PropTypes from 'prop-types';
+import withAuthentication from '../../app/auth/withAuthentication';
 
-const ReservationDetails = ({changeCounter}) => {
+const ReservationDetails = ({changeCounter, apiHeaders}) => {
     const [state, setState] = useState({
             reservation: {},
             isLoading: true,
@@ -18,7 +19,9 @@ const ReservationDetails = ({changeCounter}) => {
         title = 'Reservation details';
 
     useEffect(() => {
-            axios.get(getRouteWithParams(ROUTES.api.reservation, {id: params.id}))
+            axios.get(getRouteWithParams(ROUTES.api.reservation, {id: params.id}), {
+                headers: apiHeaders,
+            })
                 .then(
                     (response) => setState({
                         reservation: response.data.reservation,
@@ -60,10 +63,12 @@ const ReservationDetails = ({changeCounter}) => {
 
 ReservationDetails.propTypes = {
     changeCounter: PropTypes.number,
+    apiHeaders: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
     changeCounter: state.change.counter,
+    apiHeaders: state.auth.apiHeaders,
 });
 
-export default connect(mapStateToProps)(ReservationDetails);
+export default withAuthentication(connect(mapStateToProps)(ReservationDetails));

@@ -66,7 +66,7 @@ Navigation.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    currentUser: state.user.currentUser,
+    currentUser: state.auth.currentUser,
 });
 
 export default connect(mapStateToProps)(Navigation);

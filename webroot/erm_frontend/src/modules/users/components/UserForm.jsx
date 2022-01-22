@@ -117,7 +117,7 @@ const validateFormData = (entityExists, isProfile, formData, setErrors) => {
     return true;
 };
 
-const UserForm = ({user, isDisabled, isProfile, addSuccessMessage, guestId = 0}) => {
+const UserForm = ({user, isDisabled, isProfile, apiHeaders, addSuccessMessage, guestId = 0}) => {
     const id = parseInt(_get(user, 'id', null), 10),
         entityExists = !!user,
         urls = getUrls(user, entityExists, isDisabled, isProfile),
@@ -136,7 +136,7 @@ const UserForm = ({user, isDisabled, isProfile, addSuccessMessage, guestId = 0})
 
             if (validateFormData(entityExists, isProfile, submittedFormData, setErrors)) {
                 delete submittedFormData.confirmPassword;
-                sendData(submittedFormData, urls.api, urls.redirect, entityExists, setErrors, addSuccessMessage, navigate, 'User');
+                sendData(submittedFormData, urls.api, urls.redirect, entityExists, apiHeaders, setErrors, addSuccessMessage, navigate, 'User');
             }
         },
         extraButton = guestId > 0
@@ -182,12 +182,17 @@ UserForm.propTypes = {
     user: PropTypes.object,
     isDisabled: PropTypes.bool,
     isProfile: PropTypes.bool,
+    apiHeaders: PropTypes.object,
     addSuccessMessage: PropTypes.func,
     guestId: PropTypes.number,
 };
+
+const mapStateToProps = (state) => ({
+    apiHeaders: state.auth.apiHeaders,
+});
 
 const mapDispatchToProps = (dispatch) => ({
     addSuccessMessage: (content) => dispatch(addSuccessMessage(content)),
 });
 
-export default connect(null, mapDispatchToProps)(UserForm);
+export default connect(mapStateToProps, mapDispatchToProps)(UserForm);

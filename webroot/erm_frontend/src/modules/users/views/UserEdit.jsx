@@ -3,8 +3,11 @@ import ROUTES, {getRouteWithParams} from '../../app/constants/routes';
 import {useParams} from 'react-router-dom';
 import axios from 'axios';
 import UserForm from '../components/UserForm';
+import withAuthentication from '../../app/auth/withAuthentication';
+import * as PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 
-export default function UserEdit() {
+const UserEdit = ({apiHeaders}) => {
     const [state, setState] = useState({
             user: {},
             isLoading: true,
@@ -14,7 +17,9 @@ export default function UserEdit() {
         title = 'Edit user';
 
     useEffect(() => {
-            axios.get(getRouteWithParams(ROUTES.api.user, {id: params.id}))
+            axios.get(getRouteWithParams(ROUTES.api.user, {id: params.id}), {
+                headers: apiHeaders,
+            })
                 .then(
                     (response) => setState({
                         user: response.data.user,
@@ -50,3 +55,13 @@ export default function UserEdit() {
         <UserForm user={state.user} isDisabled={false} isProfile={false}/>
     </React.Fragment>;
 }
+
+UserEdit.propTypes = {
+    apiHeaders: PropTypes.object,
+};
+
+const mapStateToProps = (state) => ({
+    apiHeaders: state.auth.apiHeaders,
+});
+
+export default withAuthentication(connect(mapStateToProps)(UserEdit));

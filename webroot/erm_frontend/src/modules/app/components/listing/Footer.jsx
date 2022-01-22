@@ -3,13 +3,15 @@ import {Link} from 'react-router-dom';
 import * as PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
-const Footer = ({buttonText, buttonUrl, currentUser}) => currentUser
-    ? <div className='listing__footer'>
-        <Link className='button button--success button--wide hoverable' to={buttonUrl}>
-            {buttonText}
-        </Link>
+const Footer = ({buttonText, buttonUrl, currentUser}) => (
+    <div className='listing__footer'>
+        {currentUser &&
+            <Link className='button button--success button--wide hoverable' to={buttonUrl}>
+                {buttonText}
+            </Link>
+        }
     </div>
-    : null;
+);
 
 Footer.propTypes = {
     buttonText: PropTypes.string,
@@ -18,7 +20,7 @@ Footer.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    currentUser: state.user.currentUser,
+    currentUser: state.auth.currentUser,
 });
 
 export default connect(mapStateToProps)(Footer);

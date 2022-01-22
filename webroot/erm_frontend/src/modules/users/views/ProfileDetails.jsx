@@ -2,6 +2,7 @@ import React from 'react';
 import UserForm from '../components/UserForm';
 import {connect} from 'react-redux';
 import * as PropTypes from 'prop-types';
+import withAuthentication from '../../app/auth/withAuthentication';
 
 const ProfileDetails = ({currentUser}) => {
     return <React.Fragment>
@@ -15,7 +16,7 @@ ProfileDetails.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-    currentUser: state.user.currentUser,
+    currentUser: state.auth.currentUser,
 });
 
-export default connect(mapStateToProps)(ProfileDetails);
+export default withAuthentication(connect(mapStateToProps)(ProfileDetails));

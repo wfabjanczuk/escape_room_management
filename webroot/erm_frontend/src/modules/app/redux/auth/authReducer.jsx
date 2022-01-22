@@ -1,15 +1,20 @@
 const INITIAL_STATE = {
     currentUser: null,
-    authorizationHeader: '',
+    apiHeaders: {
+        'Content-Type': 'application/json',
+    },
 };
 
-const userReducer = (state = INITIAL_STATE, action) => {
+const authReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case 'SET_CURRENT_USER':
             return {
                 ...state,
                 currentUser: action.payload.user,
-                authorizationHeader: 'Bearer ' + action.payload.jwt,
+                apiHeaders: {
+                    ...state.apiHeaders,
+                    'Authorization': 'Bearer ' + action.payload.jwt,
+                },
             };
         case 'LOG_OUT_CURRENT_USER':
             return INITIAL_STATE;
@@ -18,4 +23,4 @@ const userReducer = (state = INITIAL_STATE, action) => {
     }
 };
 
-export default userReducer;
+export default authReducer;

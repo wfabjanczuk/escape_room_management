@@ -83,7 +83,7 @@ const validateFormData = (formData, setErrors) => {
     return true;
 };
 
-const GuestForm = ({guest, isDisabled, addSuccessMessage}) => {
+const GuestForm = ({guest, isDisabled, apiHeaders, addSuccessMessage}) => {
     const id = parseInt(_get(guest, 'id', null), 10),
         entityExists = !!guest,
         urls = getUrls(guest, entityExists, isDisabled),
@@ -101,7 +101,7 @@ const GuestForm = ({guest, isDisabled, addSuccessMessage}) => {
             const submittedFormData = Object.fromEntries(new FormData(event.target));
 
             if (validateFormData(submittedFormData, setErrors)) {
-                sendData(submittedFormData, urls.api, urls.redirect, entityExists, setErrors, addSuccessMessage, navigate, 'Guest');
+                sendData(submittedFormData, urls.api, urls.redirect, entityExists, apiHeaders, setErrors, addSuccessMessage, navigate, 'Guest');
             }
         },
         extraButton = id > 0
@@ -120,14 +120,15 @@ const GuestForm = ({guest, isDisabled, addSuccessMessage}) => {
             formData={formData}
             errors={errors}
         />
-        <Footer id={id}
-                entityExists={entityExists}
-                isDisabled={isDisabled}
-                getDeletePromise={getDeleteGuestPromise}
-                editUrl={urls.edit}
-                redirectUrl={urls.redirect}
-                error={errors.general}
-                extraButtons={extraButton}
+        <Footer
+            id={id}
+            entityExists={entityExists}
+            isDisabled={isDisabled}
+            getDeletePromise={getDeleteGuestPromise}
+            editUrl={urls.edit}
+            redirectUrl={urls.redirect}
+            error={errors.general}
+            extraButtons={extraButton}
         />
     </form>;
 }
@@ -135,11 +136,16 @@ const GuestForm = ({guest, isDisabled, addSuccessMessage}) => {
 GuestForm.propTypes = {
     guest: PropTypes.object,
     isDisabled: PropTypes.bool,
+    apiHeaders: PropTypes.object,
     addSuccessMessage: PropTypes.func,
 };
+
+const mapStateToProps = (state) => ({
+    apiHeaders: state.auth.apiHeaders,
+});
 
 const mapDispatchToProps = (dispatch) => ({
     addSuccessMessage: (content) => dispatch(addSuccessMessage(content)),
 });
 
-export default connect(null, mapDispatchToProps)(GuestForm);
+export default connect(mapStateToProps, mapDispatchToProps)(GuestForm);

@@ -12,12 +12,13 @@ const ListingActions = (
         route,
         getDeletePromise,
         currentUser,
+        apiHeaders,
         addSuccessMessage,
         addErrorMessage,
         increaseChangeCounter
     }
 ) => {
-    const onDelete = () => getDeletePromise(id, addSuccessMessage, addErrorMessage)
+    const onDelete = () => getDeletePromise(id, apiHeaders, addSuccessMessage, addErrorMessage)
         .finally(() => increaseChangeCounter());
 
     return <ul className='listing__actions'>
@@ -48,13 +49,15 @@ ListingActions.propTypes = {
     route: PropTypes.object,
     getDeletePromise: PropTypes.func,
     currentUser: PropTypes.object,
+    apiHeaders: PropTypes.object,
     addSuccessMessage: PropTypes.func,
     addErrorMessage: PropTypes.func,
     increaseChangeCounter: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
-    currentUser: state.user.currentUser,
+    currentUser: state.auth.currentUser,
+    apiHeaders: state.auth.apiHeaders,
 });
 
 const mapDispatchToProps = (dispatch) => ({

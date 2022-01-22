@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link, useLocation, useNavigate} from 'react-router-dom';
-import {logOutCurrentUser} from '../redux/user/userActions';
+import {logOutCurrentUser} from '../redux/auth/authActions';
 import {connect} from 'react-redux';
 import * as PropTypes from 'prop-types';
 import ROUTES from '../constants/routes';
@@ -63,7 +63,7 @@ Header.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    currentUser: state.user.currentUser,
+    currentUser: state.auth.currentUser,
 });
 
 const mapDispatchToProps = (dispatch) => ({

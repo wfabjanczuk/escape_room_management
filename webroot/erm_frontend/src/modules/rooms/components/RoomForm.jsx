@@ -71,7 +71,7 @@ const validateFormData = (formData, setErrors) => {
     return true;
 };
 
-const RoomForm = ({room, isDisabled, addSuccessMessage}) => {
+const RoomForm = ({room, isDisabled, apiHeaders, addSuccessMessage}) => {
     const id = parseInt(_get(room, 'id', null), 10),
         entityExists = !!room,
         urls = getUrls(room, entityExists, isDisabled),
@@ -95,28 +95,44 @@ const RoomForm = ({room, isDisabled, addSuccessMessage}) => {
             const submittedFormData = Object.fromEntries(new FormData(event.target));
 
             if (validateFormData(submittedFormData, setErrors)) {
-                sendData(submittedFormData, urls.api, urls.redirect, entityExists, setErrors, addSuccessMessage, navigate, 'Room');
+                sendData(submittedFormData, urls.api, urls.redirect, entityExists, apiHeaders, setErrors, addSuccessMessage, navigate, 'Room');
             }
         };
 
     return <form className='form' method='POST' onSubmit={handleSubmit}>
-        <RoomFormFields entityExists={entityExists} isDisabled={isDisabled}
-                        onValueChange={onValueChange} forceValueChange={forceValueChange}
-                        formData={formData} errors={errors}/>
-        <Footer id={id} entityExists={entityExists}
-                isDisabled={isDisabled} getDeletePromise={getDeleteRoomPromise}
-                editUrl={urls.edit} redirectUrl={urls.redirect} error={errors.general}/>
+        <RoomFormFields
+            entityExists={entityExists}
+            isDisabled={isDisabled}
+            onValueChange={onValueChange}
+            forceValueChange={forceValueChange}
+            formData={formData}
+            errors={errors}
+        />
+        <Footer
+            id={id}
+            entityExists={entityExists}
+            isDisabled={isDisabled}
+            getDeletePromise={getDeleteRoomPromise}
+            editUrl={urls.edit}
+            redirectUrl={urls.redirect}
+            error={errors.general}
+        />
     </form>;
 }
 
 RoomForm.propTypes = {
     room: PropTypes.object,
     isDisabled: PropTypes.bool,
+    apiHeaders: PropTypes.object,
     addSuccessMessage: PropTypes.func,
 };
+
+const mapStateToProps = (state) => ({
+    apiHeaders: state.auth.apiHeaders,
+});
 
 const mapDispatchToProps = (dispatch) => ({
     addSuccessMessage: (content) => dispatch(addSuccessMessage(content)),
 });
 
-export default connect(null, mapDispatchToProps)(RoomForm);
+export default connect(mapStateToProps, mapDispatchToProps)(RoomForm);

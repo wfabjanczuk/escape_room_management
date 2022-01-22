@@ -13,7 +13,7 @@ const roomReservationColumns = [
     {key: 'totalPrice', name: 'Total price', render: (r) => parseFloat(r.totalPrice).toFixed(2)},
 ];
 
-const RoomReservations = ({id, currentUser, changeCounter}) => {
+const RoomReservations = ({id, currentUser, changeCounter, apiHeaders}) => {
     if (!currentUser) {
         return null;
     }
@@ -27,7 +27,9 @@ const RoomReservations = ({id, currentUser, changeCounter}) => {
     useEffect(() => {
             let cancel = false;
 
-            axios.get(getRouteWithParams(ROUTES.api.roomReservations, {id: id}))
+            axios.get(getRouteWithParams(ROUTES.api.roomReservations, {id: id}), {
+                headers: apiHeaders,
+            })
                 .then(
                     (response) => {
                         if (cancel) {
@@ -80,11 +82,13 @@ RoomReservations.propTypes = {
     id: PropTypes.number,
     currentUser: PropTypes.object,
     changeCounter: PropTypes.number,
+    apiHeaders: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
-    currentUser: state.user.currentUser,
+    currentUser: state.auth.currentUser,
     changeCounter: state.change.counter,
+    apiHeaders: state.auth.apiHeaders,
 });
 
 export default connect(mapStateToProps)(RoomReservations);

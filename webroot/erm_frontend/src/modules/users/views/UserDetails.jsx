@@ -3,8 +3,12 @@ import ROUTES, {getRouteWithParams} from '../../app/constants/routes';
 import {useParams} from 'react-router-dom';
 import axios from 'axios';
 import UserForm from '../components/UserForm';
+import withAuthentication from '../../app/auth/withAuthentication';
+import {get as _get} from 'lodash';
+import * as PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 
-export default function UserDetails() {
+const UserDetails = ({apiHeaders}) => {
     const [userState, setUserState] = useState({
             user: {},
             isLoading: true,
@@ -19,7 +23,9 @@ export default function UserDetails() {
         title = 'User details';
 
     useEffect(() => {
-            axios.get(getRouteWithParams(ROUTES.api.user, {id: params.id}))
+            axios.get(getRouteWithParams(ROUTES.api.user, {id: params.id}), {
+                headers: apiHeaders,
+            })
                 .then(
                     (response) => setUserState({
                         user: response.data.user,
@@ -37,7 +43,9 @@ export default function UserDetails() {
     );
 
     useEffect(() => {
-            axios.get(getRouteWithParams(ROUTES.api.userGuest, {id: params.id}))
+            axios.get(getRouteWithParams(ROUTES.api.userGuest, {id: params.id}), {
+                headers: apiHeaders,
+            })
                 .then(
                     (response) => setGuestState({
                         guestId: response.data.guest.id,
@@ -55,7 +63,7 @@ export default function UserDetails() {
     );
 
     if (userState.error || guestState.error) {
-        const errorMessage = userState.error.message + ' ' + guestState.error.message;
+        const errorMessage = _get(userState, 'error.message', '') + ' ' + _get(guestState, 'error.message', '');
 
         return <React.Fragment>
             <p>{errorMessage.trim()}</p>
@@ -79,3 +87,13 @@ export default function UserDetails() {
         />
     </React.Fragment>;
 }
+
+UserDetails.propTypes = {
+    apiHeaders: PropTypes.object,
+};
+
+const mapStateToProps = (state) => ({
+    apiHeaders: state.auth.apiHeaders,
+});
+
+export default withAuthentication(connect(mapStateToProps)(UserDetails));

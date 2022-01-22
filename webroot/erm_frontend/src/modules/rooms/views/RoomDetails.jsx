@@ -4,8 +4,10 @@ import axios from 'axios';
 import ROUTES, {getRouteWithParams} from '../../app/constants/routes';
 import RoomForm from '../../rooms/components/RoomForm';
 import RoomReservations from '../components/RoomReservations';
+import {connect} from 'react-redux';
+import * as PropTypes from 'prop-types';
 
-export default function RoomDetails() {
+const RoomDetails = ({apiHeaders}) => {
     const [state, setState] = useState({
             room: {},
             isLoading: true,
@@ -15,7 +17,9 @@ export default function RoomDetails() {
         title = 'Room details';
 
     useEffect(() => {
-            axios.get(getRouteWithParams(ROUTES.api.room, {id: params.id}))
+            axios.get(getRouteWithParams(ROUTES.api.room, {id: params.id}), {
+                headers: apiHeaders,
+            })
                 .then(
                     (response) => setState({
                         room: response.data.room,
@@ -52,3 +56,13 @@ export default function RoomDetails() {
         <RoomReservations id={state.room.id}/>
     </React.Fragment>;
 }
+
+RoomDetails.propTypes = {
+    apiHeaders: PropTypes.object,
+};
+
+const mapStateToProps = (state) => ({
+    apiHeaders: state.auth.apiHeaders,
+});
+
+export default connect(mapStateToProps)(RoomDetails);

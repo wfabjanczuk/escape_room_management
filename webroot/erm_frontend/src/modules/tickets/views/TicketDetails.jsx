@@ -5,8 +5,11 @@ import axios from 'axios';
 import TicketForm from '../components/TicketForm';
 import GuestForm from '../../guests/components/GuestForm';
 import ReservationForm from '../../reservations/components/ReservationForm';
+import withAuthentication from '../../app/auth/withAuthentication';
+import * as PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 
-export default function TicketDetails() {
+const TicketDetails = ({apiHeaders}) => {
     const [state, setState] = useState({
             ticket: {},
             isLoading: true,
@@ -16,7 +19,9 @@ export default function TicketDetails() {
         title = 'Ticket details';
 
     useEffect(() => {
-            axios.get(getRouteWithParams(ROUTES.api.ticket, {id: params.id}))
+            axios.get(getRouteWithParams(ROUTES.api.ticket, {id: params.id}), {
+                headers: apiHeaders,
+            })
                 .then(
                     (response) => setState({
                         ticket: response.data.ticket,
@@ -56,3 +61,13 @@ export default function TicketDetails() {
         <ReservationForm reservation={state.ticket.reservation} isDisabled={true}/>
     </React.Fragment>;
 }
+
+TicketDetails.propTypes = {
+    apiHeaders: PropTypes.object,
+};
+
+const mapStateToProps = (state) => ({
+    apiHeaders: state.auth.apiHeaders,
+});
+
+export default withAuthentication(connect(mapStateToProps)(TicketDetails));

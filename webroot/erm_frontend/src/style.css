@@ -381,6 +381,11 @@ textarea {
     grid-template-columns: 160px 320px 1fr;
 }
 
+.form select,
+.form input {
+    background-color: white;
+}
+
 .form .form__section,
 .form .form__footer {
     grid-column: 1 / span 3;

@@ -72,7 +72,16 @@ const validateFormData = (formData, setErrors) => {
     return true;
 };
 
-const ReservationForm = ({reservation, isDisabled, addSuccessMessage, changeCounter, increaseChangeCounter}) => {
+const ReservationForm = (
+    {
+        reservation,
+        isDisabled,
+        apiHeaders,
+        addSuccessMessage,
+        changeCounter,
+        increaseChangeCounter
+    }
+) => {
     const id = parseInt(_get(reservation, 'id', null), 10),
         entityExists = !!reservation,
         urls = getUrls(reservation, entityExists, isDisabled),
@@ -104,7 +113,7 @@ const ReservationForm = ({reservation, isDisabled, addSuccessMessage, changeCoun
                 : '';
 
             if (validateFormData(submittedFormData, setErrors)) {
-                sendData(submittedFormData, urls.api, urls.redirect, entityExists, setErrors, addSuccessMessage, navigate, 'Reservation');
+                sendData(submittedFormData, urls.api, urls.redirect, entityExists, apiHeaders, setErrors, addSuccessMessage, navigate, 'Reservation');
             }
 
             increaseChangeCounter();
@@ -122,7 +131,9 @@ const ReservationForm = ({reservation, isDisabled, addSuccessMessage, changeCoun
                 return;
             }
 
-            axios.get(ROUTES.api.rooms)
+            axios.get(ROUTES.api.rooms, {
+                headers: apiHeaders,
+            })
                 .then(
                     (response) => setRoomOptions({
                         ...roomOptions,
@@ -150,24 +161,38 @@ const ReservationForm = ({reservation, isDisabled, addSuccessMessage, changeCoun
     }
 
     return <form className='form' method='POST' onSubmit={handleSubmit}>
-        <ReservationFormFields entityExists={entityExists} roomOptions={roomOptions.rooms}
-                               isDisabled={isDisabled} onValueChange={onValueChange}
-                               formData={formData} errors={errors} readOnlyValues={readOnlyValues}/>
-        <Footer id={id} entityExists={entityExists}
-                isDisabled={isDisabled} getDeletePromise={getDeleteReservationPromise}
-                editUrl={urls.edit} redirectUrl={urls.redirect} error={errors.general}/>
+        <ReservationFormFields
+            entityExists={entityExists}
+            roomOptions={roomOptions.rooms}
+            isDisabled={isDisabled}
+            onValueChange={onValueChange}
+            formData={formData}
+            errors={errors}
+            readOnlyValues={readOnlyValues}
+        />
+        <Footer
+            id={id}
+            entityExists={entityExists}
+            isDisabled={isDisabled}
+            getDeletePromise={getDeleteReservationPromise}
+            editUrl={urls.edit}
+            redirectUrl={urls.redirect}
+            error={errors.general}
+        />
     </form>;
 }
 
 ReservationForm.propTypes = {
     reservation: PropTypes.object,
     isDisabled: PropTypes.bool,
+    apiHeaders: PropTypes.object,
     addSuccessMessage: PropTypes.func,
     changeCounter: PropTypes.number,
     increaseChangeCounter: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
+    apiHeaders: state.auth.apiHeaders,
     changeCounter: state.change.counter,
 });
 

@@ -3,8 +3,11 @@ import ROUTES, {getRouteWithParams} from '../../app/constants/routes';
 import {useParams} from 'react-router-dom';
 import axios from 'axios';
 import ReservationForm from '../components/ReservationForm';
+import withAuthentication from '../../app/auth/withAuthentication';
+import * as PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 
-export default function ReservationEdit() {
+const ReservationEdit = ({apiHeaders}) => {
     const [state, setState] = useState({
             reservation: {},
             isLoading: true,
@@ -14,7 +17,9 @@ export default function ReservationEdit() {
         title = 'Edit reservation';
 
     useEffect(() => {
-            axios.get(getRouteWithParams(ROUTES.api.reservation, {id: params.id}))
+            axios.get(getRouteWithParams(ROUTES.api.reservation, {id: params.id}), {
+                headers: apiHeaders,
+            })
                 .then(
                     (response) => setState({
                         reservation: response.data.reservation,
@@ -50,3 +55,13 @@ export default function ReservationEdit() {
         <ReservationForm reservation={state.reservation} isDisabled={false}/>
     </React.Fragment>;
 }
+
+ReservationEdit.propTypes = {
+    apiHeaders: PropTypes.object,
+};
+
+const mapStateToProps = (state) => ({
+    apiHeaders: state.auth.apiHeaders,
+});
+
+export default withAuthentication(connect(mapStateToProps)(ReservationEdit));

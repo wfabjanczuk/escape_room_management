@@ -59,7 +59,7 @@ const validateFormData = (formData, setErrors) => {
     return true;
 };
 
-const TicketForm = ({ticket, isDisabled, addSuccessMessage, changeCounter, increaseChangeCounter}) => {
+const TicketForm = ({ticket, isDisabled, apiHeaders, addSuccessMessage, changeCounter, increaseChangeCounter}) => {
     const id = parseInt(_get(ticket, 'id', null), 10),
         entityExists = !!ticket,
         urls = getUrls(ticket, entityExists, isDisabled),
@@ -102,7 +102,7 @@ const TicketForm = ({ticket, isDisabled, addSuccessMessage, changeCounter, incre
             const submittedFormData = Object.fromEntries(new FormData(event.target));
 
             if (validateFormData(submittedFormData, setErrors)) {
-                sendData(submittedFormData, urls.api, urls.redirect, entityExists, setErrors, addSuccessMessage, navigate, 'Ticket');
+                sendData(submittedFormData, urls.api, urls.redirect, entityExists, apiHeaders, setErrors, addSuccessMessage, navigate, 'Ticket');
             }
 
             increaseChangeCounter();
@@ -120,7 +120,9 @@ const TicketForm = ({ticket, isDisabled, addSuccessMessage, changeCounter, incre
                 return;
             }
 
-            axios.get(ROUTES.api.reservations)
+            axios.get(ROUTES.api.reservations, {
+                headers: apiHeaders,
+            })
                 .then(
                     (response) => setReservationOptions({
                         ...reservationOptions,
@@ -149,7 +151,9 @@ const TicketForm = ({ticket, isDisabled, addSuccessMessage, changeCounter, incre
                 return;
             }
 
-            axios.get(ROUTES.api.guests)
+            axios.get(ROUTES.api.guests, {
+                headers: apiHeaders,
+            })
                 .then(
                     (response) => setGuestOptions({
                         ...guestOptions,
@@ -179,25 +183,39 @@ const TicketForm = ({ticket, isDisabled, addSuccessMessage, changeCounter, incre
     }
 
     return <form className='form' method='POST' onSubmit={handleSubmit}>
-        <TicketFormFields entityExists={entityExists}
-                          reservationOptions={reservationOptions.reservations} guestOptions={guestOptions.guests}
-                          isDisabled={isDisabled} onValueChange={onValueChange} forceValueChange={forceValueChange}
-                          formData={formData} errors={errors}/>
-        <Footer id={id} entityExists={entityExists}
-                isDisabled={isDisabled} getDeletePromise={getDeleteTicketPromise}
-                editUrl={urls.edit} redirectUrl={urls.redirect} error={errors.general}/>
+        <TicketFormFields
+            entityExists={entityExists}
+            reservationOptions={reservationOptions.reservations}
+            guestOptions={guestOptions.guests}
+            isDisabled={isDisabled}
+            onValueChange={onValueChange}
+            forceValueChange={forceValueChange}
+            formData={formData}
+            errors={errors}
+        />
+        <Footer
+            id={id}
+            entityExists={entityExists}
+            isDisabled={isDisabled}
+            getDeletePromise={getDeleteTicketPromise}
+            editUrl={urls.edit}
+            redirectUrl={urls.redirect}
+            error={errors.general}
+        />
     </form>;
 }
 
 TicketForm.propTypes = {
     ticket: PropTypes.object,
     isDisabled: PropTypes.bool,
+    apiHeaders: PropTypes.object,
     addSuccessMessage: PropTypes.func,
     changeCounter: PropTypes.number,
     increaseChangeCounter: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
+    apiHeaders: state.auth.apiHeaders,
     changeCounter: state.change.counter,
 });
 

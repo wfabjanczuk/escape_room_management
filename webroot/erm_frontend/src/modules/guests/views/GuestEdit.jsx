@@ -3,8 +3,11 @@ import ROUTES, {getRouteWithParams} from '../../app/constants/routes';
 import {useParams} from 'react-router-dom';
 import axios from 'axios';
 import GuestForm from '../components/GuestForm';
+import withAuthentication from '../../app/auth/withAuthentication';
+import {connect} from 'react-redux';
+import * as PropTypes from 'prop-types';
 
-export default function GuestEdit() {
+const GuestEdit = ({apiHeaders}) => {
     const [state, setState] = useState({
             guest: {},
             isLoading: true,
@@ -14,7 +17,9 @@ export default function GuestEdit() {
         title = 'Edit guest';
 
     useEffect(() => {
-            axios.get(getRouteWithParams(ROUTES.api.guest, {id: params.id}))
+            axios.get(getRouteWithParams(ROUTES.api.guest, {id: params.id}), {
+                headers: apiHeaders,
+            })
                 .then(
                     (response) => setState({
                         guest: response.data.guest,
@@ -50,3 +55,13 @@ export default function GuestEdit() {
         <GuestForm guest={state.guest} isDisabled={false}/>
     </React.Fragment>;
 }
+
+GuestEdit.propTypes = {
+    apiHeaders: PropTypes.object,
+};
+
+const mapStateToProps = (state) => ({
+    apiHeaders: state.auth.apiHeaders,
+});
+
+export default withAuthentication(connect(mapStateToProps)(GuestEdit));
