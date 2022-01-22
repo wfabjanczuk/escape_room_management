@@ -57,11 +57,15 @@ const SignInForm = ({apiHeaders, addSuccessMessage, setCurrentUser}) => {
                             setErrors({});
                             addSuccessMessage(successMessage);
 
-                            const result = response.data.result;
-                            setCurrentUser({
-                                user: result.user,
-                                jwt: result.jwt,
-                            });
+                            const result = response.data.result,
+                                currentUser = {
+                                    user: result.user,
+                                    jwt: result.jwt,
+                                };
+
+                            window.localStorage.setItem('currentUser', JSON.stringify(currentUser))
+                            setCurrentUser(currentUser);
+
                             navigate(ROUTES.users.profileDetails);
                         },
                         (error) => {

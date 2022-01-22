@@ -15,6 +15,7 @@ const Header = ({currentUser, logOut}) => {
         },
         onLogOutClick = () => {
             logOut();
+            window.localStorage.removeItem('currentUser');
             navigate(ROUTES.users.signIn);
         };
 
