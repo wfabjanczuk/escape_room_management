@@ -1,6 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import ROUTES, {getRouteWithParams} from '../../app/constants/routes';
-import axios from 'axios';
+import React from 'react';
+import ROUTES from '../../app/constants/routes';
 import Listing from '../../app/components/listing/Listing';
 import * as PropTypes from 'prop-types';
 import getDeleteTicketPromise from '../../tickets/utils/getDeleteTicketPromise';
@@ -18,76 +17,31 @@ const reservationTicketColumns = [
     },
 ];
 
-const ReservationTickets = ({id, changeCounter, apiHeaders}) => {
-    const [state, setState] = useState({
-        tickets: [],
-        isLoading: true,
-        error: null,
-    });
-
-    useEffect(() => {
-            let cancel = false;
-
-            axios.get(getRouteWithParams(ROUTES.api.reservationTickets, {id: id}), {
-                headers: apiHeaders,
-            })
-                .then(
-                    (response) => {
-                        if (cancel) {
-                            return;
-                        }
-
-                        setState({
-                            tickets: response.data.tickets,
-                            isLoading: false,
-                            error: null,
-                        });
-                    },
-                    (error) => {
-                        if (cancel) {
-                            return;
-                        }
-
-                        setState({
-                            tickets: [],
-                            isLoading: false,
-                            error: error,
-                        });
-                    }
-                );
-
-            return () => {
-                cancel = true;
-            };
-        },
-        [id, changeCounter]
-    );
-
+const ReservationTickets = ({ticketsState, guestId}) => {
     return <React.Fragment>
         <h2>Reservation tickets</h2>
         <Listing
-            error={state.error}
-            isLoading={state.isLoading}
-            rows={state.tickets}
+            error={ticketsState.error}
+            isLoading={ticketsState.isLoading}
+            rows={ticketsState.tickets}
             noRowsText='No tickets found.'
             columns={reservationTicketColumns}
             actionsRoute={ROUTES.tickets}
             getDeletePromise={getDeleteTicketPromise}
             buttonText='Add new ticket'
             buttonUrl={ROUTES.tickets.add}
+            renderActions={!guestId}
         />
     </React.Fragment>;
 };
 
 ReservationTickets.propTypes = {
-    id: PropTypes.number,
-    changeCounter: PropTypes.number,
-    apiHeaders: PropTypes.object,
+    ticketsState: PropTypes.object,
+    guestId: PropTypes.number,
 };
 
 const mapStateToProps = (state) => ({
-    changeCounter: state.change.counter,
-    apiHeaders: state.auth.apiHeaders,
+    guestId: state.auth.guestId,
 });
 
 export default connect(mapStateToProps)(ReservationTickets);

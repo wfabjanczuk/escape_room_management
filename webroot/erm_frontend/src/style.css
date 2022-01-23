@@ -360,6 +360,10 @@ header .button {
     width: 240px;
 }
 
+.form.form--no-footer {
+    margin-bottom: 2rem;
+}
+
 button,
 input,
 select,

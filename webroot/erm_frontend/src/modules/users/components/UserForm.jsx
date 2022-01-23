@@ -144,7 +144,7 @@ const UserForm = ({user, isDisabled, isProfile, apiHeaders, addSuccessMessage, g
                 sendData(submittedFormData, urls.api, urls.redirect, entityExists, apiHeaders, setErrors, addSuccessMessage, navigate, 'User');
             }
         },
-        extraButton = guestId > 0
+        extraButton = (guestId > 0 && isDisabled)
             ? <Link
                 className='button button--primary hoverable'
                 to={getRouteWithParams(ROUTES.guests.details, {id: guestId})}>

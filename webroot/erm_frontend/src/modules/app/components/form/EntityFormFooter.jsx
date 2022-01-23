@@ -4,6 +4,7 @@ import * as PropTypes from 'prop-types';
 import {addErrorMessage, addSuccessMessage} from '../../redux/flash/flashActions';
 import {increaseChangeCounter} from '../../redux/change/changeActions';
 import {connect} from 'react-redux';
+import {ROLE_ADMIN} from '../../constants/roles';
 
 const EntityFormFooter = (
     {
@@ -27,8 +28,9 @@ const EntityFormFooter = (
     if (!currentUser) {
         return <div className='form__footer'>
             <Link className='button button--primary hoverable' to={redirectUrl}>
-                Return to list
+                Back to list
             </Link>
+            {extraButtons}
         </div>;
     }
 
@@ -38,12 +40,19 @@ const EntityFormFooter = (
             .finally(() => increaseChangeCounter());
 
         return <div className='form__footer'>
-            <Link className='button button--warning hoverable' to={editUrl}>
-                Edit
-            </Link>
-            <div className='button button--danger hoverable' onClick={onDelete}>
-                Delete
-            </div>
+            {currentUser.roleId === ROLE_ADMIN
+                ? <React.Fragment>
+                    <Link className='button button--warning hoverable' to={editUrl}>
+                        Edit
+                    </Link>
+                    <div className='button button--danger hoverable' onClick={onDelete}>
+                        Delete
+                    </div>
+                </React.Fragment>
+                : <Link className='button button--primary hoverable' to={redirectUrl}>
+                    Back to list
+                </Link>
+            }
             {extraButtons}
         </div>;
     }
@@ -54,6 +63,7 @@ const EntityFormFooter = (
         <Link className='button button--secondary hoverable' to={redirectUrl}>
             Cancel
         </Link>
+        {extraButtons}
     </div>;
 };
 

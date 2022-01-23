@@ -3,7 +3,18 @@ import ListingActions from './ListingActions';
 import * as PropTypes from 'prop-types';
 import Footer from './Footer';
 
-const ListingWide = ({rows, columns, actionsRoute, getDeletePromise, buttonText, buttonUrl}) => (
+const ListingWide = (
+    {
+        rows,
+        columns,
+        actionsRoute,
+        getDeletePromise,
+        buttonText,
+        buttonUrl,
+        renderActions,
+        actionsRenderer
+    }
+) => (
     <div className='listing listing--wide'>
         <table className='listing__table listing__table--hoverable'>
             <thead>
@@ -13,7 +24,7 @@ const ListingWide = ({rows, columns, actionsRoute, getDeletePromise, buttonText,
                         {c.name}
                     </th>
                 ))}
-                <th>Actions</th>
+                {renderActions && <th>Actions</th>}
             </tr>
             </thead>
             <tbody>
@@ -26,9 +37,17 @@ const ListingWide = ({rows, columns, actionsRoute, getDeletePromise, buttonText,
                             {c.render ? c.render(r) : r[c.key]}
                         </td>
                     ))}
-                    <td>
-                        <ListingActions id={r.id} route={actionsRoute} getDeletePromise={getDeletePromise}/>
-                    </td>
+                    {renderActions &&
+                        <td>
+                            <ListingActions
+                                row={r}
+                                route={actionsRoute}
+                                getDeletePromise={getDeletePromise}
+                                actionsRenderer={actionsRenderer}
+                                renderActions={renderActions}
+                            />
+                        </td>
+                    }
                 </tr>
             ))}
             </tbody>
@@ -45,6 +64,8 @@ ListingWide.propTypes = {
     getDeletePromise: PropTypes.func,
     buttonText: PropTypes.string,
     buttonUrl: PropTypes.string,
+    renderActions: PropTypes.bool,
+    actionsRenderer: PropTypes.func,
 };
 
 export default ListingWide;

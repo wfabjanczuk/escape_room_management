@@ -3,7 +3,18 @@ import ListingActions from './ListingActions';
 import * as PropTypes from 'prop-types';
 import Footer from './Footer';
 
-const ListingCompact = ({rows, columns, actionsRoute, getDeletePromise, buttonText, buttonUrl}) => (
+const ListingCompact = (
+    {
+        rows,
+        columns,
+        actionsRoute,
+        getDeletePromise,
+        buttonText,
+        buttonUrl,
+        renderActions,
+        actionsRenderer
+    }
+) => (
     <div className='listing listing--compact'>
         <table className='listing__table listing__table--hoverable'>
             {rows.map((r, rIndex) => (
@@ -14,11 +25,19 @@ const ListingCompact = ({rows, columns, actionsRoute, getDeletePromise, buttonTe
                         <td>{c.render ? c.render(r) : r[c.key]}</td>
                     </tr>
                 ))}
-                <tr>
-                    <td colSpan='2'>
-                        <ListingActions id={r.id} route={actionsRoute} getDeletePromise={getDeletePromise}/>
-                    </td>
-                </tr>
+                {renderActions &&
+                    <tr>
+                        <td colSpan='2'>
+                            <ListingActions
+                                row={r}
+                                route={actionsRoute}
+                                getDeletePromise={getDeletePromise}
+                                actionsRenderer={actionsRenderer}
+                                renderActions={renderActions}
+                            />
+                        </td>
+                    </tr>
+                }
                 </tbody>
             ))}
         </table>
@@ -34,6 +53,8 @@ ListingCompact.propTypes = {
     getDeletePromise: PropTypes.func,
     buttonText: PropTypes.string,
     buttonUrl: PropTypes.string,
+    renderActions: PropTypes.bool,
+    actionsRenderer: PropTypes.func,
 };
 
 export default ListingCompact;

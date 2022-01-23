@@ -71,7 +71,15 @@ const validateFormData = (formData, setErrors) => {
     return true;
 };
 
-const RoomForm = ({room, isDisabled, apiHeaders, addSuccessMessage}) => {
+const RoomForm = (
+    {
+        room,
+        isDisabled,
+        apiHeaders,
+        addSuccessMessage,
+        showFooter = true
+    }
+) => {
     const id = parseInt(_get(room, 'id', null), 10),
         entityExists = !!room,
         urls = getUrls(room, entityExists, isDisabled),
@@ -97,9 +105,10 @@ const RoomForm = ({room, isDisabled, apiHeaders, addSuccessMessage}) => {
             if (validateFormData(submittedFormData, setErrors)) {
                 sendData(submittedFormData, urls.api, urls.redirect, entityExists, apiHeaders, setErrors, addSuccessMessage, navigate, 'Room');
             }
-        };
+        },
+        className = showFooter ? 'form' : 'form form--no-footer';
 
-    return <form className='form' method='POST' onSubmit={handleSubmit}>
+    return <form className={className} method='POST' onSubmit={handleSubmit}>
         <RoomFormFields
             entityExists={entityExists}
             isDisabled={isDisabled}
@@ -108,7 +117,7 @@ const RoomForm = ({room, isDisabled, apiHeaders, addSuccessMessage}) => {
             formData={formData}
             errors={errors}
         />
-        <Footer
+        {showFooter && <Footer
             id={id}
             entityExists={entityExists}
             isDisabled={isDisabled}
@@ -116,13 +125,14 @@ const RoomForm = ({room, isDisabled, apiHeaders, addSuccessMessage}) => {
             editUrl={urls.edit}
             redirectUrl={urls.redirect}
             error={errors.general}
-        />
+        />}
     </form>;
 }
 
 RoomForm.propTypes = {
     room: PropTypes.object,
     isDisabled: PropTypes.bool,
+    showFooter: PropTypes.bool,
     apiHeaders: PropTypes.object,
     addSuccessMessage: PropTypes.func,
 };

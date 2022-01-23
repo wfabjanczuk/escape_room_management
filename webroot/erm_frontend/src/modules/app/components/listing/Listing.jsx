@@ -14,7 +14,9 @@ const Listing = (
         actionsRoute,
         getDeletePromise,
         buttonText,
-        buttonUrl
+        buttonUrl,
+        actionsRenderer,
+        renderActions = true,
     }
 ) => {
     if (error) {
@@ -33,12 +35,26 @@ const Listing = (
     }
 
     return <React.Fragment>
-        <ListingWide rows={rows} columns={columns}
-                     actionsRoute={actionsRoute} getDeletePromise={getDeletePromise}
-                     buttonText={buttonText} buttonUrl={buttonUrl}/>
-        <ListingCompact rows={rows} columns={columns}
-                        actionsRoute={actionsRoute} getDeletePromise={getDeletePromise}
-                        buttonText={buttonText} buttonUrl={buttonUrl}/>
+        <ListingWide
+            rows={rows}
+            columns={columns}
+            actionsRoute={actionsRoute}
+            getDeletePromise={getDeletePromise}
+            buttonText={buttonText}
+            buttonUrl={buttonUrl}
+            renderActions={renderActions}
+            actionsRenderer={actionsRenderer}
+        />
+        <ListingCompact
+            rows={rows}
+            columns={columns}
+            actionsRoute={actionsRoute}
+            getDeletePromise={getDeletePromise}
+            buttonText={buttonText}
+            buttonUrl={buttonUrl}
+            renderActions={renderActions}
+            actionsRenderer={actionsRenderer}
+        />
     </React.Fragment>;
 };
 
@@ -52,6 +68,8 @@ Listing.propTypes = {
     getDeletePromise: PropTypes.func,
     buttonText: PropTypes.string,
     buttonUrl: PropTypes.string,
+    actionsRenderer: PropTypes.func,
+    renderActions: PropTypes.bool,
 };
 
 export default Listing;

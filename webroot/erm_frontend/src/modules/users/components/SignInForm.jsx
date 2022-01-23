@@ -57,11 +57,7 @@ const SignInForm = ({apiHeaders, addSuccessMessage, setCurrentUser}) => {
                             setErrors({});
                             addSuccessMessage(successMessage);
 
-                            const result = response.data.result,
-                                currentUser = {
-                                    user: result.user,
-                                    jwt: result.jwt,
-                                };
+                            const currentUser = response.data.result;
 
                             window.localStorage.setItem('currentUser', JSON.stringify(currentUser))
                             setCurrentUser(currentUser);

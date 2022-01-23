@@ -23,8 +23,9 @@ type authController struct {
 }
 
 type AuthenticatedUser struct {
-	User models.User `json:"user"`
-	Jwt  string      `json:"jwt"`
+	User    models.User `json:"user"`
+	GuestId uint        `json:"guestId"`
+	Jwt     string      `json:"jwt"`
 }
 
 func newAuthController(userRepository *repositories.UserRepository, jwtSecret string, logger *log.Logger) *authController {
@@ -71,10 +72,17 @@ func (c *authController) SignIn(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	var guestId uint
+	guest, err := c.userRepository.GetUserGuest(int(user.ID))
+	if err == nil {
+		guestId = guest.ID
+	}
+
 	user.Password = ""
 	var authenticatedUser = &AuthenticatedUser{
-		User: user,
-		Jwt:  string(jwtBytes),
+		User:    user,
+		GuestId: guestId,
+		Jwt:     string(jwtBytes),
 	}
 
 	err = c.writeWrappedJson(w, http.StatusOK, authenticatedUser, "result")

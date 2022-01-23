@@ -5,32 +5,44 @@ import {getRouteWithParams} from '../../constants/routes';
 import {connect} from 'react-redux';
 import {addErrorMessage, addSuccessMessage} from '../../redux/flash/flashActions';
 import {increaseChangeCounter} from '../../redux/change/changeActions';
+import {ROLE_ADMIN} from '../../constants/roles';
 
 const ListingActions = (
     {
-        id,
+        row,
         route,
         getDeletePromise,
         currentUser,
         apiHeaders,
         addSuccessMessage,
         addErrorMessage,
-        increaseChangeCounter
+        increaseChangeCounter,
+        renderActions,
+        actionsRenderer,
     }
 ) => {
-    const onDelete = () => getDeletePromise(id, apiHeaders, addSuccessMessage, addErrorMessage)
+    if (!renderActions) {
+        return null;
+    }
+
+    if (actionsRenderer) {
+        return actionsRenderer(row);
+    }
+
+    const onDelete = () => getDeletePromise(row.id, apiHeaders, addSuccessMessage, addErrorMessage)
         .finally(() => increaseChangeCounter());
 
     return <ul className='listing__actions'>
         <li className='action'>
-            <Link className='button button--primary hoverable' to={getRouteWithParams(route.details, {id: id})}>
+            <Link className='button button--primary hoverable' to={getRouteWithParams(route.details, {id: row.id})}>
                 Details
             </Link>
         </li>
-        {currentUser &&
+        {currentUser && currentUser.roleId === ROLE_ADMIN &&
             <React.Fragment>
                 <li className='action'>
-                    <Link className='button button--warning hoverable' to={getRouteWithParams(route.edit, {id: id})}>
+                    <Link className='button button--warning hoverable'
+                          to={getRouteWithParams(route.edit, {id: row.id})}>
                         Edit
                     </Link>
                 </li>
@@ -45,7 +57,7 @@ const ListingActions = (
 };
 
 ListingActions.propTypes = {
-    id: PropTypes.number,
+    row: PropTypes.object,
     route: PropTypes.object,
     getDeletePromise: PropTypes.func,
     currentUser: PropTypes.object,
@@ -53,6 +65,8 @@ ListingActions.propTypes = {
     addSuccessMessage: PropTypes.func,
     addErrorMessage: PropTypes.func,
     increaseChangeCounter: PropTypes.func,
+    renderActions: PropTypes.bool,
+    actionsRenderer: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({

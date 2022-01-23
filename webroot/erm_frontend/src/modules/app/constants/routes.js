@@ -20,6 +20,7 @@ const ROUTES = {
         reservations: API + '/reservations',
         reservation: API + '/reservations/:id',
         reservationTickets: API + '/reservations/:id/tickets',
+        cancelReservation: API + '/reservations/:id/cancel',
         rooms: API + '/rooms',
         room: API + '/rooms/:id',
         roomReservations: API + '/rooms/:id/reservations',

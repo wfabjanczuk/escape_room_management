@@ -7,11 +7,11 @@ import GuestAdd from '../../guests/views/GuestAdd';
 import GuestEdit from '../../guests/views/GuestEdit';
 import GuestDetails from '../../guests/views/GuestDetails';
 import Tickets from '../../tickets/views/Tickets';
-import Reservations from '../../reservations/views/Reservations';
 import Rooms from '../../rooms/views/Rooms';
 import TicketAdd from '../../tickets/views/TicketAdd';
 import TicketEdit from '../../tickets/views/TicketEdit';
 import TicketDetails from '../../tickets/views/TicketDetails';
+import ReservationsWrapper from '../../reservations/views/ReservationsWrapper';
 import ReservationAdd from '../../reservations/views/ReservationAdd';
 import ReservationEdit from '../../reservations/views/ReservationEdit';
 import ReservationDetails from '../../reservations/views/ReservationDetails';
@@ -70,7 +70,7 @@ const getTicketRoutes = () => (<React.Fragment>
 </React.Fragment>);
 
 const getReservationRoutes = () => (<React.Fragment>
-    <Route path={ROUTES.reservations.index} element={<Reservations/>}/>
+    <Route path={ROUTES.reservations.index} element={<ReservationsWrapper/>}/>
     <Route path={ROUTES.reservations.add} element={<ReservationAdd/>}/>
     <Route path={ROUTES.reservations.edit} element={<ReservationEdit/>}/>
     <Route path={ROUTES.reservations.details} element={<ReservationDetails/>}/>

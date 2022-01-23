@@ -1,7 +1,5 @@
-import {get as _get} from 'lodash';
 import React, {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
-import Footer from '../../app/components/form/EntityFormFooter';
 import ROUTES, {getRouteWithParams} from '../../app/constants/routes';
 import getDeleteReservationPromise from '../utils/getDeleteReservationPromise';
 import NewFormValidator from '../../app/utils/FormValidator';
@@ -14,6 +12,7 @@ import {increaseChangeCounter} from '../../app/redux/change/changeActions';
 import moment from 'moment';
 import {API_DATE_FORMAT, INPUT_DATE_FORMAT} from '../../app/constants/dates';
 import {sendData} from '../../app/utils/form';
+import ReservationFormFooter from './ReservationFormFooter';
 
 const getInitialFormData = (reservation) => {
     return {
@@ -76,14 +75,14 @@ const ReservationForm = (
     {
         reservation,
         isDisabled,
+        allowedToCancel,
         apiHeaders,
         addSuccessMessage,
         changeCounter,
-        increaseChangeCounter
+        increaseChangeCounter,
     }
 ) => {
-    const id = parseInt(_get(reservation, 'id', null), 10),
-        entityExists = !!reservation,
+    const entityExists = !!reservation,
         urls = getUrls(reservation, entityExists, isDisabled),
         readOnlyValues = {
             totalPrice: reservation ? parseFloat(reservation.totalPrice).toFixed(2) : '',
@@ -170,10 +169,11 @@ const ReservationForm = (
             errors={errors}
             readOnlyValues={readOnlyValues}
         />
-        <Footer
-            id={id}
+        <ReservationFormFooter
+            reservation={reservation}
             entityExists={entityExists}
             isDisabled={isDisabled}
+            allowedToCancel={allowedToCancel}
             getDeletePromise={getDeleteReservationPromise}
             editUrl={urls.edit}
             redirectUrl={urls.redirect}
@@ -185,6 +185,7 @@ const ReservationForm = (
 ReservationForm.propTypes = {
     reservation: PropTypes.object,
     isDisabled: PropTypes.bool,
+    allowedToCancel: PropTypes.bool,
     apiHeaders: PropTypes.object,
     addSuccessMessage: PropTypes.func,
     changeCounter: PropTypes.number,

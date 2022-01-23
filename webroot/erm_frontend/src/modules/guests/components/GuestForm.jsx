@@ -104,7 +104,7 @@ const GuestForm = ({guest, isDisabled, apiHeaders, addSuccessMessage}) => {
                 sendData(submittedFormData, urls.api, urls.redirect, entityExists, apiHeaders, setErrors, addSuccessMessage, navigate, 'Guest');
             }
         },
-        extraButton = id > 0
+        extraButton = (id > 0 && isDisabled)
             ? <Link
                 className='button button--primary hoverable'
                 to={getRouteWithParams(ROUTES.users.details, {id: id})}>

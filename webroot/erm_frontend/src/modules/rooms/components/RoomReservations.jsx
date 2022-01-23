@@ -5,6 +5,7 @@ import Listing from '../../app/components/listing/Listing';
 import * as PropTypes from 'prop-types';
 import getDeleteReservationPromise from '../../reservations/utils/getDeleteReservationPromise';
 import {connect} from 'react-redux';
+import {ROLE_ADMIN} from '../../app/constants/roles';
 
 const roomReservationColumns = [
     {key: 'id', name: 'Id', centering: true},
@@ -14,7 +15,7 @@ const roomReservationColumns = [
 ];
 
 const RoomReservations = ({id, currentUser, changeCounter, apiHeaders}) => {
-    if (!currentUser) {
+    if (!currentUser || currentUser.roleId !== ROLE_ADMIN) {
         return null;
     }
 
