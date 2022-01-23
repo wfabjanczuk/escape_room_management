@@ -110,6 +110,29 @@ func (c *reservationController) DeleteReservation(w http.ResponseWriter, r *http
 	c.writeEmptyResponse(w, http.StatusOK)
 }
 
+func (c *reservationController) CancelReservation(w http.ResponseWriter, r *http.Request) {
+	cancelError := &responses.DeleteError{}
+	params := httprouter.ParamsFromContext(r.Context())
+
+	id, err := strconv.Atoi(params.ByName("id"))
+	if err != nil {
+		c.writeWrappedErrorJson(w, err, http.StatusBadRequest)
+		return
+	}
+
+	c.reservationRepository.CancelReservation(id, cancelError)
+	if cancelError.ErrorsCount > 0 {
+		err = c.writeWrappedJson(w, cancelError.StatusCode, cancelError, "error")
+		if err != nil {
+			c.logger.Println(err)
+		}
+
+		return
+	}
+
+	c.writeEmptyResponse(w, http.StatusOK)
+}
+
 func (c *reservationController) handleSaveReservation(w http.ResponseWriter, r *http.Request, parseId bool) {
 	reservationErrors := &responses.ReservationErrors{}
 	reservation := parsers.ParseReservationFromRequest(r, parseId, reservationErrors)

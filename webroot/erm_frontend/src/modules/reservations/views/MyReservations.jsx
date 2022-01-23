@@ -18,7 +18,16 @@ const ticketColumns = [
     {key: 'isCancelled', name: 'Cancelled', isExtra: true, render: (r) => r.reservation.dateCancelled ? 'Yes' : 'No'},
 ];
 
-const MyReservations = ({changeCounter, guestId, apiHeaders, addSuccessMessage, addErrorMessage}) => {
+const MyReservations = (
+    {
+        changeCounter,
+        guestId,
+        apiHeaders,
+        addSuccessMessage,
+        addErrorMessage,
+        increaseChangeCounter
+    }
+) => {
     const [state, setState] = useState({
         tickets: [],
         isLoading: true,
@@ -54,7 +63,12 @@ const MyReservations = ({changeCounter, guestId, apiHeaders, addSuccessMessage, 
             })
                 .then(
                     (response) => setState({
-                        tickets: response.data.tickets,
+                        tickets: response.data.tickets.map(
+                            (ticket) => ({
+                                ...ticket,
+                                cancelled: !!ticket.reservation.dateCancelled,
+                            })
+                        ),
                         isLoading: false,
                         error: null,
                     }),

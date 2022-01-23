@@ -8,7 +8,7 @@ const getCancelReservationPromise = (id, apiHeaders, addSuccessMessage, addError
         defaultErrorMessage = 'Reservation could not be cancelled.';
 
     return axios(url, {
-        method: 'UPDATE',
+        method: 'PATCH',
         headers: apiHeaders,
     })
         .then(

@@ -60,6 +60,7 @@ func (s *Service) setReservationRoutes() {
 	s.router.GET(v+"/reservations/:id", s.withAuthentication(s.controllersTable.Reservation.GetReservation))
 	s.router.PUT(v+"/reservations/:id", s.withAuthentication(s.controllersTable.Reservation.UpdateReservation))
 	s.router.DELETE(v+"/reservations/:id", s.withAuthentication(s.controllersTable.Reservation.DeleteReservation))
+	s.router.PATCH(v+"/reservations/:id/cancel", s.withAuthentication(s.controllersTable.Reservation.CancelReservation))
 	s.router.GET(v+"/reservations/:id/tickets", s.withAuthentication(s.controllersTable.Reservation.GetReservationTickets))
 }
 

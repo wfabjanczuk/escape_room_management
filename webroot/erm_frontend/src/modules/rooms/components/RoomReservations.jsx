@@ -38,7 +38,12 @@ const RoomReservations = ({id, currentUser, changeCounter, apiHeaders}) => {
                         }
 
                         setState({
-                            reservations: response.data.reservations,
+                            reservations: response.data.reservations.map(
+                                (reservation) => ({
+                                    ...reservation,
+                                    cancelled: !!reservation.dateCancelled,
+                                })
+                            ),
                             isLoading: false,
                             error: null,
                         });

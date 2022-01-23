@@ -10,6 +10,7 @@ import (
 	"gorm.io/gorm"
 	"log"
 	"net/http"
+	"time"
 )
 
 type ReservationRepository struct {
@@ -140,4 +141,11 @@ func (r *ReservationRepository) UpdateReservationTotalPrice(reservation models.R
 
 	result := r.db.Model(&reservation).Where("id = ?", reservation.ID).Update("total_price", reservation.TotalPrice)
 	return reservation, result.Error
+}
+
+func (r *ReservationRepository) CancelReservation(id int, cancelError *responses.DeleteError) {
+	result := r.db.Model(&models.Reservation{}).Where("id = ?", id).Update("date_cancelled", time.Now())
+	if result.Error != nil {
+		cancelError.AddError("Please try again later.", http.StatusInternalServerError)
+	}
 }

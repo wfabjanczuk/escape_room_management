@@ -28,7 +28,12 @@ const Reservations = ({changeCounter, apiHeaders}) => {
             })
                 .then(
                     (response) => setState({
-                        reservations: response.data.reservations,
+                        reservations: response.data.reservations.map(
+                            (reservation) => ({
+                                ...reservation,
+                                cancelled: !!reservation.dateCancelled,
+                            })
+                        ),
                         isLoading: false,
                         error: null,
                     }),

@@ -313,8 +313,16 @@ main h2 {
     background-color: #EAEFF7;
 }
 
+.listing .listing__table tbody tr.cancelled td {
+    background-color: #ffdfd8;
+}
+
 .listing .listing__table.listing__table--hoverable tbody tr:hover {
     background-color: #f4f7fb;
+}
+
+.listing .listing__table tbody tr.cancelled:hover td {
+    background-color: #ffe8e3;
 }
 
 .listing .listing__table ul {

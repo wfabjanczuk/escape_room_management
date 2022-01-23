@@ -29,7 +29,7 @@ const ListingWide = (
             </thead>
             <tbody>
             {rows.map((r, rIndex) => (
-                <tr key={rIndex}>
+                <tr key={rIndex} className={r.cancelled ? 'cancelled' : ''}>
                     {columns.map((c, cIndex) => (
                         <td key={`${rIndex}_${cIndex}`}
                             className={(c.isExtra ? 'extra-column ' : '') + ('id' === c.key ? 'id-column ' : '')}

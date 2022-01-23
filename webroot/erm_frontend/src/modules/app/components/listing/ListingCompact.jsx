@@ -12,7 +12,7 @@ const ListingCompact = (
         buttonText,
         buttonUrl,
         renderActions,
-        actionsRenderer
+        actionsRenderer,
     }
 ) => (
     <div className='listing listing--compact'>
@@ -20,7 +20,7 @@ const ListingCompact = (
             {rows.map((r, rIndex) => (
                 <tbody key={rIndex}>
                 {columns.map((c, cIndex) => (
-                    <tr key={`${rIndex}_${cIndex}`}>
+                    <tr key={`${rIndex}_${cIndex}`} className={r.cancelled ? 'cancelled' : ''}>
                         <th>{c.name}</th>
                         <td>{c.render ? c.render(r) : r[c.key]}</td>
                     </tr>
