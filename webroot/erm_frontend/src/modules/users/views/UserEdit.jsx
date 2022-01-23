@@ -3,9 +3,10 @@ import ROUTES, {getRouteWithParams} from '../../app/constants/routes';
 import {useParams} from 'react-router-dom';
 import axios from 'axios';
 import UserForm from '../components/UserForm';
-import withAuthentication from '../../app/auth/withAuthentication';
 import * as PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import withAuthorization from '../../app/auth/withAuthorization';
+import {ROLE_ADMIN} from '../../app/constants/roles';
 
 const UserEdit = ({apiHeaders}) => {
     const [state, setState] = useState({
@@ -64,4 +65,7 @@ const mapStateToProps = (state) => ({
     apiHeaders: state.auth.apiHeaders,
 });
 
-export default withAuthentication(connect(mapStateToProps)(UserEdit));
+export default withAuthorization(
+    connect(mapStateToProps)(UserEdit),
+    [ROLE_ADMIN]
+);

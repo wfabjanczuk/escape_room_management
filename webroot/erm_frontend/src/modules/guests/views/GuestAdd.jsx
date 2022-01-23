@@ -1,6 +1,7 @@
 import React from 'react';
 import GuestForm from '../components/GuestForm';
-import withAuthentication from '../../app/auth/withAuthentication';
+import withAuthorization from '../../app/auth/withAuthorization';
+import {ROLE_ADMIN} from '../../app/constants/roles';
 
 const GuestAdd = () => {
     return <React.Fragment>
@@ -9,4 +10,7 @@ const GuestAdd = () => {
     </React.Fragment>;
 }
 
-export default withAuthentication(GuestAdd);
+export default withAuthorization(
+    GuestAdd,
+    [ROLE_ADMIN]
+);

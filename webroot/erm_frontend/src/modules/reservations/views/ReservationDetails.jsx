@@ -7,7 +7,8 @@ import ReservationTickets from '../components/ReservationTickets';
 import RoomForm from '../../rooms/components/RoomForm';
 import {connect} from 'react-redux';
 import * as PropTypes from 'prop-types';
-import withAuthentication from '../../app/auth/withAuthentication';
+import withAuthorization from '../../app/auth/withAuthorization';
+import {ROLE_ADMIN} from '../../app/constants/roles';
 
 const ReservationDetails = ({changeCounter, apiHeaders}) => {
     const [state, setState] = useState({
@@ -71,4 +72,7 @@ const mapStateToProps = (state) => ({
     apiHeaders: state.auth.apiHeaders,
 });
 
-export default withAuthentication(connect(mapStateToProps)(ReservationDetails));
+export default withAuthorization(
+    connect(mapStateToProps)(ReservationDetails),
+    [ROLE_ADMIN]
+);

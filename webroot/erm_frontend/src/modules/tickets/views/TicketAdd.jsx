@@ -1,6 +1,7 @@
 import React from 'react';
 import TicketForm from '../components/TicketForm';
-import withAuthentication from '../../app/auth/withAuthentication';
+import withAuthorization from '../../app/auth/withAuthorization';
+import {ROLE_ADMIN} from '../../app/constants/roles';
 
 const TicketAdd = () => {
     return <React.Fragment>
@@ -9,4 +10,7 @@ const TicketAdd = () => {
     </React.Fragment>;
 }
 
-export default withAuthentication(TicketAdd);
+export default withAuthorization(
+    TicketAdd,
+    [ROLE_ADMIN]
+);

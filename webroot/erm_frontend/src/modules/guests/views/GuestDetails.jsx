@@ -5,8 +5,9 @@ import axios from 'axios';
 import GuestForm from '../components/GuestForm';
 import GuestTickets from '../components/GuestTickets';
 import * as PropTypes from 'prop-types';
-import withAuthentication from '../../app/auth/withAuthentication';
 import {connect} from 'react-redux';
+import withAuthorization from '../../app/auth/withAuthorization';
+import {ROLE_ADMIN} from '../../app/constants/roles';
 
 const GuestDetails = ({apiHeaders}) => {
     const [state, setState] = useState({
@@ -66,4 +67,7 @@ const mapStateToProps = (state) => ({
     apiHeaders: state.auth.apiHeaders,
 });
 
-export default withAuthentication(connect(mapStateToProps)(GuestDetails));
+export default withAuthorization(
+    connect(mapStateToProps)(GuestDetails),
+    [ROLE_ADMIN]
+);

@@ -5,9 +5,10 @@ import axios from 'axios';
 import TicketForm from '../components/TicketForm';
 import GuestForm from '../../guests/components/GuestForm';
 import ReservationForm from '../../reservations/components/ReservationForm';
-import withAuthentication from '../../app/auth/withAuthentication';
 import * as PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import withAuthorization from '../../app/auth/withAuthorization';
+import {ROLE_ADMIN} from '../../app/constants/roles';
 
 const TicketDetails = ({apiHeaders}) => {
     const [state, setState] = useState({
@@ -70,4 +71,7 @@ const mapStateToProps = (state) => ({
     apiHeaders: state.auth.apiHeaders,
 });
 
-export default withAuthentication(connect(mapStateToProps)(TicketDetails));
+export default withAuthorization(
+    connect(mapStateToProps)(TicketDetails),
+    [ROLE_ADMIN]
+);

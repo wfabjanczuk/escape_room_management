@@ -5,7 +5,8 @@ import axios from 'axios';
 import getDeleteGuestPromise from '../utils/getDeleteGuestPromise';
 import {connect} from 'react-redux';
 import * as PropTypes from 'prop-types';
-import withAuthentication from '../../app/auth/withAuthentication';
+import withAuthorization from '../../app/auth/withAuthorization';
+import {ROLE_ADMIN} from '../../app/constants/roles';
 
 const guestColumns = [
     {key: 'id', name: 'Id', isExtra: false, centering: true},
@@ -67,4 +68,7 @@ const mapStateToProps = (state) => ({
     changeCounter: state.change.counter,
 });
 
-export default withAuthentication(connect(mapStateToProps)(Guests));
+export default withAuthorization(
+    connect(mapStateToProps)(Guests),
+    [ROLE_ADMIN]
+);

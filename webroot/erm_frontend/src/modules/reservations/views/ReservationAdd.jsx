@@ -1,6 +1,7 @@
 import React from 'react';
 import ReservationForm from '../components/ReservationForm';
-import withAuthentication from '../../app/auth/withAuthentication';
+import withAuthorization from '../../app/auth/withAuthorization';
+import {ROLE_ADMIN} from '../../app/constants/roles';
 
 const ReservationAdd = () => {
     return <React.Fragment>
@@ -9,4 +10,7 @@ const ReservationAdd = () => {
     </React.Fragment>;
 }
 
-export default withAuthentication(ReservationAdd);
+export default withAuthorization(
+    ReservationAdd,
+    [ROLE_ADMIN]
+);

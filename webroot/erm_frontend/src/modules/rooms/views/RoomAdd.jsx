@@ -1,6 +1,7 @@
 import React from 'react';
 import RoomForm from '../components/RoomForm';
-import withAuthentication from '../../app/auth/withAuthentication';
+import withAuthorization from '../../app/auth/withAuthorization';
+import {ROLE_ADMIN} from '../../app/constants/roles';
 
 const RoomAdd = () => {
     return <React.Fragment>
@@ -9,4 +10,7 @@ const RoomAdd = () => {
     </React.Fragment>;
 }
 
-export default withAuthentication(RoomAdd);
+export default withAuthorization(
+    RoomAdd,
+    [ROLE_ADMIN]
+);

@@ -3,10 +3,11 @@ import ROUTES, {getRouteWithParams} from '../../app/constants/routes';
 import {useParams} from 'react-router-dom';
 import axios from 'axios';
 import UserForm from '../components/UserForm';
-import withAuthentication from '../../app/auth/withAuthentication';
 import {get as _get} from 'lodash';
 import * as PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import withAuthorization from '../../app/auth/withAuthorization';
+import {ROLE_ADMIN} from '../../app/constants/roles';
 
 const UserDetails = ({apiHeaders}) => {
     const [userState, setUserState] = useState({
@@ -96,4 +97,7 @@ const mapStateToProps = (state) => ({
     apiHeaders: state.auth.apiHeaders,
 });
 
-export default withAuthentication(connect(mapStateToProps)(UserDetails));
+export default withAuthorization(
+    connect(mapStateToProps)(UserDetails),
+    [ROLE_ADMIN]
+);
