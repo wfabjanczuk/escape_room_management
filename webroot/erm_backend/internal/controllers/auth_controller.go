@@ -91,55 +91,80 @@ func (c *authController) SignIn(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (c *authController) HandleAuthentication(w http.ResponseWriter, r *http.Request) bool {
+func (c *authController) HandleAuthentication(w http.ResponseWriter, r *http.Request) models.User {
 	w.Header().Add("Vary", "Authorization")
 
-	err := c.validateAuthorizationHeader(r.Header.Get("Authorization"))
+	user, err := c.validateAuthorizationHeader(r.Header.Get("Authorization"))
 	if err != nil {
 		c.writeWrappedErrorJson(w, err, http.StatusUnauthorized)
 	}
 
-	return err == nil
+	return user
 }
 
-func (c *authController) validateAuthorizationHeader(authorizationHeader string) error {
+func (c *authController) validateAuthorizationHeader(authorizationHeader string) (models.User, error) {
+	var user models.User
 	headerParts := strings.Split(authorizationHeader, " ")
 
 	if len(headerParts) != 2 {
-		return errors.New("invalid authorization header")
+		return user, errors.New("invalid authorization header")
 	}
 
 	if headerParts[0] != "Bearer" {
-		return errors.New("bearer authorization required")
+		return user, errors.New("bearer authorization required")
 	}
 
 	token := headerParts[1]
 	claims, err := jwt.HMACCheck([]byte(token), []byte(c.jwtSecret))
 	if err != nil {
-		return errors.New("failed HMAC check")
+		return user, errors.New("failed HMAC check")
 	}
 
 	if !claims.Valid(time.Now()) {
-		return errors.New("token expired")
+		return user, errors.New("token expired")
 	}
 
 	if !claims.AcceptAudience("erm.com") {
-		return errors.New("invalid audience")
+		return user, errors.New("invalid audience")
 	}
 
 	if claims.Issuer != "erm.com" {
-		return errors.New("invalid issuer")
+		return user, errors.New("invalid issuer")
 	}
 
 	userId, err := strconv.ParseInt(claims.Subject, 10, 64)
 	if err != nil {
-		return errors.New("invalid token format")
+		return user, errors.New("invalid token format")
 	}
 
-	_, err = c.userRepository.GetUser(int(userId))
+	user, err = c.userRepository.GetUser(int(userId))
 	if err != nil {
-		return errors.New("user not found")
+		return user, errors.New("user not found")
 	}
 
-	return nil
+	return user, nil
+}
+
+func (c *authController) HandleAuthorization(w http.ResponseWriter, r *http.Request, allowedRoles []int) bool {
+	user := c.HandleAuthentication(w, r)
+
+	if user.ID == 0 {
+		return false
+	}
+
+	for _, roleId := range allowedRoles {
+		if user.RoleID == uint(roleId) {
+			return true
+		}
+	}
+
+	errorData := map[string][]string{
+		"general": {"Not authorized."},
+	}
+	err := c.writeWrappedJson(w, http.StatusUnauthorized, errorData, "error")
+	if err != nil {
+		c.logger.Println(err)
+	}
+
+	return false
 }
