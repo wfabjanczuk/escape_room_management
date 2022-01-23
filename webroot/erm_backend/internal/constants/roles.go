@@ -1,5 +1,6 @@
 package constants
 
 const RoleGuest = 1
-const RoleManager = 2
-const RoleAdmin = 3
+const RoleAdmin = 2
+
+const RoleGuestString = "1"

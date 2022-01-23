@@ -1,14 +1,13 @@
+export const ROLE_GUEST = 1;
+export const ROLE_ADMIN = 2;
+
 export const ROLE_SELECT_OPTIONS = [
     {
-        id: 1,
+        id: ROLE_GUEST,
         label: 'Guest'
     },
     {
-        id: 2,
-        label: 'Manager'
-    },
-    {
-        id: 3,
+        id: ROLE_ADMIN,
         label: 'Admin'
     }
 ];

@@ -43,7 +43,7 @@ func (r *UserRepository) GetActiveUserByEmail(email string) (models.User, error)
 	return user, result.Error
 }
 
-func (r *UserRepository) SaveUser(user models.User, userErrors *responses.UserErrors, isProfile bool) models.User {
+func (r *UserRepository) SaveUser(user models.User, userErrors *responses.UserErrors) models.User {
 	if user.ID > 0 {
 		var oldUser models.User
 
@@ -57,14 +57,7 @@ func (r *UserRepository) SaveUser(user models.User, userErrors *responses.UserEr
 			user.Password = oldUser.Password
 		}
 
-		if isProfile {
-			user.RoleID = oldUser.RoleID
-		}
-
-		if user.RoleID != oldUser.RoleID && oldUser.RoleID == 1 {
-			userErrors.AddError("roleId", "You cannot change the Guest role.", http.StatusBadRequest)
-			return user
-		}
+		user.RoleID = oldUser.RoleID
 	}
 
 	if user.IsActive && len(user.Password) == 0 {

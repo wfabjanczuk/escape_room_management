@@ -1,9 +1,7 @@
 import {get as _get} from 'lodash';
 
-const isAuthorized = (user, requiredPrivileges) => {
-    return Object.entries(requiredPrivileges).every(
-        ([key, value]) => _get(user, `privileges[${key}]`, 0) >= value,
-    );
+const isAuthorized = (user, allowedRoles) => {
+    return allowedRoles.includes(_get(user, 'role.id', 0));
 };
 
 export default isAuthorized;

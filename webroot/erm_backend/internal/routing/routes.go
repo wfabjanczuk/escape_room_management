@@ -31,7 +31,6 @@ func (s *Service) setUserRoutes() {
 	s.router.POST(v+"/users", s.withAuthentication(s.controllersTable.User.CreateUser))
 	s.router.GET(v+"/users/:id", s.withAuthentication(s.controllersTable.User.GetUser))
 	s.router.PUT(v+"/users/:id", s.withAuthentication(s.controllersTable.User.UpdateUser))
-	s.router.PUT(v+"/users/:id/profile", s.withAuthentication(s.controllersTable.User.UpdateUserProfile))
 	s.router.DELETE(v+"/users/:id", s.withAuthentication(s.controllersTable.User.DeleteUser))
 	s.router.GET(v+"/users/:id/guest", s.withAuthentication(s.controllersTable.User.GetUserGuest))
 }

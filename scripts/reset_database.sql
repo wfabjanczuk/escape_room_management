@@ -135,14 +135,11 @@ values ('Linda', 'Yehudit', '48100100100', '1990-01-01', 'linda.yehudit@gmail.co
         '$2a$12$OFjTdVVs//MJ7uPrnNA5wON5.cR3yQqikVvqwhAU3moX2vUzImMBa', true, 1),
        ('Sunil', 'Katenka', '48400400400', '1989-04-04', 'sunil.katenka@gmail.com',
         '$2a$12$OFjTdVVs//MJ7uPrnNA5wON5.cR3yQqikVvqwhAU3moX2vUzImMBa', true, 1),
-       ('Mario', 'Manager', '48500500500', '1987-05-05', 'manager@gmail.com',
-        '$2a$12$OFjTdVVs//MJ7uPrnNA5wON5.cR3yQqikVvqwhAU3moX2vUzImMBa', true, 2),
        ('Adam', 'Admin', '48600600600', '1988-06-06', 'admin@gmail.com',
-        '$2a$12$OFjTdVVs//MJ7uPrnNA5wON5.cR3yQqikVvqwhAU3moX2vUzImMBa', true, 3);
+        '$2a$12$OFjTdVVs//MJ7uPrnNA5wON5.cR3yQqikVvqwhAU3moX2vUzImMBa', true, 2);
 
 insert into roles (name)
 values ('Guest'),
-       ('Manager'),
        ('Admin');
 
 insert into guests (user_id, discount_percent)

@@ -57,15 +57,11 @@ func (c *userController) GetUsers(w http.ResponseWriter, r *http.Request) {
 }
 
 func (c *userController) CreateUser(w http.ResponseWriter, r *http.Request) {
-	c.handleSaveUser(w, r, false, false)
+	c.handleSaveUser(w, r, false)
 }
 
 func (c *userController) UpdateUser(w http.ResponseWriter, r *http.Request) {
-	c.handleSaveUser(w, r, true, false)
-}
-
-func (c *userController) UpdateUserProfile(w http.ResponseWriter, r *http.Request) {
-	c.handleSaveUser(w, r, true, true)
+	c.handleSaveUser(w, r, true)
 }
 
 func (c *userController) DeleteUser(w http.ResponseWriter, r *http.Request) {
@@ -91,12 +87,12 @@ func (c *userController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 	c.writeEmptyResponse(w, http.StatusOK)
 }
 
-func (c *userController) handleSaveUser(w http.ResponseWriter, r *http.Request, parseId, isProfile bool) {
+func (c *userController) handleSaveUser(w http.ResponseWriter, r *http.Request, parseId bool) {
 	userErrors := &responses.UserErrors{}
-	user := parsers.ParseUserFromRequest(r, parseId, isProfile, userErrors)
+	user := parsers.ParseUserFromRequest(r, parseId, userErrors)
 
 	if userErrors.ErrorsCount == 0 {
-		user = c.userRepository.SaveUser(user, userErrors, isProfile)
+		user = c.userRepository.SaveUser(user, userErrors)
 	}
 
 	if userErrors.ErrorsCount > 0 {

@@ -6,9 +6,9 @@ import ROUTES from '../constants/routes';
 import isAuthorized from './isAuthorized';
 import * as PropTypes from 'prop-types';
 
-const withAuthorization = (Component) => {
+const withAuthorization = (Component, allowedRoles) => {
     const Wrapped = (props) => {
-        if (!props.requiredPrivileges || !isAuthorized(props.currentUser, props.requiredPrivileges)) {
+        if (!allowedRoles || !isAuthorized(props.currentUser, allowedRoles)) {
             return <div className='statement'>
                 <p>You are not authorized to see this page.</p>
                 <div className='statement__footer'>
@@ -23,7 +23,6 @@ const withAuthorization = (Component) => {
     };
 
     Wrapped.propTypes = {
-        requiredPrivileges: PropTypes.object,
         currentUser: PropTypes.object,
     }
 
@@ -34,6 +33,11 @@ const mapStateToProps = (state) => ({
     currentUser: state.auth.currentUser,
 });
 
-const withConnectedAuthorization = (Component) => connect(mapStateToProps)(withAuthorization(withAuthentication(Component)));
+const withConnectedAuthorization = (Component, allowedRoles) => connect(mapStateToProps)(
+    withAuthorization(
+        withAuthentication(Component),
+        allowedRoles
+    )
+);
 
 export default withConnectedAuthorization;

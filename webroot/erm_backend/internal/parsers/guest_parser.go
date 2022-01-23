@@ -67,8 +67,8 @@ func extractGuest(payload payloads.GuestPayload, parseId bool, guestErrors *resp
 		guest.ID = uint(id)
 	}
 
-	guest.User = extractUser(payload.UserPayload, false, true, &guestErrors.UserErrors)
-	guest.User.RoleID = constants.RoleGuest
+	payload.RoleID = constants.RoleGuestString
+	guest.User = extractUser(payload.UserPayload, false, &guestErrors.UserErrors)
 
 	if len(payload.DiscountPercent) > 0 {
 		discountPercent, err := strconv.Atoi(payload.DiscountPercent)

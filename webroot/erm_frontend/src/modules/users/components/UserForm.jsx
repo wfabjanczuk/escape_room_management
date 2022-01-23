@@ -69,7 +69,7 @@ const getUrls = (user, entityExists, isDisabled, isProfile) => {
 
 const getProfileUrls = (user, entityExists) => {
     const apiUrl = entityExists
-            ? getRouteWithParams(ROUTES.api.userProfile, {id: user.id})
+            ? getRouteWithParams(ROUTES.api.user, {id: user.id})
             : ROUTES.api.signUp,
         editUrl = entityExists
             ? getRouteWithParams(ROUTES.users.profileEdit, {id: user.id})
