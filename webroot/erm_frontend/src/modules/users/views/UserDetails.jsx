@@ -84,7 +84,7 @@ const UserDetails = ({apiHeaders}) => {
             user={userState.user}
             isDisabled={true}
             isProfile={false}
-            guestId={guestState.guestId}
+            userGuestId={guestState.guestId}
         />
     </React.Fragment>;
 }

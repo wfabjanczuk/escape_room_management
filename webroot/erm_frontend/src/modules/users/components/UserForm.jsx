@@ -12,6 +12,7 @@ import EntityFormFooter from '../../app/components/form/EntityFormFooter';
 import {get as _get} from 'lodash';
 import getDeleteUserPromise from '../utils/getDeleteUserPromise';
 import {ROLE_SELECT_OPTIONS} from '../../app/constants/roles';
+import {setCurrentUser} from '../../app/redux/auth/authActions';
 
 const getInitialFormData = (user) => {
     if (user) {
@@ -122,7 +123,20 @@ const validateFormData = (entityExists, isProfile, formData, setErrors) => {
     return true;
 };
 
-const UserForm = ({user, isDisabled, isProfile, apiHeaders, addSuccessMessage, guestId = 0}) => {
+const UserForm = (
+    {
+        user,
+        isDisabled,
+        isProfile,
+        userGuestId = 0,
+        apiHeaders,
+        currentUser,
+        setCurrentUser,
+        addSuccessMessage,
+        guestId,
+        jwt
+    }
+) => {
     const id = parseInt(_get(user, 'id', null), 10),
         entityExists = !!user,
         urls = getUrls(user, entityExists, isDisabled, isProfile),
@@ -141,13 +155,26 @@ const UserForm = ({user, isDisabled, isProfile, apiHeaders, addSuccessMessage, g
 
             if (validateFormData(entityExists, isProfile, submittedFormData, setErrors)) {
                 delete submittedFormData.confirmPassword;
-                sendData(submittedFormData, urls.api, urls.redirect, entityExists, apiHeaders, setErrors, addSuccessMessage, navigate, 'User');
+                let callback = null;
+
+                if (entityExists && isProfile) {
+                    callback = () => setCurrentUser({
+                        user: {
+                            ...currentUser,
+                            ...submittedFormData,
+                        },
+                        guestId: guestId,
+                        jwt: jwt,
+                    });
+                }
+
+                sendData(submittedFormData, urls.api, urls.redirect, entityExists, apiHeaders, setErrors, addSuccessMessage, navigate, 'User', callback);
             }
         },
-        extraButton = (guestId > 0 && isDisabled)
+        extraButton = (userGuestId > 0 && isDisabled)
             ? <Link
                 className='button button--primary hoverable'
-                to={getRouteWithParams(ROUTES.guests.details, {id: guestId})}>
+                to={getRouteWithParams(ROUTES.guests.details, {id: userGuestId})}>
                 Guest details
             </Link>
             : null;
@@ -188,17 +215,25 @@ UserForm.propTypes = {
     user: PropTypes.object,
     isDisabled: PropTypes.bool,
     isProfile: PropTypes.bool,
+    userGuestId: PropTypes.number,
     apiHeaders: PropTypes.object,
+    currentUser: PropTypes.object,
     addSuccessMessage: PropTypes.func,
+    setCurrentUser: PropTypes.func,
     guestId: PropTypes.number,
+    jwt: PropTypes.string,
 };
 
 const mapStateToProps = (state) => ({
+    currentUser: state.auth.currentUser,
+    jwt: state.auth.jwt,
+    guestId: state.auth.guestId,
     apiHeaders: state.auth.apiHeaders,
 });
 
 const mapDispatchToProps = (dispatch) => ({
     addSuccessMessage: (content) => dispatch(addSuccessMessage(content)),
+    setCurrentUser: (user) => dispatch(setCurrentUser(user)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserForm);

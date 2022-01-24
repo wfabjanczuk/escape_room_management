@@ -1,6 +1,7 @@
 const INITIAL_STATE = {
     currentUser: null,
     guestId: 0,
+    jwt: null,
     apiHeaders: {
         'Content-Type': 'application/json',
     },
@@ -13,6 +14,7 @@ const authReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 currentUser: action.payload.user,
                 guestId: action.payload.guestId,
+                jwt: action.payload.jwt,
                 apiHeaders: {
                     ...state.apiHeaders,
                     'Authorization': 'Bearer ' + action.payload.jwt,
