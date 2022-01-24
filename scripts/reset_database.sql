@@ -114,6 +114,30 @@ alter table tickets
 create unique index tickets_reservation_id_guest_id_uindex
     on tickets (reservation_id, guest_id);
 
+create table reviews
+(
+    id       serial
+        constraint reviews_pk
+            primary key,
+    guest_id integer                 not null
+        constraint reviews_guests_id_fk
+            references guests
+            on update restrict on delete restrict,
+    room_id  integer                 not null
+        constraint reviews_rooms_id_fk
+            references rooms
+            on update restrict on delete restrict,
+    rating   integer                 not null,
+    comment  varchar(300) default '' not null,
+    reply    varchar(300) default '' not null
+);
+
+alter table reviews
+    owner to developer;
+
+create unique index reviews_guest_id_room_id_uindex
+    on reviews (guest_id, room_id);
+
 insert into rooms (name, base_ticket_price, min_participants, max_participants, min_age)
 values ('Pharaoh''s Tomb', 10.00, 5, 7, 12),
        ('Enigma Code', 15.00, 6, 9, 15),
