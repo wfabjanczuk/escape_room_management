@@ -115,6 +115,15 @@ func (c *guestController) DeleteGuest(w http.ResponseWriter, r *http.Request) {
 func (c *guestController) handleSaveGuest(w http.ResponseWriter, r *http.Request, parseId, signUp bool) {
 	guestErrors := &responses.GuestErrors{}
 	guest := parsers.ParseGuestFromRequest(r, parseId, signUp, guestErrors)
+	params := httprouter.ParamsFromContext(r.Context())
+
+	if parseId {
+		id, err := strconv.Atoi(params.ByName("id"))
+
+		if err != nil || int(guest.ID) != id {
+			guestErrors.AddError("", "Invalid form data.", http.StatusBadRequest)
+		}
+	}
 
 	if guestErrors.ErrorsCount == 0 {
 		guest = c.guestRepository.SaveGuest(guest, guestErrors)

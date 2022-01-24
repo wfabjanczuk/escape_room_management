@@ -111,6 +111,15 @@ func (c *roomController) DeleteRoom(w http.ResponseWriter, r *http.Request) {
 func (c *roomController) handleSaveRoom(w http.ResponseWriter, r *http.Request, parseId bool) {
 	roomErrors := &responses.RoomErrors{}
 	room := parsers.ParseRoomFromRequest(r, parseId, roomErrors)
+	params := httprouter.ParamsFromContext(r.Context())
+
+	if parseId {
+		id, err := strconv.Atoi(params.ByName("id"))
+
+		if err != nil || int(room.ID) != id {
+			roomErrors.AddError("", "Invalid form data.", http.StatusBadRequest)
+		}
+	}
 
 	if roomErrors.ErrorsCount == 0 {
 		room = c.roomRepository.SaveRoom(room, roomErrors)

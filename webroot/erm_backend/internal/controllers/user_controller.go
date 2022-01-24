@@ -90,6 +90,15 @@ func (c *userController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 func (c *userController) handleSaveUser(w http.ResponseWriter, r *http.Request, parseId bool) {
 	userErrors := &responses.UserErrors{}
 	user := parsers.ParseUserFromRequest(r, parseId, userErrors)
+	params := httprouter.ParamsFromContext(r.Context())
+
+	if parseId {
+		id, err := strconv.Atoi(params.ByName("id"))
+
+		if err != nil || int(user.ID) != id {
+			userErrors.AddError("", "Invalid form data.", http.StatusBadRequest)
+		}
+	}
 
 	if userErrors.ErrorsCount == 0 {
 		user = c.userRepository.SaveUser(user, userErrors)

@@ -136,6 +136,15 @@ func (c *reservationController) CancelReservation(w http.ResponseWriter, r *http
 func (c *reservationController) handleSaveReservation(w http.ResponseWriter, r *http.Request, parseId bool) {
 	reservationErrors := &responses.ReservationErrors{}
 	reservation := parsers.ParseReservationFromRequest(r, parseId, reservationErrors)
+	params := httprouter.ParamsFromContext(r.Context())
+
+	if parseId {
+		id, err := strconv.Atoi(params.ByName("id"))
+
+		if err != nil || int(reservation.ID) != id {
+			reservationErrors.AddError("", "Invalid form data.", http.StatusBadRequest)
+		}
+	}
 
 	if reservationErrors.ErrorsCount == 0 {
 		room, err := c.roomRepository.GetRoom(int(reservation.RoomID))

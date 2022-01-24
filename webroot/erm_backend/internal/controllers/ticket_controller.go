@@ -115,6 +115,15 @@ func (c *ticketController) DeleteTicket(w http.ResponseWriter, r *http.Request) 
 func (c *ticketController) handleSaveTicket(w http.ResponseWriter, r *http.Request, parseId bool) {
 	ticketErrors := &responses.TicketErrors{}
 	ticket := parsers.ParseTicketFromRequest(r, parseId, ticketErrors)
+	params := httprouter.ParamsFromContext(r.Context())
+
+	if parseId {
+		id, err := strconv.Atoi(params.ByName("id"))
+
+		if err != nil || int(ticket.ID) != id {
+			ticketErrors.AddError("", "Invalid form data.", http.StatusBadRequest)
+		}
+	}
 
 	if ticketErrors.ErrorsCount == 0 {
 		reservation, err := c.reservationRepository.GetReservation(int(ticket.ReservationID))
