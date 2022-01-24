@@ -24,6 +24,8 @@ const ROUTES = {
         rooms: API + '/rooms',
         room: API + '/rooms/:id',
         roomReservations: API + '/rooms/:id/reservations',
+        reviews: API + '/reviews',
+        review: API + '/reviews/:id',
         signIn: API + '/signin',
         signUp: API + '/guests/signup',
         users: API + '/users',
@@ -64,6 +66,12 @@ const ROUTES = {
         add: '/rooms/add',
         details: '/rooms/:id/details',
         edit: '/rooms/:id/edit',
+    },
+    reviews: {
+        index: '/reviews',
+        add: '/reviews/add',
+        details: '/reviews/:id/details',
+        edit: '/reviews/:id/edit',
     }
 };
 

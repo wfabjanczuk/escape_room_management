@@ -41,6 +41,17 @@ type Room struct {
 	MinAge          types.NullInt64 `json:"minAge" valid:"-"`
 }
 
+type Review struct {
+	ID      uint   `gorm:"primarykey" json:"id" valid:"-"`
+	GuestID uint   `json:"guestId" valid:"required"`
+	Guest   Guest  `json:"guest" valid:"-"`
+	RoomID  uint   `json:"roomId" valid:"required"`
+	Room    Room   `json:"room" valid:"-"`
+	Rating  uint   `json:"rating" valid:"-"`
+	Comment string `json:"comment" valid:"-"`
+	Reply   string `json:"reply" valid:"-"`
+}
+
 type User struct {
 	ID          uint       `gorm:"primarykey" json:"id" valid:"-"`
 	FirstName   string     `json:"firstName" valid:"required,utfletter,maxstringlength(50)"`

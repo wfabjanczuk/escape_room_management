@@ -177,3 +177,7 @@ values (10.00, 1, 1, true),
        (15.00, 2, 2, true),
        (20.00, 3, 3, true),
        (30.00, 4, 4, true);
+
+insert into reviews (guest_id, room_id, rating, comment, reply)
+values (1, 1, 5, 'Great!', ''),
+       (2, 2, 5, 'Amazing!', 'Thank you!');

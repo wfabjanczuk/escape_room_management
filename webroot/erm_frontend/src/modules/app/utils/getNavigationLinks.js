@@ -59,6 +59,11 @@ const getAdminNavigationLinks = (pathname) => [
         label: 'Rooms',
     },
     {
+        isActive: pathname.startsWith(ROUTES.reviews.index),
+        route: ROUTES.reviews.index,
+        label: 'Reviews',
+    },
+    {
         isActive: pathname.startsWith(ROUTES.users.index),
         route: ROUTES.users.index,
         label: 'Users',

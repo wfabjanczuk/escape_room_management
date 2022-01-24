@@ -12,6 +12,7 @@ type Table struct {
 	Room        *roomController
 	Status      *statusController
 	Ticket      *ticketController
+	Review      *reviewController
 	User        *userController
 }
 
@@ -38,6 +39,9 @@ func NewTable(repositoriesTable repositories.Table, logger *log.Logger, jwtSecre
 			repositoriesTable.Ticket,
 			repositoriesTable.Reservation,
 			repositoriesTable.Guest,
+		),
+		Review: newReviewController(logger,
+			repositoriesTable.Review,
 		),
 		User: newUserController(logger,
 			repositoriesTable.User,

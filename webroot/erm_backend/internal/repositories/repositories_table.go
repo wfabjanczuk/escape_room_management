@@ -10,6 +10,7 @@ type Table struct {
 	Reservation *ReservationRepository
 	Room        *RoomRepository
 	Ticket      *TicketRepository
+	Review      *ReviewRepository
 	User        *UserRepository
 }
 
@@ -19,6 +20,7 @@ func NewTable(logger *log.Logger, db *gorm.DB) Table {
 		Reservation: newReservationRepository(logger, db),
 		Room:        newRoomRepository(logger, db),
 		Ticket:      newTicketRepository(logger, db),
+		Review:      newReviewRepository(logger, db),
 		User:        newUserRepository(logger, db),
 	}
 }

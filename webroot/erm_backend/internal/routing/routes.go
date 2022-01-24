@@ -12,6 +12,7 @@ func (s *Service) setRoutes() {
 	s.setTicketRoutes()
 	s.setReservationRoutes()
 	s.setRoomRoutes()
+	s.setReviewRoutes()
 }
 
 func (s *Service) setStatusRoutes() {
@@ -68,4 +69,8 @@ func (s *Service) setRoomRoutes() {
 	s.router.PUT(v+"/rooms/:id", s.withAdminAuthorization(s.controllersTable.Room.UpdateRoom))
 	s.router.DELETE(v+"/rooms/:id", s.withAdminAuthorization(s.controllersTable.Room.DeleteRoom))
 	s.router.GET(v+"/rooms/:id/reservations", s.withAdminAuthorization(s.controllersTable.Room.GetRoomReservations))
+}
+
+func (s *Service) setReviewRoutes() {
+	s.router.GET(v+"/reviews", s.withAdminAuthorization(s.controllersTable.Review.GetReviews))
 }

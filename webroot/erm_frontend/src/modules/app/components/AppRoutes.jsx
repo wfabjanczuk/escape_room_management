@@ -27,6 +27,7 @@ import UserAdd from '../../users/views/UserAdd';
 import UserEdit from '../../users/views/UserEdit';
 import UserDetails from '../../users/views/UserDetails';
 import NotFound from './NotFound';
+import Reviews from '../../reviews/views/Reviews';
 
 const AppRoutes = () => (<Routes>
     <Route path={ROUTES.home} element={<Home/>}/>
@@ -34,6 +35,7 @@ const AppRoutes = () => (<Routes>
     {getTicketRoutes()}
     {getReservationRoutes()}
     {getRoomRoutes()}
+    {getReviewRoutes()}
     {getUserRoutes()}
     <Route path="/not-found" element={<NotFound/>}/>
     <Route
@@ -81,4 +83,11 @@ const getRoomRoutes = () => (<React.Fragment>
     <Route path={ROUTES.rooms.add} element={<RoomAdd/>}/>
     <Route path={ROUTES.rooms.edit} element={<RoomEdit/>}/>
     <Route path={ROUTES.rooms.details} element={<RoomDetails/>}/>
+</React.Fragment>);
+
+const getReviewRoutes = () => (<React.Fragment>
+    <Route path={ROUTES.reviews.index} element={<Reviews/>}/>
+    <Route path={ROUTES.reviews.add} element={<Reviews/>}/>
+    <Route path={ROUTES.reviews.edit} element={<Reviews/>}/>
+    <Route path={ROUTES.reviews.details} element={<Reviews/>}/>
 </React.Fragment>);
