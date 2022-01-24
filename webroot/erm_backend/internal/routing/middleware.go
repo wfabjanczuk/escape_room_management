@@ -13,22 +13,10 @@ func (s *Service) enableCors(next http.Handler) http.Handler {
 	})
 }
 
-func (s *Service) authenticate(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		user := s.controllersTable.Auth.HandleAuthentication(w, r)
-
-		if user.ID == 0 {
-			return
-		}
-
-		next.ServeHTTP(w, r)
-	})
-}
-
-func (s *Service) prepareAuthorize(allowedRoles []int) func(http.Handler) http.Handler {
+func (s *Service) prepareAuthorize(allowedRoles []int, rules []string) func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			if !s.controllersTable.Auth.HandleAuthorization(w, r, allowedRoles) {
+			if !s.controllersTable.Auth.HandleAuthorization(w, r, allowedRoles, rules) {
 				return
 			}
 

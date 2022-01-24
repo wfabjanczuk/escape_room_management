@@ -19,6 +19,7 @@ func NewTable(repositoriesTable repositories.Table, logger *log.Logger, jwtSecre
 	return Table{
 		Auth: newAuthController(
 			repositoriesTable.User,
+			repositoriesTable.Reservation,
 			jwtSecret,
 			logger,
 		),

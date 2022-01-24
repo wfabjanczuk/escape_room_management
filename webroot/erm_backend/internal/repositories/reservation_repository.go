@@ -128,6 +128,32 @@ func (r *ReservationRepository) GetReservationTickets(id int) ([]models.Ticket, 
 	return tickets, result.Error
 }
 
+func (r *ReservationRepository) IsGuestInReservation(guestId, reservationId int) bool {
+	var tickets []models.Ticket
+
+	_, err := r.GetReservation(reservationId)
+	if err != nil {
+		return false
+	}
+
+	r.db.Where("reservation_id = ? and guest_id = ?", reservationId, guestId).Find(&tickets)
+
+	return len(tickets) > 0
+}
+
+func (r *ReservationRepository) CanGuestCancelReservation(guestId, reservationId int) bool {
+	var tickets []models.Ticket
+
+	_, err := r.GetReservation(reservationId)
+	if err != nil {
+		return false
+	}
+
+	r.db.Where("reservation_id = ? and guest_id = ? and guest_allowed_to_cancel = ?", reservationId, guestId, true).Find(&tickets)
+
+	return len(tickets) > 0
+}
+
 func (r *ReservationRepository) UpdateReservationTotalPrice(reservation models.Reservation) (models.Reservation, error) {
 	reservationTickets, err := r.GetReservationTickets(int(reservation.ID))
 	if err != nil {

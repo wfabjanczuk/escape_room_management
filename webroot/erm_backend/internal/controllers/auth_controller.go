@@ -2,11 +2,13 @@ package controllers
 
 import (
 	"encoding/json"
+	"erm_backend/internal/constants"
 	"erm_backend/internal/models"
 	"erm_backend/internal/payloads"
 	"erm_backend/internal/repositories"
 	"errors"
 	"fmt"
+	"github.com/julienschmidt/httprouter"
 	"github.com/pascaldekloe/jwt"
 	"golang.org/x/crypto/bcrypt"
 	"log"
@@ -18,8 +20,9 @@ import (
 
 type authController struct {
 	controller
-	userRepository *repositories.UserRepository
-	jwtSecret      string
+	userRepository        *repositories.UserRepository
+	reservationRepository *repositories.ReservationRepository
+	jwtSecret             string
 }
 
 type AuthenticatedUser struct {
@@ -28,11 +31,12 @@ type AuthenticatedUser struct {
 	Jwt     string      `json:"jwt"`
 }
 
-func newAuthController(userRepository *repositories.UserRepository, jwtSecret string, logger *log.Logger) *authController {
+func newAuthController(userRepository *repositories.UserRepository, reservationRepository *repositories.ReservationRepository, jwtSecret string, logger *log.Logger) *authController {
 	return &authController{
-		controller:     newController(logger),
-		userRepository: userRepository,
-		jwtSecret:      jwtSecret,
+		controller:            newController(logger),
+		userRepository:        userRepository,
+		reservationRepository: reservationRepository,
+		jwtSecret:             jwtSecret,
 	}
 }
 
@@ -145,7 +149,7 @@ func (c *authController) validateAuthorizationHeader(authorizationHeader string)
 	return user, nil
 }
 
-func (c *authController) HandleAuthorization(w http.ResponseWriter, r *http.Request, allowedRoles []int) bool {
+func (c *authController) HandleAuthorization(w http.ResponseWriter, r *http.Request, allowedRoles []int, rules []string) bool {
 	user := c.HandleAuthentication(w, r)
 
 	if user.ID == 0 {
@@ -158,6 +162,10 @@ func (c *authController) HandleAuthorization(w http.ResponseWriter, r *http.Requ
 		}
 	}
 
+	if c.validateRules(r, user, rules) {
+		return true
+	}
+
 	errorData := map[string][]string{
 		"general": {"Not authorized."},
 	}
@@ -167,4 +175,103 @@ func (c *authController) HandleAuthorization(w http.ResponseWriter, r *http.Requ
 	}
 
 	return false
+}
+
+func (c *authController) validateRules(r *http.Request, user models.User, rules []string) bool {
+	if len(rules) == 0 {
+		return true
+	}
+
+	for _, ruleName := range rules {
+		if c.validateRule(r, user, ruleName) {
+			return true
+		}
+	}
+
+	return false
+}
+
+func (c *authController) validateRule(r *http.Request, user models.User, ruleName string) bool {
+	switch ruleName {
+	case constants.RuleUserMatchesUserId:
+		return c.validateUserMatchesUserId(r, user)
+	case constants.RuleGuestMatchesGuestId:
+		return c.validateGuestMatchesGuestId(r, user)
+	case constants.RuleGuestMatchesReservationId:
+		return c.validateGuestMatchesReservationId(r, user)
+	case constants.RuleGuestAllowedToCancelReservation:
+		return c.validateGuestAllowedToCancelReservation(r, user)
+	}
+	return false
+}
+
+func (c *authController) validateUserMatchesUserId(r *http.Request, user models.User) bool {
+	params := httprouter.ParamsFromContext(r.Context())
+
+	userId, err := strconv.Atoi(params.ByName("id"))
+	if err != nil {
+		return false
+	}
+
+	return userId == int(user.ID)
+}
+
+func (c *authController) validateGuestMatchesGuestId(r *http.Request, user models.User) bool {
+	if user.RoleID != constants.RoleGuest {
+		return false
+	}
+
+	params := httprouter.ParamsFromContext(r.Context())
+
+	guestId, err := strconv.Atoi(params.ByName("id"))
+	if err != nil {
+		return false
+	}
+
+	guest, err := c.userRepository.GetUserGuest(int(user.ID))
+	if err != nil {
+		return false
+	}
+
+	return guestId == int(guest.ID)
+}
+
+func (c *authController) validateGuestMatchesReservationId(r *http.Request, user models.User) bool {
+	if user.RoleID != constants.RoleGuest {
+		return false
+	}
+
+	params := httprouter.ParamsFromContext(r.Context())
+
+	reservationId, err := strconv.Atoi(params.ByName("id"))
+	if err != nil {
+		return false
+	}
+
+	guest, err := c.userRepository.GetUserGuest(int(user.ID))
+	if err != nil {
+		return false
+	}
+
+	return c.reservationRepository.IsGuestInReservation(int(guest.ID), reservationId)
+}
+
+func (c *authController) validateGuestAllowedToCancelReservation(r *http.Request, user models.User) bool {
+	if user.RoleID != constants.RoleGuest {
+		return false
+	}
+
+	params := httprouter.ParamsFromContext(r.Context())
+
+	reservationId, err := strconv.Atoi(params.ByName("id"))
+	if err != nil {
+		return false
+	}
+
+	guest, err := c.userRepository.GetUserGuest(int(user.ID))
+	if err != nil {
+		return false
+	}
+
+	return c.reservationRepository.CanGuestCancelReservation(int(guest.ID), reservationId)
 }
