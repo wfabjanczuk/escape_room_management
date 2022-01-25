@@ -21,7 +21,7 @@ func newReviewRepository(logger *log.Logger, db *gorm.DB) *ReviewRepository {
 
 func (r *ReviewRepository) GetReview(id int) (models.Review, error) {
 	var review models.Review
-	result := r.db.First(&review, id)
+	result := r.db.Preload("Guest").Preload("Guest.User").Preload("Room").First(&review, id)
 
 	return review, result.Error
 }

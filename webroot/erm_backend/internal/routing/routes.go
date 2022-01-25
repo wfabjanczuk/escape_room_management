@@ -73,4 +73,5 @@ func (s *Service) setRoomRoutes() {
 
 func (s *Service) setReviewRoutes() {
 	s.router.GET(v+"/reviews", s.withAdminAuthorization(s.controllersTable.Review.GetReviews))
+	s.router.GET(v+"/reviews/:id", s.withAdminAuthorization(s.controllersTable.Review.GetReview))
 }

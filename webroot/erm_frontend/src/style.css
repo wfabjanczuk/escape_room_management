@@ -394,6 +394,7 @@ textarea {
 }
 
 .form select,
+.form textarea,
 .form input {
     background-color: white;
 }
@@ -422,6 +423,7 @@ textarea {
 }
 
 .form select,
+.form textarea,
 .form input[type="text"],
 .form input[type="password"],
 .form input[type="number"],
@@ -433,6 +435,11 @@ textarea {
     border-radius: 5px;
     padding: 0.5rem;
     width: 100%;
+}
+
+.form textarea {
+    resize: vertical;
+    height: 100px;
 }
 
 .form input[type="checkbox"] {
@@ -451,6 +458,11 @@ textarea {
 .form .form-cell {
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
+    overflow-wrap: anywhere;
+}
+
+.form .form-cell.form-cell--italic {
+    font-style: italic;
 }
 
 .form .form__error,
