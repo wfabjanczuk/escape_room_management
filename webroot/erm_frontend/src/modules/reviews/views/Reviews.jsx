@@ -6,6 +6,7 @@ import {connect} from 'react-redux';
 import * as PropTypes from 'prop-types';
 import withAuthorization from '../../app/auth/withAuthorization';
 import {ROLE_ADMIN} from '../../app/constants/roles';
+import getDeleteReviewPromise from '../utils/getDeleteReviewPromise';
 
 const reviewColumns = [
     {key: 'id', name: 'Id', isExtra: false, centering: true},
@@ -50,7 +51,7 @@ const Reviews = ({apiHeaders, changeCounter}) => {
             noRowsText='No reviews found.'
             columns={reviewColumns}
             actionsRoute={ROUTES.reviews}
-            getDeletePromise={null}
+            getDeletePromise={getDeleteReviewPromise}
             buttonText='Add new review'
             buttonUrl={ROUTES.reviews.add}
         />

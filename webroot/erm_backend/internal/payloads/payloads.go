@@ -42,6 +42,15 @@ type RoomPayload struct {
 	MinAge          string `json:"minAge"`
 }
 
+type ReviewPayload struct {
+	Id      string `json:"id"`
+	GuestID string `json:"guestId"`
+	RoomID  string `json:"roomId"`
+	Rating  string `json:"rating"`
+	Comment string `json:"comment"`
+	Reply   string `json:"reply"`
+}
+
 type SignInPayload struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`

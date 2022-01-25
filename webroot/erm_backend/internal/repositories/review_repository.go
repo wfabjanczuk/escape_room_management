@@ -2,8 +2,10 @@ package repositories
 
 import (
 	"erm_backend/internal/models"
+	"erm_backend/internal/responses"
 	"gorm.io/gorm"
 	"log"
+	"net/http"
 )
 
 type ReviewRepository struct {
@@ -31,4 +33,33 @@ func (r *ReviewRepository) GetReviews() ([]models.Review, error) {
 	result := r.db.Preload("Guest").Preload("Guest.User").Preload("Room").Find(&reviews)
 
 	return reviews, result.Error
+}
+
+func (r *ReviewRepository) SaveReview(review models.Review, reviewErrors *responses.ReviewErrors) models.Review {
+	result := r.db.Save(&review)
+
+	if result.Error != nil {
+		reviewErrors.AddError("", "Saving review failed. Please try again later.", http.StatusInternalServerError)
+	}
+
+	return review
+}
+
+func (r *ReviewRepository) DeleteReview(id int, deleteError *responses.DeleteError) {
+	generalError := "Database error. Please try again later."
+
+	review, err := r.GetReview(id)
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			deleteError.AddError("Record not found.", http.StatusNotFound)
+		} else {
+			deleteError.AddError(generalError, http.StatusInternalServerError)
+		}
+		return
+	}
+
+	result := r.db.Delete(&review)
+	if result.Error != nil {
+		deleteError.AddError(generalError, http.StatusInternalServerError)
+	}
 }

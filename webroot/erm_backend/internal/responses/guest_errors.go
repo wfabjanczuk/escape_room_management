@@ -28,7 +28,7 @@ func (e *GuestErrors) AddError(key, message string, status int) {
 	case "":
 		e.General = append(e.General, message)
 	default:
-		log.Fatal("Adding guest error failed with key=" + key + " and message=" + message)
+		log.Fatal("Adding guest error failed.")
 	}
 
 	e.ErrorsCount++
