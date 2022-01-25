@@ -16,6 +16,7 @@ const Listing = (
         buttonText,
         buttonUrl,
         actionsRenderer,
+        isGuestAuthorized = false,
         renderActions = true,
     }
 ) => {
@@ -40,6 +41,7 @@ const Listing = (
             columns={columns}
             actionsRoute={actionsRoute}
             getDeletePromise={getDeletePromise}
+            isGuestAuthorized={isGuestAuthorized}
             buttonText={buttonText}
             buttonUrl={buttonUrl}
             renderActions={renderActions}
@@ -50,6 +52,7 @@ const Listing = (
             columns={columns}
             actionsRoute={actionsRoute}
             getDeletePromise={getDeletePromise}
+            isGuestAuthorized={isGuestAuthorized}
             buttonText={buttonText}
             buttonUrl={buttonUrl}
             renderActions={renderActions}
@@ -66,6 +69,7 @@ Listing.propTypes = {
     columns: PropTypes.array,
     actionsRoute: PropTypes.object,
     getDeletePromise: PropTypes.func,
+    isGuestAuthorized: PropTypes.bool,
     buttonText: PropTypes.string,
     buttonUrl: PropTypes.string,
     actionsRenderer: PropTypes.func,

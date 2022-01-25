@@ -5,13 +5,14 @@ import {getRouteWithParams} from '../../constants/routes';
 import {connect} from 'react-redux';
 import {addErrorMessage, addSuccessMessage} from '../../redux/flash/flashActions';
 import {increaseChangeCounter} from '../../redux/change/changeActions';
-import {ROLE_ADMIN} from '../../constants/roles';
+import {ROLE_ADMIN, ROLE_GUEST} from '../../constants/roles';
 
 const ListingActions = (
     {
         row,
         route,
         getDeletePromise,
+        isGuestAuthorized,
         currentUser,
         apiHeaders,
         addSuccessMessage,
@@ -38,7 +39,7 @@ const ListingActions = (
                 Details
             </Link>
         </li>
-        {currentUser && currentUser.roleId === ROLE_ADMIN &&
+        {currentUser && (currentUser.roleId === ROLE_ADMIN || currentUser.roleId === ROLE_GUEST && isGuestAuthorized) &&
             <React.Fragment>
                 <li className='action'>
                     <Link className='button button--warning hoverable'
@@ -60,6 +61,7 @@ ListingActions.propTypes = {
     row: PropTypes.object,
     route: PropTypes.object,
     getDeletePromise: PropTypes.func,
+    isGuestAuthorized: PropTypes.bool,
     currentUser: PropTypes.object,
     apiHeaders: PropTypes.object,
     addSuccessMessage: PropTypes.func,

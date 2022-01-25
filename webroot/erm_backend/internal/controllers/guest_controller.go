@@ -64,6 +64,27 @@ func (c *guestController) GetGuestTickets(w http.ResponseWriter, r *http.Request
 	}
 }
 
+func (c *guestController) GetGuestReviews(w http.ResponseWriter, r *http.Request) {
+	params := httprouter.ParamsFromContext(r.Context())
+
+	id, err := strconv.Atoi(params.ByName("id"))
+	if err != nil {
+		c.writeWrappedErrorJson(w, err, http.StatusBadRequest)
+		return
+	}
+
+	reviews, err := c.guestRepository.GetGuestReviews(id)
+	if err != nil {
+		c.writeWrappedErrorJson(w, err, http.StatusNotFound)
+		return
+	}
+
+	err = c.writeWrappedJson(w, http.StatusOK, reviews, "reviews")
+	if err != nil {
+		c.logger.Println(err)
+	}
+}
+
 func (c *guestController) GetGuests(w http.ResponseWriter, r *http.Request) {
 	guests, err := c.guestRepository.GetGuests()
 	if err != nil {

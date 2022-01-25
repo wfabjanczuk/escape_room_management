@@ -39,6 +39,7 @@ func (s *Service) setGuestRoutes() {
 	s.router.PUT(v+"/guests/:id", s.withAdminAuthorization(s.controllersTable.Guest.UpdateGuest))
 	s.router.DELETE(v+"/guests/:id", s.withAdminAuthorization(s.controllersTable.Guest.DeleteGuest))
 	s.router.GET(v+"/guests/:id/tickets", s.withAdminOrGuestMatchesGuestIdAuthorization(s.controllersTable.Guest.GetGuestTickets))
+	s.router.GET(v+"/guests/:id/reviews", s.withAdminOrGuestMatchesGuestIdAuthorization(s.controllersTable.Guest.GetGuestReviews))
 
 	s.router.HandlerFunc(http.MethodPost, v+"/guests/signup", s.controllersTable.Guest.SignUp)
 }
@@ -74,7 +75,7 @@ func (s *Service) setRoomRoutes() {
 func (s *Service) setReviewRoutes() {
 	s.router.GET(v+"/reviews", s.withAdminAuthorization(s.controllersTable.Review.GetReviews))
 	s.router.POST(v+"/reviews", s.withAdminAuthorization(s.controllersTable.Review.CreateReview))
-	s.router.GET(v+"/reviews/:id", s.withAdminAuthorization(s.controllersTable.Review.GetReview))
-	s.router.PUT(v+"/reviews/:id", s.withAdminAuthorization(s.controllersTable.Review.UpdateReview))
-	s.router.DELETE(v+"/reviews/:id", s.withAdminAuthorization(s.controllersTable.Review.DeleteReview))
+	s.router.GET(v+"/reviews/:id", s.withAdminOrGuestMatchesReviewIdAuthorization(s.controllersTable.Review.GetReview))
+	s.router.PUT(v+"/reviews/:id", s.withAdminOrGuestMatchesReviewIdAuthorization(s.controllersTable.Review.UpdateReview))
+	s.router.DELETE(v+"/reviews/:id", s.withAdminOrGuestMatchesReviewIdAuthorization(s.controllersTable.Review.DeleteReview))
 }

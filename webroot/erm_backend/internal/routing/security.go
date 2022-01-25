@@ -29,6 +29,13 @@ func (s *Service) withAdminOrGuestMatchesReservationIdAuthorization(fn http.Hand
 	return s.wrapHandler(alice.New(s.prepareAuthorize(adminRole, rules)).ThenFunc(fn))
 }
 
+func (s *Service) withAdminOrGuestMatchesReviewIdAuthorization(fn http.HandlerFunc) httprouter.Handle {
+	adminRole := []int{constants.RoleAdmin}
+	rules := []string{constants.RuleGuestMatchesReviewId}
+
+	return s.wrapHandler(alice.New(s.prepareAuthorize(adminRole, rules)).ThenFunc(fn))
+}
+
 func (s *Service) withAdminOrGuestAllowedToCancelReservationAuthorization(fn http.HandlerFunc) httprouter.Handle {
 	adminRole := []int{constants.RoleAdmin}
 	rules := []string{constants.RuleGuestAllowedToCancelReservation}

@@ -28,6 +28,14 @@ func (r *ReviewRepository) GetReview(id int) (models.Review, error) {
 	return review, result.Error
 }
 
+func (r *ReviewRepository) GetReviewByGuestAndRoom(guestId, roomId uint) (models.Review, error) {
+	var review models.Review
+	result := r.db.Preload("Guest").Preload("Guest.User").Preload("Room").
+		Where("guest_id = ? and room_id = ?", guestId, roomId).First(&review)
+
+	return review, result.Error
+}
+
 func (r *ReviewRepository) GetReviews() ([]models.Review, error) {
 	var reviews []models.Review
 	result := r.db.Preload("Guest").Preload("Guest.User").Preload("Room").Find(&reviews)
@@ -37,6 +45,13 @@ func (r *ReviewRepository) GetReviews() ([]models.Review, error) {
 
 func (r *ReviewRepository) SaveReview(review models.Review, reviewErrors *responses.ReviewErrors) models.Review {
 	result := r.db.Save(&review)
+
+	if review.ID == 0 {
+		_, err := r.GetReviewByGuestAndRoom(review.GuestID, review.RoomID)
+		if err != gorm.ErrRecordNotFound {
+			reviewErrors.AddError("", "Review for given guest and room already exists.", http.StatusBadRequest)
+		}
+	}
 
 	if result.Error != nil {
 		reviewErrors.AddError("", "Saving review failed. Please try again later.", http.StatusInternalServerError)

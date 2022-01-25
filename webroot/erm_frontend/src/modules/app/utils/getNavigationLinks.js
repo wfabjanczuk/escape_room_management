@@ -29,7 +29,12 @@ const getGuestNavigationLinks = (pathname) => [
         isActive: pathname.startsWith(ROUTES.rooms.index),
         route: ROUTES.rooms.index,
         label: 'Rooms',
-    }
+    },
+    {
+        isActive: pathname.startsWith(ROUTES.reviews.index),
+        route: ROUTES.reviews.index,
+        label: 'Reviews',
+    },
 ];
 
 const getAdminNavigationLinks = (pathname) => [

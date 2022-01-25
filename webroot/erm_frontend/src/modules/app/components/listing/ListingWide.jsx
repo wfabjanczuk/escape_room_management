@@ -9,6 +9,7 @@ const ListingWide = (
         columns,
         actionsRoute,
         getDeletePromise,
+        isGuestAuthorized,
         buttonText,
         buttonUrl,
         renderActions,
@@ -43,6 +44,7 @@ const ListingWide = (
                                 row={r}
                                 route={actionsRoute}
                                 getDeletePromise={getDeletePromise}
+                                isGuestAuthorized={isGuestAuthorized}
                                 actionsRenderer={actionsRenderer}
                                 renderActions={renderActions}
                             />
@@ -62,6 +64,7 @@ ListingWide.propTypes = {
     columns: PropTypes.array,
     actionsRoute: PropTypes.object,
     getDeletePromise: PropTypes.func,
+    isGuestAuthorized: PropTypes.bool,
     buttonText: PropTypes.string,
     buttonUrl: PropTypes.string,
     renderActions: PropTypes.bool,

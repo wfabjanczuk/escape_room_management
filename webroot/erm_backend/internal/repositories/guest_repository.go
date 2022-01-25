@@ -145,3 +145,17 @@ func (r *GuestRepository) GetGuestTickets(id int) ([]models.Ticket, error) {
 
 	return tickets, result.Error
 }
+
+func (r *GuestRepository) GetGuestReviews(id int) ([]models.Review, error) {
+	var reviews []models.Review
+
+	_, err := r.GetGuest(id)
+	if err != nil {
+		return reviews, err
+	}
+
+	result := r.db.Preload("Guest").Preload("Guest.User").Preload("Room").
+		Where("guest_id = ?", id).Find(&reviews)
+
+	return reviews, result.Error
+}

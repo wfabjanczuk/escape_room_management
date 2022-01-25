@@ -15,6 +15,7 @@ const ROUTES = {
         guests: API + '/guests',
         guest: API + '/guests/:id',
         guestTickets: API + '/guests/:id/tickets',
+        guestReviews: API + '/guests/:id/reviews',
         tickets: API + '/tickets',
         ticket: API + '/tickets/:id',
         reservations: API + '/reservations',

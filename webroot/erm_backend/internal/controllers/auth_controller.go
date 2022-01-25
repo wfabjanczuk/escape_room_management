@@ -22,6 +22,7 @@ type authController struct {
 	controller
 	userRepository        *repositories.UserRepository
 	reservationRepository *repositories.ReservationRepository
+	reviewRepository      *repositories.ReviewRepository
 	jwtSecret             string
 }
 
@@ -31,11 +32,12 @@ type AuthenticatedUser struct {
 	Jwt     string      `json:"jwt"`
 }
 
-func newAuthController(userRepository *repositories.UserRepository, reservationRepository *repositories.ReservationRepository, jwtSecret string, logger *log.Logger) *authController {
+func newAuthController(userRepository *repositories.UserRepository, reservationRepository *repositories.ReservationRepository, reviewRepository *repositories.ReviewRepository, jwtSecret string, logger *log.Logger) *authController {
 	return &authController{
 		controller:            newController(logger),
 		userRepository:        userRepository,
 		reservationRepository: reservationRepository,
+		reviewRepository:      reviewRepository,
 		jwtSecret:             jwtSecret,
 	}
 }
@@ -179,7 +181,7 @@ func (c *authController) HandleAuthorization(w http.ResponseWriter, r *http.Requ
 
 func (c *authController) validateRules(r *http.Request, user models.User, rules []string) bool {
 	if len(rules) == 0 {
-		return true
+		return false
 	}
 
 	for _, ruleName := range rules {
@@ -199,6 +201,8 @@ func (c *authController) validateRule(r *http.Request, user models.User, ruleNam
 		return c.validateGuestMatchesGuestId(r, user)
 	case constants.RuleGuestMatchesReservationId:
 		return c.validateGuestMatchesReservationId(r, user)
+	case constants.RuleGuestMatchesReviewId:
+		return c.validateGuestMatchesReviewId(r, user)
 	case constants.RuleGuestAllowedToCancelReservation:
 		return c.validateGuestAllowedToCancelReservation(r, user)
 	}
@@ -254,6 +258,31 @@ func (c *authController) validateGuestMatchesReservationId(r *http.Request, user
 	}
 
 	return c.reservationRepository.IsGuestInReservation(int(guest.ID), reservationId)
+}
+
+func (c *authController) validateGuestMatchesReviewId(r *http.Request, user models.User) bool {
+	if user.RoleID != constants.RoleGuest {
+		return false
+	}
+
+	params := httprouter.ParamsFromContext(r.Context())
+
+	reviewId, err := strconv.Atoi(params.ByName("id"))
+	if err != nil {
+		return false
+	}
+
+	review, err := c.reviewRepository.GetReview(reviewId)
+	if err != nil {
+		return false
+	}
+
+	guest, err := c.userRepository.GetUserGuest(int(user.ID))
+	if err != nil {
+		return false
+	}
+
+	return review.GuestID == guest.ID
 }
 
 func (c *authController) validateGuestAllowedToCancelReservation(r *http.Request, user models.User) bool {
