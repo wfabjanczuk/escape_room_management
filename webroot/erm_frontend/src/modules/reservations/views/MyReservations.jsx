@@ -83,7 +83,7 @@ const MyReservations = (
     );
 
     return <React.Fragment>
-        <h2>Reservations</h2>
+        <h2>Reservation list</h2>
         <Listing
             error={state.error}
             isLoading={state.isLoading}

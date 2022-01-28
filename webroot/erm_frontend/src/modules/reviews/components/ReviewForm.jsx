@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import * as PropTypes from 'prop-types';
 import NewFormValidator from '../../app/utils/FormValidator';
-import Footer from '../../app/components/form/EntityFormFooter';
 import ReviewFormFields from './ReviewFormFields';
 import ROUTES, {getRouteWithParams} from '../../app/constants/routes';
 import {addSuccessMessage} from '../../app/redux/flash/flashActions';
@@ -11,6 +10,7 @@ import {get as _get} from 'lodash';
 import getDeleteReviewPromise from '../utils/getDeleteReviewPromise';
 import {sendData} from '../../app/utils/form';
 import axios from 'axios';
+import ReviewFormFooter from './ReviewFormFooter';
 
 const getInitialFormData = (review) => {
     if (review) {
@@ -70,7 +70,7 @@ const validateFormData = (formData, setErrors) => {
     return true;
 };
 
-const ReviewForm = ({review, isDisabled, changeCounter, apiHeaders, addSuccessMessage}) => {
+const ReviewForm = ({review, isDisabled, changeCounter, currentUser, guestId, apiHeaders, addSuccessMessage}) => {
     const id = parseInt(_get(review, 'id', null), 10),
         entityExists = !!review,
         urls = getUrls(review, entityExists, isDisabled),
@@ -136,6 +136,15 @@ const ReviewForm = ({review, isDisabled, changeCounter, apiHeaders, addSuccessMe
     useEffect(() => {
             const mapGuestToOption = (g) => ({id: g.id, label: `${g.user.firstName} ${g.user.lastName}`});
 
+            if (guestId) {
+                setGuestOptions({
+                    guests: [{id: guestId, label: `${currentUser.firstName} ${currentUser.lastName}`}],
+                    isLoading: false,
+                    errors: [],
+                });
+                return;
+            }
+
             if (isDisabled) {
                 setGuestOptions({
                     guests: [mapGuestToOption(review.guest)],
@@ -186,7 +195,7 @@ const ReviewForm = ({review, isDisabled, changeCounter, apiHeaders, addSuccessMe
             formData={formData}
             errors={errors}
         />
-        <Footer
+        <ReviewFormFooter
             id={id}
             entityExists={entityExists}
             isDisabled={isDisabled}
@@ -202,12 +211,16 @@ ReviewForm.propTypes = {
     review: PropTypes.object,
     isDisabled: PropTypes.bool,
     changeCounter: PropTypes.number,
+    guestId: PropTypes.number,
+    currentUser: PropTypes.object,
     apiHeaders: PropTypes.object,
     addSuccessMessage: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
     changeCounter: state.change.counter,
+    guestId: state.auth.guestId,
+    currentUser: state.auth.currentUser,
     apiHeaders: state.auth.apiHeaders,
 });
 

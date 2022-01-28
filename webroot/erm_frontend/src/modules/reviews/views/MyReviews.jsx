@@ -45,7 +45,7 @@ const MyReviews = ({changeCounter, guestId, apiHeaders}) => {
     );
 
     return <React.Fragment>
-        <h2>Reservations</h2>
+        <h2>Review list</h2>
         <Listing
             error={state.error}
             isLoading={state.isLoading}

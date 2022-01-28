@@ -55,7 +55,7 @@ const ListingWide = (
             </tbody>
         </table>
 
-        <Footer buttonText={buttonText} buttonUrl={buttonUrl}/>
+        <Footer buttonText={buttonText} buttonUrl={buttonUrl} isGuestAuthorized={isGuestAuthorized}/>
     </div>
 );
 

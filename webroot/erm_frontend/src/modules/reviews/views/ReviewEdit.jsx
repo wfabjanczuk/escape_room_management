@@ -6,7 +6,7 @@ import ReviewForm from '../components/ReviewForm';
 import {connect} from 'react-redux';
 import * as PropTypes from 'prop-types';
 import withAuthorization from '../../app/auth/withAuthorization';
-import {ROLE_ADMIN} from '../../app/constants/roles';
+import {ROLE_ADMIN, ROLE_GUEST} from '../../app/constants/roles';
 
 const ReviewEdit = ({apiHeaders}) => {
     const [state, setState] = useState({
@@ -67,5 +67,5 @@ const mapStateToProps = (state) => ({
 
 export default withAuthorization(
     connect(mapStateToProps)(ReviewEdit),
-    [ROLE_ADMIN]
+    [ROLE_GUEST, ROLE_ADMIN]
 );

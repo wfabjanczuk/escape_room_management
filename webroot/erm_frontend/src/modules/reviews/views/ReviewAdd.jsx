@@ -1,7 +1,7 @@
 import React from 'react';
 import ReviewForm from '../components/ReviewForm';
 import withAuthorization from '../../app/auth/withAuthorization';
-import {ROLE_ADMIN} from '../../app/constants/roles';
+import {ROLE_ADMIN, ROLE_GUEST} from '../../app/constants/roles';
 
 const ReviewAdd = () => {
     return <React.Fragment>
@@ -12,5 +12,5 @@ const ReviewAdd = () => {
 
 export default withAuthorization(
     ReviewAdd,
-    [ROLE_ADMIN]
+    [ROLE_GUEST, ROLE_ADMIN]
 );

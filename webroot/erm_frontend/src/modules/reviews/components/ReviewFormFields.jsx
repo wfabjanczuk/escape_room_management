@@ -3,6 +3,7 @@ import * as PropTypes from 'prop-types';
 import TextareaField from '../../app/components/form/field/TextareaField';
 import InputField from '../../app/components/form/field/InputField';
 import SelectField from '../../app/components/form/field/SelectField';
+import {connect} from 'react-redux';
 
 const ReviewFormFields = (
     {
@@ -12,7 +13,8 @@ const ReviewFormFields = (
         isDisabled,
         onValueChange,
         formData,
-        errors
+        errors,
+        guestId
     }
 ) => (<React.Fragment>
     {entityExists && <input type='hidden' name='id' value={formData.id}/>}
@@ -22,9 +24,9 @@ const ReviewFormFields = (
         placeholderLabel='-- select guest --'
         options={guestOptions}
         isRequired={true}
-        isDisabled={isDisabled}
+        isDisabled={guestId ? true : isDisabled}
         errorMessage={errors.guestId}
-        value={formData.guestId}
+        value={guestId ? guestId : formData.guestId}
         onChange={onValueChange}
     />
     <SelectField
@@ -58,16 +60,19 @@ const ReviewFormFields = (
         value={formData.comment}
         onChange={onValueChange}
     />
-    <TextareaField
-        name='reply'
-        displayName='Reply'
-        isRequired={false}
-        isDisabled={isDisabled}
-        maxLength={300}
-        errorMessage={errors.reply}
-        value={formData.reply}
-        onChange={onValueChange}
-    />
+    {(!guestId || entityExists)
+        ? <TextareaField
+            name='reply'
+            displayName='Reply'
+            isRequired={false}
+            isDisabled={guestId || isDisabled}
+            maxLength={300}
+            errorMessage={errors.reply}
+            value={formData.reply}
+            onChange={onValueChange}
+        />
+        : <input type='hidden' name='reply' value=''/>
+    }
 </React.Fragment>);
 
 ReviewFormFields.propTypes = {
@@ -78,6 +83,11 @@ ReviewFormFields.propTypes = {
     onValueChange: PropTypes.func,
     formData: PropTypes.object,
     errors: PropTypes.object,
+    guestId: PropTypes.number,
 };
 
-export default ReviewFormFields;
+const mapStateToProps = (state) => ({
+    guestId: state.auth.guestId,
+});
+
+export default connect(mapStateToProps)(ReviewFormFields);
