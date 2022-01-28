@@ -74,7 +74,7 @@ func (s *Service) setRoomRoutes() {
 
 func (s *Service) setReviewRoutes() {
 	s.router.GET(v+"/reviews", s.withAdminAuthorization(s.controllersTable.Review.GetReviews))
-	s.router.POST(v+"/reviews", s.withAdminAuthorization(s.controllersTable.Review.CreateReview))
+	s.router.POST(v+"/reviews", s.withAdminOrGuestMatchesFormGuestIdAuthorization(s.controllersTable.Review.CreateReview))
 	s.router.GET(v+"/reviews/:id", s.withAdminOrGuestMatchesReviewIdAuthorization(s.controllersTable.Review.GetReview))
 	s.router.PUT(v+"/reviews/:id", s.withAdminOrGuestMatchesReviewIdAuthorization(s.controllersTable.Review.UpdateReview))
 	s.router.DELETE(v+"/reviews/:id", s.withAdminOrGuestMatchesReviewIdAuthorization(s.controllersTable.Review.DeleteReview))

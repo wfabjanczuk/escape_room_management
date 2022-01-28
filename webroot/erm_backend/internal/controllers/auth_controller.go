@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"bytes"
 	"encoding/json"
 	"erm_backend/internal/constants"
 	"erm_backend/internal/models"
@@ -11,6 +12,7 @@ import (
 	"github.com/julienschmidt/httprouter"
 	"github.com/pascaldekloe/jwt"
 	"golang.org/x/crypto/bcrypt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"strconv"
@@ -199,6 +201,8 @@ func (c *authController) validateRule(r *http.Request, user models.User, ruleNam
 		return c.validateUserMatchesUserId(r, user)
 	case constants.RuleGuestMatchesGuestId:
 		return c.validateGuestMatchesGuestId(r, user)
+	case constants.RuleGuestMatchesFormGuestId:
+		return c.validateGuestMatchesFormGuestId(r, user)
 	case constants.RuleGuestMatchesReservationId:
 		return c.validateGuestMatchesReservationId(r, user)
 	case constants.RuleGuestMatchesReviewId:
@@ -233,6 +237,37 @@ func (c *authController) validateGuestMatchesGuestId(r *http.Request, user model
 	}
 
 	guest, err := c.userRepository.GetUserGuest(int(user.ID))
+	if err != nil {
+		return false
+	}
+
+	return guestId == int(guest.ID)
+}
+
+func (c *authController) validateGuestMatchesFormGuestId(r *http.Request, user models.User) bool {
+	var reviewPayload payloads.ReviewPayload
+	var body []byte
+
+	if user.RoleID != constants.RoleGuest {
+		return false
+	}
+
+	guest, err := c.userRepository.GetUserGuest(int(user.ID))
+	if err != nil {
+		return false
+	}
+
+	if r.Body != nil {
+		body, _ = ioutil.ReadAll(r.Body)
+	}
+
+	r.Body = ioutil.NopCloser(bytes.NewBuffer(body))
+	err = json.NewDecoder(bytes.NewReader(body)).Decode(&reviewPayload)
+	if err != nil {
+		return false
+	}
+
+	guestId, err := strconv.Atoi(reviewPayload.GuestID)
 	if err != nil {
 		return false
 	}

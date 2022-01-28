@@ -18,17 +18,20 @@ const ReviewFormFields = (
     }
 ) => (<React.Fragment>
     {entityExists && <input type='hidden' name='id' value={formData.id}/>}
-    <SelectField
-        name='guestId'
-        displayName='Guest'
-        placeholderLabel='-- select guest --'
-        options={guestOptions}
-        isRequired={true}
-        isDisabled={guestId ? true : isDisabled}
-        errorMessage={errors.guestId}
-        value={guestId ? guestId : formData.guestId}
-        onChange={onValueChange}
-    />
+    {guestId
+        ? <input type='hidden' name='guestId' value={guestId}/>
+        : <SelectField
+            name='guestId'
+            displayName='Guest'
+            placeholderLabel='-- select guest --'
+            options={guestOptions}
+            isRequired={true}
+            isDisabled={isDisabled}
+            errorMessage={errors.guestId}
+            value={formData.guestId}
+            onChange={onValueChange}
+        />
+    }
     <SelectField
         name='roomId'
         displayName='Room'

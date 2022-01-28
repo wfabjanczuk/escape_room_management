@@ -15,6 +15,13 @@ func (s *Service) withAdminOrUserMatchesUserIdAuthorization(fn http.HandlerFunc)
 	return s.wrapHandler(alice.New(s.prepareAuthorize(adminRole, rules)).ThenFunc(fn))
 }
 
+func (s *Service) withAdminOrGuestMatchesFormGuestIdAuthorization(fn http.HandlerFunc) httprouter.Handle {
+	adminRole := []int{constants.RoleAdmin}
+	rules := []string{constants.RuleGuestMatchesFormGuestId}
+
+	return s.wrapHandler(alice.New(s.prepareAuthorize(adminRole, rules)).ThenFunc(fn))
+}
+
 func (s *Service) withAdminOrGuestMatchesGuestIdAuthorization(fn http.HandlerFunc) httprouter.Handle {
 	adminRole := []int{constants.RoleAdmin}
 	rules := []string{constants.RuleGuestMatchesGuestId}

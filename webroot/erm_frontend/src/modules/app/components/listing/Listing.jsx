@@ -31,7 +31,7 @@ const Listing = (
     if (0 === rows.length) {
         return <div className='listing'>
             <p>{noRowsText}</p>
-            <Footer buttonText={buttonText} buttonUrl={buttonUrl}/>
+            <Footer buttonText={buttonText} buttonUrl={buttonUrl} isGuestAuthorized={isGuestAuthorized}/>
         </div>;
     }
 
