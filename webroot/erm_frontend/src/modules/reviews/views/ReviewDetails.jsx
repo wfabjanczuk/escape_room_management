@@ -7,8 +7,9 @@ import * as PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import withAuthorization from '../../app/auth/withAuthorization';
 import {ROLE_ADMIN, ROLE_GUEST} from '../../app/constants/roles';
+import GuestForm from '../../guests/components/GuestForm';
 
-const ReviewDetails = ({apiHeaders}) => {
+const ReviewDetails = ({apiHeaders, guestId}) => {
     const [state, setState] = useState({
             review: {},
             isLoading: true,
@@ -54,15 +55,23 @@ const ReviewDetails = ({apiHeaders}) => {
     return <React.Fragment>
         <h2>{title}</h2>
         <ReviewForm review={state.review} isDisabled={true}/>
+        {guestId === 0 &&
+            <React.Fragment>
+                <h2>Review author</h2>
+                <GuestForm guest={state.review.guest} isDisabled={true}/>
+            </React.Fragment>
+        }
     </React.Fragment>;
 };
 
 ReviewDetails.propTypes = {
     apiHeaders: PropTypes.object,
+    guestId: PropTypes.number,
 };
 
 const mapStateToProps = (state) => ({
     apiHeaders: state.auth.apiHeaders,
+    guestId: state.auth.guestId,
 });
 
 export default withAuthorization(

@@ -8,6 +8,7 @@ import * as PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import withAuthorization from '../../app/auth/withAuthorization';
 import {ROLE_ADMIN} from '../../app/constants/roles';
+import GuestReviews from '../components/GuestReviews';
 
 const GuestDetails = ({apiHeaders}) => {
     const [state, setState] = useState({
@@ -56,6 +57,7 @@ const GuestDetails = ({apiHeaders}) => {
         <h2>{title}</h2>
         <GuestForm guest={state.guest} isDisabled={true}/>
         <GuestTickets id={parseInt(params.id, 10)}/>
+        <GuestReviews id={parseInt(params.id, 10)}/>
     </React.Fragment>;
 };
 
