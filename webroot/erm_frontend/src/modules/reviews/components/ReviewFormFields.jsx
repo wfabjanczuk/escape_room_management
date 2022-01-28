@@ -33,16 +33,19 @@ const ReviewFormFields = (
         />
     }
     <SelectField
-        name='roomId'
+        name={guestId && entityExists ? '' : 'roomId'}
         displayName='Room'
         placeholderLabel='-- select room --'
         options={roomOptions}
         isRequired={true}
-        isDisabled={isDisabled}
+        isDisabled={isDisabled || guestId > 0 && entityExists}
         errorMessage={errors.roomId}
         value={formData.roomId}
         onChange={onValueChange}
     />
+    {guestId > 0 && entityExists &&
+        <input type='hidden' name='roomId' value={formData.roomId}/>
+    }
     <InputField
         type='number'
         name='rating'
@@ -68,13 +71,13 @@ const ReviewFormFields = (
             name='reply'
             displayName='Reply'
             isRequired={false}
-            isDisabled={guestId || isDisabled}
+            isDisabled={guestId > 0 || isDisabled}
             maxLength={300}
             errorMessage={errors.reply}
             value={formData.reply}
             onChange={onValueChange}
         />
-        : <input type='hidden' name='reply' value=''/>
+        : <input type='hidden' name='reply' value={formData.reply}/>
     }
 </React.Fragment>);
 

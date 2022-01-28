@@ -6,6 +6,12 @@ import (
 	"net/http"
 )
 
+type paramsUserKey struct{}
+type paramsGuestKey struct{}
+
+var ParamsUserKey = paramsUserKey{}
+var ParamsGuestKey = paramsGuestKey{}
+
 type controller struct {
 	logger *log.Logger
 }

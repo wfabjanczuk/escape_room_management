@@ -1,6 +1,8 @@
 package routing
 
 import (
+	"context"
+	"erm_backend/internal/controllers"
 	"net/http"
 )
 
@@ -16,11 +18,14 @@ func (s *Service) enableCors(next http.Handler) http.Handler {
 func (s *Service) prepareAuthorize(allowedRoles []int, rules []string) func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			if !s.controllersTable.Auth.HandleAuthorization(w, r, allowedRoles, rules) {
+			result, user, guest := s.controllersTable.Auth.Authorize(w, r, allowedRoles, rules)
+			if !result {
 				return
 			}
 
-			next.ServeHTTP(w, r)
+			ctx := context.WithValue(r.Context(), controllers.ParamsUserKey, user)
+			ctx = context.WithValue(ctx, controllers.ParamsGuestKey, guest)
+			next.ServeHTTP(w, r.WithContext(ctx))
 		})
 	}
 }

@@ -7,7 +7,10 @@ const TextareaField = ({name, displayName, isRequired, isDisabled, maxLength, er
     return <React.Fragment>
         <Label name={name} displayName={displayName} isRequired={isRequired} isDisabled={isDisabled}/>
         {isDisabled
-            ? <div className='form-cell form-cell--italic'>{value ? value : '-'}</div>
+            ? <div className='form-cell form-cell--italic'>
+                {value ? value : '-'}
+                <input type='hidden' name='reply' value={value ? value : ''}/>
+            </div>
             : <textarea
                 className={`form__field ${errorMessage ? 'form__field--error' : ''}`}
                 name={name}

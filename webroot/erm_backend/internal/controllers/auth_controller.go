@@ -99,75 +99,83 @@ func (c *authController) SignIn(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (c *authController) HandleAuthentication(w http.ResponseWriter, r *http.Request) models.User {
+func (c *authController) Authenticate(w http.ResponseWriter, r *http.Request) (models.User, models.Guest) {
 	w.Header().Add("Vary", "Authorization")
 
-	user, err := c.validateAuthorizationHeader(r.Header.Get("Authorization"))
+	user, guest, err := c.validateAuthorizationHeader(r.Header.Get("Authorization"))
 	if err != nil {
 		c.writeWrappedErrorJson(w, err, http.StatusUnauthorized)
 	}
 
-	return user
+	return user, guest
 }
 
-func (c *authController) validateAuthorizationHeader(authorizationHeader string) (models.User, error) {
+func (c *authController) validateAuthorizationHeader(authorizationHeader string) (models.User, models.Guest, error) {
 	var user models.User
+	var guest models.Guest
 	headerParts := strings.Split(authorizationHeader, " ")
 
 	if len(headerParts) != 2 {
-		return user, errors.New("invalid authorization header")
+		return user, guest, errors.New("invalid authorization header")
 	}
 
 	if headerParts[0] != "Bearer" {
-		return user, errors.New("bearer authorization required")
+		return user, guest, errors.New("bearer authorization required")
 	}
 
 	token := headerParts[1]
 	claims, err := jwt.HMACCheck([]byte(token), []byte(c.jwtSecret))
 	if err != nil {
-		return user, errors.New("failed HMAC check")
+		return user, guest, errors.New("failed HMAC check")
 	}
 
 	if !claims.Valid(time.Now()) {
-		return user, errors.New("token expired")
+		return user, guest, errors.New("token expired")
 	}
 
 	if !claims.AcceptAudience("erm.com") {
-		return user, errors.New("invalid audience")
+		return user, guest, errors.New("invalid audience")
 	}
 
 	if claims.Issuer != "erm.com" {
-		return user, errors.New("invalid issuer")
+		return user, guest, errors.New("invalid issuer")
 	}
 
 	userId, err := strconv.ParseInt(claims.Subject, 10, 64)
 	if err != nil {
-		return user, errors.New("invalid token format")
+		return user, guest, errors.New("invalid token format")
 	}
 
 	user, err = c.userRepository.GetUser(int(userId))
 	if err != nil {
-		return user, errors.New("user not found")
+		return user, guest, errors.New("user not found")
 	}
 
-	return user, nil
+	if user.RoleID == constants.RoleGuest {
+		guest, err = c.userRepository.GetUserGuest(int(userId))
+		if err != nil {
+			return user, guest, errors.New("guest not found")
+		}
+	}
+
+	return user, guest, nil
 }
 
-func (c *authController) HandleAuthorization(w http.ResponseWriter, r *http.Request, allowedRoles []int, rules []string) bool {
-	user := c.HandleAuthentication(w, r)
+func (c *authController) Authorize(w http.ResponseWriter, r *http.Request, allowedRoles []int, rules []string) (bool, models.User, models.Guest) {
+	user, guest := c.Authenticate(w, r)
 
 	if user.ID == 0 {
-		return false
+		return false, user, guest
 	}
 
 	for _, roleId := range allowedRoles {
 		if user.RoleID == uint(roleId) {
-			return true
+			return true, user, guest
 		}
 	}
 
 	if c.validateRules(r, user, rules) {
-		return true
+		return true, user, guest
 	}
 
 	errorData := map[string][]string{
@@ -178,7 +186,7 @@ func (c *authController) HandleAuthorization(w http.ResponseWriter, r *http.Requ
 		c.logger.Println(err)
 	}
 
-	return false
+	return false, user, guest
 }
 
 func (c *authController) validateRules(r *http.Request, user models.User, rules []string) bool {

@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"erm_backend/internal/models"
 	"erm_backend/internal/parsers"
 	"erm_backend/internal/repositories"
 	"erm_backend/internal/responses"
@@ -88,6 +89,12 @@ func (c *reviewController) DeleteReview(w http.ResponseWriter, r *http.Request) 
 }
 
 func (c *reviewController) handleSaveReview(w http.ResponseWriter, r *http.Request, parseId bool) {
+	var guestId uint
+	guestParam := r.Context().Value(ParamsGuestKey)
+	if guestParam != nil {
+		guestId = guestParam.(models.Guest).ID
+	}
+
 	reviewErrors := &responses.ReviewErrors{}
 	review := parsers.ParseReviewFromRequest(r, parseId, reviewErrors)
 	params := httprouter.ParamsFromContext(r.Context())
@@ -101,7 +108,7 @@ func (c *reviewController) handleSaveReview(w http.ResponseWriter, r *http.Reque
 	}
 
 	if reviewErrors.ErrorsCount == 0 {
-		review = c.reviewRepository.SaveReview(review, reviewErrors)
+		review = c.reviewRepository.SaveReview(review, reviewErrors, guestId)
 	}
 
 	if reviewErrors.ErrorsCount > 0 {
