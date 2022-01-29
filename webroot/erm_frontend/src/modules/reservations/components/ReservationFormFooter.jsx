@@ -6,6 +6,7 @@ import {addErrorMessage, addSuccessMessage} from '../../app/redux/flash/flashAct
 import {increaseChangeCounter} from '../../app/redux/change/changeActions';
 import getCancelReservationPromise from '../utils/getCancelReservationPromise';
 import {get as _get} from 'lodash';
+import {showModal} from '../../app/redux/modal/modalActions';
 
 const ReservationFormFooter = (
     {
@@ -22,6 +23,7 @@ const ReservationFormFooter = (
         addSuccessMessage,
         addErrorMessage,
         increaseChangeCounter,
+        showModal,
     }
 ) => {
     const navigate = useNavigate(),
@@ -38,7 +40,7 @@ const ReservationFormFooter = (
                 <Link className='button button--warning hoverable' to={editUrl}>
                     Edit
                 </Link>
-                <div className='button button--danger hoverable' onClick={onDelete}>
+                <div className='button button--danger hoverable' onClick={() => showModal(onDelete)}>
                     Delete
                 </div>
             </div>;
@@ -52,7 +54,7 @@ const ReservationFormFooter = (
                 Back to list
             </Link>
             {!dateCancelled && allowedToCancel &&
-                <div className='button button--danger hoverable' onClick={onCancel}>
+                <div className='button button--danger hoverable' onClick={() => showModal(onCancel)}>
                     Cancel
                 </div>
             }
@@ -82,6 +84,7 @@ ReservationFormFooter.propTypes = {
     addSuccessMessage: PropTypes.func,
     addErrorMessage: PropTypes.func,
     increaseChangeCounter: PropTypes.func,
+    showModal: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
@@ -93,6 +96,7 @@ const mapDispatchToProps = (dispatch) => ({
     addSuccessMessage: (content) => dispatch(addSuccessMessage(content)),
     addErrorMessage: (content) => dispatch(addErrorMessage(content)),
     increaseChangeCounter: () => dispatch(increaseChangeCounter()),
+    showModal: (onConfirmCallback) => dispatch(showModal(onConfirmCallback)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ReservationFormFooter);

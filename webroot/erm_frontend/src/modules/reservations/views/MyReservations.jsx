@@ -10,6 +10,7 @@ import {Link} from 'react-router-dom';
 import getCancelReservationPromise from '../utils/getCancelReservationPromise';
 import {addErrorMessage, addSuccessMessage} from '../../app/redux/flash/flashActions';
 import {increaseChangeCounter} from '../../app/redux/change/changeActions';
+import {showModal} from '../../app/redux/modal/modalActions';
 
 const ticketColumns = [
     {key: 'id', name: 'Id', centering: true, render: (r) => r.reservation.id},
@@ -25,7 +26,8 @@ const MyReservations = (
         apiHeaders,
         addSuccessMessage,
         addErrorMessage,
-        increaseChangeCounter
+        increaseChangeCounter,
+        showModal,
     }
 ) => {
     const [state, setState] = useState({
@@ -48,7 +50,7 @@ const MyReservations = (
             {row.guestAllowedToCancel && !row.reservation.dateCancelled &&
                 <React.Fragment>
                     <li className='action'>
-                        <div className='button button--danger hoverable' onClick={onCancel}>
+                        <div className='button button--danger hoverable' onClick={() => showModal(onCancel)}>
                             Cancel
                         </div>
                     </li>
@@ -106,6 +108,7 @@ MyReservations.propTypes = {
     addSuccessMessage: PropTypes.func,
     addErrorMessage: PropTypes.func,
     increaseChangeCounter: PropTypes.func,
+    showModal: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
@@ -118,6 +121,7 @@ const mapDispatchToProps = (dispatch) => ({
     addSuccessMessage: (content) => dispatch(addSuccessMessage(content)),
     addErrorMessage: (content) => dispatch(addErrorMessage(content)),
     increaseChangeCounter: () => dispatch(increaseChangeCounter()),
+    showModal: (onConfirmCallback) => dispatch(showModal(onConfirmCallback)),
 });
 
 export default withAuthorization(

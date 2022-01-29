@@ -6,6 +6,7 @@ import {connect} from 'react-redux';
 import {addErrorMessage, addSuccessMessage} from '../../redux/flash/flashActions';
 import {increaseChangeCounter} from '../../redux/change/changeActions';
 import {ROLE_ADMIN, ROLE_GUEST} from '../../constants/roles';
+import {showModal} from '../../redux/modal/modalActions';
 
 const ListingActions = (
     {
@@ -20,6 +21,7 @@ const ListingActions = (
         increaseChangeCounter,
         renderActions,
         actionsRenderer,
+        showModal,
     }
 ) => {
     if (!renderActions) {
@@ -48,7 +50,7 @@ const ListingActions = (
                     </Link>
                 </li>
                 <li className='action'>
-                    <div className='button button--danger hoverable' onClick={onDelete}>
+                    <div className='button button--danger hoverable' onClick={() => showModal(onDelete)}>
                         Delete
                     </div>
                 </li>
@@ -69,6 +71,7 @@ ListingActions.propTypes = {
     increaseChangeCounter: PropTypes.func,
     renderActions: PropTypes.bool,
     actionsRenderer: PropTypes.func,
+    showModal: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
@@ -80,6 +83,7 @@ const mapDispatchToProps = (dispatch) => ({
     addSuccessMessage: (content) => dispatch(addSuccessMessage(content)),
     addErrorMessage: (content) => dispatch(addErrorMessage(content)),
     increaseChangeCounter: () => dispatch(increaseChangeCounter()),
+    showModal: (onConfirmCallback) => dispatch(showModal(onConfirmCallback)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ListingActions);

@@ -5,6 +5,7 @@ import {addErrorMessage, addSuccessMessage} from '../../app/redux/flash/flashAct
 import {increaseChangeCounter} from '../../app/redux/change/changeActions';
 import {connect} from 'react-redux';
 import {ROLE_ADMIN} from '../../app/constants/roles';
+import {showModal} from '../../app/redux/modal/modalActions';
 
 const ReviewFormFooter = (
     {
@@ -22,6 +23,7 @@ const ReviewFormFooter = (
         addSuccessMessage,
         addErrorMessage,
         increaseChangeCounter,
+        showModal,
     }
 ) => {
     const navigate = useNavigate();
@@ -46,7 +48,7 @@ const ReviewFormFooter = (
                     <Link className='button button--warning hoverable' to={editUrl}>
                         Edit
                     </Link>
-                    <div className='button button--danger hoverable' onClick={onDelete}>
+                    <div className='button button--danger hoverable' onClick={() => showModal(onDelete)}>
                         Delete
                     </div>
                 </React.Fragment>
@@ -83,6 +85,7 @@ ReviewFormFooter.propTypes = {
     addSuccessMessage: PropTypes.func,
     addErrorMessage: PropTypes.func,
     increaseChangeCounter: PropTypes.func,
+    showModal: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
@@ -95,6 +98,7 @@ const mapDispatchToProps = (dispatch) => ({
     addSuccessMessage: (content) => dispatch(addSuccessMessage(content)),
     addErrorMessage: (content) => dispatch(addErrorMessage(content)),
     increaseChangeCounter: () => dispatch(increaseChangeCounter()),
+    showModal: (onConfirmCallback) => dispatch(showModal(onConfirmCallback)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ReviewFormFooter);

@@ -40,10 +40,10 @@ const AppRoutes = () => (<Routes>
     {getRoomRoutes()}
     {getReviewRoutes()}
     {getUserRoutes()}
-    <Route path="/not-found" element={<NotFound/>}/>
+    <Route path='/not-found' element={<NotFound/>}/>
     <Route
-        path="*"
-        element={<Navigate to="/not-found"/>}
+        path='*'
+        element={<Navigate to='/not-found'/>}
     />
 </Routes>);
 
