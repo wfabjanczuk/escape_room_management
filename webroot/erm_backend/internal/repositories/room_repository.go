@@ -31,7 +31,7 @@ func (r *RoomRepository) GetRoom(id int) (models.Room, error) {
 
 func (r *RoomRepository) GetRoomReviews(id int) ([]models.Review, error) {
 	var reviews []models.Review
-	result := r.db.Where("room_id = ?", id).Find(&reviews, id)
+	result := r.db.Where("room_id = ?", id).Find(&reviews)
 
 	return reviews, result.Error
 }
@@ -131,6 +131,7 @@ func (r *RoomRepository) DeleteRoom(id int, deleteError *responses.DeleteError) 
 }
 
 func (r *RoomRepository) UpdateRoomRating(roomId int) error {
+	log.Println("updating room rating")
 	roomReviews, err := r.GetRoomReviews(roomId)
 	if err != nil {
 		return err
@@ -155,6 +156,13 @@ func (r *RoomRepository) UpdateRoomRating(roomId int) error {
 			"average_rating": averageRating,
 			"ratings_count":  ratingsCount,
 		})
+
+	log.Println(roomId)
+	log.Println(len(roomReviews))
+	log.Println(roomReviews)
+	log.Println(averageRating)
+	log.Println(ratingsCount)
+	log.Println(result.Error)
 
 	return result.Error
 }
