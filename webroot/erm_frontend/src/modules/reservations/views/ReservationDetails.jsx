@@ -22,7 +22,7 @@ const ReservationDetails = ({changeCounter, guestId, apiHeaders}) => {
             error: null,
         }),
         id = state.reservation.id,
-        allowedToCancel = guestId && ticketsState.tickets.some(
+        allowedToCancel = guestId > 0 && ticketsState.tickets.some(
             (t) => t.guestId === guestId && t.guestAllowedToCancel
         ),
         params = useParams(),
@@ -108,7 +108,7 @@ const ReservationDetails = ({changeCounter, guestId, apiHeaders}) => {
         <h2>{title}</h2>
         <ReservationForm reservation={state.reservation} isDisabled={true} allowedToCancel={allowedToCancel}/>
         <h2>Reservation room</h2>
-        <RoomForm room={state.reservation.room} isDisabled={true} showFooter={false}/>
+        <RoomForm room={state.reservation.room} isDisabled={true} showFooter={guestId === 0}/>
         <ReservationTickets ticketsState={ticketsState}/>
     </React.Fragment>;
 };

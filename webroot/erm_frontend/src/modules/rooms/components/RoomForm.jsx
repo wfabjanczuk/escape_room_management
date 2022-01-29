@@ -18,7 +18,7 @@ const getInitialFormData = (room) => {
         baseTicketPrice: room ? parseFloat(room.baseTicketPrice).toFixed(2) : '0.00',
         minParticipants: room ? room.minParticipants : '',
         maxParticipants: room ? room.maxParticipants : '',
-        minAge: room ? room.minAge : '',
+        minAge: room ? (room.minAge ? room.minAge : '') : '',
     };
 };
 
@@ -83,6 +83,9 @@ const RoomForm = (
     const id = parseInt(_get(room, 'id', null), 10),
         entityExists = !!room,
         urls = getUrls(room, entityExists, isDisabled),
+        readOnlyValues = {
+            averageRating: room ? parseFloat(room.averageRating) : '',
+        },
         [formData, setFormData] = useState(getInitialFormData(room)),
         [errors, setErrors] = useState({}),
         navigate = useNavigate(),
@@ -108,6 +111,8 @@ const RoomForm = (
         },
         className = showFooter ? 'form' : 'form form--no-footer';
 
+    readOnlyValues.averageRating = readOnlyValues.averageRating ? readOnlyValues.averageRating.toFixed(2) : 'Not rated yet';
+
     return <form className={className} method='POST' onSubmit={handleSubmit}>
         <RoomFormFields
             entityExists={entityExists}
@@ -116,6 +121,7 @@ const RoomForm = (
             forceValueChange={forceValueChange}
             formData={formData}
             errors={errors}
+            readOnlyValues={readOnlyValues}
         />
         {showFooter && <Footer
             id={id}

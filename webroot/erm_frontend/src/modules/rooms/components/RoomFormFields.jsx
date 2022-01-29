@@ -2,6 +2,7 @@ import React from 'react';
 import * as PropTypes from 'prop-types';
 import InputField from '../../app/components/form/field/InputField';
 import MoneyField from '../../app/components/form/field/MoneyField';
+import ReadOnlyField from '../../app/components/form/field/ReadOnlyField';
 
 const RoomFormFields = (
     {
@@ -11,6 +12,7 @@ const RoomFormFields = (
         forceValueChange,
         formData,
         errors,
+        readOnlyValues,
     }
 ) => (<React.Fragment>
     {entityExists && <input type='hidden' name='id' value={formData.id}/>}
@@ -64,6 +66,13 @@ const RoomFormFields = (
         value={formData.minAge}
         onChange={onValueChange}
     />
+    {isDisabled &&
+        <ReadOnlyField
+            name='averageRating'
+            displayName='Avg. rating'
+            value={readOnlyValues.averageRating}
+        />
+    }
 </React.Fragment>);
 
 RoomFormFields.propTypes = {
@@ -73,6 +82,7 @@ RoomFormFields.propTypes = {
     forceValueChange: PropTypes.func,
     formData: PropTypes.object,
     errors: PropTypes.object,
+    readOnlyValues: PropTypes.object,
 };
 
 export default RoomFormFields;

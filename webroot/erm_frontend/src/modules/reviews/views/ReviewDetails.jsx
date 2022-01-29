@@ -8,6 +8,7 @@ import {connect} from 'react-redux';
 import withAuthorization from '../../app/auth/withAuthorization';
 import {ROLE_ADMIN, ROLE_GUEST} from '../../app/constants/roles';
 import GuestForm from '../../guests/components/GuestForm';
+import RoomForm from '../../rooms/components/RoomForm';
 
 const ReviewDetails = ({apiHeaders, guestId}) => {
     const [state, setState] = useState({
@@ -61,6 +62,8 @@ const ReviewDetails = ({apiHeaders, guestId}) => {
                 <GuestForm guest={state.review.guest} isDisabled={true}/>
             </React.Fragment>
         }
+        <h2>Reviewed room</h2>
+        <RoomForm room={state.review.room} isDisabled={true} showFooter={guestId === 0}/>
     </React.Fragment>;
 };
 
