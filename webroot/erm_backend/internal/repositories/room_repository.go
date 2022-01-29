@@ -31,7 +31,8 @@ func (r *RoomRepository) GetRoom(id int) (models.Room, error) {
 
 func (r *RoomRepository) GetRoomReviews(id int) ([]models.Review, error) {
 	var reviews []models.Review
-	result := r.db.Where("room_id = ?", id).Find(&reviews)
+	result := r.db.Preload("Room").Preload("Guest").Preload("Guest.User").
+		Where("room_id = ?", id).Find(&reviews)
 
 	return reviews, result.Error
 }

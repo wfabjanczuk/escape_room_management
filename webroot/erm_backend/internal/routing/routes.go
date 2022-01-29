@@ -70,6 +70,7 @@ func (s *Service) setRoomRoutes() {
 	s.router.PUT(v+"/rooms/:id", s.withAdminAuthorization(s.controllersTable.Room.UpdateRoom))
 	s.router.DELETE(v+"/rooms/:id", s.withAdminAuthorization(s.controllersTable.Room.DeleteRoom))
 	s.router.GET(v+"/rooms/:id/reservations", s.withAdminAuthorization(s.controllersTable.Room.GetRoomReservations))
+	s.router.GET(v+"/rooms/:id/reviews", s.withAdminAuthorization(s.controllersTable.Room.GetRoomReviews))
 }
 
 func (s *Service) setReviewRoutes() {

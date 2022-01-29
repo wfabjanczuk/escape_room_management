@@ -64,6 +64,27 @@ func (c *roomController) GetRoomReservations(w http.ResponseWriter, r *http.Requ
 	}
 }
 
+func (c *roomController) GetRoomReviews(w http.ResponseWriter, r *http.Request) {
+	params := httprouter.ParamsFromContext(r.Context())
+
+	id, err := strconv.Atoi(params.ByName("id"))
+	if err != nil {
+		c.writeWrappedErrorJson(w, err, http.StatusBadRequest)
+		return
+	}
+
+	reviews, err := c.roomRepository.GetRoomReviews(id)
+	if err != nil {
+		c.writeWrappedErrorJson(w, err, http.StatusNotFound)
+		return
+	}
+
+	err = c.writeWrappedJson(w, http.StatusOK, reviews, "reviews")
+	if err != nil {
+		c.logger.Println(err)
+	}
+}
+
 func (c *roomController) GetRooms(w http.ResponseWriter, r *http.Request) {
 	rooms, err := c.roomRepository.GetRooms()
 	if err != nil {
