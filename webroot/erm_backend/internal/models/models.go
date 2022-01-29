@@ -36,6 +36,8 @@ type Room struct {
 	ID              uint            `gorm:"primarykey" json:"id" valid:"-"`
 	Name            string          `json:"name" valid:"required,maxstringlength(100)"`
 	BaseTicketPrice decimal.Decimal `json:"baseTicketPrice" valid:"required"`
+	AverageRating   float64         `json:"averageRating" valid:"-"`
+	RatingsCount    uint            `json:"ratingsCount" valid:"-"`
 	MinParticipants uint            `json:"minParticipants" valid:"-"`
 	MaxParticipants uint            `json:"maxParticipants" valid:"-"`
 	MinAge          types.NullInt64 `json:"minAge" valid:"-"`

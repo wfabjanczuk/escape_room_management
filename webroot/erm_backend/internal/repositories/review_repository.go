@@ -48,11 +48,13 @@ func (r *ReviewRepository) SaveReview(review models.Review, reviewErrors *respon
 		_, err := r.GetReviewByGuestAndRoom(review.GuestID, review.RoomID)
 		if err != gorm.ErrRecordNotFound {
 			reviewErrors.AddError("", "Review for given guest and room already exists.", http.StatusBadRequest)
+			return review
 		}
 	} else if guestId > 0 {
 		oldReview, err := r.GetReview(int(review.ID))
 		if err != nil {
 			reviewErrors.AddError("", "Saving review failed. Please try again later.", http.StatusInternalServerError)
+			return review
 		}
 
 		review.Reply = oldReview.Reply

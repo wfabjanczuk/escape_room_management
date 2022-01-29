@@ -43,6 +43,7 @@ func NewTable(repositoriesTable repositories.Table, logger *log.Logger, jwtSecre
 		),
 		Review: newReviewController(logger,
 			repositoriesTable.Review,
+			repositoriesTable.Room,
 		),
 		User: newUserController(logger,
 			repositoriesTable.User,

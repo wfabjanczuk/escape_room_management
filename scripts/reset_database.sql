@@ -12,6 +12,8 @@ create table rooms
             primary key,
     name              varchar(100)  not null,
     base_ticket_price numeric(6, 2) not null,
+    average_rating    real          not null default 0,
+    ratings_count     integer       not null default 0,
     min_participants  integer       not null,
     max_participants  integer       not null,
     min_age           integer
@@ -122,11 +124,11 @@ create table reviews
     guest_id integer                 not null
         constraint reviews_guests_id_fk
             references guests
-            on update restrict on delete restrict,
+            on update cascade on delete cascade,
     room_id  integer                 not null
         constraint reviews_rooms_id_fk
             references rooms
-            on update restrict on delete restrict,
+            on update cascade on delete cascade,
     rating   integer                 not null,
     comment  varchar(300) default '' not null,
     reply    varchar(300) default '' not null
@@ -138,11 +140,11 @@ alter table reviews
 create unique index reviews_guest_id_room_id_uindex
     on reviews (guest_id, room_id);
 
-insert into rooms (name, base_ticket_price, min_participants, max_participants, min_age)
-values ('Pharaoh''s Tomb', 10.00, 5, 7, 12),
-       ('Enigma Code', 15.00, 6, 9, 15),
-       ('Pirate Ship', 20.00, 4, 6, null),
-       ('Nuclear Silo', 30.00, 5, 8, 15);
+insert into rooms (name, base_ticket_price, min_participants, max_participants, min_age, average_rating, ratings_count)
+values ('Pharaoh''s Tomb', 10.00, 5, 7, 12, 5, 1),
+       ('Enigma Code', 15.00, 6, 9, 15, 5, 1),
+       ('Pirate Ship', 20.00, 4, 6, null, 0, 0),
+       ('Nuclear Silo', 30.00, 5, 8, 15, 0, 0);
 
 insert into reservations (room_id, total_price, date_from, date_to, date_cancelled)
 values (1, 10.00, '2021-10-23 17:00:00.000000', '2021-10-23 19:00:00.000000', null),

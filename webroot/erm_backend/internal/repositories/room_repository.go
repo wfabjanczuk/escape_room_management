@@ -29,6 +29,13 @@ func (r *RoomRepository) GetRoom(id int) (models.Room, error) {
 	return room, result.Error
 }
 
+func (r *RoomRepository) GetRoomReviews(id int) ([]models.Review, error) {
+	var reviews []models.Review
+	result := r.db.Where("room_id = ?", id).Find(&reviews, id)
+
+	return reviews, result.Error
+}
+
 func (r *RoomRepository) GetRoomReservations(id int) ([]models.Reservation, error) {
 	var reservations []models.Reservation
 
@@ -56,6 +63,17 @@ func (r *RoomRepository) SaveRoom(room models.Room, roomErrors *responses.RoomEr
 	}) {
 		roomErrors.AddError("name", "This name is already used.", http.StatusBadRequest)
 		return room
+	}
+
+	if room.ID > 0 {
+		oldRoom, err := r.GetRoom(int(room.ID))
+		if err != nil {
+			roomErrors.AddError("", "Saving room failed. Please try again later.", http.StatusInternalServerError)
+			return room
+		}
+
+		room.AverageRating = oldRoom.AverageRating
+		room.RatingsCount = oldRoom.RatingsCount
 	}
 
 	result := r.db.Save(&room)
@@ -110,4 +128,33 @@ func (r *RoomRepository) DeleteRoom(id int, deleteError *responses.DeleteError) 
 	if result.Error != nil {
 		deleteError.AddError(generalError, http.StatusInternalServerError)
 	}
+}
+
+func (r *RoomRepository) UpdateRoomRating(roomId int) error {
+	roomReviews, err := r.GetRoomReviews(roomId)
+	if err != nil {
+		return err
+	}
+
+	var ratingSum, averageRating float64
+	var ratingsCount uint
+
+	for _, review := range roomReviews {
+		ratingSum += float64(review.Rating)
+		ratingsCount += 1
+	}
+
+	if ratingsCount > 0 {
+		averageRating = ratingSum / float64(ratingsCount)
+	} else {
+		averageRating = 0
+	}
+
+	result := r.db.Model(&models.Room{}).Where("id = ?", roomId).
+		Updates(map[string]interface{}{
+			"average_rating": averageRating,
+			"ratings_count":  ratingsCount,
+		})
+
+	return result.Error
 }

@@ -10,7 +10,14 @@ const roomColumns = [
     {key: 'id', name: 'Id', centering: true},
     {key: 'name', name: 'Room name'},
     {key: 'baseTicketPrice', name: 'Base ticket price', render: (r) => parseFloat(r.baseTicketPrice).toFixed(2)},
-    {key: 'minParticipants', name: 'Min. participants', isExtra: true},
+    {
+        key: 'averageRating',
+        name: 'Avg. rating',
+        isExtra: true,
+        render: (r) => r.ratingsCount > 0
+            ? parseFloat(r.averageRating).toFixed(2)
+            : 'Not rated yet'
+    },
 ];
 
 const Rooms = ({changeCounter, apiHeaders}) => {

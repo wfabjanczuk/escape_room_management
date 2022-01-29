@@ -14,12 +14,14 @@ import (
 type reviewController struct {
 	controller
 	reviewRepository *repositories.ReviewRepository
+	roomRepository   *repositories.RoomRepository
 }
 
-func newReviewController(logger *log.Logger, reviewRepository *repositories.ReviewRepository) *reviewController {
+func newReviewController(logger *log.Logger, reviewRepository *repositories.ReviewRepository, roomRepository *repositories.RoomRepository) *reviewController {
 	return &reviewController{
 		controller:       newController(logger),
 		reviewRepository: reviewRepository,
+		roomRepository:   roomRepository,
 	}
 }
 
@@ -75,7 +77,22 @@ func (c *reviewController) DeleteReview(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-	c.reviewRepository.DeleteReview(id, deleteError)
+	review, err := c.reviewRepository.GetReview(id)
+	if err != nil {
+		deleteError.AddError("Record not found.", http.StatusNotFound)
+	}
+
+	if deleteError.ErrorsCount == 0 {
+		c.reviewRepository.DeleteReview(id, deleteError)
+	}
+
+	if deleteError.ErrorsCount == 0 {
+		err := c.roomRepository.UpdateRoomRating(int(review.RoomID))
+		if err != nil {
+			deleteError.AddError("Database error. Please try again later.", http.StatusInternalServerError)
+		}
+	}
+
 	if deleteError.ErrorsCount > 0 {
 		err = c.writeWrappedJson(w, deleteError.StatusCode, deleteError, "error")
 		if err != nil {
@@ -109,6 +126,13 @@ func (c *reviewController) handleSaveReview(w http.ResponseWriter, r *http.Reque
 
 	if reviewErrors.ErrorsCount == 0 {
 		review = c.reviewRepository.SaveReview(review, reviewErrors, guestId)
+	}
+
+	if reviewErrors.ErrorsCount == 0 {
+		err := c.roomRepository.UpdateRoomRating(int(review.RoomID))
+		if err != nil {
+			reviewErrors.AddError("", "Saving review failed. Please try again later.", http.StatusInternalServerError)
+		}
 	}
 
 	if reviewErrors.ErrorsCount > 0 {
