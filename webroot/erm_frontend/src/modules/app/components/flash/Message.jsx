@@ -22,7 +22,7 @@ const Message = ({id, type, content, removeMessage}) => {
                 onMouseLeave={() => setIsHover(false)}
     >
         <span className='alert__message'>{content}</span>
-        <span className='alert__close' onClick={() => removeMessage(id)}>x</span>
+        <span className='alert__close' onClick={() => removeMessage(id)}>&times;</span>
     </div>;
 };
 

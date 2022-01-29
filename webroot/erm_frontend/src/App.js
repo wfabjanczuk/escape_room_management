@@ -8,6 +8,7 @@ import AppRoutes from './modules/app/components/AppRoutes';
 import {setCurrentUser} from './modules/app/redux/auth/authActions';
 import {connect} from 'react-redux';
 import * as PropTypes from 'prop-types';
+import Modal from './modules/app/components/Modal';
 
 const App = ({currentUser, setCurrentUser}) => {
     const isLoggedIn = currentUser !== null;
@@ -28,6 +29,7 @@ const App = ({currentUser, setCurrentUser}) => {
             <AppRoutes/>
         </main>
         <Footer/>
+        <Modal/>
     </BrowserRouter>;
 }
 
