@@ -1,6 +1,6 @@
-export const showModal = (onConfirmCallback) => ({
+export const showModal = (onConfirm) => ({
     type: 'SHOW_MODAL',
-    payload: onConfirmCallback,
+    payload: onConfirm,
 });
 
 export const hideModal = () => ({

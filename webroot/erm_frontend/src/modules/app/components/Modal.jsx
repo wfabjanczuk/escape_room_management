@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {hideModal} from '../redux/modal/modalActions';
 import * as PropTypes from 'prop-types';
 
-const Modal = ({isVisible, onConfirmCallback, hideModal}) => (
+const Modal = ({isVisible, onConfirm, hideModal}) => (
     <div className={'modal' + (isVisible ? '' : ' modal--hidden')}>
         <div className='modal__content'>
             <div className='modal__statement'>
@@ -12,10 +12,10 @@ const Modal = ({isVisible, onConfirmCallback, hideModal}) => (
                 </div>
                 <div>
                     <div className='button button--danger hoverable' onClick={() => {
-                        onConfirmCallback();
+                        onConfirm();
                         hideModal();
                     }}>
-                        Yes
+                        Confirm
                     </div>
                     <div className='button button--secondary hoverable' onClick={hideModal}>
                         Cancel
@@ -29,13 +29,13 @@ const Modal = ({isVisible, onConfirmCallback, hideModal}) => (
 
 Modal.propTypes = {
     isVisible: PropTypes.bool,
-    onConfirmCallback: PropTypes.func,
+    onConfirm: PropTypes.func,
     hideModal: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
     isVisible: state.modal.isVisible,
-    onConfirmCallback: state.modal.onConfirmCallback,
+    onConfirm: state.modal.onConfirm,
 });
 
 const mapDispatchToProps = (dispatch) => ({

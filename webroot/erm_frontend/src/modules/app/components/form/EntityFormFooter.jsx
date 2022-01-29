@@ -95,7 +95,7 @@ const mapDispatchToProps = (dispatch) => ({
     addSuccessMessage: (content) => dispatch(addSuccessMessage(content)),
     addErrorMessage: (content) => dispatch(addErrorMessage(content)),
     increaseChangeCounter: () => dispatch(increaseChangeCounter()),
-    showModal: (onConfirmCallback) => dispatch(showModal(onConfirmCallback)),
+    showModal: (onConfirm) => dispatch(showModal(onConfirm)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EntityFormFooter);

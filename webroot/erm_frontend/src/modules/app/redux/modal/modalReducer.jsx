@@ -1,6 +1,6 @@
 const INITIAL_STATE = {
     isVisible: false,
-    onConfirmCallback: null,
+    onConfirm: null,
 };
 
 const modalReducer = (state = INITIAL_STATE, action) => {
@@ -8,12 +8,12 @@ const modalReducer = (state = INITIAL_STATE, action) => {
         case 'SHOW_MODAL':
             return {
                 isVisible: true,
-                onConfirmCallback: action.payload,
+                onConfirm: action.payload,
             };
         case 'HIDE_MODAL':
             return {
                 isVisible: false,
-                onConfirmCallback: null,
+                onConfirm: null,
             };
         default:
             return state;
