@@ -13,15 +13,17 @@ import (
 
 type reviewController struct {
 	controller
-	reviewRepository *repositories.ReviewRepository
-	roomRepository   *repositories.RoomRepository
+	reviewRepository      *repositories.ReviewRepository
+	roomRepository        *repositories.RoomRepository
+	reservationRepository *repositories.ReservationRepository
 }
 
-func newReviewController(logger *log.Logger, reviewRepository *repositories.ReviewRepository, roomRepository *repositories.RoomRepository) *reviewController {
+func newReviewController(logger *log.Logger, reviewRepository *repositories.ReviewRepository, roomRepository *repositories.RoomRepository, reservationRepository *repositories.ReservationRepository) *reviewController {
 	return &reviewController{
-		controller:       newController(logger),
-		reviewRepository: reviewRepository,
-		roomRepository:   roomRepository,
+		controller:            newController(logger),
+		reviewRepository:      reviewRepository,
+		roomRepository:        roomRepository,
+		reservationRepository: reservationRepository,
 	}
 }
 
@@ -122,6 +124,18 @@ func (c *reviewController) handleSaveReview(w http.ResponseWriter, r *http.Reque
 		if err != nil || int(review.ID) != id {
 			reviewErrors.AddError("", "Invalid form data.", http.StatusBadRequest)
 		}
+	}
+
+	if !c.reservationRepository.CanGuestAddRoomReview(int(review.GuestID), int(review.RoomID)) {
+		errorMessage := " have a finished reservation in that room."
+
+		if guestId > 0 {
+			errorMessage = "You do not" + errorMessage
+		} else {
+			errorMessage = "Guest does not" + errorMessage
+		}
+
+		reviewErrors.AddError("", errorMessage, http.StatusBadRequest)
 	}
 
 	if reviewErrors.ErrorsCount == 0 {

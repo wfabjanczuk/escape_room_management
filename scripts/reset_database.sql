@@ -150,7 +150,8 @@ insert into reservations (room_id, total_price, date_from, date_to, date_cancell
 values (1, 10.00, '2021-10-23 17:00:00.000000', '2021-10-23 19:00:00.000000', null),
        (2, 15.00, '2021-10-20 20:00:00.000000', '2021-10-20 22:00:00.000000', null),
        (3, 20.00, '2021-10-25 16:00:00.000000', '2021-10-25 18:00:00.000000', null),
-       (4, 30.00, '2021-10-30 22:00:00.000000', '2021-10-31 01:00:00.000000', null);
+       (4, 30.00, '2021-10-30 22:00:00.000000', '2021-10-31 01:00:00.000000', null),
+       (4, 120.00, '2022-01-31 18:00:00.000000', '2022-01-31 20:00:00.000000', null);
 
 insert into users (first_name, last_name, phone_number, date_birth, email, password, is_active, role_id)
 values ('Linda', 'Yehudit', '48100100100', '1990-01-01', 'linda.yehudit@gmail.com',
@@ -178,7 +179,11 @@ insert into tickets (price, reservation_id, guest_id, guest_allowed_to_cancel)
 values (10.00, 1, 1, true),
        (15.00, 2, 2, true),
        (20.00, 3, 3, true),
-       (30.00, 4, 4, true);
+       (30.00, 4, 4, true),
+       (30.00, 5, 1, false),
+       (30.00, 5, 2, false),
+       (30.00, 5, 3, false),
+       (30.00, 5, 4, true);
 
 insert into reviews (guest_id, room_id, rating, comment, reply)
 values (1, 1, 5, 'Great!', ''),

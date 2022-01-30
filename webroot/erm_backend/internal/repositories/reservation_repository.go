@@ -154,6 +154,25 @@ func (r *ReservationRepository) CanGuestCancelReservation(guestId, reservationId
 	return len(tickets) > 0
 }
 
+func (r *ReservationRepository) CanGuestAddRoomReview(guestId, roomId int) bool {
+	var ticketCount int64
+
+	r.db.Model(&models.Ticket{}).
+		Joins("join reservations on reservations.id = tickets.reservation_id").
+		Where(
+			"guest_id = ? "+
+				"and reservations.room_id = ? "+
+				"and reservations.date_to < ? "+
+				"and reservations.date_cancelled is NULL",
+			guestId,
+			roomId,
+			time.Now(),
+		).
+		Count(&ticketCount)
+
+	return ticketCount > 0
+}
+
 func (r *ReservationRepository) UpdateReservationTotalPrice(reservation models.Reservation) (models.Reservation, error) {
 	reservationTickets, err := r.GetReservationTickets(int(reservation.ID))
 	if err != nil {
