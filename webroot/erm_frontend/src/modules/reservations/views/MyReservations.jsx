@@ -11,6 +11,8 @@ import getCancelReservationPromise from '../utils/getCancelReservationPromise';
 import {addErrorMessage, addSuccessMessage} from '../../app/redux/flash/flashActions';
 import {increaseChangeCounter} from '../../app/redux/change/changeActions';
 import {showModal} from '../../app/redux/modal/modalActions';
+import moment from 'moment';
+import {API_DATE_FORMAT} from '../../app/constants/dates';
 
 const ticketColumns = [
     {key: 'id', name: 'Id', centering: true, render: (r) => r.reservation.id},
@@ -47,7 +49,8 @@ const MyReservations = (
                     Details
                 </Link>
             </li>
-            {row.guestAllowedToCancel && !row.reservation.dateCancelled &&
+            {row.guestAllowedToCancel && !row.reservation.dateCancelled
+                && moment(row.reservation.dateFrom, API_DATE_FORMAT).isAfter(new Date()) &&
                 <React.Fragment>
                     <li className='action'>
                         <div className='button button--danger hoverable' onClick={() => showModal(onCancel)}>

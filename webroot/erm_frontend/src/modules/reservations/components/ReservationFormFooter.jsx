@@ -7,6 +7,8 @@ import {increaseChangeCounter} from '../../app/redux/change/changeActions';
 import getCancelReservationPromise from '../utils/getCancelReservationPromise';
 import {get as _get} from 'lodash';
 import {showModal} from '../../app/redux/modal/modalActions';
+import moment from 'moment';
+import {API_DATE_FORMAT} from '../../app/constants/dates';
 
 const ReservationFormFooter = (
     {
@@ -28,7 +30,8 @@ const ReservationFormFooter = (
 ) => {
     const navigate = useNavigate(),
         id = parseInt(_get(reservation, 'id', null), 10),
-        dateCancelled = _get(reservation, 'dateCancelled', null);
+        dateCancelled = _get(reservation, 'dateCancelled', null),
+        dateFrom = _get(reservation, 'dateFrom', null);
 
     if (isDisabled) {
         if (guestId === 0) {
@@ -53,7 +56,7 @@ const ReservationFormFooter = (
             <Link className='button button--primary hoverable' to={redirectUrl}>
                 Back to list
             </Link>
-            {!dateCancelled && allowedToCancel &&
+            {!dateCancelled && allowedToCancel && moment(dateFrom, API_DATE_FORMAT).isAfter(new Date()) &&
                 <div className='button button--danger hoverable' onClick={() => showModal(onCancel)}>
                     Cancel
                 </div>
