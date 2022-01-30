@@ -189,6 +189,22 @@ func (r *ReservationRepository) UpdateReservationTotalPrice(reservation models.R
 }
 
 func (r *ReservationRepository) CancelReservation(id int, cancelError *responses.DeleteError) {
+	reservation, err := r.GetReservation(id)
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			cancelError.AddError("Reservation not found.", http.StatusNotFound)
+			return
+		}
+
+		cancelError.AddError("Please try again later.", http.StatusInternalServerError)
+		return
+	}
+
+	if reservation.DateFrom.Before(time.Now()) {
+		cancelError.AddError("Reservation already started.", http.StatusBadRequest)
+		return
+	}
+
 	result := r.db.Model(&models.Reservation{}).Where("id = ?", id).Update("date_cancelled", time.Now())
 	if result.Error != nil {
 		cancelError.AddError("Please try again later.", http.StatusInternalServerError)
