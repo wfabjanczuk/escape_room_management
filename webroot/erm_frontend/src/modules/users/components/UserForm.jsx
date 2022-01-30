@@ -157,15 +157,20 @@ const UserForm = (
                 delete submittedFormData.confirmPassword;
                 let callback = null;
 
-                if (entityExists && isProfile) {
-                    callback = () => setCurrentUser({
-                        user: {
-                            ...currentUser,
-                            ...submittedFormData,
-                        },
-                        guestId: guestId,
-                        jwt: jwt,
-                    });
+                if (entityExists && (isProfile || parseInt(currentUser.id, 10) === parseInt(id, 10))) {
+                    callback = () => {
+                        const newCurrentUser = {
+                            user: {
+                                ...currentUser,
+                                ...submittedFormData,
+                            },
+                            guestId: guestId,
+                            jwt: jwt,
+                        };
+
+                        window.localStorage.setItem('currentUser', JSON.stringify(newCurrentUser))
+                        setCurrentUser(newCurrentUser);
+                    }
                 }
 
                 sendData(submittedFormData, urls.api, urls.redirect, entityExists, apiHeaders, setErrors, addSuccessMessage, navigate, 'User', callback);
