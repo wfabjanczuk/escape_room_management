@@ -75,12 +75,12 @@ const getAdminNavigationLinks = (pathname) => [
     }
 ];
 
-const getNavigationLinks = (currentUser, pathname) => {
-    if (!currentUser) {
+const getNavigationLinks = (profile, pathname) => {
+    if (!profile) {
         return getUnauthenticatedNavigationLinks(pathname);
     }
 
-    if (currentUser.roleId === ROLE_GUEST) {
+    if (profile.roleId === ROLE_GUEST) {
         return getGuestNavigationLinks(pathname);
     }
 

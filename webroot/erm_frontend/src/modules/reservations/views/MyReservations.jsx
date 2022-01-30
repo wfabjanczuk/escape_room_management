@@ -24,8 +24,7 @@ const ticketColumns = [
 const MyReservations = (
     {
         changeCounter,
-        guestId,
-        apiHeaders,
+        currentUser,
         addSuccessMessage,
         addErrorMessage,
         increaseChangeCounter,
@@ -39,7 +38,7 @@ const MyReservations = (
     });
 
     const actionsRenderer = (row) => {
-        const onCancel = () => getCancelReservationPromise(row.reservation.id, apiHeaders, addSuccessMessage, addErrorMessage)
+        const onCancel = () => getCancelReservationPromise(row.reservation.id, currentUser.apiHeaders, addSuccessMessage, addErrorMessage)
             .finally(() => increaseChangeCounter());
 
         return <ul className='listing__actions'>
@@ -63,8 +62,8 @@ const MyReservations = (
     }
 
     useEffect(() => {
-            axios.get(getRouteWithParams(ROUTES.api.guestTickets, {id: guestId}), {
-                headers: apiHeaders,
+            axios.get(getRouteWithParams(ROUTES.api.guestTickets, {id: currentUser.guestId}), {
+                headers: currentUser.apiHeaders,
             })
                 .then(
                     (response) => setState({
@@ -106,8 +105,7 @@ const MyReservations = (
 
 MyReservations.propTypes = {
     changeCounter: PropTypes.number,
-    guestId: PropTypes.number,
-    apiHeaders: PropTypes.object,
+    currentUser: PropTypes.object,
     addSuccessMessage: PropTypes.func,
     addErrorMessage: PropTypes.func,
     increaseChangeCounter: PropTypes.func,
@@ -115,9 +113,8 @@ MyReservations.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
+    currentUser: state.auth.currentUser,
     changeCounter: state.change.counter,
-    guestId: state.auth.guestId,
-    apiHeaders: state.auth.apiHeaders,
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -75,7 +75,7 @@ const RoomForm = (
     {
         room,
         isDisabled,
-        apiHeaders,
+        currentUser,
         addSuccessMessage,
         showFooter = true
     }
@@ -106,7 +106,7 @@ const RoomForm = (
             const submittedFormData = Object.fromEntries(new FormData(event.target));
 
             if (validateFormData(submittedFormData, setErrors)) {
-                sendData(submittedFormData, urls.api, urls.redirect, entityExists, apiHeaders, setErrors, addSuccessMessage, navigate, 'Room');
+                sendData(submittedFormData, urls.api, urls.redirect, entityExists, currentUser.apiHeaders, setErrors, addSuccessMessage, navigate, 'Room');
             }
         },
         className = showFooter ? 'form' : 'form form--no-footer';
@@ -139,12 +139,12 @@ RoomForm.propTypes = {
     room: PropTypes.object,
     isDisabled: PropTypes.bool,
     showFooter: PropTypes.bool,
-    apiHeaders: PropTypes.object,
+    currentUser: PropTypes.object,
     addSuccessMessage: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
-    apiHeaders: state.auth.apiHeaders,
+    currentUser: state.auth.currentUser,
 });
 
 const mapDispatchToProps = (dispatch) => ({

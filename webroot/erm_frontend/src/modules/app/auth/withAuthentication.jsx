@@ -6,18 +6,18 @@ import {Link} from 'react-router-dom';
 
 const withAuthentication = (Component) => {
     const Wrapped = (props) => {
-        if (!props.currentUser) {
-            return <div className='statement'>
-                <p>You need to sign in to see this page.</p>
-                <div className='statement__footer'>
-                    <Link className='button button--primary hoverable' to={ROUTES.users.signIn}>
-                        Sign in
-                    </Link>
-                </div>
-            </div>;
+        if (props.currentUser.profile) {
+            return <Component {...props} />;
         }
 
-        return <Component {...props} />
+        return <div className='statement'>
+            <p>You need to sign in to see this page.</p>
+            <div className='statement__footer'>
+                <Link className='button button--primary hoverable' to={ROUTES.users.signIn}>
+                    Sign in
+                </Link>
+            </div>
+        </div>;
     };
 
     Wrapped.propTypes = {

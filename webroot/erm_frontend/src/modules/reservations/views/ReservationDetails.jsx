@@ -10,7 +10,7 @@ import * as PropTypes from 'prop-types';
 import withAuthorization from '../../app/auth/withAuthorization';
 import {ROLE_ADMIN, ROLE_GUEST} from '../../app/constants/roles';
 
-const ReservationDetails = ({changeCounter, guestId, apiHeaders}) => {
+const ReservationDetails = ({changeCounter, currentUser}) => {
     const [state, setState] = useState({
             reservation: {},
             isLoading: true,
@@ -22,15 +22,15 @@ const ReservationDetails = ({changeCounter, guestId, apiHeaders}) => {
             error: null,
         }),
         id = state.reservation.id,
-        allowedToCancel = guestId > 0 && ticketsState.tickets.some(
-            (t) => t.guestId === guestId && t.guestAllowedToCancel
+        allowedToCancel = currentUser.guestId > 0 && ticketsState.tickets.some(
+            (t) => t.guestId === currentUser.guestId && t.guestAllowedToCancel
         ),
         params = useParams(),
         title = 'Reservation details';
 
     useEffect(() => {
             axios.get(getRouteWithParams(ROUTES.api.reservation, {id: params.id}), {
-                headers: apiHeaders,
+                headers: currentUser.apiHeaders,
             })
                 .then(
                     (response) => setState({
@@ -56,7 +56,7 @@ const ReservationDetails = ({changeCounter, guestId, apiHeaders}) => {
             let cancel = false;
 
             axios.get(getRouteWithParams(ROUTES.api.reservationTickets, {id: id}), {
-                headers: apiHeaders,
+                headers: currentUser.apiHeaders,
             })
                 .then(
                     (response) => {
@@ -108,21 +108,19 @@ const ReservationDetails = ({changeCounter, guestId, apiHeaders}) => {
         <h2>{title}</h2>
         <ReservationForm reservation={state.reservation} isDisabled={true} allowedToCancel={allowedToCancel}/>
         <h2>Reservation room</h2>
-        <RoomForm room={state.reservation.room} isDisabled={true} showFooter={guestId === 0}/>
+        <RoomForm room={state.reservation.room} isDisabled={true} showFooter={currentUser.guestId === 0}/>
         <ReservationTickets ticketsState={ticketsState}/>
     </React.Fragment>;
 };
 
 ReservationDetails.propTypes = {
     changeCounter: PropTypes.number,
-    guestId: PropTypes.number,
-    apiHeaders: PropTypes.object,
+    currentUser: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
     changeCounter: state.change.counter,
-    guestId: state.auth.guestId,
-    apiHeaders: state.auth.apiHeaders,
+    currentUser: state.auth.currentUser,
 });
 
 export default withAuthorization(

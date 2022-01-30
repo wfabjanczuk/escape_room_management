@@ -76,7 +76,7 @@ const ReservationForm = (
         reservation,
         isDisabled,
         allowedToCancel,
-        apiHeaders,
+        currentUser,
         addSuccessMessage,
         changeCounter,
         increaseChangeCounter,
@@ -112,7 +112,7 @@ const ReservationForm = (
                 : '';
 
             if (validateFormData(submittedFormData, setErrors)) {
-                sendData(submittedFormData, urls.api, urls.redirect, entityExists, apiHeaders, setErrors, addSuccessMessage, navigate, 'Reservation');
+                sendData(submittedFormData, urls.api, urls.redirect, entityExists, currentUser.apiHeaders, setErrors, addSuccessMessage, navigate, 'Reservation');
             }
 
             increaseChangeCounter();
@@ -131,7 +131,7 @@ const ReservationForm = (
             }
 
             axios.get(ROUTES.api.rooms, {
-                headers: apiHeaders,
+                headers: currentUser.apiHeaders,
             })
                 .then(
                     (response) => setRoomOptions({
@@ -186,14 +186,14 @@ ReservationForm.propTypes = {
     reservation: PropTypes.object,
     isDisabled: PropTypes.bool,
     allowedToCancel: PropTypes.bool,
-    apiHeaders: PropTypes.object,
+    currentUser: PropTypes.object,
     addSuccessMessage: PropTypes.func,
     changeCounter: PropTypes.number,
     increaseChangeCounter: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
-    apiHeaders: state.auth.apiHeaders,
+    currentUser: state.auth.currentUser,
     changeCounter: state.change.counter,
 });
 

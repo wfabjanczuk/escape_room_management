@@ -20,8 +20,7 @@ const ReservationFormFooter = (
         isDisabled,
         getDeletePromise,
         error,
-        guestId,
-        apiHeaders,
+        currentUser,
         addSuccessMessage,
         addErrorMessage,
         increaseChangeCounter,
@@ -34,8 +33,8 @@ const ReservationFormFooter = (
         dateFrom = _get(reservation, 'dateFrom', null);
 
     if (isDisabled) {
-        if (guestId === 0) {
-            const onDelete = () => getDeletePromise(id, apiHeaders, addSuccessMessage, addErrorMessage)
+        if (currentUser.guestId === 0) {
+            const onDelete = () => getDeletePromise(id, currentUser.apiHeaders, addSuccessMessage, addErrorMessage)
                 .then(() => navigate(redirectUrl))
                 .finally(() => increaseChangeCounter());
 
@@ -49,7 +48,7 @@ const ReservationFormFooter = (
             </div>;
         }
 
-        const onCancel = () => getCancelReservationPromise(id, apiHeaders, addSuccessMessage, addErrorMessage)
+        const onCancel = () => getCancelReservationPromise(id, currentUser.apiHeaders, addSuccessMessage, addErrorMessage)
             .finally(() => increaseChangeCounter());
 
         return <div className='form__footer'>
@@ -82,8 +81,7 @@ ReservationFormFooter.propTypes = {
     isDisabled: PropTypes.bool,
     getDeletePromise: PropTypes.func,
     error: PropTypes.string,
-    guestId: PropTypes.number,
-    apiHeaders: PropTypes.object,
+    currentUser: PropTypes.object,
     addSuccessMessage: PropTypes.func,
     addErrorMessage: PropTypes.func,
     increaseChangeCounter: PropTypes.func,
@@ -91,8 +89,7 @@ ReservationFormFooter.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    guestId: state.auth.guestId,
-    apiHeaders: state.auth.apiHeaders,
+    currentUser: state.auth.currentUser,
 });
 
 const mapDispatchToProps = (dispatch) => ({

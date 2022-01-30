@@ -15,7 +15,7 @@ const ticketColumns = [
     {key: 'dateFrom', name: 'Date from', isExtra: true, render: (r) => r.reservation.dateFrom},
 ];
 
-const Tickets = ({changeCounter, apiHeaders}) => {
+const Tickets = ({currentUser, changeCounter}) => {
     const [state, setState] = useState({
         tickets: [],
         isLoading: true,
@@ -24,7 +24,7 @@ const Tickets = ({changeCounter, apiHeaders}) => {
 
     useEffect(() => {
             axios.get(ROUTES.api.tickets, {
-                headers: apiHeaders,
+                headers: currentUser.apiHeaders,
             })
                 .then(
                     (response) => setState({
@@ -59,13 +59,13 @@ const Tickets = ({changeCounter, apiHeaders}) => {
 };
 
 Tickets.propTypes = {
+    currentUser: PropTypes.object,
     changeCounter: PropTypes.number,
-    apiHeaders: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
+    currentUser: state.auth.currentUser,
     changeCounter: state.change.counter,
-    apiHeaders: state.auth.apiHeaders,
 });
 
 export default withAuthorization(

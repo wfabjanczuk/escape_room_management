@@ -1,10 +1,12 @@
+import ModalActionTypes from './modalTypes';
+
 export const showModal = (onConfirm) => ({
-    type: 'SHOW_MODAL',
+    type: ModalActionTypes.SHOW_MODAL,
     payload: onConfirm,
 });
 
 export const hideModal = () => ({
-    type: 'HIDE_MODAL',
+    type: ModalActionTypes.HIDE_MODAL,
     payload: null,
 });
 

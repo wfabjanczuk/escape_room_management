@@ -128,13 +128,10 @@ const UserForm = (
         user,
         isDisabled,
         isProfile,
-        userGuestId = 0,
-        apiHeaders,
         currentUser,
         setCurrentUser,
         addSuccessMessage,
-        guestId,
-        jwt
+        formUserGuestId = 0,
     }
 ) => {
     const id = parseInt(_get(user, 'id', null), 10),
@@ -157,15 +154,17 @@ const UserForm = (
                 delete submittedFormData.confirmPassword;
                 let callback = null;
 
-                if (entityExists && (isProfile || parseInt(currentUser.id, 10) === parseInt(id, 10))) {
+                if (entityExists && (isProfile || parseInt(currentUser.profile.id, 10) === id)) {
+                    let updatedCurrentUserProfile = {...submittedFormData};
+                    delete updatedCurrentUserProfile.password;
+
                     callback = () => {
                         const newCurrentUser = {
-                            user: {
-                                ...currentUser,
-                                ...submittedFormData,
+                            ...currentUser,
+                            profile: {
+                                ...currentUser.profile,
+                                ...updatedCurrentUserProfile,
                             },
-                            guestId: guestId,
-                            jwt: jwt,
                         };
 
                         window.localStorage.setItem('currentUser', JSON.stringify(newCurrentUser))
@@ -173,13 +172,13 @@ const UserForm = (
                     }
                 }
 
-                sendData(submittedFormData, urls.api, urls.redirect, entityExists, apiHeaders, setErrors, addSuccessMessage, navigate, 'User', callback);
+                sendData(submittedFormData, urls.api, urls.redirect, entityExists, currentUser.apiHeaders, setErrors, addSuccessMessage, navigate, 'User', callback);
             }
         },
-        extraButton = (userGuestId > 0 && isDisabled)
+        extraButton = (formUserGuestId > 0 && isDisabled)
             ? <Link
                 className='button button--primary hoverable'
-                to={getRouteWithParams(ROUTES.guests.details, {id: userGuestId})}>
+                to={getRouteWithParams(ROUTES.guests.details, {id: formUserGuestId})}>
                 Guest details
             </Link>
             : null;
@@ -220,25 +219,19 @@ UserForm.propTypes = {
     user: PropTypes.object,
     isDisabled: PropTypes.bool,
     isProfile: PropTypes.bool,
-    userGuestId: PropTypes.number,
-    apiHeaders: PropTypes.object,
+    formUserGuestId: PropTypes.number,
     currentUser: PropTypes.object,
-    addSuccessMessage: PropTypes.func,
     setCurrentUser: PropTypes.func,
-    guestId: PropTypes.number,
-    jwt: PropTypes.string,
+    addSuccessMessage: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
     currentUser: state.auth.currentUser,
-    jwt: state.auth.jwt,
-    guestId: state.auth.guestId,
-    apiHeaders: state.auth.apiHeaders,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    addSuccessMessage: (content) => dispatch(addSuccessMessage(content)),
     setCurrentUser: (user) => dispatch(setCurrentUser(user)),
+    addSuccessMessage: (content) => dispatch(addSuccessMessage(content)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserForm);

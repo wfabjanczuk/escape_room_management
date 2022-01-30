@@ -1,19 +1,21 @@
+import FlashActionTypes from './flashTypes';
+
 export const addSuccessMessage = (content) => ({
-    type: 'ADD_SUCCESS_MESSAGE',
+    type: FlashActionTypes.ADD_SUCCESS_MESSAGE,
     payload: content,
 });
 
 export const addWarningMessage = (content) => ({
-    type: 'ADD_WARNING_MESSAGE',
+    type: FlashActionTypes.ADD_WARNING_MESSAGE,
     payload: content,
 });
 
 export const addErrorMessage = (content) => ({
-    type: 'ADD_ERROR_MESSAGE',
+    type: FlashActionTypes.ADD_ERROR_MESSAGE,
     payload: content,
 });
 
 export const removeMessage = (id) => ({
-    type: 'REMOVE_MESSAGE',
+    type: FlashActionTypes.REMOVE_MESSAGE,
     payload: id,
 });

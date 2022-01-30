@@ -1,4 +1,6 @@
+import ChangeActionTypes from './changeTypes';
+
 export const increaseChangeCounter = () => ({
-    type: 'INCREASE_CHANGE_COUNTER',
+    type: ChangeActionTypes.INCREASE_CHANGE_COUNTER,
     payload: null,
 });

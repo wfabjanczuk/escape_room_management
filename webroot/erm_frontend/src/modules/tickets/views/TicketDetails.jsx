@@ -10,7 +10,7 @@ import {connect} from 'react-redux';
 import withAuthorization from '../../app/auth/withAuthorization';
 import {ROLE_ADMIN} from '../../app/constants/roles';
 
-const TicketDetails = ({apiHeaders}) => {
+const TicketDetails = ({currentUser}) => {
     const [state, setState] = useState({
             ticket: {},
             isLoading: true,
@@ -21,7 +21,7 @@ const TicketDetails = ({apiHeaders}) => {
 
     useEffect(() => {
             axios.get(getRouteWithParams(ROUTES.api.ticket, {id: params.id}), {
-                headers: apiHeaders,
+                headers: currentUser.apiHeaders,
             })
                 .then(
                     (response) => setState({
@@ -64,11 +64,11 @@ const TicketDetails = ({apiHeaders}) => {
 }
 
 TicketDetails.propTypes = {
-    apiHeaders: PropTypes.object,
+    currentUser: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
-    apiHeaders: state.auth.apiHeaders,
+    currentUser: state.auth.currentUser,
 });
 
 export default withAuthorization(

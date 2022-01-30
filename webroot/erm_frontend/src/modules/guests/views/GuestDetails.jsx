@@ -10,7 +10,7 @@ import withAuthorization from '../../app/auth/withAuthorization';
 import {ROLE_ADMIN} from '../../app/constants/roles';
 import GuestReviews from '../components/GuestReviews';
 
-const GuestDetails = ({apiHeaders}) => {
+const GuestDetails = ({currentUser}) => {
     const [state, setState] = useState({
             guest: {},
             isLoading: true,
@@ -21,7 +21,7 @@ const GuestDetails = ({apiHeaders}) => {
 
     useEffect(() => {
             axios.get(getRouteWithParams(ROUTES.api.guest, {id: params.id}), {
-                headers: apiHeaders,
+                headers: currentUser.apiHeaders,
             })
                 .then(
                     (response) => setState({
@@ -62,11 +62,12 @@ const GuestDetails = ({apiHeaders}) => {
 };
 
 GuestDetails.propTypes = {
-    apiHeaders: PropTypes.object,
+    currentUser: PropTypes.object,
 };
 
+
 const mapStateToProps = (state) => ({
-    apiHeaders: state.auth.apiHeaders,
+    currentUser: state.auth.currentUser,
 });
 
 export default withAuthorization(

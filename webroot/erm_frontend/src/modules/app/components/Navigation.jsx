@@ -9,7 +9,7 @@ const Navigation = ({currentUser}) => {
 
     return <nav>
         <ul>
-            {getNavigationLinks(currentUser, pathname).map((l, lIndex) =>
+            {getNavigationLinks(currentUser.profile, pathname).map((l, lIndex) =>
                 <li key={lIndex}>
                     <Link className={`hoverable ${l.isActive ? 'active' : ''}`} to={l.route}>
                         {l.label}

@@ -6,6 +6,7 @@ import {increaseChangeCounter} from '../../app/redux/change/changeActions';
 import {connect} from 'react-redux';
 import {ROLE_ADMIN} from '../../app/constants/roles';
 import {showModal} from '../../app/redux/modal/modalActions';
+import isAuthorized from '../../app/auth/isAuthorized';
 
 const ReviewFormFooter = (
     {
@@ -18,8 +19,6 @@ const ReviewFormFooter = (
         error,
         extraButtons,
         currentUser,
-        guestId,
-        apiHeaders,
         addSuccessMessage,
         addErrorMessage,
         increaseChangeCounter,
@@ -28,7 +27,7 @@ const ReviewFormFooter = (
 ) => {
     const navigate = useNavigate();
 
-    if (!currentUser) {
+    if (!currentUser.profile) {
         return <div className='form__footer'>
             <Link className='button button--primary hoverable' to={redirectUrl}>
                 Back to list
@@ -38,12 +37,12 @@ const ReviewFormFooter = (
     }
 
     if (isDisabled) {
-        const onDelete = () => getDeletePromise(id, apiHeaders, addSuccessMessage, addErrorMessage)
+        const onDelete = () => getDeletePromise(id, currentUser.apiHeaders, addSuccessMessage, addErrorMessage)
             .then(() => navigate(redirectUrl))
             .finally(() => increaseChangeCounter());
 
         return <div className='form__footer'>
-            {(currentUser.roleId === ROLE_ADMIN || guestId > 0)
+            {(isAuthorized(currentUser, [ROLE_ADMIN]) || currentUser.guestId > 0)
                 ? <React.Fragment>
                     <Link className='button button--warning hoverable' to={editUrl}>
                         Edit
@@ -80,8 +79,6 @@ ReviewFormFooter.propTypes = {
     error: PropTypes.string,
     extraButtons: PropTypes.node,
     currentUser: PropTypes.object,
-    guestId: PropTypes.number,
-    apiHeaders: PropTypes.object,
     addSuccessMessage: PropTypes.func,
     addErrorMessage: PropTypes.func,
     increaseChangeCounter: PropTypes.func,
@@ -90,8 +87,6 @@ ReviewFormFooter.propTypes = {
 
 const mapStateToProps = (state) => ({
     currentUser: state.auth.currentUser,
-    guestId: state.auth.guestId,
-    apiHeaders: state.auth.apiHeaders,
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -20,7 +20,7 @@ const roomColumns = [
     },
 ];
 
-const Rooms = ({changeCounter, apiHeaders}) => {
+const Rooms = ({currentUser, changeCounter}) => {
     const [state, setState] = useState({
         rooms: [],
         isLoading: true,
@@ -29,7 +29,7 @@ const Rooms = ({changeCounter, apiHeaders}) => {
 
     useEffect(() => {
             axios.get(ROUTES.api.rooms, {
-                headers: apiHeaders,
+                headers: currentUser.apiHeaders,
             })
                 .then(
                     (response) => setState({
@@ -64,13 +64,13 @@ const Rooms = ({changeCounter, apiHeaders}) => {
 };
 
 Rooms.propTypes = {
+    currentUser: PropTypes.object,
     changeCounter: PropTypes.number,
-    apiHeaders: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
+    currentUser: state.auth.currentUser,
     changeCounter: state.change.counter,
-    apiHeaders: state.auth.apiHeaders,
 });
 
 export default connect(mapStateToProps)(Rooms);

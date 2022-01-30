@@ -4,16 +4,16 @@ import MyReviews from './MyReviews';
 import {connect} from 'react-redux';
 import * as PropTypes from 'prop-types';
 
-const ReviewsWrapper = ({guestId}) => guestId
+const ReviewsWrapper = ({currentUser}) => currentUser.guestId
     ? <MyReviews/>
     : <Reviews/>;
 
 ReviewsWrapper.propTypes = {
-    guestId: PropTypes.number,
+    currentUser: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
-    guestId: state.auth.guestId,
+    currentUser: state.auth.currentUser,
 });
 
 export default connect(mapStateToProps)(ReviewsWrapper);

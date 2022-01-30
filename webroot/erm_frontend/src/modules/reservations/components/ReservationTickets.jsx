@@ -17,7 +17,7 @@ const reservationTicketColumns = [
     },
 ];
 
-const ReservationTickets = ({ticketsState, guestId}) => {
+const ReservationTickets = ({ticketsState, currentUser}) => {
     return <React.Fragment>
         <h2>Reservation tickets</h2>
         <Listing
@@ -30,18 +30,18 @@ const ReservationTickets = ({ticketsState, guestId}) => {
             getDeletePromise={getDeleteTicketPromise}
             buttonText='Add new ticket'
             buttonUrl={ROUTES.tickets.add}
-            renderActions={!guestId}
+            renderActions={!currentUser.guestId}
         />
     </React.Fragment>;
 };
 
 ReservationTickets.propTypes = {
     ticketsState: PropTypes.object,
-    guestId: PropTypes.number,
+    currentUser: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
-    guestId: state.auth.guestId,
+    currentUser: state.auth.currentUser,
 });
 
 export default connect(mapStateToProps)(ReservationTickets);

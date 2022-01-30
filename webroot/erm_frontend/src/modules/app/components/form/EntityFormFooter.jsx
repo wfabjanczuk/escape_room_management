@@ -6,6 +6,7 @@ import {increaseChangeCounter} from '../../redux/change/changeActions';
 import {connect} from 'react-redux';
 import {ROLE_ADMIN} from '../../constants/roles';
 import {showModal} from '../../redux/modal/modalActions';
+import isAuthorized from '../../auth/isAuthorized';
 
 const EntityFormFooter = (
     {
@@ -18,7 +19,6 @@ const EntityFormFooter = (
         error,
         extraButtons,
         currentUser,
-        apiHeaders,
         addSuccessMessage,
         addErrorMessage,
         increaseChangeCounter,
@@ -27,7 +27,7 @@ const EntityFormFooter = (
 ) => {
     const navigate = useNavigate();
 
-    if (!currentUser) {
+    if (!currentUser.profile) {
         return <div className='form__footer'>
             <Link className='button button--primary hoverable' to={redirectUrl}>
                 Back to list
@@ -37,12 +37,12 @@ const EntityFormFooter = (
     }
 
     if (isDisabled) {
-        const onDelete = () => getDeletePromise(id, apiHeaders, addSuccessMessage, addErrorMessage)
+        const onDelete = () => getDeletePromise(id, currentUser.apiHeaders, addSuccessMessage, addErrorMessage)
             .then(() => navigate(redirectUrl))
             .finally(() => increaseChangeCounter());
 
         return <div className='form__footer'>
-            {currentUser.roleId === ROLE_ADMIN
+            {isAuthorized(currentUser, [ROLE_ADMIN])
                 ? <React.Fragment>
                     <Link className='button button--warning hoverable' to={editUrl}>
                         Edit
@@ -79,7 +79,6 @@ EntityFormFooter.propTypes = {
     error: PropTypes.string,
     extraButtons: PropTypes.node,
     currentUser: PropTypes.object,
-    apiHeaders: PropTypes.object,
     addSuccessMessage: PropTypes.func,
     addErrorMessage: PropTypes.func,
     increaseChangeCounter: PropTypes.func,
@@ -88,7 +87,6 @@ EntityFormFooter.propTypes = {
 
 const mapStateToProps = (state) => ({
     currentUser: state.auth.currentUser,
-    apiHeaders: state.auth.apiHeaders,
 });
 
 const mapDispatchToProps = (dispatch) => ({

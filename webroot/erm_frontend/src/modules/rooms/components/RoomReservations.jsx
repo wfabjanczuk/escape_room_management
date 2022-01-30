@@ -6,6 +6,7 @@ import * as PropTypes from 'prop-types';
 import getDeleteReservationPromise from '../../reservations/utils/getDeleteReservationPromise';
 import {connect} from 'react-redux';
 import {ROLE_ADMIN} from '../../app/constants/roles';
+import isAuthorized from '../../app/auth/isAuthorized';
 
 const roomReservationColumns = [
     {key: 'id', name: 'Id', centering: true},
@@ -14,8 +15,8 @@ const roomReservationColumns = [
     {key: 'totalPrice', name: 'Total price', render: (r) => parseFloat(r.totalPrice).toFixed(2)},
 ];
 
-const RoomReservations = ({id, currentUser, changeCounter, apiHeaders}) => {
-    if (!currentUser || currentUser.roleId !== ROLE_ADMIN) {
+const RoomReservations = ({id, currentUser, changeCounter}) => {
+    if (!isAuthorized(currentUser, [ROLE_ADMIN])) {
         return null;
     }
 
@@ -29,7 +30,7 @@ const RoomReservations = ({id, currentUser, changeCounter, apiHeaders}) => {
             let cancel = false;
 
             axios.get(getRouteWithParams(ROUTES.api.roomReservations, {id: id}), {
-                headers: apiHeaders,
+                headers: currentUser.apiHeaders,
             })
                 .then(
                     (response) => {
@@ -88,13 +89,11 @@ RoomReservations.propTypes = {
     id: PropTypes.number,
     currentUser: PropTypes.object,
     changeCounter: PropTypes.number,
-    apiHeaders: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
     currentUser: state.auth.currentUser,
     changeCounter: state.change.counter,
-    apiHeaders: state.auth.apiHeaders,
 });
 
 export default connect(mapStateToProps)(RoomReservations);

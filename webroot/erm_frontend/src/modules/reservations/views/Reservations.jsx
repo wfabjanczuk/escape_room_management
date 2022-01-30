@@ -15,7 +15,7 @@ const reservationColumns = [
     {key: 'dateTo', name: 'Date to', isExtra: true},
 ];
 
-const Reservations = ({changeCounter, apiHeaders}) => {
+const Reservations = ({currentUser, changeCounter}) => {
     const [state, setState] = useState({
         reservations: [],
         isLoading: true,
@@ -24,7 +24,7 @@ const Reservations = ({changeCounter, apiHeaders}) => {
 
     useEffect(() => {
             axios.get(ROUTES.api.reservations, {
-                headers: apiHeaders,
+                headers: currentUser.apiHeaders,
             })
                 .then(
                     (response) => setState({
@@ -64,13 +64,13 @@ const Reservations = ({changeCounter, apiHeaders}) => {
 };
 
 Reservations.propTypes = {
+    currentUser: PropTypes.object,
     changeCounter: PropTypes.number,
-    apiHeaders: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
+    currentUser: state.auth.currentUser,
     changeCounter: state.change.counter,
-    apiHeaders: state.auth.apiHeaders,
 });
 
 export default withAuthorization(

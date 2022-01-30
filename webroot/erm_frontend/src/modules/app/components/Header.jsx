@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link, useLocation, useNavigate} from 'react-router-dom';
-import {logOutCurrentUser} from '../redux/auth/authActions';
+import {logOut} from '../redux/auth/authActions';
 import {connect} from 'react-redux';
 import * as PropTypes from 'prop-types';
 import ROUTES from '../constants/routes';
@@ -19,12 +19,12 @@ const Header = ({currentUser, logOut}) => {
             navigate(ROUTES.users.signIn);
         };
 
-    return <header className={`header ${currentUser ? 'header--authenticated' : ''}`}>
+    return <header className={`header ${currentUser.profile ? 'header--authenticated' : ''}`}>
         <div className='title-with-authentication'>
             <h1><Link className='hoverable' to='/'>Escape Room Management</Link></h1>
-            {currentUser
+            {currentUser.profile
                 ? <div className='authentication authentication--wrap'>
-                    <p>Hello {currentUser.firstName}!</p>
+                    <p>Hello {currentUser.profile.firstName}!</p>
                     <div className='authentication'>
                         <Link
                             className={`button button--authentication hoverable ${isActive.profileDetails ? 'active' : ''}`}
@@ -68,7 +68,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    logOut: () => dispatch(logOutCurrentUser()),
+    logOut: () => dispatch(logOut()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

@@ -8,7 +8,7 @@ import {connect} from 'react-redux';
 import withAuthorization from '../../app/auth/withAuthorization';
 import {ROLE_ADMIN} from '../../app/constants/roles';
 
-const ReservationEdit = ({apiHeaders}) => {
+const ReservationEdit = ({currentUser}) => {
     const [state, setState] = useState({
             reservation: {},
             isLoading: true,
@@ -19,7 +19,7 @@ const ReservationEdit = ({apiHeaders}) => {
 
     useEffect(() => {
             axios.get(getRouteWithParams(ROUTES.api.reservation, {id: params.id}), {
-                headers: apiHeaders,
+                headers: currentUser.apiHeaders,
             })
                 .then(
                     (response) => setState({
@@ -58,11 +58,11 @@ const ReservationEdit = ({apiHeaders}) => {
 }
 
 ReservationEdit.propTypes = {
-    apiHeaders: PropTypes.object,
+    currentUser: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
-    apiHeaders: state.auth.apiHeaders,
+    currentUser: state.auth.currentUser,
 });
 
 export default withAuthorization(

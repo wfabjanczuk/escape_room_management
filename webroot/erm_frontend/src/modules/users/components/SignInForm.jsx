@@ -32,7 +32,7 @@ const validateFormData = (formData, setErrors) => {
     return true;
 };
 
-const SignInForm = ({apiHeaders, addSuccessMessage, setCurrentUser}) => {
+const SignInForm = ({currentUser, addSuccessMessage, setCurrentUser}) => {
     const [formData, setFormData] = useState(getInitialFormData()),
         [errors, setErrors] = useState({}),
         navigate = useNavigate(),
@@ -50,7 +50,7 @@ const SignInForm = ({apiHeaders, addSuccessMessage, setCurrentUser}) => {
                 const successMessage = 'Successfully signed in.';
 
                 axios.post(ROUTES.api.signIn, formData, {
-                    headers: apiHeaders,
+                    headers: currentUser.apiHeaders,
                 })
                     .then(
                         (response) => {
@@ -82,13 +82,13 @@ const SignInForm = ({apiHeaders, addSuccessMessage, setCurrentUser}) => {
 };
 
 SignInForm.propTypes = {
-    apiHeaders: PropTypes.object,
+    currentUser: PropTypes.object,
     addSuccessMessage: PropTypes.func,
     setCurrentUser: PropTypes.func,
 }
 
 const mapStateToProps = (state) => ({
-    apiHeaders: state.auth.apiHeaders,
+    currentUser: state.auth.currentUser,
 });
 
 const mapDispatchToProps = (dispatch) => ({

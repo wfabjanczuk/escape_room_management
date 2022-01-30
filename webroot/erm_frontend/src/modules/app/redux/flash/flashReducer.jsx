@@ -1,10 +1,11 @@
+import FlashActionTypes from './flashTypes';
+
 const INITIAL_STATE = {
     nextId: 0,
     messages: [],
 };
 
 const addMessageToState = (state, type, content) => ({
-    ...state,
     nextId: state.nextId + 1,
     messages: [
         ...state.messages,
@@ -17,7 +18,7 @@ const addMessageToState = (state, type, content) => ({
 });
 
 const removeMessageFromState = (state, id) => ({
-    ...state,
+    nextId: state.nextId,
     messages: [
         ...state.messages.filter(m => id !== m.id),
     ],
@@ -25,13 +26,13 @@ const removeMessageFromState = (state, id) => ({
 
 const flashReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        case 'ADD_SUCCESS_MESSAGE':
+        case FlashActionTypes.ADD_SUCCESS_MESSAGE:
             return addMessageToState(state, 'success', action.payload);
-        case 'ADD_WARNING_MESSAGE':
+        case FlashActionTypes.ADD_WARNING_MESSAGE:
             return addMessageToState(state, 'success', action.payload);
-        case 'ADD_ERROR_MESSAGE':
+        case FlashActionTypes.ADD_ERROR_MESSAGE:
             return addMessageToState(state, 'error', action.payload);
-        case 'REMOVE_MESSAGE':
+        case FlashActionTypes.REMOVE_MESSAGE:
             return removeMessageFromState(state, action.payload);
         default:
             return state;

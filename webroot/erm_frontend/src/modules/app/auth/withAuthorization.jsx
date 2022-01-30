@@ -8,18 +8,18 @@ import * as PropTypes from 'prop-types';
 
 const withAuthorization = (Component, allowedRoles) => {
     const Wrapped = (props) => {
-        if (!allowedRoles || !isAuthorized(props.currentUser, allowedRoles)) {
-            return <div className='statement'>
-                <p>You are not authorized to see this page.</p>
-                <div className='statement__footer'>
-                    <Link className='button button--primary button--wide hoverable' to={ROUTES.home}>
-                        Return to home page
-                    </Link>
-                </div>
-            </div>;
+        if (isAuthorized(props.currentUser, allowedRoles)) {
+            return <Component {...props} />
         }
 
-        return <Component {...props} />
+        return <div className='statement'>
+            <p>You are not authorized to see this page.</p>
+            <div className='statement__footer'>
+                <Link className='button button--primary button--wide hoverable' to={ROUTES.home}>
+                    Return to home page
+                </Link>
+            </div>
+        </div>;
     };
 
     Wrapped.propTypes = {

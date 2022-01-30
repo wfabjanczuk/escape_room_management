@@ -1,26 +1,29 @@
+import AuthActionTypes from './authTypes';
+
 const INITIAL_STATE = {
-    currentUser: null,
-    guestId: 0,
-    jwt: null,
-    apiHeaders: {
-        'Content-Type': 'application/json',
-    },
+    currentUser: {
+        profile: null,
+        guestId: 0,
+        jwt: null,
+        apiHeaders: {
+            'Content-Type': 'application/json',
+        },
+    }
 };
 
 const authReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        case 'SET_CURRENT_USER':
+        case AuthActionTypes.SET_CURRENT_USER:
             return {
-                ...state,
-                currentUser: action.payload.user,
-                guestId: action.payload.guestId,
-                jwt: action.payload.jwt,
-                apiHeaders: {
-                    ...state.apiHeaders,
-                    'Authorization': 'Bearer ' + action.payload.jwt,
+                currentUser: {
+                    ...action.payload,
+                    apiHeaders: {
+                        ...state.apiHeaders,
+                        'Authorization': 'Bearer ' + action.payload.jwt,
+                    }
                 },
             };
-        case 'LOG_OUT_CURRENT_USER':
+        case AuthActionTypes.LOG_OUT:
             return INITIAL_STATE;
         default:
             return state;

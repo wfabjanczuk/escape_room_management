@@ -11,13 +11,13 @@ import * as PropTypes from 'prop-types';
 import Modal from './modules/app/components/Modal';
 
 const App = ({currentUser, setCurrentUser}) => {
-    const isLoggedIn = currentUser !== null;
+    const isLoggedIn = currentUser.profile !== null;
 
     useEffect(() => {
-        const userFromStorage = window.localStorage.getItem('currentUser');
+        const currentUserFromStorage = window.localStorage.getItem('currentUser');
 
-        if (userFromStorage) {
-            setCurrentUser(JSON.parse(userFromStorage));
+        if (currentUserFromStorage) {
+            setCurrentUser(JSON.parse(currentUserFromStorage));
         }
     }, [isLoggedIn]);
 

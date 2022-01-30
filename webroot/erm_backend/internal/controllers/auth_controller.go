@@ -29,7 +29,7 @@ type authController struct {
 }
 
 type AuthenticatedUser struct {
-	User    models.User `json:"user"`
+	Profile models.User `json:"profile"`
 	GuestId uint        `json:"guestId"`
 	Jwt     string      `json:"jwt"`
 }
@@ -89,7 +89,7 @@ func (c *authController) SignIn(w http.ResponseWriter, r *http.Request) {
 
 	user.Password = ""
 	var authenticatedUser = &AuthenticatedUser{
-		User:    user,
+		Profile: user,
 		GuestId: guestId,
 		Jwt:     string(jwtBytes),
 	}

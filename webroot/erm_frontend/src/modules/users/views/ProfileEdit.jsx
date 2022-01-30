@@ -7,7 +7,7 @@ import withAuthentication from '../../app/auth/withAuthentication';
 const ProfileEdit = ({currentUser}) => {
     return <React.Fragment>
         <h2>Edit profile</h2>
-        <UserForm user={currentUser} isProfile={true} isDisabled={false}/>
+        <UserForm user={currentUser.profile} isProfile={true} isDisabled={false}/>
     </React.Fragment>;
 }
 

@@ -10,7 +10,7 @@ import {ROLE_ADMIN, ROLE_GUEST} from '../../app/constants/roles';
 import GuestForm from '../../guests/components/GuestForm';
 import RoomForm from '../../rooms/components/RoomForm';
 
-const ReviewDetails = ({apiHeaders, guestId}) => {
+const ReviewDetails = ({currentUser}) => {
     const [state, setState] = useState({
             review: {},
             isLoading: true,
@@ -21,7 +21,7 @@ const ReviewDetails = ({apiHeaders, guestId}) => {
 
     useEffect(() => {
             axios.get(getRouteWithParams(ROUTES.api.review, {id: params.id}), {
-                headers: apiHeaders,
+                headers: currentUser.apiHeaders,
             })
                 .then(
                     (response) => setState({
@@ -56,25 +56,23 @@ const ReviewDetails = ({apiHeaders, guestId}) => {
     return <React.Fragment>
         <h2>{title}</h2>
         <ReviewForm review={state.review} isDisabled={true}/>
-        {guestId === 0 &&
+        {currentUser.guestId === 0 &&
             <React.Fragment>
                 <h2>Review author</h2>
                 <GuestForm guest={state.review.guest} isDisabled={true}/>
             </React.Fragment>
         }
         <h2>Reviewed room</h2>
-        <RoomForm room={state.review.room} isDisabled={true} showFooter={guestId === 0}/>
+        <RoomForm room={state.review.room} isDisabled={true} showFooter={currentUser.guestId === 0}/>
     </React.Fragment>;
 };
 
 ReviewDetails.propTypes = {
-    apiHeaders: PropTypes.object,
-    guestId: PropTypes.number,
+    currentUser: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
-    apiHeaders: state.auth.apiHeaders,
-    guestId: state.auth.guestId,
+    currentUser: state.auth.currentUser,
 });
 
 export default withAuthorization(

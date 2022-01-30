@@ -59,7 +59,7 @@ const validateFormData = (formData, setErrors) => {
     return true;
 };
 
-const TicketForm = ({ticket, isDisabled, apiHeaders, addSuccessMessage, changeCounter, increaseChangeCounter}) => {
+const TicketForm = ({ticket, isDisabled, currentUser, addSuccessMessage, changeCounter, increaseChangeCounter}) => {
     const id = parseInt(_get(ticket, 'id', null), 10),
         entityExists = !!ticket,
         urls = getUrls(ticket, entityExists, isDisabled),
@@ -102,7 +102,7 @@ const TicketForm = ({ticket, isDisabled, apiHeaders, addSuccessMessage, changeCo
             const submittedFormData = Object.fromEntries(new FormData(event.target));
 
             if (validateFormData(submittedFormData, setErrors)) {
-                sendData(submittedFormData, urls.api, urls.redirect, entityExists, apiHeaders, setErrors, addSuccessMessage, navigate, 'Ticket');
+                sendData(submittedFormData, urls.api, urls.redirect, entityExists, currentUser.apiHeaders, setErrors, addSuccessMessage, navigate, 'Ticket');
             }
 
             increaseChangeCounter();
@@ -121,7 +121,7 @@ const TicketForm = ({ticket, isDisabled, apiHeaders, addSuccessMessage, changeCo
             }
 
             axios.get(ROUTES.api.reservations, {
-                headers: apiHeaders,
+                headers: currentUser.apiHeaders,
             })
                 .then(
                     (response) => setReservationOptions({
@@ -152,7 +152,7 @@ const TicketForm = ({ticket, isDisabled, apiHeaders, addSuccessMessage, changeCo
             }
 
             axios.get(ROUTES.api.guests, {
-                headers: apiHeaders,
+                headers: currentUser.apiHeaders,
             })
                 .then(
                     (response) => setGuestOptions({
@@ -208,14 +208,14 @@ const TicketForm = ({ticket, isDisabled, apiHeaders, addSuccessMessage, changeCo
 TicketForm.propTypes = {
     ticket: PropTypes.object,
     isDisabled: PropTypes.bool,
-    apiHeaders: PropTypes.object,
+    currentUser: PropTypes.object,
     addSuccessMessage: PropTypes.func,
     changeCounter: PropTypes.number,
     increaseChangeCounter: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
-    apiHeaders: state.auth.apiHeaders,
+    currentUser: state.auth.currentUser,
     changeCounter: state.change.counter,
 });
 

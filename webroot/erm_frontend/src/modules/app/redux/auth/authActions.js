@@ -1,8 +1,10 @@
+import AuthActionTypes from './authTypes';
+
 export const setCurrentUser = (user) => ({
-    type: 'SET_CURRENT_USER',
+    type: AuthActionTypes.SET_CURRENT_USER,
     payload: user
 });
 
-export const logOutCurrentUser = () => ({
-    type: 'LOG_OUT_CURRENT_USER',
+export const logOut = () => ({
+    type: AuthActionTypes.LOG_OUT,
 });

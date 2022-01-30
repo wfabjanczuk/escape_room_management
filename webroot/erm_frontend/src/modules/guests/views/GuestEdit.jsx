@@ -8,7 +8,7 @@ import * as PropTypes from 'prop-types';
 import withAuthorization from '../../app/auth/withAuthorization';
 import {ROLE_ADMIN} from '../../app/constants/roles';
 
-const GuestEdit = ({apiHeaders}) => {
+const GuestEdit = ({currentUser}) => {
     const [state, setState] = useState({
             guest: {},
             isLoading: true,
@@ -19,7 +19,7 @@ const GuestEdit = ({apiHeaders}) => {
 
     useEffect(() => {
             axios.get(getRouteWithParams(ROUTES.api.guest, {id: params.id}), {
-                headers: apiHeaders,
+                headers: currentUser.apiHeaders,
             })
                 .then(
                     (response) => setState({
@@ -58,11 +58,11 @@ const GuestEdit = ({apiHeaders}) => {
 }
 
 GuestEdit.propTypes = {
-    apiHeaders: PropTypes.object,
+    currentUser: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
-    apiHeaders: state.auth.apiHeaders,
+    currentUser: state.auth.currentUser,
 });
 
 export default withAuthorization(

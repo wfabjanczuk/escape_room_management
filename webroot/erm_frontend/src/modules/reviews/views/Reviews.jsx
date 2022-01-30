@@ -15,7 +15,7 @@ const reviewColumns = [
     {key: 'guest', name: 'Guest', isExtra: true, render: (r) => `${r.guest.user.firstName} ${r.guest.user.lastName}`},
 ];
 
-const Reviews = ({apiHeaders, changeCounter}) => {
+const Reviews = ({currentUser, changeCounter}) => {
     const [state, setState] = useState({
         reviews: [],
         isLoading: true,
@@ -24,7 +24,7 @@ const Reviews = ({apiHeaders, changeCounter}) => {
 
     useEffect(() => {
             axios.get(ROUTES.api.reviews, {
-                headers: apiHeaders,
+                headers: currentUser.apiHeaders,
             })
                 .then(
                     (response) => setState({
@@ -59,12 +59,12 @@ const Reviews = ({apiHeaders, changeCounter}) => {
 };
 
 Reviews.propTypes = {
-    apiHeaders: PropTypes.object,
+    currentUser: PropTypes.object,
     changeCounter: PropTypes.number,
 };
 
 const mapStateToProps = (state) => ({
-    apiHeaders: state.auth.apiHeaders,
+    currentUser: state.auth.currentUser,
     changeCounter: state.change.counter,
 });
 

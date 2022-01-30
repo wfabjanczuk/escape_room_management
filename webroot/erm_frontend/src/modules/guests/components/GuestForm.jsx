@@ -83,7 +83,7 @@ const validateFormData = (formData, setErrors) => {
     return true;
 };
 
-const GuestForm = ({guest, isDisabled, apiHeaders, addSuccessMessage}) => {
+const GuestForm = ({guest, isDisabled, currentUser, addSuccessMessage}) => {
     const id = parseInt(_get(guest, 'id', null), 10),
         entityExists = !!guest,
         urls = getUrls(guest, entityExists, isDisabled),
@@ -101,7 +101,7 @@ const GuestForm = ({guest, isDisabled, apiHeaders, addSuccessMessage}) => {
             const submittedFormData = Object.fromEntries(new FormData(event.target));
 
             if (validateFormData(submittedFormData, setErrors)) {
-                sendData(submittedFormData, urls.api, urls.redirect, entityExists, apiHeaders, setErrors, addSuccessMessage, navigate, 'Guest');
+                sendData(submittedFormData, urls.api, urls.redirect, entityExists, currentUser.apiHeaders, setErrors, addSuccessMessage, navigate, 'Guest');
             }
         },
         extraButton = (id > 0 && isDisabled)
@@ -136,12 +136,12 @@ const GuestForm = ({guest, isDisabled, apiHeaders, addSuccessMessage}) => {
 GuestForm.propTypes = {
     guest: PropTypes.object,
     isDisabled: PropTypes.bool,
-    apiHeaders: PropTypes.object,
+    currentUser: PropTypes.object,
     addSuccessMessage: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
-    apiHeaders: state.auth.apiHeaders,
+    currentUser: state.auth.currentUser,
 });
 
 const mapDispatchToProps = (dispatch) => ({

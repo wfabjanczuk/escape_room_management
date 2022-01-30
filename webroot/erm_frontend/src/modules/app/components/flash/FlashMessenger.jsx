@@ -9,7 +9,12 @@ const FlashMessenger = ({messages}) => {
     }
 
     return (<React.Fragment>
-        {messages.map(m => <Message key={m.id} id={m.id} type={m.type} content={m.content}/>)}
+        {messages.map(m => <Message
+            key={m.id}
+            id={m.id}
+            type={m.type}
+            content={m.content}
+        />)}
     </React.Fragment>);
 };
 

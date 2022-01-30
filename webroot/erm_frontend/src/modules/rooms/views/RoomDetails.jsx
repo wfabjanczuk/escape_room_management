@@ -8,8 +8,9 @@ import {connect} from 'react-redux';
 import * as PropTypes from 'prop-types';
 import {ROLE_ADMIN} from '../../app/constants/roles';
 import RoomReviews from '../components/RoomReviews';
+import isAuthorized from '../../app/auth/isAuthorized';
 
-const RoomDetails = ({apiHeaders, currentUser}) => {
+const RoomDetails = ({currentUser}) => {
     const [state, setState] = useState({
             room: {},
             isLoading: true,
@@ -20,7 +21,7 @@ const RoomDetails = ({apiHeaders, currentUser}) => {
 
     useEffect(() => {
             axios.get(getRouteWithParams(ROUTES.api.room, {id: params.id}), {
-                headers: apiHeaders,
+                headers: currentUser.apiHeaders,
             })
                 .then(
                     (response) => setState({
@@ -56,19 +57,17 @@ const RoomDetails = ({apiHeaders, currentUser}) => {
         <h2>{title}</h2>
         <RoomForm room={state.room} isDisabled={true}/>
         <RoomReservations id={state.room.id}/>
-        {currentUser && currentUser.roleId === ROLE_ADMIN &&
-            <RoomReviews id={state.room.id}/>
+        {isAuthorized(currentUser, [ROLE_ADMIN])
+            && <RoomReviews id={state.room.id}/>
         }
     </React.Fragment>;
 }
 
 RoomDetails.propTypes = {
-    apiHeaders: PropTypes.object,
     currentUser: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
-    apiHeaders: state.auth.apiHeaders,
     currentUser: state.auth.currentUser,
 });
 

@@ -4,16 +4,16 @@ import MyReservations from './MyReservations';
 import {connect} from 'react-redux';
 import * as PropTypes from 'prop-types';
 
-const ReservationsWrapper = ({guestId}) => guestId
+const ReservationsWrapper = ({currentUser}) => currentUser.guestId
     ? <MyReservations/>
     : <Reservations/>;
 
 ReservationsWrapper.propTypes = {
-    guestId: PropTypes.number,
+    currentUser: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
-    guestId: state.auth.guestId,
+    currentUser: state.auth.currentUser,
 });
 
 export default connect(mapStateToProps)(ReservationsWrapper);

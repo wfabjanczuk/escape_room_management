@@ -14,7 +14,7 @@ const reviewColumns = [
     {key: 'rating', name: 'Rating', isExtra: false},
 ];
 
-const RoomReviews = ({id, apiHeaders, changeCounter}) => {
+const RoomReviews = ({id, currentUser, changeCounter}) => {
     const [state, setState] = useState({
         reviews: [],
         isLoading: true,
@@ -23,7 +23,7 @@ const RoomReviews = ({id, apiHeaders, changeCounter}) => {
 
     useEffect(() => {
             axios.get(getRouteWithParams(ROUTES.api.roomReviews, {id: id}), {
-                headers: apiHeaders,
+                headers: currentUser.apiHeaders,
             })
                 .then(
                     (response) => setState({
@@ -59,12 +59,12 @@ const RoomReviews = ({id, apiHeaders, changeCounter}) => {
 
 RoomReviews.propTypes = {
     id: PropTypes.number,
-    apiHeaders: PropTypes.object,
+    currentUser: PropTypes.object,
     changeCounter: PropTypes.number,
 };
 
 const mapStateToProps = (state) => ({
-    apiHeaders: state.auth.apiHeaders,
+    currentUser: state.auth.currentUser,
     changeCounter: state.change.counter,
 });
 

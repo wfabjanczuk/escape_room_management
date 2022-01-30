@@ -9,7 +9,7 @@ import {connect} from 'react-redux';
 import withAuthorization from '../../app/auth/withAuthorization';
 import {ROLE_ADMIN} from '../../app/constants/roles';
 
-const UserDetails = ({apiHeaders}) => {
+const UserDetails = ({currentUser}) => {
     const [userState, setUserState] = useState({
             user: {},
             isLoading: true,
@@ -25,7 +25,7 @@ const UserDetails = ({apiHeaders}) => {
 
     useEffect(() => {
             axios.get(getRouteWithParams(ROUTES.api.user, {id: params.id}), {
-                headers: apiHeaders,
+                headers: currentUser.apiHeaders,
             })
                 .then(
                     (response) => setUserState({
@@ -45,7 +45,7 @@ const UserDetails = ({apiHeaders}) => {
 
     useEffect(() => {
             axios.get(getRouteWithParams(ROUTES.api.userGuest, {id: params.id}), {
-                headers: apiHeaders,
+                headers: currentUser.apiHeaders,
             })
                 .then(
                     (response) => setGuestState({
@@ -84,17 +84,17 @@ const UserDetails = ({apiHeaders}) => {
             user={userState.user}
             isDisabled={true}
             isProfile={false}
-            userGuestId={guestState.guestId}
+            formUserGuestId={guestState.guestId}
         />
     </React.Fragment>;
 }
 
 UserDetails.propTypes = {
-    apiHeaders: PropTypes.object,
+    currentUser: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
-    apiHeaders: state.auth.apiHeaders,
+    currentUser: state.auth.currentUser,
 });
 
 export default withAuthorization(

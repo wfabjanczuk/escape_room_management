@@ -13,7 +13,7 @@ const guestTicketColumns = [
     {key: 'dateTo', name: 'Date to', isExtra: true, render: (r) => r.reservation.dateTo},
 ];
 
-const GuestTickets = ({id, changeCounter, apiHeaders}) => {
+const GuestTickets = ({id, changeCounter, currentUser}) => {
     const [state, setState] = useState({
         tickets: [],
         isLoading: true,
@@ -24,7 +24,7 @@ const GuestTickets = ({id, changeCounter, apiHeaders}) => {
             let cancel = false;
 
             axios.get(getRouteWithParams(ROUTES.api.guestTickets, {id: id}), {
-                headers: apiHeaders
+                headers: currentUser.apiHeaders
             })
                 .then(
                     (response) => {
@@ -76,13 +76,13 @@ const GuestTickets = ({id, changeCounter, apiHeaders}) => {
 
 GuestTickets.propTypes = {
     id: PropTypes.number,
+    currentUser: PropTypes.object,
     changeCounter: PropTypes.number,
-    apiHeaders: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
+    currentUser: state.auth.currentUser,
     changeCounter: state.change.counter,
-    apiHeaders: state.auth.apiHeaders,
 });
 
 export default connect(mapStateToProps)(GuestTickets);

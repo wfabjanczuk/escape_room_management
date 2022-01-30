@@ -70,7 +70,7 @@ const validateFormData = (formData, setErrors) => {
     return true;
 };
 
-const ReviewForm = ({review, isDisabled, changeCounter, currentUser, guestId, apiHeaders, addSuccessMessage}) => {
+const ReviewForm = ({review, isDisabled, changeCounter, currentUser, addSuccessMessage}) => {
     const id = parseInt(_get(review, 'id', null), 10),
         entityExists = !!review,
         urls = getUrls(review, entityExists, isDisabled),
@@ -98,7 +98,7 @@ const ReviewForm = ({review, isDisabled, changeCounter, currentUser, guestId, ap
             const submittedFormData = Object.fromEntries(new FormData(event.target));
 
             if (validateFormData(submittedFormData, setErrors)) {
-                sendData(submittedFormData, urls.api, urls.redirect, entityExists, apiHeaders, setErrors, addSuccessMessage, navigate, 'Review');
+                sendData(submittedFormData, urls.api, urls.redirect, entityExists, currentUser.apiHeaders, setErrors, addSuccessMessage, navigate, 'Review');
             }
         };
 
@@ -115,7 +115,7 @@ const ReviewForm = ({review, isDisabled, changeCounter, currentUser, guestId, ap
             }
 
             axios.get(ROUTES.api.rooms, {
-                headers: apiHeaders,
+                headers: currentUser.apiHeaders,
             })
                 .then(
                     (response) => setRoomOptions({
@@ -136,12 +136,15 @@ const ReviewForm = ({review, isDisabled, changeCounter, currentUser, guestId, ap
     useEffect(() => {
             const mapGuestToOption = (g) => ({id: g.id, label: `${g.user.firstName} ${g.user.lastName}`});
 
-            if (guestId) {
+            if (currentUser.guestId) {
+                const guestLabel = `${currentUser.profile.firstName} ${currentUser.profile.lastName}`;
+
                 setGuestOptions({
-                    guests: [{id: guestId, label: `${currentUser.firstName} ${currentUser.lastName}`}],
+                    guests: [{id: currentUser.guestId, label: guestLabel}],
                     isLoading: false,
                     errors: [],
                 });
+
                 return;
             }
 
@@ -151,11 +154,12 @@ const ReviewForm = ({review, isDisabled, changeCounter, currentUser, guestId, ap
                     isLoading: false,
                     errors: [],
                 });
+
                 return;
             }
 
             axios.get(ROUTES.api.guests, {
-                headers: apiHeaders,
+                headers: currentUser.apiHeaders,
             })
                 .then(
                     (response) => setGuestOptions({
@@ -211,17 +215,13 @@ ReviewForm.propTypes = {
     review: PropTypes.object,
     isDisabled: PropTypes.bool,
     changeCounter: PropTypes.number,
-    guestId: PropTypes.number,
     currentUser: PropTypes.object,
-    apiHeaders: PropTypes.object,
     addSuccessMessage: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
     changeCounter: state.change.counter,
-    guestId: state.auth.guestId,
     currentUser: state.auth.currentUser,
-    apiHeaders: state.auth.apiHeaders,
 });
 
 const mapDispatchToProps = (dispatch) => ({

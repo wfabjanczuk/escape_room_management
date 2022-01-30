@@ -14,12 +14,12 @@ const ReviewFormFields = (
         onValueChange,
         formData,
         errors,
-        guestId
+        currentUser
     }
 ) => (<React.Fragment>
     {entityExists && <input type='hidden' name='id' value={formData.id}/>}
-    {guestId
-        ? <input type='hidden' name='guestId' value={guestId}/>
+    {currentUser.guestId
+        ? <input type='hidden' name='guestId' value={currentUser.guestId}/>
         : <SelectField
             name='guestId'
             displayName='Guest'
@@ -33,17 +33,17 @@ const ReviewFormFields = (
         />
     }
     <SelectField
-        name={guestId && entityExists ? '' : 'roomId'}
+        name={currentUser.guestId && entityExists ? '' : 'roomId'}
         displayName='Room'
         placeholderLabel='-- select room --'
         options={roomOptions}
         isRequired={true}
-        isDisabled={isDisabled || guestId > 0 && entityExists}
+        isDisabled={isDisabled || currentUser.guestId > 0 && entityExists}
         errorMessage={errors.roomId}
         value={formData.roomId}
         onChange={onValueChange}
     />
-    {guestId > 0 && entityExists &&
+    {currentUser.guestId > 0 && entityExists &&
         <input type='hidden' name='roomId' value={formData.roomId}/>
     }
     <InputField
@@ -66,12 +66,12 @@ const ReviewFormFields = (
         value={formData.comment}
         onChange={onValueChange}
     />
-    {(!guestId || entityExists)
+    {(!currentUser.guestId || entityExists)
         ? <TextareaField
             name='reply'
             displayName='Reply'
             isRequired={false}
-            isDisabled={guestId > 0 || isDisabled}
+            isDisabled={currentUser.guestId > 0 || isDisabled}
             maxLength={300}
             errorMessage={errors.reply}
             value={formData.reply}
@@ -89,11 +89,11 @@ ReviewFormFields.propTypes = {
     onValueChange: PropTypes.func,
     formData: PropTypes.object,
     errors: PropTypes.object,
-    guestId: PropTypes.number,
+    currentUser: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
-    guestId: state.auth.guestId,
+    currentUser: state.auth.currentUser,
 });
 
 export default connect(mapStateToProps)(ReviewFormFields);

@@ -7,6 +7,7 @@ import {addErrorMessage, addSuccessMessage} from '../../redux/flash/flashActions
 import {increaseChangeCounter} from '../../redux/change/changeActions';
 import {ROLE_ADMIN, ROLE_GUEST} from '../../constants/roles';
 import {showModal} from '../../redux/modal/modalActions';
+import isAuthorized from '../../auth/isAuthorized';
 
 const ListingActions = (
     {
@@ -15,7 +16,6 @@ const ListingActions = (
         getDeletePromise,
         isGuestAuthorized,
         currentUser,
-        apiHeaders,
         addSuccessMessage,
         addErrorMessage,
         increaseChangeCounter,
@@ -32,7 +32,7 @@ const ListingActions = (
         return actionsRenderer(row);
     }
 
-    const onDelete = () => getDeletePromise(row.id, apiHeaders, addSuccessMessage, addErrorMessage)
+    const onDelete = () => getDeletePromise(row.id, currentUser.apiHeaders, addSuccessMessage, addErrorMessage)
         .finally(() => increaseChangeCounter());
 
     return <ul className='listing__actions'>
@@ -41,20 +41,21 @@ const ListingActions = (
                 Details
             </Link>
         </li>
-        {currentUser && (currentUser.roleId === ROLE_ADMIN || currentUser.roleId === ROLE_GUEST && isGuestAuthorized) &&
-            <React.Fragment>
-                <li className='action'>
-                    <Link className='button button--warning hoverable'
-                          to={getRouteWithParams(route.edit, {id: row.id})}>
-                        Edit
-                    </Link>
-                </li>
-                <li className='action'>
-                    <div className='button button--danger hoverable' onClick={() => showModal(onDelete)}>
-                        Delete
-                    </div>
-                </li>
-            </React.Fragment>
+        {(isAuthorized(currentUser, [ROLE_ADMIN])
+            || (isAuthorized(currentUser, [ROLE_GUEST]) && isGuestAuthorized)
+        ) && <React.Fragment>
+            <li className='action'>
+                <Link className='button button--warning hoverable'
+                      to={getRouteWithParams(route.edit, {id: row.id})}>
+                    Edit
+                </Link>
+            </li>
+            <li className='action'>
+                <div className='button button--danger hoverable' onClick={() => showModal(onDelete)}>
+                    Delete
+                </div>
+            </li>
+        </React.Fragment>
         }
     </ul>;
 };
@@ -65,7 +66,6 @@ ListingActions.propTypes = {
     getDeletePromise: PropTypes.func,
     isGuestAuthorized: PropTypes.bool,
     currentUser: PropTypes.object,
-    apiHeaders: PropTypes.object,
     addSuccessMessage: PropTypes.func,
     addErrorMessage: PropTypes.func,
     increaseChangeCounter: PropTypes.func,
@@ -76,7 +76,6 @@ ListingActions.propTypes = {
 
 const mapStateToProps = (state) => ({
     currentUser: state.auth.currentUser,
-    apiHeaders: state.auth.apiHeaders,
 });
 
 const mapDispatchToProps = (dispatch) => ({

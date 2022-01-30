@@ -15,7 +15,7 @@ const guestColumns = [
     {key: 'email', name: 'Email', isExtra: true, render: (g) => g.user.email},
 ];
 
-const Guests = ({apiHeaders, changeCounter}) => {
+const Guests = ({currentUser, changeCounter}) => {
     const [state, setState] = useState({
         guests: [],
         isLoading: true,
@@ -24,7 +24,7 @@ const Guests = ({apiHeaders, changeCounter}) => {
 
     useEffect(() => {
             axios.get(ROUTES.api.guests, {
-                headers: apiHeaders,
+                headers: currentUser.apiHeaders,
             })
                 .then(
                     (response) => setState({
@@ -59,12 +59,12 @@ const Guests = ({apiHeaders, changeCounter}) => {
 };
 
 Guests.propTypes = {
-    apiHeaders: PropTypes.object,
+    currentUser: PropTypes.object,
     changeCounter: PropTypes.number,
 };
 
 const mapStateToProps = (state) => ({
-    apiHeaders: state.auth.apiHeaders,
+    currentUser: state.auth.currentUser,
     changeCounter: state.change.counter,
 });
 
