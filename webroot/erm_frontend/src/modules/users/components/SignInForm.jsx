@@ -65,17 +65,11 @@ const SignInForm = ({apiHeaders, addSuccessMessage, setCurrentUser}) => {
                             navigate(ROUTES.users.profileDetails);
                         },
                         (error) => {
-                            const errorResponse = JSON.parse(error.request.response),
-                                errors = _get(errorResponse, 'error', {general: ['API error. Please try again later.']}),
-                                errorsToDisplay = {};
+                            const defaultError = 'API error. Please try again later.',
+                                errorResponse = JSON.parse(error.request.response),
+                                errorMessage = _get(errorResponse, 'error.message', null);
 
-                            for (const key in errors) {
-                                if (0 < errors[key].length) {
-                                    errorsToDisplay[key] = errors[key][0];
-                                }
-                            }
-
-                            setErrors(errorsToDisplay);
+                            setErrors({general: errorMessage ? errorMessage : defaultError});
                         },
                     );
             }

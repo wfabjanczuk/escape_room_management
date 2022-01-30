@@ -46,23 +46,24 @@ func newAuthController(userRepository *repositories.UserRepository, reservationR
 
 func (c *authController) SignIn(w http.ResponseWriter, r *http.Request) {
 	var payload payloads.SignInPayload
+	generalError := errors.New("Email or password invalid.")
 
 	err := json.NewDecoder(r.Body).Decode(&payload)
 	if err != nil {
-		c.writeWrappedErrorJson(w, err, http.StatusBadRequest)
+		c.writeWrappedErrorJson(w, generalError, http.StatusBadRequest)
 		return
 	}
 
 	user, err := c.userRepository.GetActiveUserByEmail(payload.Email)
 	if err != nil {
-		c.writeWrappedErrorJson(w, err, http.StatusBadRequest)
+		c.writeWrappedErrorJson(w, generalError, http.StatusBadRequest)
 		return
 	}
 
 	hashedPassword := user.Password
 	err = bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(payload.Password))
 	if err != nil {
-		c.writeWrappedErrorJson(w, err, http.StatusBadRequest)
+		c.writeWrappedErrorJson(w, generalError, http.StatusBadRequest)
 		return
 	}
 
