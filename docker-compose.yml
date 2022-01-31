@@ -8,8 +8,10 @@ services:
     restart: unless-stopped
     environment:
       POSTGRES_DB: erm
-      POSTGRES_USER: developer
+      POSTGRES_USER: $POSTGRES_USER
       POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+      POSTGRES_HOST_AUTH_METHOD: scram-sha-256
+      POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256 --auth-local=scram-sha-256"
     ports:
       - "54321:5432"
     volumes:
