@@ -13,6 +13,8 @@ import (
 
 const DockerComposeEnv = "/.env"
 const BackendEnv = "/webroot/erm_backend/.env"
+const DefaultEnvironment = "development"
+const DefaultDbUser = "developer"
 
 func getBackendEnvKeys() []string {
 	return []string{"ENVIRONMENT", "PORT", "DSN", "JWT_SECRET"}
@@ -24,10 +26,12 @@ func getDockerComposeEnvKeys() []string {
 
 func getPublicVariables() map[string]string {
 	return map[string]string{
-		"DB_HOST":  "erm_database",
-		"DB_PORT":  "5432",
-		"DB_NAME":  "erm",
-		"API_PORT": "9000",
+		"DB_HOST":       "erm_database",
+		"DB_PORT":       "5432",
+		"DB_NAME":       "erm",
+		"API_PORT":      "9000",
+		"ENVIRONMENT":   DefaultEnvironment,
+		"POSTGRES_USER": DefaultDbUser,
 	}
 }
 
@@ -71,8 +75,6 @@ type envGenerator struct {
 }
 
 func (eg *envGenerator) readInput() {
-	eg.readVariable("ENVIRONMENT", "environment")
-	eg.readVariable("POSTGRES_USER", "database username")
 	eg.readVariable("POSTGRES_PASSWORD", "database password")
 	eg.readSeed("JWT_KEY", "JWT secret key")
 	eg.readSeed("JWT_DATA", "JWT secret data")
@@ -100,6 +102,8 @@ func (eg *envGenerator) generateVariables() {
 	eg.variables["DB_HOST"] = publicVariables["DB_HOST"]
 	eg.variables["DB_PORT"] = publicVariables["DB_PORT"]
 	eg.variables["DB_NAME"] = publicVariables["DB_NAME"]
+	eg.variables["POSTGRES_USER"] = publicVariables["POSTGRES_USER"]
+	eg.variables["ENVIRONMENT"] = publicVariables["ENVIRONMENT"]
 
 	eg.generateJwtSecret()
 	eg.generateDsn()
