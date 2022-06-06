@@ -12,10 +12,6 @@ services:
       POSTGRES_PASSWORD: $POSTGRES_PASSWORD
       POSTGRES_HOST_AUTH_METHOD: scram-sha-256
       POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256 --auth-local=scram-sha-256"
-    ports:
-      - "54321:5432"
-    volumes:
-      - ./db/data:/var/lib/postgresql/data
 
   erm_backend:
     image: golang:1.17
