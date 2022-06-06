@@ -1,4 +1,4 @@
-const API = 'http://localhost:9000/v1';
+const API = process.env.REACT_APP_API_BASE_URL + '/v1';
 
 export const getRouteWithParams = (route, params) => {
     let routeWithParams = route;
